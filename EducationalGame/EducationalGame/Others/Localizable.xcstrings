@@ -1,0 +1,83 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "🎨 RGB Color Encoder" : {
+
+    },
+    "🔴 Data Compression Challenge" : {
+
+    },
+    "🟢 Convert to Binary" : {
+
+    },
+    "Achievements" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conquistas"
+          }
+        }
+      }
+    },
+    "Add" : {
+
+    },
+    "Binary Game" : {
+
+    },
+    "Blue: %lld" : {
+
+    },
+    "Check" : {
+
+    },
+    "Color Game" : {
+
+    },
+    "Colors Game" : {
+
+    },
+    "Compress" : {
+
+    },
+    "Compressed Data: %@" : {
+
+    },
+    "Educational Game" : {
+
+    },
+    "game explanation" : {
+
+    },
+    "Green: %lld" : {
+
+    },
+    "Hex Code: %@" : {
+
+    },
+    "Make the number %lld in binary!" : {
+
+    },
+    "More Features" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mais funcionalidades"
+          }
+        }
+      }
+    },
+    "Original Pixels: %@" : {
+
+    },
+    "Pixel Game" : {
+
+    },
+    "Red: %lld" : {
+
+    }
+  },
+  "version" : "1.0"
+}

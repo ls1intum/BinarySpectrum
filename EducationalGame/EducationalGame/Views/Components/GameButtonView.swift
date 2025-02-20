@@ -3,7 +3,7 @@ import SwiftUI
 struct GameButtonView: View {
     let color: Color
     let icon: String
-    let title: String
+    let title: LocalizedStringResource
     
     var body: some View {
         VStack {

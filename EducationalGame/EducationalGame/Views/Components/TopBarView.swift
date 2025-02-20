@@ -1,13 +1,13 @@
 import SwiftUI
 
 struct TopBarView: View {
-    let title: String
+    let title: LocalizedStringResource
     let color: Color
     let leftIcon: String
     let rightIcon: String
     
     init(
-        title: String,
+        title: LocalizedStringResource,
         color: Color = .gamePurple,
         leftIcon: String = "arrow.left",
         rightIcon: String = "info.circle"
