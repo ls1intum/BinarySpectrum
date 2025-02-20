@@ -2,94 +2,70 @@ import SwiftUI
 
 struct MiniGameIntroView: View {
     let title: String
-    let characterImage: String
+    let characterIcon: String
     let dialogues: [String]
     let onNext: () -> Void
     
     @State private var currentDialogueIndex = 0
     
     var body: some View {
+        TopBarView(title: "game explanation") // TODO: remove
         VStack {
-            // Top Bar: Mini-game title & Info button
-            HStack {
-                Text(title)
-                    .font(.title)
-                    .bold()
-                    .foregroundColor(.gameDarkBlue)
-                
-                Spacer()
-                
-                Button(action: {
-                    // Handle info button action
-                }) {
-                    Image(systemName: "info.circle.fill")
-                        .resizable()
-                        .frame(width: 30, height: 30)
-                        .foregroundColor(.gameBlue)
-                }
-            }
-            .padding()
-            
             Spacer()
             
-            // Main Content: Character & Dialogue
-            HStack {
-                // Character Image (Left)
-                Image(characterImage)
+            ZStack {
+                // Text Box
+                RoundedRectangle(cornerRadius: 20)
+                    .fill(Color.gameGray)
+                    .shadow(radius: 5)
+                    .frame(width: 660, height: 450)
+                
+                // Text Inside Box
+                Text(dialogues[currentDialogueIndex])
+                    .font(.body)
+                    .foregroundColor(.gameDarkBlue)
+                    .padding(40)
+                    .frame(width: 600, alignment: .leading)
+                
+                // Character Icon
+                Image(systemName: characterIcon)
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 150, height: 150)
-                    .padding()
-                
-                // Dialogue Box (Right)
-                ZStack {
-                    RoundedRectangle(cornerRadius: 20)
-                        .fill(Color.white)
-                        .shadow(radius: 5)
-                        .frame(height: 200)
-                    
-                    Text(dialogues[currentDialogueIndex])
-                        .font(.body)
-                        .foregroundColor(.gameDarkBlue)
-                        .padding()
-                        .multilineTextAlignment(.leading)
-                }
-                .frame(width: 250)
+                    .frame(width: 250, height: 250)
+                    .foregroundColor(Color.gameBlue)
+                    .offset(x: -360)
+                    .zIndex(1)
             }
-            .padding()
             
             Spacer()
             
-            // Bottom: Next Button
+            // Next Button at the Bottom Right
             HStack {
                 Spacer()
                 
-                Button(action: {
-                    if currentDialogueIndex < dialogues.count - 1 {
-                        currentDialogueIndex += 1
-                    } else {
-                        onNext() // Move to the next screen
+                AnimatedCircleButton(
+                    iconName: currentDialogueIndex < dialogues.count - 1 ? "arrow.right.circle.fill" : "play.fill",
+                    color: .gameLightBlue,
+                    action: {
+                        if currentDialogueIndex < dialogues.count - 1 {
+                            currentDialogueIndex += 1
+                        } else {
+                            onNext() // Move to the next screen
+                        }
                     }
-                }) {
-                    Text(currentDialogueIndex < dialogues.count - 1 ? "Next" : "Start Game")
-                        .bold()
-                        .foregroundColor(.white)
-                        .padding()
-                        .background(RoundedRectangle(cornerRadius: 15).fill(Color.gameGreen))
-                        .shadow(radius: 5)
-                }
+                )
                 .padding()
             }
         }
-        .padding()
-        .background(Color.gray.opacity(0.1).ignoresSafeArea())
+        .frame(maxHeight: .infinity, alignment: .center) // Forces VStack to fill screen
+        .ignoresSafeArea()
     }
 }
 
 #Preview {
     MiniGameIntroView(
         title: "Logic Puzzle",
-        characterImage: "character_robot",
+        characterIcon: "lizard.fill",
         dialogues: [
             "Welcome to the Logic Puzzle mini-game!",
             "Here, you'll learn how to think step by step, just like a computer.",

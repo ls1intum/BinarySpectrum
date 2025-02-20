@@ -1,12 +1,13 @@
 import SwiftUI
 
 struct ContentView: View {
+    @EnvironmentObject var userViewModel: UserViewModel
+    
     var body: some View {
         ZStack {
             TopBarView(title: "Educational Game", leftIcon: "gear")
             
             VStack(spacing: 40) {
-                
                 Spacer()
                 HStack(spacing: 20) {
                     NavigationLink(destination: BinaryGameView()) {
@@ -56,8 +57,6 @@ struct ContentView: View {
             .padding()
             .background(Color.white.edgesIgnoringSafeArea(.all))
             .navigationBarHidden(true)
-        
-            
         }
     }
 }
