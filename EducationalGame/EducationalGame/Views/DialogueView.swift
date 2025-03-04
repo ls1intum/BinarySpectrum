@@ -1,15 +1,14 @@
 import SwiftUI
 
-struct MiniGameIntroView: View {
-    let title: String
+struct DialogueView: View {
     let characterIcon: String
     let dialogues: [String]
-    let onNext: () -> Void
+    @Binding var currentPhase: GamePhase
     
     @State private var currentDialogueIndex = 0
+    @State private var opacity = 0.0
     
     var body: some View {
-        TopBarView(title: "game explanation") // TODO: remove
         VStack {
             Spacer()
             
@@ -22,10 +21,18 @@ struct MiniGameIntroView: View {
                 
                 // Text Inside Box
                 Text(dialogues[currentDialogueIndex])
-                    .font(.body)
+                    .font(GameTheme.bodyFont)
                     .foregroundColor(.gameDarkBlue)
                     .padding(40)
                     .frame(width: 600, alignment: .leading)
+                    .onAppear {
+                        withAnimation(.easeIn(duration: 1.0)) {
+                            opacity = 1.0
+                        }
+                        // withAnimation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0.5)) {
+                        //    scale = 1.0
+                        // }
+                    }
                 
                 // Character Icon
                 Image(systemName: characterIcon)
@@ -33,7 +40,7 @@ struct MiniGameIntroView: View {
                     .scaledToFit()
                     .frame(width: 250, height: 250)
                     .foregroundColor(Color.gameBlue)
-                    .offset(x: -360)
+                    .offset(x: -400)
                     .zIndex(1)
             }
             
@@ -50,29 +57,23 @@ struct MiniGameIntroView: View {
                         if currentDialogueIndex < dialogues.count - 1 {
                             currentDialogueIndex += 1
                         } else {
-                            onNext() // Move to the next screen
+                            currentPhase.next()
                         }
                     }
                 )
                 .padding()
             }
         }
-        .frame(maxHeight: .infinity, alignment: .center) // Forces VStack to fill screen
-        .ignoresSafeArea()
+        .frame(maxHeight: .infinity, alignment: .center)
     }
 }
 
 #Preview {
-    MiniGameIntroView(
-        title: "Logic Puzzle",
-        characterIcon: "lizard.fill",
-        dialogues: [
-            "Welcome to the Logic Puzzle mini-game!",
-            "Here, you'll learn how to think step by step, just like a computer.",
-            "Ready to begin? Let's go!"
-        ],
-        onNext: {
-            // Navigate to the game screen
-        }
+    @State var previewPhase = GamePhase.challenges // Sample mutable state
+    
+    DialogueView(
+        characterIcon: "person.circle",
+        dialogues: ["hi alwhfsa", "hello"],
+        currentPhase: $previewPhase // Pass as a Binding
     )
 }

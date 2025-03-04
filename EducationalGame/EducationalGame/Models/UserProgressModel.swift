@@ -3,6 +3,19 @@ enum ExperienceLevel: String, Codable {
     case advanced
 }
 
+enum GamePhase : CaseIterable {
+    case intro
+    case questions
+    case challenges
+    case reward
+    
+    mutating func next() {
+        let allCases = GamePhase.allCases
+        let currentIndex = allCases.firstIndex(of: self)!
+        self = allCases[(currentIndex + 1) % allCases.count]
+    }
+}
+
 struct UserProgressModel: Codable {
     var completedMiniGames: [String: Bool]
     var totalScore: Int

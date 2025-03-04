@@ -45,7 +45,7 @@ struct TopBarView: View {
         }
         .padding(.horizontal)
         .frame(maxWidth: .infinity) // Makes sure it stretches across the screen
-        .position(x: UIScreen.main.bounds.width / 2, y: 50) // Pins it at the top
+        //.position(x: UIScreen.main.bounds.width / 2, y: 50) // Pins it at the top
         .zIndex(1) // Ensures it stays above other content
     }
 }

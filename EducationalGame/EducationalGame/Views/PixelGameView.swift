@@ -1,50 +1,48 @@
 import SwiftUI
 
 struct PixelGameView: View {
-    @State private var inputString = "BBBBWWBBB"
-    @State private var compressedString = ""
-    
-    func runLengthEncoding(_ input: String) -> String {
-        var result = ""
-        var count = 1
-        let chars = Array(input)
-        
-        for i in 1..<chars.count {
-            if chars[i] == chars[i - 1] {
-                count += 1
-            } else {
-                result += "\(count)\(chars[i - 1])"
-                count = 1
-            }
-        }
-        result += "\(count)\(chars.last!)"
-        return result
-    }
     
     var body: some View {
         TopBarView(title:"Pixel Game", color: .gameGreen)
-        VStack(spacing: 20) {
-            Text("🔴 Data Compression Challenge")
-                .font(.title)
-            
-            Text("Original Pixels: \(inputString)")
-                .font(.headline)
-            
-            Button("Compress") {
-                compressedString = runLengthEncoding(inputString)
+        
+    }
+}
+import SwiftUI
+
+struct GridView: View {
+    let gridSize = 16
+    let cellSize: CGFloat = 30 // Adjust for different screen sizes
+    
+    @State private var blackCells: Set<Int> = [] // Stores the black squares
+    
+    var body: some View {
+        LazyVGrid(columns: Array(repeating: GridItem(.fixed(cellSize)), count: gridSize), spacing: 2) {
+            ForEach(0..<(gridSize * gridSize), id: \.self) { index in
+                Rectangle()
+                    .fill(blackCells.contains(index) ? Color.black : Color.white)
+                    .frame(width: cellSize, height: cellSize)
+                    .border(Color.gray, width: 1)
+                    .onTapGesture {
+                        toggleCell(index)
+                    }
             }
-            .padding()
-            .background(Color.green)
-            .foregroundColor(.white)
-            .cornerRadius(10)
-            
-            Text("Compressed Data: \(compressedString)")
-                .font(.title2)
-                .foregroundColor(.blue)
         }
         .padding()
     }
+    
+    private func toggleCell(_ index: Int) {
+        if blackCells.contains(index) {
+            blackCells.remove(index)
+        } else {
+            blackCells.insert(index)
+        }
+    }
 }
+
+#Preview {
+    GridView()
+}
+
 #Preview {
     PixelGameView()
 }
