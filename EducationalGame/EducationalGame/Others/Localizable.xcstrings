@@ -1,0 +1,103 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "%lld" : {
+
+    },
+    "<explain how to write the number 5 in binary>" : {
+
+    },
+    "✅ Great job! %lld in binary is %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "✅ Great job! %1$lld in binary is %2$@"
+          }
+        }
+      }
+    },
+    "🎨 RGB Color Encoder" : {
+
+    },
+    "💡 Convert Binary to Decimal!" : {
+
+    },
+    "Achievements" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conquistas"
+          }
+        }
+      }
+    },
+    "Binary Game" : {
+
+    },
+    "Blue: %lld" : {
+
+    },
+    "Check" : {
+
+    },
+    "Check Answer" : {
+
+    },
+    "Color Game" : {
+
+    },
+    "Colors Game" : {
+
+    },
+    "Educational Game" : {
+
+    },
+    "game explanation" : {
+
+    },
+    "Green: %lld" : {
+
+    },
+    "Hex Code: %@" : {
+
+    },
+    "More Features" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mais funcionalidades"
+          }
+        }
+      }
+    },
+    "Pixel Game" : {
+
+    },
+    "Red: %lld" : {
+
+    },
+    "Settings" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Einstellungen"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configurações"
+          }
+        }
+      }
+    },
+    "Tap the circles to toggle between 0 and 1. The number on the right updates automatically!" : {
+
+    }
+  },
+  "version" : "1.0"
+}
