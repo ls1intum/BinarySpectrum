@@ -1,10 +1,10 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "%lld" : {
+    "" : {
 
     },
-    "<explain how to write the number 5 in binary>" : {
+    "%lld" : {
 
     },
     "✅ Great job! %lld in binary is %@" : {
@@ -18,9 +18,6 @@
       }
     },
     "🎨 RGB Color Encoder" : {
-
-    },
-    "💡 Convert Binary to Decimal!" : {
 
     },
     "Achievements" : {
@@ -39,9 +36,6 @@
     "Blue: %lld" : {
 
     },
-    "Check" : {
-
-    },
     "Check Answer" : {
 
     },
@@ -51,10 +45,10 @@
     "Colors Game" : {
 
     },
-    "Educational Game" : {
+    "Congratulations" : {
 
     },
-    "game explanation" : {
+    "Educational Game" : {
 
     },
     "Green: %lld" : {
@@ -76,6 +70,9 @@
     "Pixel Game" : {
 
     },
+    "Questions" : {
+
+    },
     "Red: %lld" : {
 
     },
@@ -95,7 +92,17 @@
         }
       }
     },
-    "Tap the circles to toggle between 0 and 1. The number on the right updates automatically!" : {
+    "Step %lld: Set bit %lld to %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Step %1$lld: Set bit %2$lld to %3$@"
+          }
+        }
+      }
+    },
+    "Tap the circles to toggle between 0 and 1. Your goal is to represent %lld in binary. The number below updates automatically!" : {
 
     }
   },

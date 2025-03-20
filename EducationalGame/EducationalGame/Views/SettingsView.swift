@@ -4,14 +4,18 @@ struct SettingsView: View {
     @AppStorage("selectedLanguage") private var selectedLanguage: String = "EN"
 
     var body: some View {
-        TopBarView(title: "Settings", color: .gray)
-        HStack(spacing: 40) {
-            LanguageButtonView(language: "EN", emoji: "🇺🇸", color: .gameBlue, selectedLanguage: $selectedLanguage)
-            LanguageButtonView(language: "DE", emoji: "🇩🇪", color: .gameYellow, selectedLanguage: $selectedLanguage)
-            LanguageButtonView(language: "PT-BR", emoji: "🇧🇷", color: .gameGreen, selectedLanguage: $selectedLanguage)
-        }
-        .onAppear {
-            updateLanguage()
+        VStack {
+            TopBarView(title: "Settings", color: .gray)
+            Spacer()
+            HStack(spacing: 40) {
+                LanguageButtonView(language: "EN", emoji: "🇺🇸", color: .gameBlue, selectedLanguage: $selectedLanguage)
+                LanguageButtonView(language: "DE", emoji: "🇩🇪", color: .gameYellow, selectedLanguage: $selectedLanguage)
+                LanguageButtonView(language: "PT-BR", emoji: "🇧🇷", color: .gameGreen, selectedLanguage: $selectedLanguage)
+            }
+            .onAppear {
+                updateLanguage()
+            }
+            Spacer()
         }
     }
 

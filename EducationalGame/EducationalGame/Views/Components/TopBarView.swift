@@ -20,12 +20,12 @@ struct TopBarView: View {
     
     var body: some View {
         HStack {
-            CircleButton(iconName: leftIcon, color: .gameGray.opacity(0.8)) {}
+            CircleButton(iconName: leftIcon, color: .gameGray.opacity(0.8))
             
             Spacer()
             
             Text(title)
-                .font(.custom("Poppins-Medium", size: 36))
+                .font(GameTheme.titleFont)
                 .foregroundColor(.white)
                 .padding(.vertical, 30)
                 .padding(.horizontal, 70)
@@ -41,7 +41,7 @@ struct TopBarView: View {
             
             Spacer()
             
-            CircleButton(iconName: rightIcon, color: .gameGray.opacity(0.8)) {}
+            CircleButton(iconName: rightIcon, color: .gameGray.opacity(0.8))
         }
         .padding(.horizontal)
         .frame(maxWidth: .infinity) // Makes sure it stretches across the screen
