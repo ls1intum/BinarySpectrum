@@ -17,9 +17,6 @@
         }
       }
     },
-    "🎨 RGB Color Encoder" : {
-
-    },
     "Achievements" : {
       "localizations" : {
         "pt-BR" : {
@@ -33,28 +30,19 @@
     "Binary Game" : {
 
     },
-    "Blue: %lld" : {
-
-    },
     "Check Answer" : {
 
     },
     "Color Game" : {
 
     },
-    "Colors Game" : {
-
-    },
     "Congratulations" : {
 
     },
+    "Decode the image. Remember: if a pixel is 1, turn it black. If it’s 0, leave it white." : {
+
+    },
     "Educational Game" : {
-
-    },
-    "Green: %lld" : {
-
-    },
-    "Hex Code: %@" : {
 
     },
     "More Features" : {
@@ -68,12 +56,6 @@
       }
     },
     "Pixel Game" : {
-
-    },
-    "Questions" : {
-
-    },
-    "Red: %lld" : {
 
     },
     "Settings" : {
@@ -102,7 +84,10 @@
         }
       }
     },
-    "Tap the circles to toggle between 0 and 1. Your goal is to represent %lld in binary. The number below updates automatically!" : {
+    "Tap the circles to toggle between 0 and 1. Your goal is to represent %lld in binary." : {
+
+    },
+    "Try out mixing the Red, Green and Blue values to make a color" : {
 
     }
   },

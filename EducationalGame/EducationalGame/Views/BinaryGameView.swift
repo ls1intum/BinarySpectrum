@@ -15,7 +15,7 @@ struct BinaryGameView: View {
                     currentPhase: $viewModel.currentPhase
                 )
             case .questions:
-                Questions()
+                Questions(viewModel: viewModel)
             case .challenges:
                 BinaryLearningGame(viewModel: viewModel)
             case .reward:
@@ -26,8 +26,9 @@ struct BinaryGameView: View {
 }
 
 struct Questions: View {
+    @State var viewModel: BinaryGameViewModel
     var body: some View {
-        Text("Questions")
+        QuestionsView(questions: viewModel.introQuestions, currentPhase: $viewModel.currentPhase)
     }
 }
 
@@ -36,7 +37,7 @@ struct BinaryLearningGame: View {
     
     var body: some View {
         VStack(spacing: 20) {
-            InstructionBar(text: viewModel.instructionText == "" ? LocalizedStringResource("Tap the circles to toggle between 0 and 1. Your goal is to represent \(viewModel.targetNumber) in binary. The number below updates automatically!") : viewModel.instructionText)
+            InstructionBar(text: viewModel.instructionText == "" ? LocalizedStringResource("Tap the circles to toggle between 0 and 1. Your goal is to represent \(viewModel.targetNumber) in binary.") : viewModel.instructionText)
             Spacer()
             
             HStack(spacing: 16) {

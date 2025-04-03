@@ -4,6 +4,18 @@ import SwiftUICore
 @Observable class BinaryGameViewModel: ObservableObject {
     var currentPhase = GamePhase.allCases[0]
     let introDialogue = ["Welcome to Binary Game!", "You are a binary code detective.", "Your mission is to decode the binary code."] //TODO: improve intro texts
+    let introQuestions: [Question] = [
+        Question(
+            question: "Which number system do computers use?",
+            alternatives: [1: "Decimal (0-9)", 2: "Binary (0 & 1)", 3: "Letters (A-Z)"],
+            correctAnswer: 2
+        ),
+        Question(
+            question: "How would you write the number 5 in binary",
+            alternatives: [1: "101", 2: "50", 3: "111"],
+            correctAnswer: 3
+        )
+    ]
     
     // Binary Learning Properties
     let digitCount: Int = 4

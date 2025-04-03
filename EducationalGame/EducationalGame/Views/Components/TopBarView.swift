@@ -31,7 +31,7 @@ struct TopBarView: View {
                 .padding(.horizontal, 70)
                 .background(
                     RoundedRectangle(cornerRadius: 30)
-                        .fill(color.opacity(0.9))
+                        .fill(color)
                         .shadow(color: Color.black.opacity(0.3), radius: 10, x: 0, y: 5)
                         .overlay(
                             RoundedRectangle(cornerRadius: 30)

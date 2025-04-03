@@ -1,52 +1,72 @@
 import SwiftUI
 
 struct ColorGameView: View {
-    @State private var redValue: Double = 0
-    @State private var greenValue: Double = 0
-    @State private var blueValue: Double = 0
-    
-    func getHexColor() -> String {
-        let r = Int(redValue * 255)
-        let g = Int(greenValue * 255)
-        let b = Int(blueValue * 255)
-        return String(format: "#%02X%02X%02X", r, g, b)
+    var body: some View {
+        VStack {
+            TopBarView(title: GameConstants.miniGames[2].name, color: GameConstants.miniGames[2].color)
+            Spacer()
+            InstructionBar(text: "Try out mixing the Red, Green and Blue values to make a color")
+            Spacer()
+            RGBColorPickerView()
+            Spacer()
+        }
     }
+}
+
+struct RGBColorPickerView: View {
+    @State private var red: Double = 0.93
+    @State private var green: Double = 0.39
+    @State private var blue: Double = 0.86
     
     var body: some View {
-        TopBarView(title: "Colors Game", color: .gameBlue)
-        VStack(spacing: 20) {
-            Text("🎨 RGB Color Encoder")
-                .font(.title)
-            
-            Color(red: redValue, green: greenValue, blue: blueValue)
-                .frame(width: 150, height: 150)
-                .border(Color.black, width: 2)
-            
-            VStack {
-                Text("Red: \(Int(redValue * 255))")
-                Slider(value: $redValue, in: 0...1)
-                    .accentColor(.red)
+        HStack(spacing: 40) {
+            VStack(spacing: 16) {
+                ColorSlider(value: $red, color: .red)
+                ColorSlider(value: $green, color: .green)
+                ColorSlider(value: $blue, color: .blue)
             }
             
             VStack {
-                Text("Green: \(Int(greenValue * 255))")
-                Slider(value: $greenValue, in: 0...1)
-                    .accentColor(.green)
+                Circle()
+                    .fill(Color(red: red, green: green, blue: blue))
+                    .frame(width: 100, height: 100)
+                    .shadow(radius: 5)
+                
+                Text(hexCode)
+                    .font(.headline)
+                    .padding()
+                    .background(Color(red: 1, green: 0.6, blue: 0.6))
+                    .foregroundColor(.black)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
             }
-            
-            VStack {
-                Text("Blue: \(Int(blueValue * 255))")
-                Slider(value: $blueValue, in: 0...1)
-                    .accentColor(.blue)
-            }
-            
-            Text("Hex Code: \(getHexColor())")
-                .font(.title2)
-                .foregroundColor(.blue)
         }
         .padding()
     }
+    
+    private var hexCode: String {
+        String(format: "#%02X%02X%02X", Int(red * 255), Int(green * 255), Int(blue * 255))
+    }
 }
+
+struct ColorSlider: View {
+    @Binding var value: Double
+    var color: Color
+    
+    var body: some View {
+        HStack {
+            Circle()
+                .fill(color)
+                .frame(width: 12, height: 12)
+            
+            Slider(value: $value, in: 0...1)
+                .frame(width: 400)
+        }
+        .padding()
+        .background(Color(.systemGray6))
+        .clipShape(RoundedRectangle(cornerRadius: 10))
+    }
+}
+
 
 #Preview {
     ColorGameView()

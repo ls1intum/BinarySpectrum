@@ -19,7 +19,7 @@ struct AnimatedCircleButton: View {
         .scaleEffect(1.0)
         .onTapGesture {
             withAnimation(.spring(response: 0.3, dampingFraction: 0.5)) {
-                // Simple button tap effect (expand/compress)
+                action()
             }
         }
     }
