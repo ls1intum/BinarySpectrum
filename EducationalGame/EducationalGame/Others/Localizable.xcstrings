@@ -39,7 +39,10 @@
     "Congratulations" : {
 
     },
-    "Decode the image. Remember: if a pixel is 1, turn it black. If it’s 0, leave it white." : {
+    "Continue" : {
+
+    },
+    "Decode the image. Remember: if a pixel is 1, turn it black. If it's 0, leave it white. Selecting wrong pixels decreases progress!" : {
 
     },
     "Educational Game" : {
@@ -56,6 +59,9 @@
       }
     },
     "Pixel Game" : {
+
+    },
+    "Progress" : {
 
     },
     "Settings" : {
@@ -85,6 +91,9 @@
       }
     },
     "Tap the circles to toggle between 0 and 1. Your goal is to represent %lld in binary." : {
+
+    },
+    "Try Again" : {
 
     },
     "Try out mixing the Red, Green and Blue values to make a color" : {
