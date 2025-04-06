@@ -3,11 +3,11 @@ enum ExperienceLevel: String, Codable {
     case advanced
 }
 
-enum GamePhase : CaseIterable {
-    case intro
-    case questions
-    case challenges
-    case reward
+enum GamePhase: String, CaseIterable {
+    case intro = "Introduction"
+    case questions = "Questions"
+    case challenges = "Challenges"
+    case reward = "Reward"
     
     mutating func next() {
         let allCases = GamePhase.allCases
