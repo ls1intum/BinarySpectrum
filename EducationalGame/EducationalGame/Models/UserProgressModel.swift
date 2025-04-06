@@ -6,6 +6,7 @@ enum ExperienceLevel: String, Codable {
 enum GamePhase: String, CaseIterable {
     case intro = "Introduction"
     case questions = "Questions"
+    case exploration = "Exploration"
     case challenges = "Challenges"
     case reward = "Reward"
     

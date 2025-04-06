@@ -16,6 +16,8 @@ struct BinaryGameView: View {
                 )
             case .questions:
                 Questions(viewModel: viewModel)
+            case .exploration:
+                Text("BinaryLearningGame(viewModel: viewModel)")
             case .challenges:
                 BinaryLearningGame(viewModel: viewModel)
             case .reward:
