@@ -17,7 +17,7 @@ struct PixelGameView: View {
             case .questions:
                 PixelGameQuestions(viewModel: viewModel)
             case .exploration:
-                Text("PixelGameExploration(viewModel: viewModel)")
+                Text("TODO")
             case .challenges:
                 PixelGameChallenge(viewModel: viewModel)
             case .reward:
@@ -25,6 +25,16 @@ struct PixelGameView: View {
                     message: "Congratulations! You've completed the Pixel Decoder challenge!",
                     onContinue: { viewModel.resetGame() }
                 )
+            case .tutorial:
+                Text("TODO")
+            case .practice:
+                Text("TODO")
+            case .advancedChallenges:
+                Text("TODO")
+            case .finalChallenge:
+                Text("TODO")
+            case .review:
+                Text("TODO")
             }
         }
     }

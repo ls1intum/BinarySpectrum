@@ -17,11 +17,21 @@ struct BinaryGameView: View {
             case .questions:
                 Questions(viewModel: viewModel)
             case .exploration:
-                Text("BinaryLearningGame(viewModel: viewModel)")
+                Text("TODO")
             case .challenges:
                 BinaryLearningGame(viewModel: viewModel)
             case .reward:
                 Text("Congratulations")
+            case .tutorial:
+                Text("TODO")
+            case .practice:
+                Text("TODO")
+            case .advancedChallenges:
+                Text("TODO")
+            case .finalChallenge:
+                Text("TODO")
+            case .review:
+                Text("TODO")
             }
         }
     }

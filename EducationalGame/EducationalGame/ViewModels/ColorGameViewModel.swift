@@ -15,6 +15,12 @@ import SwiftUI
     var isCorrect = false
     var hintMessage = ""
     
+    // Challenge properties
+    private var tolerance: Double = 0.15 // Increased tolerance for more forgiving color matching
+    var timeRemaining: Int = 60
+    var attemptsRemaining: Int = 5
+    private var timer: Timer?
+    
     // Game Content
     let introDialogue = [
         "Welcome to the Color Game!",
@@ -24,16 +30,22 @@ import SwiftUI
     ]
     
     let hexLearningDialogue = [
-        "As you adjust the Red, Green, and Blue sliders, you might have noticed a strange code appearing below your color… something like #1A73E8.",
-        "That's not just a random mix of letters and numbers—it's the hexadecimal (or hex) code for your color! But what does it mean?",
-        "Hex is a shortcut computers use to store colors more efficiently. Instead of long binary numbers, hex uses six characters—made up of numbers (0-9) and letters (A-F)—to represent RGB values.",
-        "But instead of writing long binary numbers, computers use hex, which groups every 4 bits into a single digit!"
+        "Now let's learn about hexadecimal color codes!",
+        "Hex codes are a way to represent RGB values using hexadecimal numbers.",
+        "Each pair of characters represents one color component:",
+        "• First pair = Red (00 to FF)",
+        "• Second pair = Green (00 to FF)",
+        "• Third pair = Blue (00 to FF)",
+        "For example, #FF0000 is pure red, #00FF00 is pure green, and #0000FF is pure blue.",
+        "Ready to try matching colors using hex codes?"
     ]
     
     let opacityLearningDialogue = [
-        "You've mastered RGB and Hex colors, but have you noticed something missing? In real-world digital images, colors don't just appear solid—they can be transparent or semi-transparent!",
-        "This is where opacity (or alpha) comes in! Opacity controls how much you can 'see through' a color.",
-        "Think of it like painting with watercolors—if you add more water, the color becomes lighter and blends with the background. In digital colors, we use an extra number (A for Alpha) to do the same thing!"
+        "Now let's learn about opacity!",
+        "Opacity (or alpha) controls how transparent a color is.",
+        "A value of 1.0 means the color is completely solid, while 0.0 means it's completely transparent.",
+        "You'll see a checkerboard pattern behind transparent colors to help you visualize the transparency.",
+        "Ready to try matching colors with opacity?"
     ]
     
     let introQuestions: [Question] = [
@@ -66,9 +78,6 @@ import SwiftUI
         )
     ]
     
-    // Challenge properties
-    private var tolerance: Double = 0.15 // Increased tolerance for more forgiving color matching
-    
     // MARK: - Game Logic
     
     func generateNewTargetColor(includeAlpha: Bool = false) {
@@ -86,20 +95,23 @@ import SwiftUI
         let currentColor = Color(red: red, green: green, blue: blue)
         var difference = colorDifference(current: currentColor, target: targetColor)
         
-        if case .challenges = currentPhase {
-            if showingOpacity {
-                // For opacity, we want to be a bit more strict but still allow some tolerance
-                let alphaDifference = abs(alpha - targetAlpha)
-                difference = max(difference, alphaDifference * 2) // Weight opacity differences more heavily
-            }
-        }
+        // For opacity, we want to be a bit more strict but still allow some tolerance
+        let alphaDifference = abs(alpha - targetAlpha)
+        difference = max(difference, alphaDifference * 2) // Weight opacity differences more heavily
         
         isCorrect = difference <= tolerance
         showHint = true
         
         if isCorrect {
             hintMessage = "Great job! The colors match well!"
+            if currentPhase == .finalChallenge {
+                attemptsRemaining = 5 // Reset attempts for next challenge
+            }
         } else {
+            if currentPhase == .finalChallenge {
+                attemptsRemaining -= 1
+            }
+            
             if difference <= tolerance * 1.5 {
                 hintMessage = "Very close! Just need a tiny adjustment."
             } else if difference <= tolerance * 2 {
@@ -112,6 +124,8 @@ import SwiftUI
                 else if green < targetGreen - tolerance { hint += "More green. " }
                 if blue > targetBlue + tolerance { hint += "Less blue. " }
                 else if blue < targetBlue - tolerance { hint += "More blue. " }
+                if alpha > targetAlpha + tolerance { hint += "Less opacity. " }
+                else if alpha < targetAlpha - tolerance { hint += "More opacity. " }
                 hintMessage = hint
             }
         }
@@ -130,7 +144,31 @@ import SwiftUI
         showHint = false
         isCorrect = false
         hintMessage = ""
+        timeRemaining = 60
+        attemptsRemaining = 5
+        stopTimer()
         currentPhase = .intro
+    }
+    
+    // MARK: - Timer Management
+    
+    func startTimer() {
+        stopTimer()
+        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
+            guard let self = self else { return }
+            if self.timeRemaining > 0 {
+                self.timeRemaining -= 1
+            } else {
+                self.stopTimer()
+                self.showHint = true
+                self.hintMessage = "Time's up! Try again."
+            }
+        }
+    }
+    
+    func stopTimer() {
+        timer?.invalidate()
+        timer = nil
     }
     
     // MARK: - Helper Functions
@@ -171,16 +209,6 @@ import SwiftUI
                      Int(targetRed * 255),
                      Int(targetGreen * 255),
                      Int(targetBlue * 255))
-    }
-    
-    // MARK: - Game State Helpers
-    
-    var showingOpacity: Bool {
-        // Show opacity controls in the second half of the challenges
-        if case .challenges = currentPhase {
-            return isCorrect
-        }
-        return false
     }
     
     // Helper properties for hints
