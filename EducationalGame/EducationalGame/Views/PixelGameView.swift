@@ -1,7 +1,11 @@
 import SwiftUI
 
 struct PixelGameView: View {
-    @State private var viewModel = PixelGameViewModel()
+    @State private var viewModel: PixelGameViewModel
+    
+    init(viewModel: PixelGameViewModel = PixelGameViewModel()) {
+        _viewModel = State(initialValue: viewModel)
+    }
     
     var body: some View {
         VStack {
@@ -204,6 +208,72 @@ struct RewardView: View {
         .padding()
     }
 }
-#Preview {
-    PixelGameView()
+
+#Preview("Intro Phase") {
+    let viewModel = PixelGameViewModel()
+    return PixelGameView(viewModel: viewModel)
+        .environment(\.colorScheme, .light)
+}
+
+#Preview("Questions Phase") {
+    let viewModel = PixelGameViewModel()
+    viewModel.currentPhase = .questions
+    return PixelGameView(viewModel: viewModel)
+        .environment(\.colorScheme, .light)
+}
+
+#Preview("Exploration Phase") {
+    let viewModel = PixelGameViewModel()
+    viewModel.currentPhase = .exploration
+    return PixelGameView(viewModel: viewModel)
+        .environment(\.colorScheme, .light)
+}
+
+#Preview("Challenges Phase") {
+    let viewModel = PixelGameViewModel()
+    viewModel.currentPhase = .challenges
+    return PixelGameView(viewModel: viewModel)
+        .environment(\.colorScheme, .light)
+}
+
+#Preview("Reward Phase") {
+    let viewModel = PixelGameViewModel()
+    viewModel.currentPhase = .reward
+    return PixelGameView(viewModel: viewModel)
+        .environment(\.colorScheme, .light)
+}
+
+#Preview("Tutorial Phase") {
+    let viewModel = PixelGameViewModel()
+    viewModel.currentPhase = .tutorial
+    return PixelGameView(viewModel: viewModel)
+        .environment(\.colorScheme, .light)
+}
+
+#Preview("Practice Phase") {
+    let viewModel = PixelGameViewModel()
+    viewModel.currentPhase = .practice
+    return PixelGameView(viewModel: viewModel)
+        .environment(\.colorScheme, .light)
+}
+
+#Preview("Advanced Challenges Phase") {
+    let viewModel = PixelGameViewModel()
+    viewModel.currentPhase = .advancedChallenges
+    return PixelGameView(viewModel: viewModel)
+        .environment(\.colorScheme, .light)
+}
+
+#Preview("Final Challenge Phase") {
+    let viewModel = PixelGameViewModel()
+    viewModel.currentPhase = .finalChallenge
+    return PixelGameView(viewModel: viewModel)
+        .environment(\.colorScheme, .light)
+}
+
+#Preview("Review Phase") {
+    let viewModel = PixelGameViewModel()
+    viewModel.currentPhase = .review
+    return PixelGameView(viewModel: viewModel)
+        .environment(\.colorScheme, .light)
 }

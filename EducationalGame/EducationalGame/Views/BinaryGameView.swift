@@ -1,7 +1,11 @@
 import SwiftUI
 
 struct BinaryGameView: View {
-    @State private var viewModel = BinaryGameViewModel()
+    @State private var viewModel: BinaryGameViewModel
+    
+    init(viewModel: BinaryGameViewModel = BinaryGameViewModel()) {
+        _viewModel = State(initialValue: viewModel)
+    }
     
     var body: some View {
         VStack {
@@ -107,6 +111,72 @@ struct BinaryLearningGame: View {
         .padding()
     }
 }
-#Preview {
-    BinaryGameView()
+
+#Preview("Intro Phase") {
+    let viewModel = BinaryGameViewModel()
+    return BinaryGameView(viewModel: viewModel)
+        .environment(\.colorScheme, .light)
+}
+
+#Preview("Questions Phase") {
+    let viewModel = BinaryGameViewModel()
+    viewModel.currentPhase = .questions
+    return BinaryGameView(viewModel: viewModel)
+        .environment(\.colorScheme, .light)
+}
+
+#Preview("Exploration Phase") {
+    let viewModel = BinaryGameViewModel()
+    viewModel.currentPhase = .exploration
+    return BinaryGameView(viewModel: viewModel)
+        .environment(\.colorScheme, .light)
+}
+
+#Preview("Challenges Phase") {
+    let viewModel = BinaryGameViewModel()
+    viewModel.currentPhase = .challenges
+    return BinaryGameView(viewModel: viewModel)
+        .environment(\.colorScheme, .light)
+}
+
+#Preview("Reward Phase") {
+    let viewModel = BinaryGameViewModel()
+    viewModel.currentPhase = .reward
+    return BinaryGameView(viewModel: viewModel)
+        .environment(\.colorScheme, .light)
+}
+
+#Preview("Tutorial Phase") {
+    let viewModel = BinaryGameViewModel()
+    viewModel.currentPhase = .tutorial
+    return BinaryGameView(viewModel: viewModel)
+        .environment(\.colorScheme, .light)
+}
+
+#Preview("Practice Phase") {
+    let viewModel = BinaryGameViewModel()
+    viewModel.currentPhase = .practice
+    return BinaryGameView(viewModel: viewModel)
+        .environment(\.colorScheme, .light)
+}
+
+#Preview("Advanced Challenges Phase") {
+    let viewModel = BinaryGameViewModel()
+    viewModel.currentPhase = .advancedChallenges
+    return BinaryGameView(viewModel: viewModel)
+        .environment(\.colorScheme, .light)
+}
+
+#Preview("Final Challenge Phase") {
+    let viewModel = BinaryGameViewModel()
+    viewModel.currentPhase = .finalChallenge
+    return BinaryGameView(viewModel: viewModel)
+        .environment(\.colorScheme, .light)
+}
+
+#Preview("Review Phase") {
+    let viewModel = BinaryGameViewModel()
+    viewModel.currentPhase = .review
+    return BinaryGameView(viewModel: viewModel)
+        .environment(\.colorScheme, .light)
 }
