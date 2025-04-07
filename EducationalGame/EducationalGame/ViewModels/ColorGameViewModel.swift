@@ -15,6 +15,19 @@ import SwiftUI
     var isCorrect = false
     var hintMessage = ""
     
+    // Alpha Challenge State
+    var opacityValue: Double = 0.5
+    var userAnswer: String = ""
+    var showAlphaSuccess: Bool = false
+    var alphaGrid: [[AlphaSquare]] = []
+    private let hiddenWords = ["SWIFT", "COLOR", "ALPHA", "PIXEL", "GAME"]
+    private var currentWord: String = ""
+    
+    struct AlphaSquare {
+        let baseAlpha: Double
+        let letter: String
+    }
+    
     // Challenge properties
     private var tolerance: Double = 0.15 // Increased tolerance for more forgiving color matching
     var timeRemaining: Int = 60
@@ -228,5 +241,49 @@ import SwiftUI
         var blue: CGFloat = 0
         UIColor(targetColor).getRed(nil, green: nil, blue: &blue, alpha: nil)
         return blue
+    }
+    
+    // MARK: - Alpha Challenge Methods
+    
+    func generateNewAlphaGrid() {
+        currentWord = hiddenWords.randomElement() ?? "SWIFT"
+        alphaGrid = []
+        
+        // Create a 4x4 grid
+        for row in 0..<4 {
+            var rowSquares: [AlphaSquare] = []
+            for col in 0..<4 {
+                let index = row * 4 + col
+                if index < currentWord.count {
+                    // Place a letter with random base alpha
+                    rowSquares.append(AlphaSquare(
+                        baseAlpha: Double.random(in: 0.3...0.7),
+                        letter: String(currentWord[currentWord.index(currentWord.startIndex, offsetBy: index)])
+                    ))
+                } else {
+                    // Empty square with random alpha
+                    rowSquares.append(AlphaSquare(
+                        baseAlpha: Double.random(in: 0.1...0.4),
+                        letter: ""
+                    ))
+                }
+            }
+            alphaGrid.append(rowSquares)
+        }
+        
+        // Reset state
+        opacityValue = 0.5
+        userAnswer = ""
+        showAlphaSuccess = false
+    }
+    
+    func checkAlphaAnswer() {
+        let normalizedAnswer = userAnswer.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+        if normalizedAnswer == currentWord {
+            showAlphaSuccess = true
+        } else {
+            hintMessage = "Try adjusting the opacity to see the letters more clearly!"
+            showHint = true
+        }
     }
 }

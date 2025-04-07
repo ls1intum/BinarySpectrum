@@ -10,7 +10,7 @@ struct PixelGameView: View {
             switch viewModel.currentPhase {
             case .intro:
                 DialogueView(
-                    characterIcon: "square.grid.3x3.fill",
+                    personaImage: GameConstants.miniGames[1].personaImage,
                     dialogues: viewModel.introDialogue,
                     currentPhase: $viewModel.currentPhase
                 )

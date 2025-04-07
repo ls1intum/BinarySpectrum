@@ -11,6 +11,7 @@ struct MiniGame: Identifiable {
     let name: LocalizedStringResource
     let icon: String
     let color: Color
+    let personaImage: Image
     let view: AnyView
     // let questions: [Question]
     var highScore: Int

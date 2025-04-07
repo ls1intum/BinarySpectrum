@@ -5,12 +5,12 @@ struct BinaryGameView: View {
     
     var body: some View {
         VStack {
-            TopBarView(title: "Binary Game", color: .gameRed)
+            TopBarView(title: GameConstants.miniGames[0].name, color: GameConstants.miniGames[0].color)
             
             switch viewModel.currentPhase {
             case .intro:
                 DialogueView(
-                    characterIcon: "lizard.fill",
+                    personaImage: GameConstants.miniGames[0].personaImage,
                     dialogues: viewModel.introDialogue,
                     currentPhase: $viewModel.currentPhase
                 )

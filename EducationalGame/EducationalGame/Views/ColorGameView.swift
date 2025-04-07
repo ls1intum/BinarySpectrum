@@ -10,7 +10,7 @@ struct ColorGameView: View {
             switch viewModel.currentPhase {
             case .intro:
                 DialogueView(
-                    characterIcon: "paintpalette.fill",
+                    personaImage: GameConstants.miniGames[2].personaImage,
                     dialogues: viewModel.introDialogue,
                     currentPhase: $viewModel.currentPhase
                 )
@@ -23,7 +23,7 @@ struct ColorGameView: View {
                 ColorExploration(viewModel: viewModel)
             case .tutorial:
                 DialogueView(
-                    characterIcon: "slider.horizontal.below.rectangle",
+                    personaImage: GameConstants.miniGames[2].personaImage,
                     dialogues: viewModel.hexLearningDialogue,
                     currentPhase: $viewModel.currentPhase
                 )
@@ -31,7 +31,7 @@ struct ColorGameView: View {
                 ColorHexChallenge(viewModel: viewModel)
             case .challenges:
                 DialogueView(
-                    characterIcon: "slider.horizontal.below.rectangle",
+                    personaImage: GameConstants.miniGames[2].personaImage,
                     dialogues: viewModel.opacityLearningDialogue,
                     currentPhase: $viewModel.currentPhase
                 )
@@ -146,62 +146,122 @@ struct ColorAlphaChallenge: View {
     @ObservedObject var viewModel: ColorGameViewModel
     
     var body: some View {
-        VStack(spacing: 30) {
-            InstructionBar(text: "Match the target color including its opacity!")
+        VStack(spacing: 20) {
+            InstructionBar(text: "Adjust the opacity to reveal the hidden message!")
             
-            HStack(spacing: 60) {
-                // Target Color
+            HStack(alignment: .top, spacing: 30) {
+                // Volume control circle
                 VStack {
-                    Text("Target Color")
-                        .font(GameTheme.subtitleFont)
                     ZStack {
-                        CheckerboardBackground()
                         Circle()
-                            .fill(viewModel.targetColor.opacity(viewModel.targetAlpha))
-                            .frame(width: 150, height: 150)
+                            .fill(Color.red.opacity(0.6))
+                            .frame(width: 120, height: 120)
+                        
+                        Circle()
+                            .fill(Color.red.opacity(0.8))
+                            .frame(width: 30, height: 30)
+                            .offset(x: 20, y: -20)
                     }
-                    .clipShape(Circle())
-                    .shadow(radius: 5)
-                    Text("\(viewModel.targetColorHex) (Alpha: \(Int(viewModel.targetAlpha * 100))%)")
-                        .font(.headline)
-                        .padding(8)
-                        .background(Color.gameGray)
-                        .cornerRadius(8)
+                    .gesture(
+                        DragGesture(minimumDistance: 0)
+                            .onChanged { value in
+                                let height = 120.0
+                                let touchY = value.location.y
+                                viewModel.opacityValue = max(0, min(1, touchY / height))
+                            }
+                    )
+                    
+                    Text("Opacity: \(Int(viewModel.opacityValue * 100))%")
+                        .padding(.top, 8)
                 }
                 
-                // Current Color
+                // Grid of squares
                 VStack {
-                    Text("Your Color")
-                        .font(GameTheme.subtitleFont)
-                    ZStack {
-                        CheckerboardBackground()
-                        Circle()
-                            .fill(Color(red: viewModel.red, green: viewModel.green, blue: viewModel.blue)
-                                .opacity(viewModel.alpha))
-                            .frame(width: 150, height: 150)
+                    VStack(spacing: 2) {
+                        ForEach(0..<4, id: \.self) { row in
+                            HStack(spacing: 2) {
+                                ForEach(0..<4, id: \.self) { col in
+                                    let square = viewModel.alphaGrid[row][col]
+                                    ZStack {
+                                        Rectangle()
+                                            .fill(Color.blue.opacity(square.baseAlpha * viewModel.opacityValue))
+                                            .frame(width: 60, height: 60)
+                                        
+                                        if !square.letter.isEmpty {
+                                            Text(square.letter)
+                                                .font(.system(size: 24, weight: .bold))
+                                                .foregroundColor(.white)
+                                                .opacity(viewModel.opacityValue > 0.7 ? 1.0 : 0.0)
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
-                    .clipShape(Circle())
-                    .shadow(radius: 5)
-                    Text("\(viewModel.currentColorHex) (Alpha: \(Int(viewModel.alpha * 100))%)")
-                        .font(.headline)
-                        .padding(8)
-                        .background(Color.gameGray)
-                        .cornerRadius(8)
+                    .background(Color.gray.opacity(0.2))
+                    .cornerRadius(8)
+                }
+            }
+            .padding()
+            
+            // Answer field
+            VStack(spacing: 12) {
+                TextField("Enter your answer", text: $viewModel.userAnswer)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .font(.title2)
+                    .padding(.horizontal, 50)
+                    .multilineTextAlignment(.center)
+                    .autocapitalization(.allCharacters)
+                    .disableAutocorrection(true)
+                
+                Button("Check Answer") {
+                    viewModel.checkAlphaAnswer()
+                }
+                .font(.title3)
+                .padding()
+                .background(Color.blue)
+                .foregroundColor(.white)
+                .cornerRadius(10)
+                
+                if viewModel.showAlphaSuccess {
+                    VStack {
+                        Text("Correct! Well done! 🎉")
+                            .font(.title2)
+                            .foregroundColor(.green)
+                            .fontWeight(.bold)
+                            .padding()
+                        
+                        Button("Continue") {
+                            viewModel.currentPhase = .finalChallenge
+                        }
+                        .font(.title3)
+                        .padding()
+                        .background(Color.green)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                    }
                 }
             }
             
-            VStack(spacing: 20) {
-                ColorSlider(value: $viewModel.red, color: .red)
-                ColorSlider(value: $viewModel.green, color: .green)
-                ColorSlider(value: $viewModel.blue, color: .blue)
-                ColorSlider(value: $viewModel.alpha, color: .gray)
-            }
-            .padding(.horizontal, 50)
+            Spacer()
             
-            ColorGameControls(viewModel: viewModel)
+            // Instructions
+            VStack(alignment: .leading, spacing: 8) {
+                Text("Instructions:")
+                    .font(.headline)
+                Text("1. Adjust the opacity using the red circle")
+                Text("2. Find the hidden letters when opacity changes")
+                Text("3. Guess the hidden word and type it below")
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding()
+            .background(Color.gray.opacity(0.1))
+            .cornerRadius(10)
+            .padding(.horizontal)
         }
+        .padding()
         .onAppear {
-            viewModel.generateNewTargetColor(includeAlpha: true)
+            viewModel.generateNewAlphaGrid()
         }
     }
 }
@@ -377,7 +437,6 @@ struct ColorSlider: View {
         .cornerRadius(15)
     }
 }
-
 
 #Preview {
     ColorGameView()
