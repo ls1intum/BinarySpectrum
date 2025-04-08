@@ -1,48 +1,279 @@
 import SwiftUI
 
 struct PixelGameView: View {
+    @State private var viewModel: PixelGameViewModel
     
-    var body: some View {
-        TopBarView(title:"Pixel Game", color: .gameGreen)
-        
+    init(viewModel: PixelGameViewModel = PixelGameViewModel()) {
+        _viewModel = State(initialValue: viewModel)
     }
-}
-import SwiftUI
-
-struct GridView: View {
-    let gridSize = 16
-    let cellSize: CGFloat = 30 // Adjust for different screen sizes
-    
-    @State private var blackCells: Set<Int> = [] // Stores the black squares
     
     var body: some View {
-        LazyVGrid(columns: Array(repeating: GridItem(.fixed(cellSize)), count: gridSize), spacing: 2) {
-            ForEach(0..<(gridSize * gridSize), id: \.self) { index in
-                Rectangle()
-                    .fill(blackCells.contains(index) ? Color.black : Color.white)
-                    .frame(width: cellSize, height: cellSize)
-                    .border(Color.gray, width: 1)
-                    .onTapGesture {
-                        toggleCell(index)
-                    }
+        VStack {
+            TopBarView(title: GameConstants.miniGames[1].name, color: GameConstants.miniGames[1].color)
+            
+            switch viewModel.currentPhase {
+            case .intro:
+                DialogueView(
+                    personaImage: GameConstants.miniGames[1].personaImage,
+                    dialogues: viewModel.introDialogue,
+                    currentPhase: $viewModel.currentPhase
+                )
+            case .questions:
+                PixelGameQuestions(viewModel: viewModel)
+            case .exploration:
+                Text("TODO")
+            case .challenges:
+                PixelGameChallenge(viewModel: viewModel)
+            case .reward:
+                RewardView(
+                    message: "Congratulations! You've completed the Pixel Decoder challenge!",
+                    onContinue: { viewModel.resetGame() }
+                )
+            case .tutorial:
+                Text("TODO")
+            case .practice:
+                Text("TODO")
+            case .advancedChallenges:
+                Text("TODO")
+            case .finalChallenge:
+                Text("TODO")
+            case .review:
+                Text("TODO")
             }
         }
-        .padding()
     }
+}
+
+// MARK: - Questions View
+struct PixelGameQuestions: View {
+    @State var viewModel: PixelGameViewModel
     
-    private func toggleCell(_ index: Int) {
-        if blackCells.contains(index) {
-            blackCells.remove(index)
-        } else {
-            blackCells.insert(index)
+    var body: some View {
+        QuestionsView(questions: viewModel.introQuestions, currentPhase: $viewModel.currentPhase)
+    }
+}
+
+// MARK: - Main Game Challenge
+struct PixelGameChallenge: View {
+    @ObservedObject var viewModel: PixelGameViewModel
+    
+    var body: some View {
+        VStack {
+            InstructionBar(text: "Decode the image. Remember: if a pixel is 1, turn it black. If it's 0, leave it white. Selecting wrong pixels decreases progress!")
+            Spacer()
+            
+            HStack {
+                Spacer()
+                
+                // Game Grid
+                ZStack {
+                    Color.gray.opacity(0.2)
+                        .cornerRadius(10)
+                        .padding(2)
+                    
+                    LazyVGrid(columns: Array(repeating: GridItem(.fixed(viewModel.cellSize)), count: viewModel.gridSize), spacing: 2) {
+                        ForEach(0..<(viewModel.gridSize * viewModel.gridSize), id: \.self) { index in
+                            Rectangle()
+                                .fill(viewModel.blackCells.contains(index) ? Color.black : Color.white)
+                                .frame(width: viewModel.cellSize, height: viewModel.cellSize)
+                                .border(Color.gray, width: 1)
+                                .onTapGesture {
+                                    viewModel.toggleCell(index)
+                                }
+                        }
+                    }
+                    .padding(0)
+                }
+                .frame(width: CGFloat(viewModel.gridSize) * viewModel.cellSize + CGFloat(viewModel.gridSize - 1) * 2,
+                       height: CGFloat(viewModel.gridSize) * viewModel.cellSize + CGFloat(viewModel.gridSize - 1) * 2)
+                
+                Spacer()
+                
+                VStack {
+                    // Binary Code Display
+                    Text(viewModel.formattedCode)
+                        .font(.headline)
+                        .padding()
+                        .background(Color.gamePurple.opacity(0.7))
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                        .padding(.top, 8)
+                    
+                    // Progress Bar
+                    VStack(alignment: .leading) {
+                        Text("Progress")
+                            .font(.caption)
+                            .foregroundColor(.gray)
+                        
+                        ProgressView(value: viewModel.progress, total: 1.0)
+                            .progressViewStyle(LinearProgressViewStyle())
+                            .accentColor(.blue)
+                            .padding(.bottom)
+                    }
+                    
+                    // Check Answer Button
+                    Button(action: {
+                        viewModel.checkAnswer()
+                    }) {
+                        Text("Check Answer")
+                            .font(.headline)
+                            .padding()
+                            .frame(width: 160)
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                            .shadow(radius: 5)
+                    }
+                    .padding()
+                    .opacity(viewModel.hintShown ? 0.6 : 1.0)
+                    .disabled(viewModel.hintShown)
+                }
+                .frame(width: 200)
+                
+                Spacer()
+            }
+            .padding()
+            
+            if viewModel.hintShown {
+                Text(viewModel.hintMessage)
+                    .font(.headline)
+                    .foregroundColor(viewModel.isCorrect ? .green : .orange)
+                    .padding()
+                    .multilineTextAlignment(.center)
+                
+                if viewModel.isCorrect {
+                    Button(action: {
+                        viewModel.currentPhase = .reward
+                    }) {
+                        Text("Continue")
+                            .font(.headline)
+                            .padding()
+                            .frame(width: 160)
+                            .background(Color.green)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                    }
+                } else {
+                    Button(action: {
+                        viewModel.hideHint()
+                    }) {
+                        Text("Try Again")
+                            .font(.headline)
+                            .padding()
+                            .frame(width: 160)
+                            .background(Color.orange)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                    }
+                }
+            }
+            
+            Spacer()
         }
     }
 }
 
-#Preview {
-    GridView()
+// MARK: - Reward View
+struct RewardView: View {
+    var message: String
+    var onContinue: () -> Void
+    
+    var body: some View {
+        VStack(spacing: 30) {
+            Image(systemName: "star.fill")
+                .resizable()
+                .frame(width: 100, height: 100)
+                .foregroundColor(.yellow)
+                .shadow(radius: 10)
+            
+            Text(message)
+                .font(.title2)
+                .multilineTextAlignment(.center)
+                .padding()
+            
+            Button(action: onContinue) {
+                Text("Continue")
+                    .font(.headline)
+                    .padding()
+                    .frame(width: 200)
+                    .background(Color.blue)
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
+                    .shadow(radius: 5)
+            }
+        }
+        .padding(40)
+        .background(Color.white)
+        .cornerRadius(20)
+        .shadow(radius: 10)
+        .padding()
+    }
 }
 
-#Preview {
-    PixelGameView()
+#Preview("Intro Phase") {
+    let viewModel = PixelGameViewModel()
+    return PixelGameView(viewModel: viewModel)
+        .environment(\.colorScheme, .light)
+}
+
+#Preview("Questions Phase") {
+    let viewModel = PixelGameViewModel()
+    viewModel.currentPhase = .questions
+    return PixelGameView(viewModel: viewModel)
+        .environment(\.colorScheme, .light)
+}
+
+#Preview("Exploration Phase") {
+    let viewModel = PixelGameViewModel()
+    viewModel.currentPhase = .exploration
+    return PixelGameView(viewModel: viewModel)
+        .environment(\.colorScheme, .light)
+}
+
+#Preview("Challenges Phase") {
+    let viewModel = PixelGameViewModel()
+    viewModel.currentPhase = .challenges
+    return PixelGameView(viewModel: viewModel)
+        .environment(\.colorScheme, .light)
+}
+
+#Preview("Reward Phase") {
+    let viewModel = PixelGameViewModel()
+    viewModel.currentPhase = .reward
+    return PixelGameView(viewModel: viewModel)
+        .environment(\.colorScheme, .light)
+}
+
+#Preview("Tutorial Phase") {
+    let viewModel = PixelGameViewModel()
+    viewModel.currentPhase = .tutorial
+    return PixelGameView(viewModel: viewModel)
+        .environment(\.colorScheme, .light)
+}
+
+#Preview("Practice Phase") {
+    let viewModel = PixelGameViewModel()
+    viewModel.currentPhase = .practice
+    return PixelGameView(viewModel: viewModel)
+        .environment(\.colorScheme, .light)
+}
+
+#Preview("Advanced Challenges Phase") {
+    let viewModel = PixelGameViewModel()
+    viewModel.currentPhase = .advancedChallenges
+    return PixelGameView(viewModel: viewModel)
+        .environment(\.colorScheme, .light)
+}
+
+#Preview("Final Challenge Phase") {
+    let viewModel = PixelGameViewModel()
+    viewModel.currentPhase = .finalChallenge
+    return PixelGameView(viewModel: viewModel)
+        .environment(\.colorScheme, .light)
+}
+
+#Preview("Review Phase") {
+    let viewModel = PixelGameViewModel()
+    viewModel.currentPhase = .review
+    return PixelGameView(viewModel: viewModel)
+        .environment(\.colorScheme, .light)
 }

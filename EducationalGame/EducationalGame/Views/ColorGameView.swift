@@ -1,53 +1,562 @@
 import SwiftUI
 
 struct ColorGameView: View {
-    @State private var redValue: Double = 0
-    @State private var greenValue: Double = 0
-    @State private var blueValue: Double = 0
+    @State private var viewModel: ColorGameViewModel
     
-    func getHexColor() -> String {
-        let r = Int(redValue * 255)
-        let g = Int(greenValue * 255)
-        let b = Int(blueValue * 255)
-        return String(format: "#%02X%02X%02X", r, g, b)
+    init(viewModel: ColorGameViewModel = ColorGameViewModel()) {
+        _viewModel = State(initialValue: viewModel)
     }
     
     var body: some View {
-        TopBarView(title: "Colors Game", color: .gameBlue)
-        VStack(spacing: 20) {
-            Text("🎨 RGB Color Encoder")
-                .font(.title)
+        VStack {
+            TopBarView(title: GameConstants.miniGames[2].name, color: GameConstants.miniGames[2].color)
             
-            Color(red: redValue, green: greenValue, blue: blueValue)
-                .frame(width: 150, height: 150)
-                .border(Color.black, width: 2)
-            
-            VStack {
-                Text("Red: \(Int(redValue * 255))")
-                Slider(value: $redValue, in: 0...1)
-                    .accentColor(.red)
+            switch viewModel.currentPhase {
+            case .intro:
+                DialogueView(
+                    personaImage: GameConstants.miniGames[2].personaImage,
+                    dialogues: viewModel.introDialogue,
+                    currentPhase: $viewModel.currentPhase
+                )
+            case .questions:
+                QuestionsView(
+                    questions: viewModel.introQuestions,
+                    currentPhase: $viewModel.currentPhase
+                )
+            case .exploration:
+                ColorExploration(viewModel: viewModel)
+            case .tutorial:
+                DialogueView(
+                    personaImage: GameConstants.miniGames[2].personaImage,
+                    dialogues: viewModel.hexLearningDialogue,
+                    currentPhase: $viewModel.currentPhase
+                )
+            case .practice:
+                ColorHexChallenge(viewModel: viewModel)
+            case .challenges:
+                DialogueView(
+                    personaImage: GameConstants.miniGames[2].personaImage,
+                    dialogues: viewModel.opacityLearningDialogue,
+                    currentPhase: $viewModel.currentPhase
+                )
+            case .advancedChallenges:
+                OpacityChallenge(viewModel: viewModel)
+            case .finalChallenge:
+                ColorAlphaChallenge(viewModel: viewModel)
+            case .review:
+                ColorReview(viewModel: viewModel)
+            case .reward:
+                RewardView(
+                    message: "Congratulations! You've mastered RGB colors, hex codes, and opacity!",
+                    onContinue: { viewModel.resetGame() }
+                )
             }
-            
-            VStack {
-                Text("Green: \(Int(greenValue * 255))")
-                Slider(value: $greenValue, in: 0...1)
-                    .accentColor(.green)
-            }
-            
-            VStack {
-                Text("Blue: \(Int(blueValue * 255))")
-                Slider(value: $blueValue, in: 0...1)
-                    .accentColor(.blue)
-            }
-            
-            Text("Hex Code: \(getHexColor())")
-                .font(.title2)
-                .foregroundColor(.blue)
         }
-        .padding()
     }
 }
 
-#Preview {
-    ColorGameView()
+struct ColorExploration: View {
+    @ObservedObject var viewModel: ColorGameViewModel
+    
+    var body: some View {
+        ZStack {
+            VStack(spacing: 30) {
+                InstructionBar(text: "Experiment with the RGB sliders to create different colors!")
+            
+                Circle()
+                    .fill(Color(red: viewModel.red, green: viewModel.green, blue: viewModel.blue))
+                    .frame(width: 150, height: 150)
+                    .shadow(radius: 5)
+            
+                Text(viewModel.currentColorHex)
+                    .font(.title)
+                    .padding(8)
+                    .background(Color.gameGray)
+                    .cornerRadius(8)
+            
+                VStack(spacing: 20) {
+                    ColorSlider(value: $viewModel.red, color: .red)
+                    ColorSlider(value: $viewModel.green, color: .green)
+                    ColorSlider(value: $viewModel.blue, color: .blue)
+                }
+                .padding(.horizontal, 50)
+
+                // Next Button at the Bottom Right
+            }
+            VStack {
+                Spacer()
+                HStack {
+                    Spacer()
+                
+                    AnimatedCircleButton(
+                        iconName: "arrow.right.circle.fill",
+                        color: .gameLightBlue,
+                        action: {
+                            viewModel.currentPhase = .tutorial
+                        }
+                    )
+                    .padding()
+                }
+            }
+        }
+    }
+}
+
+struct ColorHexChallenge: View {
+    @ObservedObject var viewModel: ColorGameViewModel
+    
+    var body: some View {
+        ZStack {
+            VStack(spacing: 30) {
+                InstructionBar(text: "Match the target color using the RGB sliders!")
+                
+                HStack(spacing: 60) {
+                    // Target Color
+                    VStack {
+                        Text("Target Color")
+                            .font(GameTheme.subtitleFont)
+                        Circle()
+                            .fill(viewModel.targetColor)
+                            .frame(width: 150, height: 150)
+                            .shadow(radius: 5)
+                        Text(viewModel.targetColorHex)
+                            .font(.headline)
+                            .padding(8)
+                            .background(Color.gameGray)
+                            .cornerRadius(8)
+                    }
+                
+                    // Current Color
+                    VStack {
+                        Text("Your Color")
+                            .font(GameTheme.subtitleFont)
+                        Circle()
+                            .fill(Color(red: viewModel.red, green: viewModel.green, blue: viewModel.blue))
+                            .frame(width: 150, height: 150)
+                            .shadow(radius: 5)
+                        Text("") // empty text to align both colors
+                            .font(.headline)
+                            .padding(8)
+                            .cornerRadius(8)
+                    }
+                }
+            
+                VStack(spacing: 20) {
+                    ColorSlider(value: $viewModel.red, color: .red)
+                    ColorSlider(value: $viewModel.green, color: .green)
+                    ColorSlider(value: $viewModel.blue, color: .blue)
+                }
+                .padding(.horizontal, 50)
+            }
+            ColorGameControls(viewModel: viewModel)
+        }
+        .onAppear {
+            viewModel.generateNewTargetColor(includeAlpha: false)
+        }
+    }
+}
+
+struct OpacityChallenge: View {
+    @ObservedObject var viewModel: ColorGameViewModel
+    
+    var body: some View {
+        ZStack {
+            VStack(spacing: 30) {
+                InstructionBar(text: "Match both the color and opacity of the target")
+            
+                HStack(spacing: 60) {
+                    // Target Color
+                    VStack {
+                        Text("Target Color")
+                            .font(GameTheme.subtitleFont)
+                        ZStack {
+                            CheckerboardBackground()
+                            Circle()
+                                .fill(viewModel.targetColor.opacity(viewModel.targetAlpha))
+                                .frame(width: 150, height: 150)
+                        }
+                        .clipShape(Circle())
+                        .shadow(radius: 5)
+                        Text(viewModel.targetColorHex)
+                            .font(.headline)
+                            .padding(8)
+                            .background(Color.gameGray)
+                            .cornerRadius(8)
+                    }
+                
+                    // Current Color
+                    VStack {
+                        Text("Your Color")
+                            .font(GameTheme.subtitleFont)
+                        ZStack {
+                            CheckerboardBackground()
+                            Circle()
+                                .fill(Color(red: viewModel.red, green: viewModel.green, blue: viewModel.blue)
+                                    .opacity(viewModel.alpha))
+                                .frame(width: 150, height: 150)
+                        }
+                        .clipShape(Circle())
+                        .shadow(radius: 5)
+                        Text(viewModel.currentColorHex)
+                            .font(.headline)
+                            .padding(8)
+                            .background(Color.gameGray)
+                            .cornerRadius(8)
+                    }
+                }
+            
+                VStack(spacing: 20) {
+                    ColorSlider(value: $viewModel.red, color: .red)
+                    ColorSlider(value: $viewModel.green, color: .green)
+                    ColorSlider(value: $viewModel.blue, color: .blue)
+                    ColorSlider(value: $viewModel.alpha, color: .gray)
+                }
+                .padding(.horizontal, 50)
+            }
+            ColorGameControls(viewModel: viewModel)
+        }
+        .onAppear {
+            viewModel.generateNewTargetColor(includeAlpha: true)
+        }
+    }
+}
+
+struct ColorAlphaChallenge: View {
+    @ObservedObject var viewModel: ColorGameViewModel
+    
+    var body: some View {
+        VStack(spacing: 20) {
+            InstructionBar(text: "Adjust the opacity to reveal the hidden message!")
+            
+            HStack(alignment: .top, spacing: 30) {
+                // Volume control circle
+                VStack {
+                    ZStack {
+                        Circle()
+                            .fill(Color.red.opacity(0.6))
+                            .frame(width: 120, height: 120)
+                        
+                        Circle()
+                            .fill(Color.red.opacity(0.8))
+                            .frame(width: 30, height: 30)
+                            .offset(x: 20, y: -20)
+                    }
+                    .gesture(
+                        DragGesture(minimumDistance: 0)
+                            .onChanged { value in
+                                let height = 120.0
+                                let touchY = value.location.y
+                                viewModel.opacityValue = max(0, min(1, touchY / height))
+                            }
+                    )
+                    
+                    Text("Opacity: \(Int(viewModel.opacityValue * 100))%")
+                        .padding(.top, 8)
+                }
+                
+                // Grid of squares
+                VStack {
+                    VStack(spacing: 2) {
+                        ForEach(0..<min(viewModel.alphaGrid.count, 4), id: \.self) { row in
+                            HStack(spacing: 2) {
+                                ForEach(0..<min(viewModel.alphaGrid[row].count, 4), id: \.self) { col in
+                                    let square = viewModel.alphaGrid[row][col]
+                                    ZStack {
+                                        Rectangle()
+                                            .fill(Color.blue.opacity(square.baseAlpha * viewModel.opacityValue))
+                                            .frame(width: 60, height: 60)
+                                        
+                                        if !square.letter.isEmpty {
+                                            Text(square.letter)
+                                                .font(.system(size: 24, weight: .bold))
+                                                .foregroundColor(.white)
+                                                .opacity(viewModel.opacityValue > 0.7 ? 1.0 : 0.0)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    .background(Color.gray.opacity(0.2))
+                    .cornerRadius(8)
+                }
+            }
+            .padding()
+            
+            // Answer field
+            VStack(spacing: 12) {
+                TextField("Enter your answer", text: $viewModel.userAnswer)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .font(.title2)
+                    .padding(.horizontal, 50)
+                    .multilineTextAlignment(.center)
+                    .autocapitalization(.allCharacters)
+                    .disableAutocorrection(true)
+                
+                Button("Check Answer") {
+                    viewModel.checkAlphaAnswer()
+                }
+                .font(.title3)
+                .padding()
+                .background(Color.blue)
+                .foregroundColor(.white)
+                .cornerRadius(10)
+                
+                if viewModel.showAlphaSuccess {
+                    VStack {
+                        Text("Correct! Well done! 🎉")
+                            .font(.title2)
+                            .foregroundColor(.green)
+                            .fontWeight(.bold)
+                            .padding()
+                        
+                        Button("Continue") {
+                            viewModel.currentPhase = .finalChallenge
+                        }
+                        .font(.title3)
+                        .padding()
+                        .background(Color.green)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                    }
+                }
+            }
+            
+            Spacer()
+            
+            // Instructions
+            VStack(alignment: .leading, spacing: 8) {
+                Text("Instructions:")
+                    .font(.headline)
+                Text("1. Adjust the opacity using the red circle")
+                Text("2. Find the hidden letters when opacity changes")
+                Text("3. Guess the hidden word and type it below")
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding()
+            .background(Color.gray.opacity(0.1))
+            .cornerRadius(10)
+            .padding(.horizontal)
+        }
+        .padding()
+        .onAppear {
+            viewModel.generateNewAlphaGrid()
+        }
+    }
+}
+
+struct ColorFinalChallenge: View {
+    @ObservedObject var viewModel: ColorGameViewModel
+    
+    var body: some View {
+        VStack(spacing: 30) {
+            InstructionBar(text: "Final Challenge: Match the target color with limited attempts!")
+            
+            // Same as ColorAlphaChallenge but with attempt counter
+            ColorAlphaChallenge(viewModel: viewModel)
+            
+            Text("Attempts remaining: \(viewModel.attemptsRemaining)")
+                .font(.headline)
+                .foregroundColor(viewModel.attemptsRemaining < 3 ? .red : .primary)
+        }
+    }
+}
+
+struct ColorReview: View {
+    @ObservedObject var viewModel: ColorGameViewModel
+    
+    var body: some View {
+        VStack(spacing: 30) {
+            InstructionBar(text: "Let's review what you've learned!")
+            
+            VStack(alignment: .leading, spacing: 20) {
+                Text("RGB Colors")
+                    .font(.title2)
+                    .bold()
+                Text("• Red, Green, and Blue are the primary colors of light")
+                Text("• Mixing them creates all other colors")
+                Text("• Each value ranges from 0 to 255")
+                
+                Text("Opacity")
+                    .font(.title2)
+                    .bold()
+                    .padding(.top)
+                Text("• Controls how transparent a color is")
+                Text("• 1.0 = completely solid")
+                Text("• 0.0 = completely transparent")
+                
+                Text("Hex Codes")
+                    .font(.title2)
+                    .bold()
+                    .padding(.top)
+                Text("• A way to represent RGB values in hexadecimal")
+                Text("• Each pair of characters represents one color")
+                Text("• Example: #FF0000 = pure red")
+            }
+            .padding()
+            .background(Color.gameGray.opacity(0.3))
+            .cornerRadius(15)
+            
+            Button(action: {
+                viewModel.currentPhase = .reward
+            }) {
+                Text("Continue to Reward")
+                    .font(.headline)
+                    .padding()
+                    .frame(width: 200)
+                    .background(Color.blue)
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
+            }
+        }
+    }
+}
+
+struct ColorGameControls: View {
+    @ObservedObject var viewModel: ColorGameViewModel
+    @State private var showAlert = false
+    
+    var body: some View {
+        VStack {
+            Spacer()
+            HStack {
+                Spacer()
+                AnimatedCircleButton(
+                    iconName: "checkmark.circle.fill",
+                    color: .gameLightBlue,
+                    action: {
+                        viewModel.checkColorMatch()
+                        showAlert = true
+                    }
+                )
+                .padding()
+            }
+        }
+        .alert(isPresented: $showAlert) {
+            if viewModel.isCorrect {
+                Alert(
+                    title: Text("Correct!"),
+                    message: Text(viewModel.hintMessage),
+                    dismissButton: .default(Text("Continue")) {
+                        if viewModel.currentPhase == .practice {
+                            viewModel.currentPhase = .challenges
+                        } else if viewModel.currentPhase == .advancedChallenges {
+                            viewModel.currentPhase = .finalChallenge
+                        } else {
+                            viewModel.currentPhase = .reward
+                        }
+                    }
+                )
+            } else {
+                Alert(
+                    title: Text("Try Again"),
+                    message: Text(viewModel.hintMessage),
+                    dismissButton: .default(Text("OK")) {
+                        viewModel.hideHint()
+                    }
+                )
+            }
+        }
+    }
+}
+
+struct CheckerboardBackground: View {
+    var body: some View {
+        Canvas { context, size in
+            let tileSize: CGFloat = 10
+            let rows = Int(size.height / tileSize)
+            let columns = Int(size.width / tileSize)
+            
+            for row in 0..<rows {
+                for col in 0..<columns {
+                    let rect = CGRect(x: CGFloat(col) * tileSize,
+                                      y: CGFloat(row) * tileSize,
+                                      width: tileSize,
+                                      height: tileSize)
+                    
+                    context.fill(Path(rect), with: .color((row + col).isMultiple(of: 2) ? .white : .gray.opacity(0.3)))
+                }
+            }
+        }
+        .frame(width: 150, height: 150)
+    }
+}
+
+struct ColorSlider: View {
+    @Binding var value: Double
+    var color: Color
+    
+    var body: some View {
+        HStack {
+            Circle()
+                .fill(color)
+                .frame(width: 24, height: 24)
+            
+            Slider(value: $value)
+                .accentColor(color)
+                .frame(width: 400)
+            
+            Text(String(format: "%.0f", value * 255))
+                .frame(width: 40)
+                .font(.headline)
+        }
+        .padding()
+        .background(Color.gameGray.opacity(0.3))
+        .cornerRadius(15)
+    }
+}
+
+#Preview("Intro Phase") {
+    let viewModel = ColorGameViewModel()
+    return ColorGameView()
+        .environment(\.colorScheme, .light)
+}
+
+#Preview("Exploration Phase") {
+    let viewModel = ColorGameViewModel()
+    viewModel.currentPhase = .exploration
+    return ColorGameView(viewModel: viewModel)
+        .environment(\.colorScheme, .light)
+}
+
+#Preview("Color match") {
+    let viewModel = ColorGameViewModel()
+    viewModel.currentPhase = .practice
+    return ColorGameView(viewModel: viewModel)
+        .environment(\.colorScheme, .light)
+}
+
+#Preview("Opacity match") {
+    let viewModel = ColorGameViewModel()
+    viewModel.currentPhase = .practice
+    return ColorGameView(viewModel: viewModel)
+        .environment(\.colorScheme, .light)
+}
+
+#Preview("Advanced Challenges Phase") {
+    let viewModel = ColorGameViewModel()
+    viewModel.currentPhase = .advancedChallenges
+    return ColorGameView(viewModel: viewModel)
+        .environment(\.colorScheme, .light)
+}
+
+#Preview("Final Challenge Phase") {
+    let viewModel = ColorGameViewModel()
+    viewModel.currentPhase = .finalChallenge
+    return ColorGameView(viewModel: viewModel)
+        .environment(\.colorScheme, .light)
+}
+
+#Preview("Review Phase") {
+    let viewModel = ColorGameViewModel()
+    viewModel.currentPhase = .review
+    return ColorGameView(viewModel: viewModel)
+        .environment(\.colorScheme, .light)
+}
+
+#Preview("Reward Phase") {
+    let viewModel = ColorGameViewModel()
+    viewModel.currentPhase = .reward
+    return ColorGameView(viewModel: viewModel)
+        .environment(\.colorScheme, .light)
 }

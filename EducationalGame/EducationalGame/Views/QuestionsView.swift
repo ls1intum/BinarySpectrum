@@ -1,8 +1,15 @@
 import SwiftUI
 
 struct QuestionsView: View {
-    @State var viewModel: QuestionsViewModel
+    var questions: [Question]
+    @StateObject var viewModel: QuestionsViewModel
     @Binding var currentPhase: GamePhase
+    
+    init(questions: [Question], currentPhase: Binding<GamePhase>) {
+        self.questions = questions
+        self._currentPhase = currentPhase
+        self._viewModel = StateObject(wrappedValue: QuestionsViewModel(questions: questions))
+    }
     
     var body: some View {
         VStack {
@@ -119,5 +126,5 @@ struct QuestionsView: View {
             correctAnswer: 2
         )
     ]
-    QuestionsView(viewModel: QuestionsViewModel(questions: sampleQuestions), currentPhase: $previewPhase)
+    return QuestionsView(questions: sampleQuestions, currentPhase: $previewPhase)
 }

@@ -2,24 +2,17 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject var userViewModel: UserViewModel
+    @State private var selectedGame: MiniGame? // Track selected game
     
     var body: some View {
-        ZStack {
+        VStack {
             TopBarView(title: "Educational Game", leftIcon: "gear")
             
             VStack(spacing: 40) {
                 Spacer()
-                HStack(spacing: 20) {
-                    NavigationLink(destination: BinaryGameView()) {
-                        GameButtonView(color: .gameRed, icon: "number", title: "Binary Game")
-                    }
-                    
-                    NavigationLink(destination: PixelGameView()) {
-                        GameButtonView(color: .gameGreen, icon: "photo.on.rectangle", title: "Pixel Game")
-                    }
-                    
-                    NavigationLink(destination: ColorGameView()) {
-                        GameButtonView(color: .gameBlue, icon: "paintpalette", title: "Color Game")
+                HStack(spacing: 30) {
+                    ForEach(GameConstants.miniGames) { game in
+                        GameButtonView(gameId: game.id, color: game.color, icon: game.icon, title: game.name, destination: game.view)
                     }
                 }
                 

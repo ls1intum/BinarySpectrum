@@ -1,10 +1,10 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "%lld" : {
+    "" : {
 
     },
-    "<explain how to write the number 5 in binary>" : {
+    "%lld" : {
 
     },
     "✅ Great job! %lld in binary is %@" : {
@@ -16,12 +16,6 @@
           }
         }
       }
-    },
-    "🎨 RGB Color Encoder" : {
-
-    },
-    "💡 Convert Binary to Decimal!" : {
-
     },
     "Achievements" : {
       "localizations" : {
@@ -36,31 +30,22 @@
     "Binary Game" : {
 
     },
-    "Blue: %lld" : {
-
-    },
-    "Check" : {
-
-    },
     "Check Answer" : {
 
     },
     "Color Game" : {
 
     },
-    "Colors Game" : {
+    "Congratulations" : {
+
+    },
+    "Continue" : {
+
+    },
+    "Decode the image. Remember: if a pixel is 1, turn it black. If it's 0, leave it white. Selecting wrong pixels decreases progress!" : {
 
     },
     "Educational Game" : {
-
-    },
-    "game explanation" : {
-
-    },
-    "Green: %lld" : {
-
-    },
-    "Hex Code: %@" : {
 
     },
     "More Features" : {
@@ -76,7 +61,7 @@
     "Pixel Game" : {
 
     },
-    "Red: %lld" : {
+    "Progress" : {
 
     },
     "Settings" : {
@@ -95,7 +80,23 @@
         }
       }
     },
-    "Tap the circles to toggle between 0 and 1. The number on the right updates automatically!" : {
+    "Step %lld: Set bit %lld to %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Step %1$lld: Set bit %2$lld to %3$@"
+          }
+        }
+      }
+    },
+    "Tap the circles to toggle between 0 and 1. Your goal is to represent %lld in binary." : {
+
+    },
+    "Try Again" : {
+
+    },
+    "Try out mixing the Red, Green and Blue values to make a color" : {
 
     }
   },

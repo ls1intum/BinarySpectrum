@@ -14,7 +14,8 @@ extension Color {
 }
 
 struct GameTheme {
-    static let titleFont = Font.custom("Poppins-Medium", size: 24)
-    static let bodyFont = Font.custom("Poppins-Medium", size: 18)
+    static let titleFont = Font.custom("Poppins-Medium", size: 36)
+    static let subtitleFont = Font.custom("Poppins-Medium", size: 24)
+    static let bodyFont = Font.custom("Poppins-Medium", size: 19)
     static let buttonFont = Font.custom("Poppins-Medium", size: 20)
 }
