@@ -257,9 +257,9 @@ struct ColorAlphaChallenge: View {
                 // Grid of squares
                 VStack {
                     VStack(spacing: 2) {
-                        ForEach(0..<4, id: \.self) { row in
+                        ForEach(0..<min(viewModel.alphaGrid.count, 4), id: \.self) { row in
                             HStack(spacing: 2) {
-                                ForEach(0..<4, id: \.self) { col in
+                                ForEach(0..<min(viewModel.alphaGrid[row].count, 4), id: \.self) { col in
                                     let square = viewModel.alphaGrid[row][col]
                                     ZStack {
                                         Rectangle()
@@ -440,6 +440,8 @@ struct ColorGameControls: View {
                     dismissButton: .default(Text("Continue")) {
                         if viewModel.currentPhase == .practice {
                             viewModel.currentPhase = .challenges
+                        } else if viewModel.currentPhase == .advancedChallenges {
+                            viewModel.currentPhase = .finalChallenge
                         } else {
                             viewModel.currentPhase = .reward
                         }

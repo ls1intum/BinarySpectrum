@@ -219,9 +219,9 @@ import SwiftUI
         UIColor(targetColor).getRed(&targetRed, green: &targetGreen, blue: &targetBlue, alpha: nil)
         
         return String(format: "#%02X%02X%02X",
-                     Int(targetRed * 255),
-                     Int(targetGreen * 255),
-                     Int(targetBlue * 255))
+                      Int(targetRed * 255),
+                      Int(targetGreen * 255),
+                      Int(targetBlue * 255))
     }
     
     // Helper properties for hints
@@ -249,28 +249,20 @@ import SwiftUI
         currentWord = hiddenWords.randomElement() ?? "SWIFT"
         alphaGrid = []
         
-        // Create a 4x4 grid
+        let wordArray = Array(currentWord)
+
         for row in 0..<4 {
             var rowSquares: [AlphaSquare] = []
             for col in 0..<4 {
                 let index = row * 4 + col
-                if index < currentWord.count {
-                    // Place a letter with random base alpha
-                    rowSquares.append(AlphaSquare(
-                        baseAlpha: Double.random(in: 0.3...0.7),
-                        letter: String(currentWord[currentWord.index(currentWord.startIndex, offsetBy: index)])
-                    ))
-                } else {
-                    // Empty square with random alpha
-                    rowSquares.append(AlphaSquare(
-                        baseAlpha: Double.random(in: 0.1...0.4),
-                        letter: ""
-                    ))
-                }
+                let letter = index < wordArray.count ? String(wordArray[index]) : ""
+                let baseAlpha = letter.isEmpty ? Double.random(in: 0.1...0.4) : Double.random(in: 0.3...0.7)
+        
+                rowSquares.append(AlphaSquare(baseAlpha: baseAlpha, letter: letter))
             }
             alphaGrid.append(rowSquares)
         }
-        
+
         // Reset state
         opacityValue = 0.5
         userAnswer = ""
