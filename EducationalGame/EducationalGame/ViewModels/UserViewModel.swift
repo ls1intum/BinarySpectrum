@@ -8,12 +8,7 @@ class UserViewModel: ObservableObject {
 
     init() {
         // Load progress from storage or start fresh
-        self.userProgress = UserProgressModel(
-            completedMiniGames: [:],
-            totalScore: 0,
-            achievements: [],
-            experienceLevel: .novice
-        )
+        self.userProgress = UserProgressModel()
     }
 
     func completeMiniGame(_ gameName: String, score: Int) {

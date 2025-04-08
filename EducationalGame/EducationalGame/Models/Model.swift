@@ -21,4 +21,5 @@ struct Question {
     let question: String
     let alternatives: [Int: String]
     let correctAnswer: Int
+    let explanation: String
 }

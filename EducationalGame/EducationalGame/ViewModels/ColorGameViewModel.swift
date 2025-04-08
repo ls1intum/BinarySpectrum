@@ -26,6 +26,7 @@ import SwiftUI
     struct AlphaSquare {
         let baseAlpha: Double
         let letter: String
+        let increasesOpacity: Bool
     }
     
     // Challenge properties
@@ -69,7 +70,8 @@ import SwiftUI
                 2: "Red, Green, Blue",
                 3: "Rainbow Gradient Blend"
             ],
-            correctAnswer: 2
+            correctAnswer: 2,
+            explanation: "RGB stands for Red, Green, Blue - the three primary colors of light that computers use to create all other colors. This is different from traditional color mixing where the primary colors are Red, Yellow, and Blue."
         ),
         Question(
             question: "What color do you get when you mix Red and Blue at maximum values?",
@@ -78,7 +80,8 @@ import SwiftUI
                 2: "Brown",
                 3: "Orange"
             ],
-            correctAnswer: 1
+            correctAnswer: 1,
+            explanation: "When you mix Red and Blue light at full intensity, you get Purple (or Magenta). This is because light colors mix additively, meaning they combine to create brighter colors rather than darker ones like paint would."
         ),
         Question(
             question: "What happens when you mix all RGB colors at maximum values?",
@@ -87,7 +90,28 @@ import SwiftUI
                 2: "Gray",
                 3: "White"
             ],
-            correctAnswer: 3
+            correctAnswer: 3,
+            explanation: "When you mix Red, Green, and Blue light at maximum values, you get White. This is because white light contains all colors of the visible spectrum. This is different from mixing paints, where combining all colors would give you black or brown."
+        ),
+        Question(
+            question: "What is the range of values for each RGB component?",
+            alternatives: [
+                1: "0 to 100",
+                2: "0 to 255",
+                3: "0 to 360"
+            ],
+            correctAnswer: 2,
+            explanation: "Each RGB component (Red, Green, Blue) can have a value from 0 to 255. This gives us 256 possible values per color, allowing for over 16 million possible color combinations (256 x 256 x 256)."
+        ),
+        Question(
+            question: "What does opacity (alpha) control in digital colors?",
+            alternatives: [
+                1: "The brightness of the color",
+                2: "How transparent the color is",
+                3: "The saturation of the color"
+            ],
+            correctAnswer: 2,
+            explanation: "Opacity (or alpha) controls how transparent a color is. A value of 1.0 means the color is completely solid, while 0.0 means it's completely transparent. Values between 0 and 1 create semi-transparent effects."
         )
     ]
     
@@ -257,8 +281,9 @@ import SwiftUI
                 let index = row * 4 + col
                 let letter = index < wordArray.count ? String(wordArray[index]) : ""
                 let baseAlpha = letter.isEmpty ? Double.random(in: 0.1...0.4) : Double.random(in: 0.3...0.7)
+                let increasesOpacity = Bool.random()
         
-                rowSquares.append(AlphaSquare(baseAlpha: baseAlpha, letter: letter))
+                rowSquares.append(AlphaSquare(baseAlpha: baseAlpha, letter: letter, increasesOpacity: increasesOpacity))
             }
             alphaGrid.append(rowSquares)
         }

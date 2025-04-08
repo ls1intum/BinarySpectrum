@@ -25,14 +25,24 @@ import SwiftUICore
     
     let introQuestions: [Question] = [
         Question(
-            question: "In binary image encoding, what does a '1' usually represent?",
-            alternatives: [1: "White pixel", 2: "Black pixel", 3: "Transparent pixel"],
-            correctAnswer: 2
+            question: "What is the main advantage of using binary (black and white) images?",
+            alternatives: [
+                1: "They are more colorful",
+                2: "They require less storage space",
+                3: "They are easier to create"
+            ],
+            correctAnswer: 2,
+            explanation: "Binary images use only 1 bit per pixel (0 or 1), making them very efficient in terms of storage space compared to color images."
         ),
         Question(
-            question: "What will happen if you select a wrong pixel in this game?",
-            alternatives: [1: "Nothing", 2: "Your progress increases", 3: "Your progress decreases"],
-            correctAnswer: 3
+            question: "What type of images are often represented using binary patterns?",
+            alternatives: [
+                1: "Photographs",
+                2: "Simple icons and symbols",
+                3: "Gradient images"
+            ],
+            correctAnswer: 2,
+            explanation: "Binary patterns are commonly used for simple icons, symbols, and basic shapes where only black and white are needed."
         )
     ]
     

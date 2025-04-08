@@ -223,6 +223,7 @@ struct OpacityChallenge: View {
 
 struct ColorAlphaChallenge: View {
     @ObservedObject var viewModel: ColorGameViewModel
+    @State private var rotationAngle: Double = 0
     
     var body: some View {
         VStack(spacing: 20) {
@@ -234,24 +235,23 @@ struct ColorAlphaChallenge: View {
                     ZStack {
                         Circle()
                             .fill(Color.red.opacity(0.6))
-                            .frame(width: 120, height: 120)
+                            .frame(width: 200, height: 200)
                         
                         Circle()
                             .fill(Color.red.opacity(0.8))
-                            .frame(width: 30, height: 30)
-                            .offset(x: 20, y: -20)
+                            .frame(width: 50, height: 50)
+                            .offset(x: 35, y: -35)
+                            .rotationEffect(.degrees(rotationAngle))
                     }
                     .gesture(
                         DragGesture(minimumDistance: 0)
                             .onChanged { value in
-                                let height = 120.0
+                                let height = 200.0
                                 let touchY = value.location.y
                                 viewModel.opacityValue = max(0, min(1, touchY / height))
+                                rotationAngle = viewModel.opacityValue * 180 // Reduced rotation range
                             }
                     )
-                    
-                    Text("Opacity: \(Int(viewModel.opacityValue * 100))%")
-                        .padding(.top, 8)
                 }
                 
                 // Grid of squares
@@ -261,16 +261,16 @@ struct ColorAlphaChallenge: View {
                             HStack(spacing: 2) {
                                 ForEach(0..<min(viewModel.alphaGrid[row].count, 4), id: \.self) { col in
                                     let square = viewModel.alphaGrid[row][col]
+                                    let squareOpacity = square.baseAlpha * (square.increasesOpacity ? viewModel.opacityValue : (1 - viewModel.opacityValue))
                                     ZStack {
                                         Rectangle()
-                                            .fill(Color.blue.opacity(square.baseAlpha * viewModel.opacityValue))
+                                            .fill(Color.blue.opacity(squareOpacity))
                                             .frame(width: 60, height: 60)
                                         
                                         if !square.letter.isEmpty {
                                             Text(square.letter)
                                                 .font(.system(size: 24, weight: .bold))
-                                                .foregroundColor(.white)
-                                                .opacity(viewModel.opacityValue > 0.7 ? 1.0 : 0.0)
+                                                .foregroundColor(.blue.opacity(0.8)) // Fixed opacity for letters
                                         }
                                     }
                                 }
@@ -284,7 +284,7 @@ struct ColorAlphaChallenge: View {
             .padding()
             
             // Answer field
-            VStack(spacing: 12) {
+            HStack(spacing: 12) {
                 TextField("Enter your answer", text: $viewModel.userAnswer)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .font(.title2)
@@ -323,20 +323,6 @@ struct ColorAlphaChallenge: View {
             }
             
             Spacer()
-            
-            // Instructions
-            VStack(alignment: .leading, spacing: 8) {
-                Text("Instructions:")
-                    .font(.headline)
-                Text("1. Adjust the opacity using the red circle")
-                Text("2. Find the hidden letters when opacity changes")
-                Text("3. Guess the hidden word and type it below")
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding()
-            .background(Color.gray.opacity(0.1))
-            .cornerRadius(10)
-            .padding(.horizontal)
         }
         .padding()
         .onAppear {

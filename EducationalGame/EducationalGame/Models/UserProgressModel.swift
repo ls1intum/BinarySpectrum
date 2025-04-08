@@ -1,3 +1,4 @@
+import Foundation
 enum ExperienceLevel: String, Codable {
     case novice
     case advanced
@@ -79,13 +80,20 @@ enum GamePhase: String, CaseIterable {
     }
 }
 
-struct UserProgressModel: Codable {
+@Observable class UserProgressModel: ObservableObject {
     var completedMiniGames: [String: Bool]
     var totalScore: Int
     var achievements: [String]
     var experienceLevel: ExperienceLevel
     
-    mutating func completeGame(_ gameName: String, score: Int) {
+    init() {
+        self.completedMiniGames = [:]
+        self.totalScore = 0
+        self.achievements = []
+        self.experienceLevel = .novice
+    }
+    
+    func completeGame(_ gameName: String, score: Int) {
         completedMiniGames[gameName] = true
         totalScore += score
         achievements.append("Completed \(gameName)!")

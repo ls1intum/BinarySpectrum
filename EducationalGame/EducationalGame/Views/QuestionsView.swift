@@ -4,6 +4,7 @@ struct QuestionsView: View {
     var questions: [Question]
     @StateObject var viewModel: QuestionsViewModel
     @Binding var currentPhase: GamePhase
+    @EnvironmentObject var userProgress: UserProgressModel
     
     init(questions: [Question], currentPhase: Binding<GamePhase>) {
         self.questions = questions
@@ -29,12 +30,7 @@ struct QuestionsView: View {
                         .foregroundColor(.gameDarkBlue)
                         .padding(40)
                         .frame(width: 600, alignment: .leading)
-                        .onAppear {
-                            // Example animation on appearance
-                            withAnimation(.easeIn(duration: 1.0)) {
-                                // Optionally add some animation on appearance
-                            }
-                        }
+                    
                     VStack(spacing: 15) {
                         // Map numeric alternative keys (1-4) to lettered options (A-D)
                         let letters = ["A", "B", "C", "D"]
@@ -47,16 +43,20 @@ struct QuestionsView: View {
                             HStack {
                                 // Letter Button (A, B, C, D)
                                 Button(action: {
-                                    // Track the selected answer
                                     viewModel.selectAnswer(alternativeID)
                                 }) {
                                     Text(letter)
                                         .font(GameTheme.buttonFont)
                                         .frame(width: 50, height: 50)
-                                        .background(viewModel.selectedAnswers[viewModel.currentQuestionIndex] == alternativeID ? Color.blue : Color.gray)
+                                        .background(
+                                            viewModel.selectedAnswers[viewModel.currentQuestionIndex] == alternativeID ?
+                                            (viewModel.isAnswerCorrect ? Color.green : Color.red) :
+                                            Color.gray
+                                        )
                                         .foregroundColor(.white)
                                         .clipShape(Circle())
                                 }
+                                .disabled(viewModel.showExplanation)
                                 
                                 // Alternative Text
                                 Text(viewModel.questions[viewModel.currentQuestionIndex].alternatives[alternativeID] ?? "")
@@ -68,14 +68,31 @@ struct QuestionsView: View {
                                     .background(Color.gray.opacity(0.2))
                                     .cornerRadius(10)
                             }
-                            .frame(width: 500) // Ensures everything is aligned properly
+                            .frame(width: 500)
                             .padding(.horizontal, 20)
                         }
                     }
+                    
+                    if viewModel.showExplanation {
+                        VStack(alignment: .leading, spacing: 10) {
+                            Text(viewModel.isAnswerCorrect ? "Correct! 🎉" : "Not quite right 😕")
+                                .font(.headline)
+                                .foregroundColor(viewModel.isAnswerCorrect ? .green : .red)
+                            
+                            Text(viewModel.currentExplanation)
+                                .font(.body)
+                                .foregroundColor(.gameDarkBlue)
+                                .padding(.vertical, 5)
+                        }
+                        .padding()
+                        .background(Color.white.opacity(0.8))
+                        .cornerRadius(10)
+                        .padding(.top, 20)
+                    }
                 }
                 
-                // Character Icon (can be customized)
-                Image(systemName: "questionmark.circle.fill") // Placeholder character icon
+                // Character Icon
+                Image(systemName: "questionmark.circle.fill")
                     .resizable()
                     .scaledToFit()
                     .frame(width: 250, height: 250)
@@ -85,22 +102,32 @@ struct QuestionsView: View {
             }
             
             Spacer()
-                       
-            // Next Button to advance to next question
+            
+            // Progress and Next Button
             HStack {
+                // Progress Indicator
+                Text("\(viewModel.currentQuestionIndex + 1) of \(viewModel.questions.count)")
+                    .font(.headline)
+                    .foregroundColor(.gray)
+                
                 Spacer()
                 
+                // Next Button
                 AnimatedCircleButton(
                     iconName: viewModel.currentQuestionIndex < viewModel.questions.count - 1 ? "arrow.right.circle.fill" : "checkmark.circle.fill",
                     color: .gameLightBlue,
                     action: {
                         if viewModel.nextQuestion() {
-                            currentPhase.next() // Move to next game phase if last question
+                            // Save progress and move to next phase
+                            userProgress.completeGame("Questions", score: Int(viewModel.getProgress() * 100))
+                            currentPhase.next()
                         }
                     }
                 )
                 .padding()
+                .disabled(!viewModel.showExplanation)
             }
+            .padding(.horizontal)
         }
         .frame(maxHeight: .infinity, alignment: .center)
         .ignoresSafeArea()
@@ -113,18 +140,16 @@ struct QuestionsView: View {
         Question(
             question: "What is the capital of France?",
             alternatives: [1: "Berlin", 2: "Madrid", 3: "Paris", 4: "Rome"],
-            correctAnswer: 3
+            correctAnswer: 3,
+            explanation: "Paris is the capital and most populous city of France. It's known as the 'City of Light' and is famous for its art, fashion, and culture."
         ),
         Question(
             question: "Which planet is closest to the Sun?",
             alternatives: [1: "Earth", 2: "Venus", 3: "Mercury", 4: "Mars"],
-            correctAnswer: 3
-        ),
-        Question(
-            question: "Who developed the theory of relativity?",
-            alternatives: [1: "Isaac Newton", 2: "Albert Einstein", 3: "Marie Curie", 4: "Nikola Tesla"],
-            correctAnswer: 2
+            correctAnswer: 3,
+            explanation: "Mercury is the smallest and innermost planet in the Solar System. It's only about 36 million miles from the Sun."
         )
     ]
     return QuestionsView(questions: sampleQuestions, currentPhase: $previewPhase)
+        .environmentObject(UserProgressModel())
 }
