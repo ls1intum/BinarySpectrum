@@ -10,6 +10,18 @@ import SwiftUICore
     var hintMessage: String = ""
     var isCorrect: Bool = false
     
+    // RLE Challenge
+    var rleCode: String = """
+    W2B4W2
+    W1B6W1
+    B2W1B2W1B2
+    B2W1B2W1B2
+    B8
+    B2W1B2W1B2
+    W1B2W2B2W1
+    W2B4W2
+    """
+    
     // Game Config
     let gridSize = 8
     let cellSize: CGFloat = 30
@@ -22,6 +34,23 @@ import SwiftUICore
         "Each '1' represents a black pixel, and each '0' represents a white pixel.",
         "Your job is to create the correct image by turning pixels black or white."
     ]
+    
+    let rleDialogue = [
+        "Right now, we're writing every pixel one by one, but that takes too much space! 🤯",
+        "Instead of writing 000011110000, we can just say '4 white, 4 black, 4 white' – much shorter! 📏"
+    ]
+    
+    // Binary Encoding Challenge
+    let encodingChallengeGrid: Set<Int> = [
+        9, 10, 11, 12, 13, 14,  // First row of black pixels
+        17, 22,                  // Second row
+        25, 30,                  // Third row
+        33, 38,                  // Fourth row
+        41, 46,                  // Fifth row
+        49, 50, 51, 52, 53, 54  // Last row of black pixels
+    ]
+    
+    var playerBinaryCode: String = ""
     
     let introQuestions: [Question] = [
         Question(
@@ -74,9 +103,9 @@ import SwiftUICore
             for (colIndex, char) in row.enumerated() {
                 let cellIndex = rowIndex * gridSize + colIndex
                 if char == "1" {
-                    correctCells.insert(cellIndex)  // Cells that should be black
+                    correctCells.insert(cellIndex) // Cells that should be black
                 } else {
-                    whiteCells.insert(cellIndex)    // Cells that should be white
+                    whiteCells.insert(cellIndex) // Cells that should be white
                 }
             }
         }
@@ -116,6 +145,46 @@ import SwiftUICore
         progress = max(0.0, min(1.0, correctPercentage - penalty))
     }
     
+    func checkBinaryEncoding() {
+        // Convert the challenge grid to binary string
+        let correctBinary = convertGridToBinary(encodingChallengeGrid)
+        
+        // Normalize both strings (remove spaces and newlines)
+        let normalizedPlayerCode = playerBinaryCode.replacingOccurrences(of: " ", with: "").replacingOccurrences(of: "\n", with: "")
+        let normalizedCorrectCode = correctBinary.replacingOccurrences(of: " ", with: "").replacingOccurrences(of: "\n", with: "")
+        
+        isCorrect = normalizedPlayerCode == normalizedCorrectCode
+        
+        if isCorrect {
+            hintMessage = "Perfect! You've successfully encoded the image in binary!"
+            progress = 1.0
+            currentPhase = .tutorial // Move to RLE tutorial
+        } else {
+            if normalizedPlayerCode.count == normalizedCorrectCode.count {
+                hintMessage = "Almost there! Check your 1's and 0's carefully."
+            } else {
+                hintMessage = "The length of your code doesn't match. Remember: 8 bits per row!"
+            }
+        }
+        
+        hintShown = true
+    }
+    
+    private func convertGridToBinary(_ grid: Set<Int>) -> String {
+        var binaryString = ""
+        
+        for row in 0..<gridSize {
+            var rowString = ""
+            for col in 0..<gridSize {
+                let index = row * gridSize + col
+                rowString += grid.contains(index) ? "1" : "0"
+            }
+            binaryString += rowString + "\n"
+        }
+        
+        return binaryString.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+    
     func checkAnswer() {
         // The answer is correct when all and only the correct cells are black
         let allCorrectBlack = correctCells.isSubset(of: blackCells)
@@ -126,6 +195,7 @@ import SwiftUICore
         if isCorrect {
             hintMessage = "Perfect! You've successfully decoded the image!"
             progress = 1.0
+            currentPhase = .exploration // Move to binary encoding challenge
         } else {
             if progress > 0.8 {
                 hintMessage = "You're very close! Just a few more adjustments needed."
@@ -141,6 +211,63 @@ import SwiftUICore
     
     func hideHint() {
         hintShown = false
+    }
+    
+    func checkRLEAnswer() {
+        // Convert the current grid state to RLE format
+        let currentRLE = convertGridToRLE()
+        
+        // Compare with the target RLE
+        isCorrect = currentRLE == rleCode
+        
+        if isCorrect {
+            hintMessage = "Perfect! You've successfully decoded the RLE image!"
+            progress = 1.0
+            currentPhase = .reward
+        } else {
+            if progress > 0.8 {
+                hintMessage = "You're very close! Just a few more adjustments needed."
+            } else if progress > 0.5 {
+                hintMessage = "Good progress, but there are still errors in your solution."
+            } else {
+                hintMessage = "Keep trying! Remember: W means white pixels, B means black pixels, and the number tells you how many!"
+            }
+        }
+        
+        hintShown = true
+    }
+    
+    private func convertGridToRLE() -> String {
+        var rleLines: [String] = []
+        
+        // Process each row
+        for row in 0..<gridSize {
+            var currentLine = ""
+            var currentColor: Character = "W"
+            var count = 0
+            
+            // Process each column in the row
+            for col in 0..<gridSize {
+                let index = row * gridSize + col
+                let isBlack = blackCells.contains(index)
+                let color: Character = isBlack ? "B" : "W"
+                
+                if color == currentColor {
+                    count += 1
+                } else {
+                    // Add the previous run to the line
+                    currentLine += "\(currentColor)\(count)"
+                    currentColor = color
+                    count = 1
+                }
+            }
+            
+            // Add the last run of the line
+            currentLine += "\(currentColor)\(count)"
+            rleLines.append(currentLine)
+        }
+        
+        return rleLines.joined(separator: "\n")
     }
     
     func resetGame() {
