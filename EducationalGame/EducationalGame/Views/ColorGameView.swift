@@ -424,13 +424,7 @@ struct ColorGameControls: View {
                     title: Text("Correct!"),
                     message: Text(viewModel.hintMessage),
                     dismissButton: .default(Text("Continue")) {
-                        if viewModel.currentPhase == .practice {
-                            viewModel.currentPhase = .challenges
-                        } else if viewModel.currentPhase == .advancedChallenges {
-                            viewModel.currentPhase = .finalChallenge
-                        } else {
-                            viewModel.currentPhase = .reward
-                        }
+                        viewModel.currentPhase.next()
                     }
                 )
             } else {

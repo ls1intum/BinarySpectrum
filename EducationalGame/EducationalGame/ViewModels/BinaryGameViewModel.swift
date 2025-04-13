@@ -3,7 +3,11 @@ import SwiftUICore
 
 @Observable class BinaryGameViewModel: ObservableObject {
     var currentPhase = GamePhase.allCases[0]
-    let introDialogue = ["Welcome to Binary Game!", "You are a binary code detective.", "Your mission is to decode the binary code."] //TODO: improve intro texts
+    let introDialogue = ["Welcome to Binary Game!", "You are a binary code detective.", "Your mission is to decode the binary code."] // TODO: improve intro texts
+    let practiceDialogue = [
+        "Great job exploring binary numbers! Now it's time to practice what you've learned. You'll need to convert decimal numbers to binary by toggling the bits.",
+        "Remember: Each position represents a power of 2, starting from the right. Let's begin!"
+    ]
     let introQuestions: [Question] = [
         Question(
             question: "Which number system do computers use for basic operations?",
@@ -60,11 +64,11 @@ import SwiftUICore
     // Binary Learning Properties
     let digitCount: Int = 4
     var binaryDigits: [String] = Array(repeating: "0", count: 4)
-    var showHint = false
+    var showAlert = false
+    var alertMessage = ""
     var highlightCorrectBits = false
     var stepIndex = 0
-    var instructionText = LocalizedStringResource("")
-    let targetNumber: Int = Int.random(in: 3...15)
+    let targetNumber: Int = .random(in: 8...15)
     
     var decimalValue: Int {
         return Int(binaryDigits.joined(), radix: 2) ?? 0
@@ -76,36 +80,22 @@ import SwiftUICore
     
     func checkAnswer() {
         if decimalValue == targetNumber {
-            withAnimation {
-                showHint = true
-            }
+            alertMessage = "✅ Great job! \(targetNumber) in binary is \(String(targetNumber, radix: 2))"
+            showAlert = true
         } else {
-            showHint = false
-            startStepByStepExplanation()
-        }
-    }
-    
-    func startStepByStepExplanation() {
-        stepIndex = 0
-        updateInstruction()
-    }
-    
-    private func updateInstruction() {
-        guard stepIndex < digitCount else { return }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-            withAnimation {
-                self.instructionText = "Step \(self.stepIndex + 1): Set bit \(self.digitCount - self.stepIndex - 1) to \(self.targetNumberBinary[self.stepIndex])"
-                self.binaryDigits[self.stepIndex] = self.targetNumberBinary[self.stepIndex]
+            let difference = decimalValue - targetNumber
+            if difference > 0 {
+                alertMessage = "Your number is too large by \(difference). Try turning off some bits."
+            } else {
+                alertMessage = "Your number is too small by \(abs(difference)). Try turning on some bits."
             }
-            self.stepIndex += 1
-            self.updateInstruction()
+            showAlert = true
         }
     }
-
 }
+
 extension String {
     func paddingLeft(with character: Character, toLength: Int) -> String {
-        return String(repeating: String(character), count: max(0, toLength - self.count)) + self
+        return String(repeating: String(character), count: max(0, toLength - count)) + self
     }
 }

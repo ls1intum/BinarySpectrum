@@ -22,14 +22,18 @@ struct BinaryGameView: View {
                 Questions(viewModel: viewModel)
             case .exploration:
                 BinaryExplorationView(viewModel: viewModel)
-            case .challenges:
+            case .tutorial:
+                DialogueView(
+                    personaImage: GameConstants.miniGames[0].personaImage,
+                    dialogues: viewModel.practiceDialogue,
+                    currentPhase: $viewModel.currentPhase
+                )
+            case .practice:
                 BinaryLearningGame(viewModel: viewModel)
+            case .challenges:
+                Text("TODO")
             case .reward:
                 Text("Congratulations")
-            case .tutorial:
-                Text("TODO")
-            case .practice:
-                Text("TODO")
             case .advancedChallenges:
                 Text("TODO")
             case .finalChallenge:
@@ -50,65 +54,95 @@ struct Questions: View {
 
 struct BinaryLearningGame: View {
     @State var viewModel: BinaryGameViewModel
+    @State private var showAlert = false
+    @State private var isCorrect = false
     
     var body: some View {
         VStack(spacing: 20) {
-            InstructionBar(text: viewModel.instructionText == "" ? LocalizedStringResource("Tap the circles to toggle between 0 and 1. Your goal is to represent \(viewModel.targetNumber) in binary.") : viewModel.instructionText)
+            InstructionBar(text: "Tap the circles to toggle between 0 and 1. Your goal is to represent \(viewModel.targetNumber) in binary.")
             Spacer()
             
-            HStack(spacing: 16) {
-                ForEach(0..<viewModel.digitCount, id: \.self) { index in
-                    VStack {
-                        Text("\(Int(pow(2.0, Double(viewModel.digitCount - 1 - index))))")
-                            .font(.caption)
-                            .foregroundColor(.gray)
-                        
-                        Button(action: {
-                            withAnimation {
-                                viewModel.binaryDigits[index] = (viewModel.binaryDigits[index] == "0") ? "1" : "0"
+            HStack(spacing: 30) {
+                Spacer()
+                VStack {
+                    HStack(spacing: 16) {
+                        ForEach(0..<viewModel.digitCount, id: \.self) { index in
+                            VStack {
+                                Text("\(Int(pow(2.0, Double(viewModel.digitCount - 1 - index))))")
+                                    .font(.caption)
+                                    .foregroundColor(.gray)
+                                
+                                Button(action: {
+                                    withAnimation {
+                                        viewModel.binaryDigits[index] = (viewModel.binaryDigits[index] == "0") ? "1" : "0"
+                                    }
+                                }) {
+                                    Text(viewModel.binaryDigits[index])
+                                        .font(.system(size: 24, weight: .bold))
+                                        .frame(width: 75, height: 75)
+                                        .background(viewModel.binaryDigits[index] == "1" ? Color.gameRed.opacity(0.8) : Color.gameGray.opacity(0.3))
+                                        .foregroundColor(.black)
+                                        .cornerRadius(12)
+                                        .shadow(radius: 3)
+                                }
                             }
-                        }) {
-                            Text(viewModel.binaryDigits[index])
-                                .font(.system(size: 24, weight: .bold))
-                                .frame(width: 50, height: 50)
-                                .background(viewModel.binaryDigits[index] == "1" ? Color.gameRed.opacity(0.8) : Color.gameGray.opacity(0.3))
-                                .foregroundColor(.black)
-                                .cornerRadius(12)
-                                .shadow(radius: 3)
                         }
                     }
+                    
+                    Text("\(viewModel.decimalValue)")
+                        .font(GameTheme.bodyFont)
+                        .frame(width: 85, height: 85)
+                        .background(Color.gameGray.opacity(0.3))
+                        .cornerRadius(12)
                 }
+                Spacer()
+                VStack(spacing: 8) {
+                    Text("Target")
+                        .font(.caption)
+                        .foregroundColor(.gray)
+                    
+                    Text("\(viewModel.targetNumber)")
+                        .font(.system(size: 24, weight: .bold))
+                        .frame(width: 85, height: 85)
+                        .background(Color.gameLightBlue.opacity(0.8))
+                        .foregroundColor(.black)
+                        .cornerRadius(12)
+                        .shadow(radius: 3)
+                }
+                Spacer()
             }
-            
-            Text("\(viewModel.decimalValue)")
-                .font(GameTheme.bodyFont)
-                .frame(width: 80, height: 80)
-                .background(Color.gameGray.opacity(0.3))
-                .cornerRadius(12)
             
             Spacer()
             
-            Button(action: {
-                viewModel.checkAnswer()
-            }) {
-                Text("Check Answer")
-                    .font(.headline)
+            VStack {
+                Spacer()
+                HStack {
+                    Spacer()
+                
+                    AnimatedCircleButton(
+                        iconName: "checkmark.circle.fill",
+                        color: .gameLightBlue,
+                        action: {
+                            isCorrect = viewModel.decimalValue == viewModel.targetNumber
+                            viewModel.checkAnswer()
+                            showAlert = true
+                        }
+                    )
                     .padding()
-                    .frame(width: 200)
-                    .background(Color.blue)
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
-                    .shadow(radius: 5)
-            }
-            
-            if viewModel.showHint {
-                Text("✅ Great job! \(viewModel.targetNumber) in binary is \(String(viewModel.targetNumber, radix: 2))")
-                    .font(.headline)
-                    .foregroundColor(.green)
-                    .padding()
+                }
             }
         }
         .padding()
+        .alert("Result", isPresented: $showAlert) {
+            Button("OK") {
+                viewModel.showAlert = false
+                if isCorrect {
+                    viewModel.currentPhase.next()
+                }
+            }
+        } message: {
+            Text(viewModel.alertMessage)
+        }
     }
 }
 
@@ -239,20 +273,6 @@ struct BinaryExplorationView: View {
         .environment(\.colorScheme, .light)
 }
 
-#Preview("Challenges Phase") {
-    let viewModel = BinaryGameViewModel()
-    viewModel.currentPhase = .challenges
-    return BinaryGameView(viewModel: viewModel)
-        .environment(\.colorScheme, .light)
-}
-
-#Preview("Reward Phase") {
-    let viewModel = BinaryGameViewModel()
-    viewModel.currentPhase = .reward
-    return BinaryGameView(viewModel: viewModel)
-        .environment(\.colorScheme, .light)
-}
-
 #Preview("Tutorial Phase") {
     let viewModel = BinaryGameViewModel()
     viewModel.currentPhase = .tutorial
@@ -263,6 +283,20 @@ struct BinaryExplorationView: View {
 #Preview("Practice Phase") {
     let viewModel = BinaryGameViewModel()
     viewModel.currentPhase = .practice
+    return BinaryGameView(viewModel: viewModel)
+        .environment(\.colorScheme, .light)
+}
+
+#Preview("Challenges Phase") {
+    let viewModel = BinaryGameViewModel()
+    viewModel.currentPhase = .challenges
+    return BinaryGameView(viewModel: viewModel)
+        .environment(\.colorScheme, .light)
+}
+
+#Preview("Reward Phase") {
+    let viewModel = BinaryGameViewModel()
+    viewModel.currentPhase = .reward
     return BinaryGameView(viewModel: viewModel)
         .environment(\.colorScheme, .light)
 }
