@@ -7,6 +7,43 @@
     "%lld" : {
 
     },
+    "%lld of %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld of %2$lld"
+          }
+        }
+      }
+    },
+    "• 0.0 = completely transparent" : {
+
+    },
+    "• 1.0 = completely solid" : {
+
+    },
+    "• A way to represent RGB values in hexadecimal" : {
+
+    },
+    "• Controls how transparent a color is" : {
+
+    },
+    "• Each pair of characters represents one color" : {
+
+    },
+    "• Each value ranges from 0 to 255" : {
+
+    },
+    "• Example: #FF0000 = pure red" : {
+
+    },
+    "• Mixing them creates all other colors" : {
+
+    },
+    "• Red, Green, and Blue are the primary colors of light" : {
+
+    },
     "✅ Great job! %lld in binary is %@" : {
       "localizations" : {
         "en" : {
@@ -17,6 +54,12 @@
         }
       }
     },
+    "0" : {
+
+    },
+    "1" : {
+
+    },
     "Achievements" : {
       "localizations" : {
         "pt-BR" : {
@@ -26,6 +69,15 @@
           }
         }
       }
+    },
+    "Adjust the opacity to reveal the hidden message!" : {
+
+    },
+    "Attempts remaining: %lld" : {
+
+    },
+    "Binary Code" : {
+
     },
     "Binary Game" : {
 
@@ -42,10 +94,49 @@
     "Continue" : {
 
     },
+    "Continue to Reward" : {
+
+    },
+    "Correct!" : {
+
+    },
+    "Correct! 🎉" : {
+
+    },
+    "Correct! Well done! 🎉" : {
+
+    },
+    "Decode the image using Run-Length Encoding. W means white pixels, B means black pixels, and the number tells you how many!" : {
+
+    },
     "Decode the image. Remember: if a pixel is 1, turn it black. If it's 0, leave it white. Selecting wrong pixels decreases progress!" : {
 
     },
     "Educational Game" : {
+
+    },
+    "Enter your answer" : {
+
+    },
+    "Experiment with the RGB sliders to create different colors!" : {
+
+    },
+    "Explore the grid! Click pixels to toggle them between black and white, and see how the binary code changes." : {
+
+    },
+    "Final Challenge: Match the target color with limited attempts!" : {
+
+    },
+    "Hex Codes" : {
+
+    },
+    "Let's review what you've learned!" : {
+
+    },
+    "Match both the color and opacity of the target" : {
+
+    },
+    "Match the target color using the RGB sliders!" : {
 
     },
     "More Features" : {
@@ -58,10 +149,28 @@
         }
       }
     },
+    "Not quite right 😕" : {
+
+    },
+    "Now it's your turn! Write the binary code for this image. Remember: 1 for black pixels, 0 for white pixels, and 8 bits per row!" : {
+
+    },
+    "OK" : {
+
+    },
+    "Opacity" : {
+
+    },
     "Pixel Game" : {
 
     },
     "Progress" : {
+
+    },
+    "RGB Colors" : {
+
+    },
+    "RLE Code" : {
 
     },
     "Settings" : {
@@ -93,10 +202,19 @@
     "Tap the circles to toggle between 0 and 1. Your goal is to represent %lld in binary." : {
 
     },
+    "Target Color" : {
+
+    },
+    "TODO" : {
+
+    },
     "Try Again" : {
 
     },
-    "Try out mixing the Red, Green and Blue values to make a color" : {
+    "Your Binary Code" : {
+
+    },
+    "Your Color" : {
 
     }
   },
