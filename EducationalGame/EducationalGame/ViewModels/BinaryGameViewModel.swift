@@ -70,12 +70,33 @@ import SwiftUICore
     var stepIndex = 0
     let targetNumber: Int = .random(in: 8...15)
     
+    // Challenge Properties
+    let challengeDigitCount: Int = 5
+    var challengeBinaryDigits: [String] = Array(repeating: "0", count: 5)
+    let challengeTargetNumber: Int = .random(in: 16...31)
+    
+    // Advanced Challenge Properties
+    let advancedDigitCount: Int = 5
+    let advancedTargetNumber: Int = .random(in: 5...31)
+    var advancedBinaryDigits: [String] {
+        String(advancedTargetNumber, radix: 2).paddingLeft(with: "0", toLength: advancedDigitCount).map { String($0) }
+    }
+    var userDecimalAnswer: String = ""
+    
     var decimalValue: Int {
         return Int(binaryDigits.joined(), radix: 2) ?? 0
     }
     
+    var challengeDecimalValue: Int {
+        return Int(challengeBinaryDigits.joined(), radix: 2) ?? 0
+    }
+    
     var targetNumberBinary: [String] {
         String(targetNumber, radix: 2).paddingLeft(with: "0", toLength: digitCount).map { String($0) }
+    }
+    
+    var challengeTargetNumberBinary: [String] {
+        String(challengeTargetNumber, radix: 2).paddingLeft(with: "0", toLength: challengeDigitCount).map { String($0) }
     }
     
     func checkAnswer() {
@@ -88,6 +109,36 @@ import SwiftUICore
                 alertMessage = "Your number is too large by \(difference). Try turning off some bits."
             } else {
                 alertMessage = "Your number is too small by \(abs(difference)). Try turning on some bits."
+            }
+            showAlert = true
+        }
+    }
+    
+    func checkChallengeAnswer() {
+        if challengeDecimalValue == challengeTargetNumber {
+            alertMessage = "✅ Great job! \(challengeTargetNumber) in binary is \(String(challengeTargetNumber, radix: 2))"
+            showAlert = true
+        } else {
+            let difference = challengeDecimalValue - challengeTargetNumber
+            if difference > 0 {
+                alertMessage = "Your number is too large by \(difference). Try turning off some bits."
+            } else {
+                alertMessage = "Your number is too small by \(abs(difference)). Try turning on some bits."
+            }
+            showAlert = true
+        }
+    }
+    
+    func checkAdvancedAnswer() {
+        if let answer = Int(userDecimalAnswer), answer == advancedTargetNumber {
+            alertMessage = "✅ Great job! \(advancedTargetNumber) in binary is \(String(advancedTargetNumber, radix: 2))"
+            showAlert = true
+        } else {
+            let difference = (Int(userDecimalAnswer) ?? 0) - advancedTargetNumber
+            if difference > 0 {
+                alertMessage = "Your number is too large by \(difference). Try a smaller number."
+            } else {
+                alertMessage = "Your number is too small by \(abs(difference)). Try a larger number."
             }
             showAlert = true
         }

@@ -31,13 +31,13 @@ struct BinaryGameView: View {
             case .practice:
                 BinaryLearningGame(viewModel: viewModel)
             case .challenges:
+                BinaryChallengeView(viewModel: viewModel)
+            case .advancedChallenges:
+                BinaryAdvancedChallengeView(viewModel: viewModel)
+            case .finalChallenge:
                 Text("TODO")
             case .reward:
                 Text("Congratulations")
-            case .advancedChallenges:
-                Text("TODO")
-            case .finalChallenge:
-                Text("TODO")
             case .review:
                 Text("TODO")
             }
@@ -253,6 +253,183 @@ struct BinaryExplorationView: View {
     }
 }
 
+struct BinaryChallengeView: View {
+    @State var viewModel: BinaryGameViewModel
+    @State private var showAlert = false
+    @State private var isCorrect = false
+    
+    var body: some View {
+        VStack(spacing: 20) {
+            InstructionBar(text: "Now lets represent \(viewModel.challengeTargetNumber) in binary. For that we need 5 digits!")
+            Spacer()
+            
+            HStack(spacing: 30) {
+                Spacer()
+                VStack {
+                    HStack(spacing: 16) {
+                        ForEach(0..<viewModel.challengeDigitCount, id: \.self) { index in
+                            VStack {
+                                Text("\(Int(pow(2.0, Double(viewModel.challengeDigitCount - 1 - index))))")
+                                    .font(.caption)
+                                    .foregroundColor(.gray)
+                                
+                                Button(action: {
+                                    withAnimation {
+                                        viewModel.challengeBinaryDigits[index] = (viewModel.challengeBinaryDigits[index] == "0") ? "1" : "0"
+                                    }
+                                }) {
+                                    Text(viewModel.challengeBinaryDigits[index])
+                                        .font(.system(size: 24, weight: .bold))
+                                        .frame(width: 75, height: 75)
+                                        .background(viewModel.challengeBinaryDigits[index] == "1" ? Color.gameRed.opacity(0.8) : Color.gameGray.opacity(0.3))
+                                        .foregroundColor(.black)
+                                        .cornerRadius(12)
+                                        .shadow(radius: 3)
+                                }
+                            }
+                        }
+                    }
+                    
+                    Text("\(viewModel.challengeDecimalValue)")
+                        .font(GameTheme.bodyFont)
+                        .frame(width: 85, height: 85)
+                        .background(Color.gameGray.opacity(0.3))
+                        .cornerRadius(12)
+                }
+                Spacer()
+                VStack(spacing: 8) {
+                    Text("Target")
+                        .font(.caption)
+                        .foregroundColor(.gray)
+                    
+                    Text("\(viewModel.challengeTargetNumber)")
+                        .font(.system(size: 24, weight: .bold))
+                        .frame(width: 85, height: 85)
+                        .background(Color.gameLightBlue.opacity(0.8))
+                        .foregroundColor(.black)
+                        .cornerRadius(12)
+                        .shadow(radius: 3)
+                }
+                Spacer()
+            }
+            
+            Spacer()
+            
+            VStack {
+                Spacer()
+                HStack {
+                    Spacer()
+                
+                    AnimatedCircleButton(
+                        iconName: "checkmark.circle.fill",
+                        color: .gameLightBlue,
+                        action: {
+                            isCorrect = viewModel.challengeDecimalValue == viewModel.challengeTargetNumber
+                            viewModel.checkChallengeAnswer()
+                            showAlert = true
+                        }
+                    )
+                    .padding()
+                }
+            }
+        }
+        .padding()
+        .alert("Result", isPresented: $showAlert) {
+            Button("OK") {
+                viewModel.showAlert = false
+                if isCorrect {
+                    viewModel.currentPhase.next()
+                }
+            }
+        } message: {
+            Text(viewModel.alertMessage)
+        }
+    }
+}
+
+struct BinaryAdvancedChallengeView: View {
+    @State var viewModel: BinaryGameViewModel
+    @State private var showAlert = false
+    @State private var isCorrect = false
+    
+    var body: some View {
+        VStack(spacing: 20) {
+            InstructionBar(text: "Now let's convert binary to decimal! What number is represented by these binary digits?")
+            Spacer()
+            
+            HStack(spacing: 30) {
+                Spacer()
+                VStack(spacing: 8) {
+                    Text("Your Answer")
+                        .font(.caption)
+                        .foregroundColor(.gray)
+                    
+                    TextField("Enter number", text: $viewModel.userDecimalAnswer)
+                        .keyboardType(.numberPad)
+                        .font(.system(size: 24, weight: .bold))
+                        .frame(width: 85, height: 85)
+                        .background(Color.gameLightBlue.opacity(0.8))
+                        .foregroundColor(.black)
+                        .cornerRadius(12)
+                        .multilineTextAlignment(.center)
+                }
+                Spacer()
+                VStack {
+                    HStack(spacing: 16) {
+                        ForEach(0..<viewModel.advancedDigitCount, id: \.self) { index in
+                            VStack {
+                                Text("\(Int(pow(2.0, Double(viewModel.advancedDigitCount - 1 - index))))")
+                                    .font(.caption)
+                                    .foregroundColor(.gray)
+                                
+                                Text(viewModel.advancedBinaryDigits[index])
+                                    .font(.system(size: 24, weight: .bold))
+                                    .frame(width: 75, height: 75)
+                                    .background(Color.gameRed.opacity(0.8))
+                                    .foregroundColor(.black)
+                                    .cornerRadius(12)
+                                    .shadow(radius: 3)
+                            }
+                        }
+                    }
+                }
+                Spacer()
+            }
+            
+            Spacer()
+            
+            VStack {
+                Spacer()
+                HStack {
+                    Spacer()
+                
+                    AnimatedCircleButton(
+                        iconName: "checkmark.circle.fill",
+                        color: .gameLightBlue,
+                        action: {
+                            isCorrect = Int(viewModel.userDecimalAnswer) == viewModel.advancedTargetNumber
+                            viewModel.checkAdvancedAnswer()
+                            showAlert = true
+                        }
+                    )
+                    .padding()
+                }
+            }
+        }
+        .padding()
+        .alert("Result", isPresented: $showAlert) {
+            Button("OK") {
+                viewModel.showAlert = false
+                if isCorrect {
+                    viewModel.currentPhase.next()
+                }
+            }
+        } message: {
+            Text(viewModel.alertMessage)
+        }
+    }
+}
+
 #Preview("Intro Phase") {
     let viewModel = BinaryGameViewModel()
     return BinaryGameView(viewModel: viewModel)
@@ -294,13 +471,6 @@ struct BinaryExplorationView: View {
         .environment(\.colorScheme, .light)
 }
 
-#Preview("Reward Phase") {
-    let viewModel = BinaryGameViewModel()
-    viewModel.currentPhase = .reward
-    return BinaryGameView(viewModel: viewModel)
-        .environment(\.colorScheme, .light)
-}
-
 #Preview("Advanced Challenges Phase") {
     let viewModel = BinaryGameViewModel()
     viewModel.currentPhase = .advancedChallenges
@@ -311,6 +481,13 @@ struct BinaryExplorationView: View {
 #Preview("Final Challenge Phase") {
     let viewModel = BinaryGameViewModel()
     viewModel.currentPhase = .finalChallenge
+    return BinaryGameView(viewModel: viewModel)
+        .environment(\.colorScheme, .light)
+}
+
+#Preview("Reward Phase") {
+    let viewModel = BinaryGameViewModel()
+    viewModel.currentPhase = .reward
     return BinaryGameView(viewModel: viewModel)
         .environment(\.colorScheme, .light)
 }
