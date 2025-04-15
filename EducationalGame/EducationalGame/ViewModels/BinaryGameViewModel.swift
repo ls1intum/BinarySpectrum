@@ -143,6 +143,62 @@ import SwiftUICore
             showAlert = true
         }
     }
+    
+    // Final Challenge Properties
+    var birthDay: Int = 1
+    var birthMonth: Int = 1
+    var dayBinaryDigits: [String] = Array(repeating: "0", count: 5) // 1-31 requires 5 bits
+    var monthBinaryDigits: [String] = Array(repeating: "0", count: 4) // 1-12 requires 4 bits
+    
+    var dayDecimalValue: Int {
+        return Int(dayBinaryDigits.joined(), radix: 2) ?? 0
+    }
+    
+    var monthDecimalValue: Int {
+        return Int(monthBinaryDigits.joined(), radix: 2) ?? 0
+    }
+    
+    var isDayValid: Bool {
+        return dayDecimalValue >= 1 && dayDecimalValue <= 31
+    }
+    
+    var isMonthValid: Bool {
+        return monthDecimalValue >= 1 && monthDecimalValue <= 12
+    }
+    
+    var isBirthdateValid: Bool {
+        // Additional validation for days in each month
+        guard isDayValid && isMonthValid else { return false }
+        
+        // February
+        if monthDecimalValue == 2 && dayDecimalValue > 29 {
+            return false
+        }
+        // April, June, September, November (30 days)
+        if [4, 6, 9, 11].contains(monthDecimalValue) && dayDecimalValue > 30 {
+            return false
+        }
+        
+        return true
+    }
+    
+    func checkBirthdateChallenge() {
+        if isBirthdateValid {
+            birthDay = dayDecimalValue
+            birthMonth = monthDecimalValue
+            alertMessage = "✅ Great job! Your binary armband shows your birthday: \(birthMonth)/\(birthDay)"
+            showAlert = true
+        } else {
+            if !isDayValid {
+                alertMessage = "Invalid day. Days should be between 1-31."
+            } else if !isMonthValid {
+                alertMessage = "Invalid month. Months should be between 1-12."
+            } else {
+                alertMessage = "Invalid date. Please check if this date exists in the calendar."
+            }
+            showAlert = true
+        }
+    }
 }
 
 extension String {

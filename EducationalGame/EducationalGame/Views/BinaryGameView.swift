@@ -35,7 +35,7 @@ struct BinaryGameView: View {
             case .advancedChallenges:
                 BinaryAdvancedChallengeView(viewModel: viewModel)
             case .finalChallenge:
-                Text("TODO")
+                BinaryFinalChallengeView(viewModel: viewModel)
             case .reward:
                 Text("Congratulations")
             case .review:
@@ -426,6 +426,189 @@ struct BinaryAdvancedChallengeView: View {
             }
         } message: {
             Text(viewModel.alertMessage)
+        }
+    }
+}
+
+struct BinaryFinalChallengeView: View {
+    @State var viewModel: BinaryGameViewModel
+    @State private var showAlert = false
+    @State private var isCorrect = false
+    
+    var body: some View {
+        VStack(spacing: 20) {
+            InstructionBar(text: "Create your binary armband! Use binary to represent your birth month and day.")
+            
+            VStack(spacing: 25) {
+                Text("Binary Armband")
+                    .font(.title2)
+                    .bold()
+                
+                HStack(spacing: 30) {
+                    VStack(alignment: .center, spacing: 15) {
+                        Text("Month (1-12)")
+                            .font(.headline)
+                        
+                        HStack(spacing: 12) {
+                            ForEach(0..<viewModel.monthBinaryDigits.count, id: \.self) { index in
+                                VStack {
+                                    Text("\(Int(pow(2.0, Double(viewModel.monthBinaryDigits.count - 1 - index))))")
+                                        .font(.caption)
+                                        .foregroundColor(.gray)
+                                    
+                                    Button(action: {
+                                        withAnimation {
+                                            viewModel.monthBinaryDigits[index] = (viewModel.monthBinaryDigits[index] == "0") ? "1" : "0"
+                                        }
+                                    }) {
+                                        Text(viewModel.monthBinaryDigits[index])
+                                            .font(.system(size: 22, weight: .bold))
+                                            .frame(width: 50, height: 50)
+                                            .background(viewModel.monthBinaryDigits[index] == "1" ? Color.gameRed.opacity(0.8) : Color.gameGray.opacity(0.3))
+                                            .foregroundColor(.black)
+                                            .cornerRadius(10)
+                                            .shadow(radius: 2)
+                                    }
+                                }
+                            }
+                        }
+                        
+                        Text("Value: \(viewModel.monthDecimalValue)")
+                            .font(.headline)
+                            .foregroundColor(viewModel.isMonthValid ? .black : .red)
+                        
+                        if !viewModel.isMonthValid {
+                            Text("Month must be 1-12")
+                                .font(.caption)
+                                .foregroundColor(.red)
+                        }
+                    }
+                    
+                    VStack(alignment: .center, spacing: 15) {
+                        Text("Day (1-31)")
+                            .font(.headline)
+                        
+                        HStack(spacing: 12) {
+                            ForEach(0..<viewModel.dayBinaryDigits.count, id: \.self) { index in
+                                VStack {
+                                    Text("\(Int(pow(2.0, Double(viewModel.dayBinaryDigits.count - 1 - index))))")
+                                        .font(.caption)
+                                        .foregroundColor(.gray)
+                                    
+                                    Button(action: {
+                                        withAnimation {
+                                            viewModel.dayBinaryDigits[index] = (viewModel.dayBinaryDigits[index] == "0") ? "1" : "0"
+                                        }
+                                    }) {
+                                        Text(viewModel.dayBinaryDigits[index])
+                                            .font(.system(size: 22, weight: .bold))
+                                            .frame(width: 50, height: 50)
+                                            .background(viewModel.dayBinaryDigits[index] == "1" ? Color.gameRed.opacity(0.8) : Color.gameGray.opacity(0.3))
+                                            .foregroundColor(.black)
+                                            .cornerRadius(10)
+                                            .shadow(radius: 2)
+                                    }
+                                }
+                            }
+                        }
+                        
+                        Text("Value: \(viewModel.dayDecimalValue)")
+                            .font(.headline)
+                            .foregroundColor(viewModel.isDayValid ? .black : .red)
+                        
+                        if !viewModel.isDayValid {
+                            Text("Day must be 1-31")
+                                .font(.caption)
+                                .foregroundColor(.red)
+                        }
+                    }
+                }
+                
+                if viewModel.isMonthValid && viewModel.isDayValid {
+                    Text("Your birthdate in binary: \(viewModel.monthDecimalValue)/\(viewModel.dayDecimalValue)")
+                        .font(.headline)
+                        .padding(.top, 10)
+                        .foregroundColor(viewModel.isBirthdateValid ? .black : .red)
+                    
+                    if !viewModel.isBirthdateValid {
+                        Text("This date does not exist in the calendar")
+                            .font(.caption)
+                            .foregroundColor(.red)
+                    }
+                }
+            }
+            .padding()
+            .background(Color.gameGray.opacity(0.1))
+            .cornerRadius(15)
+            
+            if viewModel.isBirthdateValid {
+                BinaryArmbandView(monthBits: viewModel.monthBinaryDigits, dayBits: viewModel.dayBinaryDigits)
+                    .padding(.vertical)
+            }
+            
+            Spacer()
+            
+            VStack {
+                Spacer()
+                HStack {
+                    Spacer()
+                
+                    AnimatedCircleButton(
+                        iconName: "checkmark.circle.fill",
+                        color: .gameLightBlue,
+                        action: {
+                            isCorrect = viewModel.isBirthdateValid
+                            viewModel.checkBirthdateChallenge()
+                            showAlert = true
+                        }
+                    )
+                    .padding()
+                }
+            }
+        }
+        .padding()
+        .alert("Result", isPresented: $showAlert) {
+            Button("OK") {
+                viewModel.showAlert = false
+                if isCorrect {
+                    viewModel.currentPhase.next()
+                }
+            }
+        } message: {
+            Text(viewModel.alertMessage)
+        }
+    }
+}
+
+struct BinaryArmbandView: View {
+    let monthBits: [String]
+    let dayBits: [String]
+    
+    var body: some View {
+        VStack(spacing: 10) {
+            Text("Your Binary Armband")
+                .font(.headline)
+            
+            HStack(spacing: 2) {
+                ForEach(monthBits, id: \.self) { bit in
+                    Circle()
+                        .fill(bit == "1" ? Color.gameRed : Color.gray.opacity(0.3))
+                        .frame(width: 30, height: 30)
+                }
+                
+                Rectangle()
+                    .fill(Color.black)
+                    .frame(width: 2, height: 30)
+                
+                ForEach(dayBits, id: \.self) { bit in
+                    Circle()
+                        .fill(bit == "1" ? Color.gameRed : Color.gray.opacity(0.3))
+                        .frame(width: 30, height: 30)
+                }
+            }
+            .padding(10)
+            .background(Color.black.opacity(0.1))
+            .cornerRadius(20)
         }
     }
 }
