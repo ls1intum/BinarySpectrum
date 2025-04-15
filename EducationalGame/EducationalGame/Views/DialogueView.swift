@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct DialogueView: View {
-    let personaImage: Image
+    let personaImage: String
     let dialogues: [String]
     @Binding var currentPhase: GamePhase
     
@@ -35,7 +35,7 @@ struct DialogueView: View {
                     }
                 
                 // Character
-                personaImage
+                Image(personaImage)
                     .resizable()
                     .scaledToFit()
                     .frame(width: 250, height: 250)
@@ -72,7 +72,7 @@ struct DialogueView: View {
     @State var previewPhase = GamePhase.challenges // Sample mutable state
     
     DialogueView(
-        personaImage: Image("Persona1"),
+        personaImage: "Persona1",
         dialogues: ["hi alwhfsa", "hello"],
         currentPhase: $previewPhase // Pass as a Binding
     )

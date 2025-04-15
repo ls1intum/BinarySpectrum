@@ -19,7 +19,7 @@ struct ContentView: View {
                 // Bottom Buttons (Achievements & Another Feature)
                 HStack(spacing: 20) {
                     Button(action: {
-                        print("Achievements tapped!")
+                        navigateTo(AchievementsView())
                     }) {
                         HStack {
                             Image(systemName: "trophy.fill")

@@ -54,6 +54,8 @@ struct CircleButton: View {
             viewModel.currentView = currentView
             viewModel.currentPhase = currentPhase
             showInfoAlert = true
+        case "trophy.circle.fill":
+            navigateTo(ContentView())
         default:
             break
         }

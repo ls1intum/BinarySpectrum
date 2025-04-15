@@ -40,8 +40,10 @@ struct PixelGameView: View {
                 PixelReviewView(viewModel: viewModel)
             case .reward:
                 RewardView(
-                    message: "Congratulations! You've completed the Pixel Decoder challenge!",
-                    onContinue: { viewModel.resetGame() }
+                    message: "Incredible achievement! You've mastered binary images and Run-Length Encoding! You now understand how computers store images efficiently, from simple black-and-white patterns to complex pixel art. This knowledge is the foundation of image compression and digital graphics. You're well on your way to becoming a true computer scientist!",
+                    personaImage: GameConstants.miniGames[1].personaImage,
+                    badgeTitle: "Pixel Master! 🎖️",
+                    color: GameConstants.miniGames[1].color
                 )
             }
         }
@@ -221,44 +223,6 @@ struct PixelGameChallenge: View {
                 }
             }
         }
-    }
-}
-
-// MARK: - Reward View
-
-struct RewardView: View {
-    var message: String
-    var onContinue: () -> Void
-    
-    var body: some View {
-        VStack(spacing: 30) {
-            Image(systemName: "star.fill")
-                .resizable()
-                .frame(width: 100, height: 100)
-                .foregroundColor(.yellow)
-                .shadow(radius: 10)
-            
-            Text(message)
-                .font(.title2)
-                .multilineTextAlignment(.center)
-                .padding()
-            
-            Button(action: onContinue) {
-                Text("Continue")
-                    .font(.headline)
-                    .padding()
-                    .frame(width: 200)
-                    .background(Color.blue)
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
-                    .shadow(radius: 5)
-            }
-        }
-        .padding(40)
-        .background(Color.white)
-        .cornerRadius(20)
-        .shadow(radius: 10)
-        .padding()
     }
 }
 
