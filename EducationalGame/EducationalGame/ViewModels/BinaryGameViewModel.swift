@@ -81,6 +81,7 @@ import SwiftUICore
     var advancedBinaryDigits: [String] {
         String(advancedTargetNumber, radix: 2).paddingLeft(with: "0", toLength: advancedDigitCount).map { String($0) }
     }
+
     var userDecimalAnswer: String = ""
     
     var decimalValue: Int {
@@ -167,19 +168,10 @@ import SwiftUICore
     }
     
     var isBirthdateValid: Bool {
-        // Additional validation for days in each month
-        guard isDayValid && isMonthValid else { return false }
-        
-        // February
-        if monthDecimalValue == 2 && dayDecimalValue > 29 {
-            return false
-        }
-        // April, June, September, November (30 days)
-        if [4, 6, 9, 11].contains(monthDecimalValue) && dayDecimalValue > 30 {
-            return false
-        }
-        
-        return true
+        guard isMonthValid && isDayValid else { return false }
+        let calendar = Calendar.current
+        let components = DateComponents(year: 2000, month: monthDecimalValue, day: dayDecimalValue)
+        return calendar.date(from: components) != nil
     }
     
     func checkBirthdateChallenge() {
@@ -199,10 +191,33 @@ import SwiftUICore
             showAlert = true
         }
     }
-}
 
-extension String {
-    func paddingLeft(with character: Character, toLength: Int) -> String {
-        return String(repeating: String(character), count: max(0, toLength - count)) + self
-    }
+    // Review Cards Content
+    let reviewCards: [(title: String, content: String, example: String)] = [
+        (
+            title: "Binary Basics",
+            content: "Binary is a base-2 number system that uses only two digits: 0 and 1. Each digit is called a 'bit'.",
+            example: "101 = 1×4 + 0×2 + 1×1 = 5"
+        ),
+        (
+            title: "Powers of 2",
+            content: "Each position in a binary number represents a power of 2, starting from the right.",
+            example: "8 4 2 1\n1 0 1 0 = 10"
+        ),
+        (
+            title: "Binary to Decimal",
+            content: "To convert binary to decimal, multiply each bit by its power of 2 and add the results.",
+            example: "1101 = 1×8 + 1×4 + 0×2 + 1×1 = 13"
+        ),
+        (
+            title: "Decimal to Binary",
+            content: "To convert decimal to binary, find the largest power of 2 that fits, subtract it, and repeat.",
+            example: "11 = 8 + 2 + 1 = 1011"
+        ),
+        (
+            title: "Binary Armband",
+            content: "You can represent dates in binary! Your armband shows your birthdate in binary form.",
+            example: "Month: 4 bits (1-12)\nDay: 5 bits (1-31)"
+        )
+    ]
 }

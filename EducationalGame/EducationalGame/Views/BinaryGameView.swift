@@ -36,10 +36,10 @@ struct BinaryGameView: View {
                 BinaryAdvancedChallengeView(viewModel: viewModel)
             case .finalChallenge:
                 BinaryFinalChallengeView(viewModel: viewModel)
+            case .review:
+                BinaryReviewView(viewModel: viewModel)
             case .reward:
                 Text("Congratulations")
-            case .review:
-                Text("TODO")
             }
         }
     }
@@ -613,6 +613,47 @@ struct BinaryArmbandView: View {
     }
 }
 
+struct BinaryReviewView: View {
+    @State var viewModel: BinaryGameViewModel
+    
+    var body: some View {
+        VStack(spacing: 20) {
+            InstructionBar(text: "Let's review what you've learned about binary numbers! Scroll down.")
+            
+            ScrollView {
+                VStack(spacing: 25) {
+                    ForEach(viewModel.reviewCards, id: \.title) { card in
+                        ReviewCard(
+                            title: card.title,
+                            content: card.content,
+                            example: card.example,
+                            titleColor: GameConstants.miniGames[0].color
+                        )
+                    }
+                }
+                .padding()
+            }
+            .frame(maxHeight: .infinity)
+            
+            VStack {
+                HStack {
+                    Spacer()
+                
+                    AnimatedCircleButton(
+                        iconName: "arrow.right.circle.fill",
+                        color: .gameLightBlue,
+                        action: {
+                            viewModel.currentPhase.next()
+                        }
+                    )
+                    .padding()
+                }
+            }
+        }
+        .padding()
+    }
+}
+
 #Preview("Intro Phase") {
     let viewModel = BinaryGameViewModel()
     return BinaryGameView(viewModel: viewModel)
@@ -668,16 +709,16 @@ struct BinaryArmbandView: View {
         .environment(\.colorScheme, .light)
 }
 
-#Preview("Reward Phase") {
+#Preview("Review Phase") {
     let viewModel = BinaryGameViewModel()
-    viewModel.currentPhase = .reward
+    viewModel.currentPhase = .review
     return BinaryGameView(viewModel: viewModel)
         .environment(\.colorScheme, .light)
 }
 
-#Preview("Review Phase") {
+#Preview("Reward Phase") {
     let viewModel = BinaryGameViewModel()
-    viewModel.currentPhase = .review
+    viewModel.currentPhase = .reward
     return BinaryGameView(viewModel: viewModel)
         .environment(\.colorScheme, .light)
 }

@@ -42,12 +42,12 @@ import SwiftUICore
     
     // Binary Encoding Challenge
     let encodingChallengeGrid: Set<Int> = [
-        9, 10, 11, 12, 13, 14,  // First row of black pixels
-        17, 22,                  // Second row
-        25, 30,                  // Third row
-        33, 38,                  // Fourth row
-        41, 46,                  // Fifth row
-        49, 50, 51, 52, 53, 54  // Last row of black pixels
+        9, 10, 11, 12, 13, 14, // First row of black pixels
+        17, 22, // Second row
+        25, 30, // Third row
+        33, 38, // Fourth row
+        41, 46, // Fifth row
+        49, 50, 51, 52, 53, 54 // Last row of black pixels
     ]
     
     var playerBinaryCode: String = ""
@@ -296,4 +296,33 @@ import SwiftUICore
             .trimmingCharacters(in: .whitespacesAndNewlines)
             .replacingOccurrences(of: "\n", with: "\n ")
     }
+    
+    // Review Cards Content
+    let reviewCards: [(title: String, content: String, example: String)] = [
+        (
+            title: "Binary Images",
+            content: "Digital images are made up of tiny squares called pixels. In binary images, each pixel is either black (1) or white (0).",
+            example: "00000000\n00011000\n00111100\n01111110\n01111110\n00111100\n00011000\n00000000"
+        ),
+        (
+            title: "Binary Encoding",
+            content: "Binary encoding represents images using 1s and 0s. Each row of pixels is written as a sequence of binary digits.",
+            example: "Row 1: 00000000\nRow 2: 00011000\nRow 3: 00111100"
+        ),
+        (
+            title: "Run-Length Encoding",
+            content: "RLE is a way to compress binary images by counting consecutive pixels of the same color.",
+            example: "W2B4W2 means:\n2 white pixels\n4 black pixels\n2 white pixels"
+        ),
+        (
+            title: "Image Compression",
+            content: "Compression reduces file size by finding patterns and using shorter representations.",
+            example: "Instead of: 000011110000\nUse: W4B4W4"
+        ),
+        (
+            title: "Pixel Art",
+            content: "Binary images are perfect for pixel art and simple graphics like icons and symbols.",
+            example: "Binary patterns can create:\n• Icons\n• Emojis\n• Simple graphics"
+        )
+    ]
 }

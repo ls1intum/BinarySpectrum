@@ -8,3 +8,9 @@ func navigateTo<Destination: View>(_ destination: Destination) {
         window.makeKeyAndVisible()
     }
 }
+
+extension String {
+    func paddingLeft(with character: Character, toLength: Int) -> String {
+        return String(repeating: String(character), count: max(0, toLength - count)) + self
+    }
+}

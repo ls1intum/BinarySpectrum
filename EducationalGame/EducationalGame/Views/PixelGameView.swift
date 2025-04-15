@@ -37,7 +37,7 @@ struct PixelGameView: View {
             case .finalChallenge:
                 Text("TODO")
             case .review:
-                Text("TODO")
+                PixelReviewView(viewModel: viewModel)
             case .reward:
                 RewardView(
                     message: "Congratulations! You've completed the Pixel Decoder challenge!",
@@ -276,8 +276,6 @@ struct PixelGameExploration: View {
                 Spacer()
             
                 HStack {
-
-                
                     // Game Grid
                     ZStack {
                         Color.gray.opacity(0.2)
@@ -314,8 +312,6 @@ struct PixelGameExploration: View {
                     }
                     .frame(width: CGFloat(viewModel.gridSize) * viewModel.cellSize + CGFloat(viewModel.gridSize - 1) * 2 + 16,
                            height: CGFloat(viewModel.gridSize) * viewModel.cellSize + CGFloat(viewModel.gridSize - 1) * 2 + 16)
-                
-
                 }
                 .padding()
             
@@ -339,7 +335,6 @@ struct PixelGameExploration: View {
         }
     }
 }
-
 
 // MARK: - Exploration View
 
@@ -605,6 +600,47 @@ struct PixelGameRLEChallenge: View {
                 .padding()
             }
         }
+    }
+}
+
+struct PixelReviewView: View {
+    @ObservedObject var viewModel: PixelGameViewModel
+    
+    var body: some View {
+        VStack(spacing: 20) {
+            InstructionBar(text: "Let's review what you've learned about binary images! Scroll down.")
+            
+            ScrollView {
+                VStack(spacing: 25) {
+                    ForEach(viewModel.reviewCards, id: \.title) { card in
+                        ReviewCard(
+                            title: card.title,
+                            content: card.content,
+                            example: card.example,
+                            titleColor: GameConstants.miniGames[1].color
+                        )
+                    }
+                }
+                .padding()
+            }
+            .frame(maxHeight: .infinity)
+            
+            VStack {
+                HStack {
+                    Spacer()
+                
+                    AnimatedCircleButton(
+                        iconName: "arrow.right.circle.fill",
+                        color: .gameLightBlue,
+                        action: {
+                            viewModel.currentPhase.next()
+                        }
+                    )
+                    .padding()
+                }
+            }
+        }
+        .padding()
     }
 }
 

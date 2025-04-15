@@ -352,47 +352,36 @@ struct ColorReview: View {
     @ObservedObject var viewModel: ColorGameViewModel
     
     var body: some View {
-        VStack(spacing: 30) {
-            InstructionBar(text: "Let's review what you've learned!")
+        VStack(spacing: 20) {
+            InstructionBar(text: "Review what you've learned about colors!")
             
-            VStack(alignment: .leading, spacing: 20) {
-                Text("RGB Colors")
-                    .font(.title2)
-                    .bold()
-                Text("• Red, Green, and Blue are the primary colors of light")
-                Text("• Mixing them creates all other colors")
-                Text("• Each value ranges from 0 to 255")
-                
-                Text("Opacity")
-                    .font(.title2)
-                    .bold()
-                    .padding(.top)
-                Text("• Controls how transparent a color is")
-                Text("• 1.0 = completely solid")
-                Text("• 0.0 = completely transparent")
-                
-                Text("Hex Codes")
-                    .font(.title2)
-                    .bold()
-                    .padding(.top)
-                Text("• A way to represent RGB values in hexadecimal")
-                Text("• Each pair of characters represents one color")
-                Text("• Example: #FF0000 = pure red")
+            ScrollView {
+                VStack(spacing: 20) {
+                    ForEach(viewModel.reviewCards, id: \.title) { card in
+                        ReviewCard(
+                            title: card.title,
+                            content: card.content,
+                            example: card.example,
+                            titleColor: GameConstants.miniGames[2].color
+                        )
+                    }
+                }
+                .padding()
             }
-            .padding()
-            .background(Color.gameGray.opacity(0.3))
-            .cornerRadius(15)
             
-            Button(action: {
-                viewModel.currentPhase = .reward
-            }) {
-                Text("Continue to Reward")
-                    .font(.headline)
+            VStack {
+                HStack {
+                    Spacer()
+                
+                    AnimatedCircleButton(
+                        iconName: "arrow.right.circle.fill",
+                        color: .gameLightBlue,
+                        action: {
+                            viewModel.currentPhase.next()
+                        }
+                    )
                     .padding()
-                    .frame(width: 200)
-                    .background(Color.blue)
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
+                }
             }
         }
     }

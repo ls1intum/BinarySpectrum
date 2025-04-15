@@ -303,4 +303,33 @@ import SwiftUI
             showHint = true
         }
     }
+    
+    // Review Cards Content
+    let reviewCards: [(title: String, content: String, example: String)] = [
+        (
+            title: "RGB Colors",
+            content: "RGB stands for Red, Green, and Blue - the primary colors of light. Mixing these colors creates all other colors on digital screens.",
+            example: "Red: (255, 0, 0)\nGreen: (0, 255, 0)\nBlue: (0, 0, 255)"
+        ),
+        (
+            title: "Color Values",
+            content: "Each RGB component ranges from 0 to 255. 0 means no color, 255 means full intensity.",
+            example: "White: (255, 255, 255)\nBlack: (0, 0, 0)\nGray: (128, 128, 128)"
+        ),
+        (
+            title: "Hex Codes",
+            content: "Hexadecimal codes represent RGB values using base-16 numbers. Each pair of characters represents one color component.",
+            example: "#FF0000 = Red\n#00FF00 = Green\n#0000FF = Blue"
+        ),
+        (
+            title: "Opacity",
+            content: "Opacity (alpha) controls how transparent a color is. 1.0 is fully opaque, 0.0 is fully transparent.",
+            example: "Solid: 1.0\nSemi-transparent: 0.5\nTransparent: 0.0"
+        ),
+        (
+            title: "Color Mixing",
+            content: "Mixing RGB colors works differently than mixing paint. Adding all colors at full intensity creates white light.",
+            example: "Red + Green = Yellow\nRed + Blue = Magenta\nGreen + Blue = Cyan"
+        )
+    ]
 }
