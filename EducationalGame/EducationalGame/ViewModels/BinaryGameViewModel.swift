@@ -2,7 +2,19 @@ import Foundation
 import SwiftUICore
 
 @Observable class BinaryGameViewModel: ObservableObject {
-    var currentPhase = GamePhase.allCases[0]
+    // Current game phase
+    private var _currentPhase: GamePhase = .intro
+    var currentPhase: GamePhase {
+        get { _currentPhase }
+        set { _currentPhase = newValue }
+    }
+    
+    // Game type identifier
+    let gameType = "Binary Game"
+    
+    // For exploration view
+    var selectedNumber: Int = 0
+    
     let introDialogue = ["Welcome to Binary Game!", "You are a binary code detective.", "Your mission is to decode the binary code."] // TODO: improve intro texts
     let practiceDialogue = [
         "Great job exploring binary numbers! Now it's time to practice what you've learned. You'll need to convert decimal numbers to binary by toggling the bits.",
@@ -98,6 +110,19 @@ import SwiftUICore
     
     var challengeTargetNumberBinary: [String] {
         String(challengeTargetNumber, radix: 2).paddingLeft(with: "0", toLength: challengeDigitCount).map { String($0) }
+    }
+    
+    // Complete a game stage and advance to next phase
+    func completeGame(score: Int, percentage: Double) {
+        // Record completion using the shared userViewModel
+        sharedUserViewModel.completeMiniGame("\(gameType) - \(currentPhase.rawValue)", 
+                                      score: score, 
+                                      percentage: percentage)
+        
+        // Advance to next phase locally
+        var nextPhase = self.currentPhase
+        nextPhase.next(for: gameType)
+        self._currentPhase = nextPhase
     }
     
     func checkAnswer() {

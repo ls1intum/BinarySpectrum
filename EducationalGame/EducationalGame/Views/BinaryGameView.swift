@@ -52,8 +52,13 @@ struct BinaryGameView: View {
 
 struct Questions: View {
     @State var viewModel: BinaryGameViewModel
+    
     var body: some View {
-        QuestionsView(questions: viewModel.introQuestions, currentPhase: $viewModel.currentPhase)
+        QuestionsView(
+            questions: viewModel.introQuestions, 
+            currentPhase: $viewModel.currentPhase,
+            gameType: viewModel.gameType
+        )
     }
 }
 
@@ -142,7 +147,8 @@ struct BinaryLearningGame: View {
             Button("OK") {
                 viewModel.showAlert = false
                 if isCorrect {
-                    viewModel.currentPhase.next()
+                    // Complete this challenge and advance
+                    viewModel.completeGame(score: 100, percentage: 1.0)
                 }
             }
         } message: {
@@ -153,7 +159,6 @@ struct BinaryLearningGame: View {
 
 struct BinaryExplorationView: View {
     @State var viewModel: BinaryGameViewModel
-    @State private var selectedNumber: Int = 0
     
     var body: some View {
         VStack(spacing: 20) {
@@ -168,12 +173,12 @@ struct BinaryExplorationView: View {
                 HStack(spacing: 10) {
                     ForEach(0..<8) { number in
                         Button(action: {
-                            selectedNumber = number
+                            viewModel.selectedNumber = number
                         }) {
                             Text("\(number)")
                                 .font(.system(size: 18, weight: .medium))
                                 .frame(width: 40, height: 40)
-                                .background(selectedNumber == number ? Color.gameRed.opacity(0.8) : Color.gameGray.opacity(0.3))
+                                .background(viewModel.selectedNumber == number ? Color.gameRed.opacity(0.8) : Color.gameGray.opacity(0.3))
                                 .foregroundColor(.black)
                                 .cornerRadius(8)
                         }
@@ -191,7 +196,7 @@ struct BinaryExplorationView: View {
                     .font(.title2)
                     .bold()
                     
-                let binaryString = String(selectedNumber, radix: 2).paddingLeft(with: "0", toLength: 3)
+                let binaryString = String(viewModel.selectedNumber, radix: 2).paddingLeft(with: "0", toLength: 3)
                 let binaryDigits = binaryString.map { String($0) }
                     
                 HStack(spacing: 16) {
@@ -223,7 +228,7 @@ struct BinaryExplorationView: View {
                     }
                 }
                     
-                Text("\(selectedNumber) in binary is \(binaryString)")
+                Text("\(viewModel.selectedNumber) in binary is \(binaryString)")
                     .font(.headline)
                     .padding(.top, 10)
                     
@@ -247,7 +252,8 @@ struct BinaryExplorationView: View {
                         iconName: "arrow.right.circle.fill",
                         color: .gameLightBlue,
                         action: {
-                            viewModel.currentPhase.next()
+                            // Complete exploration and update progress
+                            viewModel.completeGame(score: 50, percentage: 1.0)
                         }
                     )
                     .padding()
@@ -343,7 +349,8 @@ struct BinaryChallengeView: View {
             Button("OK") {
                 viewModel.showAlert = false
                 if isCorrect {
-                    viewModel.currentPhase.next()
+                    // Complete challenge and advance
+                    viewModel.completeGame(score: 150, percentage: 1.0)
                 }
             }
         } message: {
@@ -426,7 +433,8 @@ struct BinaryAdvancedChallengeView: View {
             Button("OK") {
                 viewModel.showAlert = false
                 if isCorrect {
-                    viewModel.currentPhase.next()
+                    // Complete advanced challenge and advance
+                    viewModel.completeGame(score: 200, percentage: 1.0)
                 }
             }
         } message: {
@@ -576,7 +584,8 @@ struct BinaryFinalChallengeView: View {
             Button("OK") {
                 viewModel.showAlert = false
                 if isCorrect {
-                    viewModel.currentPhase.next()
+                    // Complete final challenge and advance
+                    viewModel.completeGame(score: 300, percentage: 1.0)
                 }
             }
         } message: {
@@ -648,7 +657,8 @@ struct BinaryReviewView: View {
                         iconName: "arrow.right.circle.fill",
                         color: .gameLightBlue,
                         action: {
-                            viewModel.currentPhase.next()
+                            // Complete review and advance to reward
+                            viewModel.completeGame(score: 50, percentage: 1.0)
                         }
                     )
                     .padding()

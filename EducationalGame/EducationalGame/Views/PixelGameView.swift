@@ -172,7 +172,7 @@ struct PixelGameChallenge: View {
                     
                         if viewModel.isCorrect {
                             Button(action: {
-                                viewModel.currentPhase = .reward
+                                viewModel.completeGame(score: 100, percentage: viewModel.progress)
                             }) {
                                 Text("Continue")
                                     .font(.headline)
@@ -290,7 +290,7 @@ struct PixelGameExploration: View {
                         iconName: "arrow.right.circle.fill",
                         color: .gameLightBlue,
                         action: {
-                            viewModel.currentPhase = .challenges
+                            viewModel.completeGame(score: 50, percentage: 1.0)
                         }
                     )
                     .padding()
@@ -395,7 +395,7 @@ struct PixelGameBinaryEncoding: View {
                     
                     if viewModel.isCorrect {
                         Button(action: {
-                            viewModel.currentPhase = .tutorial
+                            viewModel.completeGame(score: 150, percentage: 1.0)
                         }) {
                             Text("Continue")
                                 .font(.headline)
@@ -533,7 +533,7 @@ struct PixelGameRLEChallenge: View {
                     
                     if viewModel.isCorrect {
                         Button(action: {
-                            viewModel.currentPhase = .reward
+                            viewModel.completeGame(score: 200, percentage: 1.0)
                         }) {
                             Text("Continue")
                                 .font(.headline)
@@ -597,7 +597,7 @@ struct PixelReviewView: View {
                         iconName: "arrow.right.circle.fill",
                         color: .gameLightBlue,
                         action: {
-                            viewModel.currentPhase.next()
+                            viewModel.completeGame(score: 50, percentage: 1.0)
                         }
                     )
                     .padding()

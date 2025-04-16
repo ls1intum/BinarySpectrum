@@ -325,4 +325,17 @@ import SwiftUICore
             example: "Binary patterns can create:\n• Icons\n• Emojis\n• Simple graphics"
         )
     ]
+    
+    // Complete a game stage and advance to next phase
+    func completeGame(score: Int, percentage: Double) {
+        // Record completion using the shared userViewModel
+        sharedUserViewModel.completeMiniGame("Pixel Game - \(currentPhase.rawValue)", 
+                                      score: score, 
+                                      percentage: percentage)
+        
+        // Advance to next phase locally
+        var nextPhase = self.currentPhase
+        nextPhase.next(for: "Pixel Art Game")
+        self.currentPhase = nextPhase
+    }
 }

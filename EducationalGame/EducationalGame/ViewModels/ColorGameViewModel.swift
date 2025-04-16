@@ -332,4 +332,17 @@ import SwiftUI
             example: "Red + Green = Yellow\nRed + Blue = Magenta\nGreen + Blue = Cyan"
         )
     ]
+    
+    // Complete a game stage and advance to next phase
+    func completeGame(score: Int, percentage: Double) {
+        // Record completion using the shared userViewModel
+        sharedUserViewModel.completeMiniGame("Color Game - \(currentPhase.rawValue)", 
+                                      score: score, 
+                                      percentage: percentage)
+        
+        // Advance to next phase locally
+        var nextPhase = self.currentPhase
+        nextPhase.next(for: "Color Game")
+        self.currentPhase = nextPhase
+    }
 }

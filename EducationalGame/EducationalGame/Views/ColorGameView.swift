@@ -94,7 +94,8 @@ struct ColorExploration: View {
                         iconName: "arrow.right.circle.fill",
                         color: .gameLightBlue,
                         action: {
-                            viewModel.currentPhase = .tutorial
+                            // Complete exploration and advance
+                            viewModel.completeGame(score: 50, percentage: 1.0)
                         }
                     )
                     .padding()
@@ -313,7 +314,7 @@ struct ColorAlphaChallenge: View {
                             .padding()
                         
                         Button("Continue") {
-                            viewModel.currentPhase = .finalChallenge
+                            viewModel.completeGame(score: 200, percentage: 1.0)
                         }
                         .font(.title3)
                         .padding()
@@ -379,7 +380,7 @@ struct ColorReview: View {
                         iconName: "arrow.right.circle.fill",
                         color: .gameLightBlue,
                         action: {
-                            viewModel.currentPhase.next()
+                            viewModel.completeGame(score: 50, percentage: 1.0)
                         }
                     )
                     .padding()
@@ -415,7 +416,7 @@ struct ColorGameControls: View {
                     title: Text("Correct!"),
                     message: Text(viewModel.hintMessage),
                     dismissButton: .default(Text("Continue")) {
-                        viewModel.currentPhase.next()
+                        viewModel.completeGame(score: 100, percentage: 1.0)
                     }
                 )
             } else {

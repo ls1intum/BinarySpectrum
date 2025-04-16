@@ -4,11 +4,12 @@ struct QuestionsView: View {
     var questions: [Question]
     @StateObject var viewModel: QuestionsViewModel
     @Binding var currentPhase: GamePhase
-    @EnvironmentObject var userProgress: UserProgressModel
+    var gameType: String
     
-    init(questions: [Question], currentPhase: Binding<GamePhase>) {
+    init(questions: [Question], currentPhase: Binding<GamePhase>, gameType: String = "Binary Game") {
         self.questions = questions
         self._currentPhase = currentPhase
+        self.gameType = gameType
         self._viewModel = StateObject(wrappedValue: QuestionsViewModel(questions: questions))
     }
     
@@ -118,9 +119,20 @@ struct QuestionsView: View {
                     color: .gameLightBlue,
                     action: {
                         if viewModel.nextQuestion() {
-                            // Save progress and move to next phase
-                            userProgress.completeGame("Questions", score: Int(viewModel.getProgress() * 100))
-                            currentPhase.next()
+                            // Calculate percentage of correct answers
+                            let percentage = viewModel.getProgress()
+                            
+                            // Save progress
+                            sharedUserViewModel.completeMiniGame(
+                                gameType + " Questions", 
+                                score: Int(percentage * 100),
+                                percentage: percentage
+                            )
+                            
+                            // Update the local binding to advance to next phase
+                            var nextPhase = currentPhase
+                            nextPhase.next(for: gameType)
+                            currentPhase = nextPhase
                         }
                     }
                 )
@@ -151,5 +163,4 @@ struct QuestionsView: View {
         )
     ]
     return QuestionsView(questions: sampleQuestions, currentPhase: $previewPhase)
-        .environmentObject(UserProgressModel())
 }

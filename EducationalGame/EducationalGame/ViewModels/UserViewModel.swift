@@ -1,23 +1,121 @@
-// centralized state manager for user-related date
-// provides global access to user progress, experience level, and preferences
+// centralized state manager for user-related data
+// provides global access to user progress and achievements
 
 import SwiftUI
 
 class UserViewModel: ObservableObject {
-    @Published var userProgress: UserProgressModel
-
+    // Track completion status for each mini game
+    @Published var completedMiniGames: [String: Bool] = [:]
+    
+    // Track score data for each mini game
+    @Published var miniGameScores: [String: Int] = [:]
+    
+    // Track percentage of correct answers for each mini game
+    @Published var miniGamePercentages: [String: Double] = [:]
+    
+    // Track achievements earned
+    @Published var achievements: [String] = []
+    
+    // Keys for persistence
+    private let completedGamesKey = "completedGames"
+    private let miniGameScoresKey = "miniGameScores"
+    private let miniGamePercentagesKey = "miniGamePercentages"
+    private let achievementsKey = "achievements"
+    
     init() {
-        // Load progress from storage or start fresh
-        self.userProgress = UserProgressModel()
+        // Initialize with empty data
+        loadSavedData()
     }
-
-    func completeMiniGame(_ gameName: String, score: Int) {
-        userProgress.completeGame(gameName, score: score)
-        // userProgress.updateExperienceLevel()
-        saveProgress()
+    
+    // Record completion of a mini game
+    func completeMiniGame(_ gameName: String, score: Int, percentage: Double) {
+        completedMiniGames[gameName] = true
+        miniGameScores[gameName] = score
+        miniGamePercentages[gameName] = percentage
+        
+        // Add achievement if this is the first time completing the game
+        if !achievements.contains("Completed \(gameName)") {
+            achievements.append("Completed \(gameName)")
+        }
+        
+        saveData()
     }
-
-    private func saveProgress() {
-        // Save to UserDefaults or SwiftData
+    
+    // Check if a mini game has been completed
+    func isGameCompleted(_ gameName: String) -> Bool {
+        return completedMiniGames[gameName] ?? false
+    }
+    
+    // Get the score for a mini game
+    func getScore(for gameName: String) -> Int {
+        return miniGameScores[gameName] ?? 0
+    }
+    
+    // Get the percentage for a mini game
+    func getPercentage(for gameName: String) -> Double {
+        return miniGamePercentages[gameName] ?? 0.0
+    }
+    
+    // Reset all progress data
+    func resetProgress() {
+        completedMiniGames = [:]
+        miniGameScores = [:]
+        miniGamePercentages = [:]
+        achievements = []
+        saveData()
+    }
+    
+    // MARK: - Private Methods
+    
+    private func saveData() {
+        let defaults = UserDefaults.standard
+        
+        // Save completed games
+        if let encoded = try? JSONEncoder().encode(completedMiniGames) {
+            defaults.set(encoded, forKey: completedGamesKey)
+        }
+        
+        // Save scores
+        if let encoded = try? JSONEncoder().encode(miniGameScores) {
+            defaults.set(encoded, forKey: miniGameScoresKey)
+        }
+        
+        // Save percentages
+        if let encoded = try? JSONEncoder().encode(miniGamePercentages) {
+            defaults.set(encoded, forKey: miniGamePercentagesKey)
+        }
+        
+        // Save achievements
+        if let encoded = try? JSONEncoder().encode(achievements) {
+            defaults.set(encoded, forKey: achievementsKey)
+        }
+    }
+    
+    private func loadSavedData() {
+        let defaults = UserDefaults.standard
+        
+        // Load completed games
+        if let savedData = defaults.data(forKey: completedGamesKey),
+           let decoded = try? JSONDecoder().decode([String: Bool].self, from: savedData) {
+            completedMiniGames = decoded
+        }
+        
+        // Load scores
+        if let savedData = defaults.data(forKey: miniGameScoresKey),
+           let decoded = try? JSONDecoder().decode([String: Int].self, from: savedData) {
+            miniGameScores = decoded
+        }
+        
+        // Load percentages
+        if let savedData = defaults.data(forKey: miniGamePercentagesKey),
+           let decoded = try? JSONDecoder().decode([String: Double].self, from: savedData) {
+            miniGamePercentages = decoded
+        }
+        
+        // Load achievements
+        if let savedData = defaults.data(forKey: achievementsKey),
+           let decoded = try? JSONDecoder().decode([String].self, from: savedData) {
+            achievements = decoded
+        }
     }
 }

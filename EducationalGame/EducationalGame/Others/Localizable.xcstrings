@@ -7,49 +7,32 @@
     "%lld" : {
 
     },
+    "%lld × %lld =" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld × %2$lld ="
+          }
+        }
+      }
+    },
+    "%lld in binary is %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld in binary is %2$@"
+          }
+        }
+      }
+    },
     "%lld of %lld" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "%1$lld of %2$lld"
-          }
-        }
-      }
-    },
-    "• 0.0 = completely transparent" : {
-
-    },
-    "• 1.0 = completely solid" : {
-
-    },
-    "• A way to represent RGB values in hexadecimal" : {
-
-    },
-    "• Controls how transparent a color is" : {
-
-    },
-    "• Each pair of characters represents one color" : {
-
-    },
-    "• Each value ranges from 0 to 255" : {
-
-    },
-    "• Example: #FF0000 = pure red" : {
-
-    },
-    "• Mixing them creates all other colors" : {
-
-    },
-    "• Red, Green, and Blue are the primary colors of light" : {
-
-    },
-    "✅ Great job! %lld in binary is %@" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "✅ Great job! %1$lld in binary is %2$@"
           }
         }
       }
@@ -76,10 +59,16 @@
     "Attempts remaining: %lld" : {
 
     },
+    "Binary Armband" : {
+
+    },
     "Binary Code" : {
 
     },
     "Binary Game" : {
+
+    },
+    "Binary Representation" : {
 
     },
     "Check Answer" : {
@@ -88,13 +77,10 @@
     "Color Game" : {
 
     },
-    "Congratulations" : {
+    "Completed!" : {
 
     },
     "Continue" : {
-
-    },
-    "Continue to Reward" : {
 
     },
     "Correct!" : {
@@ -106,6 +92,15 @@
     "Correct! Well done! 🎉" : {
 
     },
+    "Create your binary armband! Use binary to represent your birth month and day." : {
+
+    },
+    "Day (1-31)" : {
+
+    },
+    "Day must be 1-31" : {
+
+    },
     "Decode the image using Run-Length Encoding. W means white pixels, B means black pixels, and the number tells you how many!" : {
 
     },
@@ -115,10 +110,16 @@
     "Educational Game" : {
 
     },
+    "Enter number" : {
+
+    },
     "Enter your answer" : {
 
     },
     "Experiment with the RGB sliders to create different colors!" : {
+
+    },
+    "Explore how numbers are represented in binary!" : {
 
     },
     "Explore the grid! Click pixels to toggle them between black and white, and see how the binary code changes." : {
@@ -127,16 +128,25 @@
     "Final Challenge: Match the target color with limited attempts!" : {
 
     },
-    "Hex Codes" : {
+    "In Progress" : {
 
     },
-    "Let's review what you've learned!" : {
+    "Let's review what you've learned about binary images! Scroll down." : {
+
+    },
+    "Let's review what you've learned about binary numbers! Scroll down." : {
 
     },
     "Match both the color and opacity of the target" : {
 
     },
     "Match the target color using the RGB sliders!" : {
+
+    },
+    "Month (1-12)" : {
+
+    },
+    "Month must be 1-12" : {
 
     },
     "More Features" : {
@@ -155,10 +165,13 @@
     "Now it's your turn! Write the binary code for this image. Remember: 1 for black pixels, 0 for white pixels, and 8 bits per row!" : {
 
     },
-    "OK" : {
+    "Now let's convert binary to decimal! What number is represented by these binary digits?" : {
 
     },
-    "Opacity" : {
+    "Now lets represent %lld in binary. For that we need 5 digits!" : {
+
+    },
+    "OK" : {
 
     },
     "Pixel Game" : {
@@ -167,10 +180,16 @@
     "Progress" : {
 
     },
-    "RGB Colors" : {
+    "Result" : {
+
+    },
+    "Review what you've learned about colors!" : {
 
     },
     "RLE Code" : {
+
+    },
+    "Select a number to see its binary representation" : {
 
     },
     "Settings" : {
@@ -189,30 +208,48 @@
         }
       }
     },
-    "Step %lld: Set bit %lld to %@" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Step %1$lld: Set bit %2$lld to %3$@"
-          }
-        }
-      }
-    },
     "Tap the circles to toggle between 0 and 1. Your goal is to represent %lld in binary." : {
+
+    },
+    "Target" : {
 
     },
     "Target Color" : {
 
     },
+    "This date does not exist in the calendar" : {
+
+    },
     "TODO" : {
+
+    },
+    "Total: %lld" : {
 
     },
     "Try Again" : {
 
     },
+    "Value: %lld" : {
+
+    },
+    "Your Answer" : {
+
+    },
+    "Your Binary Armband" : {
+
+    },
     "Your Binary Code" : {
 
+    },
+    "Your birthdate in binary: %lld/%lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Your birthdate in binary: %1$lld/%2$lld"
+          }
+        }
+      }
     },
     "Your Color" : {
 
