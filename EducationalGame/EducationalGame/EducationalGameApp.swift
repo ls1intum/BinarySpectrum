@@ -24,6 +24,9 @@ struct EducationalGameApp: App {
     // Use the shared instance
     @StateObject private var userViewModel = sharedUserViewModel
     
+    // Global navigation state
+    @StateObject private var navigationState = NavigationState()
+    
     // Register app delegate
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     
@@ -31,6 +34,8 @@ struct EducationalGameApp: App {
         WindowGroup {
             ContentView()
                 .environmentObject(userViewModel)
+                .environmentObject(navigationState)
+                .preferredColorScheme(.light)
         }
     }
 }

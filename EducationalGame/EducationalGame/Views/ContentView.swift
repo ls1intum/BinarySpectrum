@@ -2,63 +2,105 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject var userViewModel: UserViewModel
-    @State private var selectedGame: MiniGame? // Track selected game
+    @EnvironmentObject var navigationState: NavigationState
     
     var body: some View {
-        VStack {
-            TopBarView(title: "Educational Game", leftIcon: "gear")
-            
-            VStack(spacing: 40) {
-                Spacer()
-                HStack(spacing: 30) {
-                    ForEach(GameConstants.miniGames) { game in
-                        GameButtonView(gameId: game.id, color: game.color, icon: game.icon, title: game.name, destination: game.view)
-                    }
-                }
+        NavigationStack(path: $navigationState.path) {
+            VStack {
+                TopBarView(title: "Educational Game", leftIcon: "gear")
                 
-                // Bottom Buttons (Achievements & Another Feature)
-                HStack(spacing: 20) {
-                    Button(action: {
-                        navigateTo(AchievementsView())
-                    }) {
-                        HStack {
-                            Image(systemName: "trophy.fill")
-                            Text("Achievements")
+                VStack(spacing: 40) {
+                    Spacer()
+                    HStack(spacing: 30) {
+                        ForEach(GameConstants.miniGames) { game in
+                            GameButtonWithNavigation(
+                                gameId: game.id, 
+                                color: game.color, 
+                                icon: game.icon, 
+                                title: game.name, 
+                                navigationPath: $navigationState.path,
+                                destination: game.id
+                            )
+                            .scaleTransition()
                         }
-                        .padding()
-                        .frame(width: 480, height: 80)
-                        .background(Color.yellow)
-                        .foregroundColor(.black)
-                        .clipShape(RoundedRectangle(cornerRadius: 30))
                     }
                     
-                    Button(action: {
-                        print("Another Feature tapped!")
-                    }) {
-                        Text("More Features")
+                    // Bottom Buttons (Achievements & Another Feature)
+                    HStack(spacing: 20) {
+                        Button(action: {
+                            withAnimation(.easeInOut(duration: 0.3)) {
+                                navigationState.navigateTo("achievements")
+                            }
+                        }) {
+                            HStack {
+                                Image(systemName: "trophy.fill")
+                                Text("Achievements")
+                            }
                             .padding()
                             .frame(width: 480, height: 80)
-                            .background(Color.orange)
+                            .background(Color.yellow)
                             .foregroundColor(.black)
                             .clipShape(RoundedRectangle(cornerRadius: 30))
+                        }
+                        .scaleTransition()
+                        
+                        Button(action: {
+                            print("Another Feature tapped!")
+                        }) {
+                            Text("More Features")
+                                .padding()
+                                .frame(width: 480, height: 80)
+                                .background(Color.orange)
+                                .foregroundColor(.black)
+                                .clipShape(RoundedRectangle(cornerRadius: 30))
+                        }
+                        .scaleTransition()
                     }
+                    .padding(.horizontal)
+                    
+                    Spacer()
                 }
-                .padding(.horizontal)
-                
-                Spacer()
+                .padding()
+                .background(Color.white.edgesIgnoringSafeArea(.all))
             }
-            .padding()
-            .background(Color.white.edgesIgnoringSafeArea(.all))
+            .navigationDestination(for: Int.self) { gameId in
+                // This will navigate to the selected game view
+                if let game = GameConstants.miniGames.first(where: { $0.id == gameId }) {
+                    AnyView(game.view)
+                        .environmentObject(navigationState)
+                        .slideTransition(edge: .trailing)
+                } else {
+                    Text("Game not found")
+                }
+            }
+            .navigationDestination(for: String.self) { destination in
+                if destination == "achievements" {
+                    AchievementsView()
+                        .environmentObject(navigationState)
+                        .slideTransition(edge: .bottom)
+                } else if destination == "settings" {
+                    SettingsView()
+                        .environmentObject(navigationState)
+                        .slideTransition(edge: .leading)
+                } else {
+                    Text("View not found")
+                }
+            }
             .navigationBarHidden(true)
         }
+        .transition(.opacity)
     }
 }
 
 #Preview {
     ContentView()
+        .environmentObject(UserViewModel())
+        .environmentObject(NavigationState())
 }
 
 #Preview("BR") {
     ContentView()
         .environment(\.locale, Locale(identifier: "pt_BR"))
+        .environmentObject(UserViewModel())
+        .environmentObject(NavigationState())
 }

@@ -8,12 +8,22 @@ struct GameButtonView: View {
     let destination: AnyView
     
     @State private var isPressed = false
+    @EnvironmentObject private var navigationState: NavigationState
     
     var body: some View {
         Button(action: {
             withAnimation(.easeInOut(duration: 0.15)) {
                 isPressed = true
-                navigateTo(destination)
+                
+                // Add a slight delay before navigation to show the button animation
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    navigationState.navigateTo(gameId)
+                    
+                    // Reset button state after navigation
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                        isPressed = false
+                    }
+                }
             }
         }) {
             VStack {
@@ -40,4 +50,5 @@ struct GameButtonView: View {
 
 #Preview {
     GameButtonView(gameId: 1, color: .gameBlue, icon: "plus", title: "Add", destination: AnyView(ContentView()))
+        .environmentObject(NavigationState())
 }

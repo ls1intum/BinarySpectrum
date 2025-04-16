@@ -7,6 +7,7 @@ struct CircleButton: View {
     @Environment(\.currentPhase) var currentPhase
     @State private var showInfoAlert = false
     @State private var viewModel: CircleButtonViewModel
+    @EnvironmentObject private var navigationState: NavigationState
     
     init(iconName: String, color: Color) {
         self.iconName = iconName
@@ -46,16 +47,27 @@ struct CircleButton: View {
     private func handleAction() {
         switch iconName {
         case "gear":
-            navigateTo(SettingsView())
+            withAnimation(.easeInOut(duration: 0.3)) {
+                navigationState.path.append("settings")
+            }
         case "arrow.left":
-            navigateTo(ContentView())
+            withAnimation(.easeInOut(duration: 0.3)) {
+                // Go back or to root if we can't go back
+                if navigationState.path.count > 0 {
+                    navigationState.path.removeLast()
+                } else {
+                    navigationState.path = NavigationPath()
+                }
+            }
         case "info.circle":
             // Update viewModel with current values before showing alert
             viewModel.currentView = currentView
             viewModel.currentPhase = currentPhase
             showInfoAlert = true
         case "trophy.circle.fill":
-            navigateTo(ContentView())
+            withAnimation(.easeInOut(duration: 0.3)) {
+                navigationState.path = NavigationPath() // Go to root
+            }
         default:
             break
         }
@@ -68,10 +80,12 @@ struct CircleButton_Previews: PreviewProvider {
             CircleButton(iconName: "info.circle", color: .blue)
                 .environment(\.currentView, "BinaryGame")
                 .environment(\.currentPhase, .intro)
+                .environmentObject(NavigationState())
             
             CircleButton(iconName: "info.circle", color: .blue)
                 .environment(\.currentView, "PixelGame")
                 .environment(\.currentPhase, .challenges)
+                .environmentObject(NavigationState())
         }
     }
 }

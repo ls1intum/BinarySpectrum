@@ -38,6 +38,7 @@ struct TopBarView: View {
                                 .stroke(Color.white.opacity(0.4), lineWidth: 2)
                         )
                 )
+                .transition(.scale)
             
             Spacer()
             
@@ -45,11 +46,13 @@ struct TopBarView: View {
         }
         .padding(.horizontal)
         .frame(maxWidth: .infinity) // Makes sure it stretches across the screen
-        //.position(x: UIScreen.main.bounds.width / 2, y: 50) // Pins it at the top
         .zIndex(1) // Ensures it stays above other content
+        .transition(.move(edge: .top).combined(with: .opacity))
+        .animation(.spring(response: 0.4, dampingFraction: 0.7), value: title)
     }
 }
 
 #Preview {
     TopBarView(title: "Hello")
+        .environmentObject(NavigationState())
 }
