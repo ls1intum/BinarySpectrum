@@ -46,10 +46,36 @@ struct DialogueView: View {
             
             Spacer()
             
-            // Next Button at the Bottom Right
+            // Navigation Buttons at the Bottom
             HStack {
+                // Back Button (only visible if not on first dialogue)
+                if currentDialogueIndex > 0 {
+                    AnimatedCircleButton(
+                        iconName: "arrow.left.circle.fill",
+                        color: .gameGray,
+                        action: {
+                            if currentDialogueIndex > 0 {
+                                currentDialogueIndex -= 1
+                            }
+                        }
+                    )
+                    .padding()
+                    .transition(.scale.combined(with: .opacity))
+                    .animation(.spring(response: 0.3), value: currentDialogueIndex)
+                } else {
+                    // Empty space to maintain layout when back button is not visible
+                    Spacer()
+                        .frame(width: 70)
+                }
+                
+                // Page indicator
+                Text("\(currentDialogueIndex + 1) / \(dialogues.count)")
+                    .font(GameTheme.bodyFont)
+                    .foregroundColor(.gray)
+                
                 Spacer()
                 
+                // Next Button
                 AnimatedCircleButton(
                     iconName: currentDialogueIndex < dialogues.count - 1 ? "arrow.right.circle.fill" : "play.fill",
                     color: .gameLightBlue,
@@ -63,6 +89,7 @@ struct DialogueView: View {
                 )
                 .padding()
             }
+            .padding(.horizontal, 40)
         }
         .frame(maxHeight: .infinity, alignment: .center)
     }
@@ -73,7 +100,7 @@ struct DialogueView: View {
     
     DialogueView(
         personaImage: "Persona1",
-        dialogues: ["hi alwhfsa", "hello"],
+        dialogues: ["Welcome to our educational game! Here you'll learn important computational thinking concepts.", "Each mini-game teaches different skills like binary representation, pixel art, and color theory.", "Navigate through the dialogue using the buttons at the bottom."],
         currentPhase: $previewPhase // Pass as a Binding
     )
 }

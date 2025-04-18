@@ -14,10 +14,10 @@ struct ContentView: View {
                     HStack(spacing: 30) {
                         ForEach(GameConstants.miniGames) { game in
                             GameButtonWithNavigation(
-                                gameId: game.id, 
-                                color: game.color, 
-                                icon: game.icon, 
-                                title: game.name, 
+                                gameId: game.id,
+                                color: game.color,
+                                icon: game.icon,
+                                title: game.name,
                                 navigationPath: $navigationState.path,
                                 destination: game.id
                             )
@@ -25,7 +25,7 @@ struct ContentView: View {
                         }
                     }
                     
-                    // Bottom Buttons (Achievements & Another Feature)
+                    // Bottom Buttons 
                     HStack(spacing: 20) {
                         Button(action: {
                             withAnimation(.easeInOut(duration: 0.3)) {
@@ -36,24 +36,31 @@ struct ContentView: View {
                                 Image(systemName: "trophy.fill")
                                 Text("Achievements")
                             }
+                            .font(GameTheme.subtitleFont)
                             .padding()
                             .frame(width: 480, height: 80)
                             .background(Color.yellow)
                             .foregroundColor(.black)
                             .clipShape(RoundedRectangle(cornerRadius: 30))
                         }
+                        .shadow(radius: 2)
                         .scaleTransition()
                         
                         Button(action: {
                             print("Another Feature tapped!")
                         }) {
-                            Text("More Features")
-                                .padding()
-                                .frame(width: 480, height: 80)
-                                .background(Color.orange)
-                                .foregroundColor(.black)
-                                .clipShape(RoundedRectangle(cornerRadius: 30))
+                            HStack {
+                                Image(systemName: "hammer.circle.fill")
+                                Text("More Features")
+                            }
+                            .font(GameTheme.subtitleFont)
+                            .padding()
+                            .frame(width: 480, height: 80)
+                            .background(Color.orange)
+                            .foregroundColor(.black)
+                            .clipShape(RoundedRectangle(cornerRadius: 30))
                         }
+                        .shadow(radius: 2)
                         .scaleTransition()
                     }
                     .padding(.horizontal)
@@ -69,8 +76,10 @@ struct ContentView: View {
                     AnyView(game.view)
                         .environmentObject(navigationState)
                         .slideTransition(edge: .trailing)
+                        .toolbar(.hidden, for: .navigationBar)
                 } else {
                     Text("Game not found")
+                        .toolbar(.hidden, for: .navigationBar)
                 }
             }
             .navigationDestination(for: String.self) { destination in
@@ -78,15 +87,19 @@ struct ContentView: View {
                     AchievementsView()
                         .environmentObject(navigationState)
                         .slideTransition(edge: .bottom)
+                        .toolbar(.hidden, for: .navigationBar)
                 } else if destination == "settings" {
                     SettingsView()
                         .environmentObject(navigationState)
                         .slideTransition(edge: .leading)
+                        .toolbar(.hidden, for: .navigationBar)
                 } else {
                     Text("View not found")
+                        .toolbar(.hidden, for: .navigationBar)
                 }
             }
             .navigationBarHidden(true)
+            .toolbar(.hidden, for: .navigationBar) // Also hide for the root view
         }
         .transition(.opacity)
     }

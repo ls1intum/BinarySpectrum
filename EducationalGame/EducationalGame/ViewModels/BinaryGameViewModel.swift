@@ -15,62 +15,35 @@ import SwiftUICore
     // For exploration view
     var selectedNumber: Int = 0
     
-    let introDialogue = ["Welcome to Binary Game!", "You are a binary code detective.", "Your mission is to decode the binary code."] // TODO: improve intro texts
-    let practiceDialogue = [
-        "Great job exploring binary numbers! Now it's time to practice what you've learned. You'll need to convert decimal numbers to binary by toggling the bits.",
-        "Remember: Each position represents a power of 2, starting from the right. Let's begin!"
+    let introDialogue = [
+        "Welcome to the Binary Code Detective Academy!",
+        "Did you know? Computers don't understand words or numbers the way we do. They only understand ON and OFF - or 1 and 0.",
+        "This is called 'binary code', and it's the secret language that powers all technology!",
+        "As a Binary Detective, you'll learn how to turn regular numbers into binary code, and decode binary back into numbers.",
+        "This is a fundamental concept in computational thinking - breaking down information into its simplest form!"
     ]
+    
+    let practiceDialogue = [
+        "Great exploration, Detective! You've discovered how binary numbers work.",
+        "Binary is all about patterns and breaking down numbers into powers of 2: 1, 2, 4, 8, 16...",
+        "This is a key computational thinking skill called 'decomposition' - breaking big problems into smaller parts!",
+        "Now let's practice converting decimal numbers (what we use every day) into binary (what computers use).",
+        "Remember: Each position represents a power of 2, starting from the right with 1, then 2, 4, 8, and so on."
+    ]
+    
     let introQuestions: [Question] = [
         Question(
-            question: "Which number system do computers use for basic operations?",
+            question: "Why do computers use binary code instead of regular numbers?",
             alternatives: [
-                1: "Decimal (0-9)",
-                2: "Binary (0 & 1)",
-                3: "Hexadecimal (0-F)"
+                1: "Binary numbers look cooler in movies",
+                2: "Electronics can easily represent two states (ON/OFF)",
+                3: "Binary uses less electricity than decimal numbers",
+                4: "Programmers prefer working with only two digits"
             ],
             correctAnswer: 2,
-            explanation: "Computers use the binary number system (base-2) for their basic operations because it's easier to represent with electronic circuits. A 0 can be represented by no voltage, and a 1 by the presence of voltage."
-        ),
-        Question(
-            question: "How would you write the number 5 in binary?",
-            alternatives: [
-                1: "101",
-                2: "110",
-                3: "111"
-            ],
-            correctAnswer: 1,
-            explanation: "The binary number 101 represents 5 in decimal. Here's how: (1 × 2²) + (0 × 2¹) + (1 × 2⁰) = 4 + 0 + 1 = 5. Each digit in binary represents a power of 2, starting from the right."
-        ),
-        Question(
-            question: "What is the maximum number you can represent with 4 binary digits?",
-            alternatives: [
-                1: "8",
-                2: "15",
-                3: "16"
-            ],
-            correctAnswer: 2,
-            explanation: "With 4 binary digits, you can represent numbers from 0 to 15. This is because 2⁴ = 16 possible combinations (including 0). The maximum value is 1111 in binary, which equals 15 in decimal."
-        ),
-        Question(
-            question: "Why is binary important in computing?",
-            alternatives: [
-                1: "It's easier for humans to understand",
-                2: "It matches how computer hardware works",
-                3: "It's more efficient for calculations"
-            ],
-            correctAnswer: 2,
-            explanation: "Binary is fundamental to computing because it matches how computer hardware works. Transistors, the basic building blocks of computers, can only be in two states: on (1) or off (0). This makes binary a natural choice for representing data in computers."
-        ),
-        Question(
-            question: "How many bits are in a byte?",
-            alternatives: [
-                1: "4 bits",
-                2: "8 bits",
-                3: "16 bits"
-            ],
-            correctAnswer: 2,
-            explanation: "A byte consists of 8 bits. This is a standard unit of digital information in computing. Each bit can be either 0 or 1, so a byte can represent 256 different values (2⁸)."
+            explanation: "Computers use binary because electronic circuits can easily represent two states: ON (1) or OFF (0)."
         )
+        // TODO: Add more questions
     ]
     
     // Binary Learning Properties

@@ -29,15 +29,46 @@ import SwiftUICore
     
     // Game Content
     let introDialogue = [
-        "Welcome to Pixel Decoder!",
-        "In this game, you'll decode binary representations into images.",
-        "Each '1' represents a black pixel, and each '0' represents a white pixel.",
-        "Your job is to create the correct image by turning pixels black or white."
+        "Welcome to Pixel Decoder, digital artist!",
+        "Images on computers are made of tiny squares called 'pixels'. Each pixel can be different colors, but the simplest are just black or white.",
+        "Computers store these images as sequences of 1s and 0s - where 1 means 'black pixel' and 0 means 'white pixel'.",
+        "This is a fundamental concept in computational thinking called 'data representation' - finding efficient ways to store information.",
+        "Your mission is to decode binary patterns into pixel art and learn how computers compress images to save space!"
     ]
     
     let rleDialogue = [
-        "Right now, we're writing every pixel one by one, but that takes too much space! 🤯",
-        "Instead of writing 000011110000, we can just say '4 white, 4 black, 4 white' – much shorter! 📏"
+        "Great job decoding those binary patterns!",
+        "But here's a challenge: what if our images have long stretches of the same color?",
+        "Writing each pixel one by one is inefficient! For example, writing '00000111100000' takes 14 characters.",
+        "Instead, we can use 'Run-Length Encoding' or RLE: 'W5B4W5' - only 6 characters!",
+        "This is an important computational thinking concept called 'abstraction' - simplifying complex data by focusing on patterns.",
+        "RLE is a real compression technique used in image formats, fax machines, and more!"
+    ]
+    
+    let introQuestions: [Question] = [
+        Question(
+            question: "How do computers represent images at their most basic level?",
+            alternatives: [
+                1: "As a collection of circles of different sizes",
+                2: "As a grid of tiny squares called pixels",
+                3: "As mathematical curves and lines",
+                4: "As text descriptions of what's in the image"
+            ],
+            correctAnswer: 2,
+            explanation: "Computers represent images as a grid of tiny squares called pixels. Each pixel contains color information, and when viewed together, they form the complete image."
+        ),
+        Question(
+            question: "What computational thinking concept is demonstrated when we convert an image into binary (1s and 0s)?",
+            alternatives: [
+                1: "Pattern recognition",
+                2: "Data representation",
+                3: "Algorithm design", 
+                4: "Debugging"
+            ],
+            correctAnswer: 2,
+            explanation: "Converting images to binary shows 'data representation' - finding ways to store and process information in forms that computers can understand."
+        )
+        // TODO: Add more questions
     ]
     
     // Binary Encoding Challenge
@@ -51,29 +82,6 @@ import SwiftUICore
     ]
     
     var playerBinaryCode: String = ""
-    
-    let introQuestions: [Question] = [
-        Question(
-            question: "What is the main advantage of using binary (black and white) images?",
-            alternatives: [
-                1: "They are more colorful",
-                2: "They require less storage space",
-                3: "They are easier to create"
-            ],
-            correctAnswer: 2,
-            explanation: "Binary images use only 1 bit per pixel (0 or 1), making them very efficient in terms of storage space compared to color images."
-        ),
-        Question(
-            question: "What type of images are often represented using binary patterns?",
-            alternatives: [
-                1: "Photographs",
-                2: "Simple icons and symbols",
-                3: "Gradient images"
-            ],
-            correctAnswer: 2,
-            explanation: "Binary patterns are commonly used for simple icons, symbols, and basic shapes where only black and white are needed."
-        )
-    ]
     
     var codeToDecrypt: String = """
     00000000

@@ -40,7 +40,7 @@ struct GameButtonWithNavigation: View {
                     .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isHovered)
                 
                 Text(title)
-                    .font(.headline)
+                    .font(GameTheme.subtitleFont)
                     .foregroundColor(.black)
             }
             .frame(width: 320, height: 240)
