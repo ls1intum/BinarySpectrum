@@ -171,7 +171,7 @@ struct QuestionsView: View {
                 // Next/Finish Button
                 AnimatedCircleButton(
                     iconName: viewModel.currentQuestionIndex < viewModel.questions.count - 1 ? "arrow.right.circle.fill" : "checkmark.circle.fill",
-                    color: viewModel.canNavigateToNextQuestion() ? .gameLightBlue : .gray,
+                    color: viewModel.canNavigateToNextQuestion() ? .gamePurple : .gray,
                     action: {
                         if viewModel.nextQuestion() {
                             // We've completed all questions, move to next phase

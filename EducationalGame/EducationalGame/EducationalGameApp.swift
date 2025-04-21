@@ -30,6 +30,16 @@ struct EducationalGameApp: App {
     // Register app delegate
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     
+    init() {
+        // Debug: Print all available fonts
+        for familyName in UIFont.familyNames.sorted() {
+            print("Font Family: \(familyName)")
+            for fontName in UIFont.fontNames(forFamilyName: familyName).sorted() {
+                print("    Font: \(fontName)")
+            }
+        }
+    }
+    
     var body: some Scene {
         WindowGroup {
             ContentView()

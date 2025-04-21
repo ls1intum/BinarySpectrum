@@ -68,7 +68,6 @@ struct ContentView: View {
                     Spacer()
                 }
                 .padding()
-                .background(Color.white.edgesIgnoringSafeArea(.all))
             }
             .navigationDestination(for: Int.self) { gameId in
                 // This will navigate to the selected game view

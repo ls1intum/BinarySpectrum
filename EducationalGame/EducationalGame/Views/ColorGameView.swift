@@ -92,7 +92,7 @@ struct ColorExploration: View {
                 
                     AnimatedCircleButton(
                         iconName: "arrow.right.circle.fill",
-                        color: .gameLightBlue,
+                        
                         action: {
                             // Complete exploration and advance
                             viewModel.completeGame(score: 50, percentage: 1.0)
@@ -378,7 +378,7 @@ struct ColorReview: View {
                 
                     AnimatedCircleButton(
                         iconName: "arrow.right.circle.fill",
-                        color: .gameLightBlue,
+                        
                         action: {
                             viewModel.completeGame(score: 50, percentage: 1.0)
                         }
@@ -401,7 +401,7 @@ struct ColorGameControls: View {
                 Spacer()
                 AnimatedCircleButton(
                     iconName: "checkmark.circle.fill",
-                    color: .gameLightBlue,
+                    
                     action: {
                         viewModel.checkColorMatch()
                         showAlert = true

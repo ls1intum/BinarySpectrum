@@ -26,18 +26,9 @@ struct TopBarView: View {
             
             Text(title)
                 .font(GameTheme.titleFont)
-                .foregroundColor(.white)
+                .foregroundColor(color)
                 .padding(.vertical, 30)
                 .padding(.horizontal, 70)
-                .background(
-                    RoundedRectangle(cornerRadius: 30)
-                        .fill(color)
-                        .shadow(color: Color.black.opacity(0.3), radius: 10, x: 0, y: 5)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 30)
-                                .stroke(Color.white.opacity(0.4), lineWidth: 2)
-                        )
-                )
                 .transition(.scale)
             
             Spacer()

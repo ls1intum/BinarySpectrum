@@ -55,7 +55,7 @@ struct Questions: View {
     
     var body: some View {
         QuestionsView(
-            questions: viewModel.introQuestions, 
+            questions: viewModel.introQuestions,
             currentPhase: $viewModel.currentPhase,
             gameType: viewModel.gameType
         )
@@ -131,7 +131,6 @@ struct BinaryLearningGame: View {
                 
                     AnimatedCircleButton(
                         iconName: "checkmark.circle.fill",
-                        color: .gameLightBlue,
                         action: {
                             isCorrect = viewModel.decimalValue == viewModel.targetNumber
                             viewModel.checkAnswer()
@@ -250,7 +249,7 @@ struct BinaryExplorationView: View {
                 
                     AnimatedCircleButton(
                         iconName: "arrow.right.circle.fill",
-                        color: .gameLightBlue,
+                        
                         action: {
                             // Complete exploration and update progress
                             viewModel.completeGame(score: 50, percentage: 1.0)
@@ -333,7 +332,7 @@ struct BinaryChallengeView: View {
                 
                     AnimatedCircleButton(
                         iconName: "checkmark.circle.fill",
-                        color: .gameLightBlue,
+                        
                         action: {
                             isCorrect = viewModel.challengeDecimalValue == viewModel.challengeTargetNumber
                             viewModel.checkChallengeAnswer()
@@ -417,7 +416,7 @@ struct BinaryAdvancedChallengeView: View {
                 
                     AnimatedCircleButton(
                         iconName: "checkmark.circle.fill",
-                        color: .gameLightBlue,
+                        
                         action: {
                             isCorrect = Int(viewModel.userDecimalAnswer) == viewModel.advancedTargetNumber
                             viewModel.checkAdvancedAnswer()
@@ -568,7 +567,7 @@ struct BinaryFinalChallengeView: View {
                 
                     AnimatedCircleButton(
                         iconName: "checkmark.circle.fill",
-                        color: .gameLightBlue,
+                        
                         action: {
                             isCorrect = viewModel.isBirthdateValid
                             viewModel.checkBirthdateChallenge()
@@ -655,7 +654,7 @@ struct BinaryReviewView: View {
                 
                     AnimatedCircleButton(
                         iconName: "arrow.right.circle.fill",
-                        color: .gameLightBlue,
+                        
                         action: {
                             // Complete review and advance to reward
                             viewModel.completeGame(score: 50, percentage: 1.0)

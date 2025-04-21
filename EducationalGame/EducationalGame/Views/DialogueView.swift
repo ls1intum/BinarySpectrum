@@ -78,7 +78,6 @@ struct DialogueView: View {
                 // Next Button
                 AnimatedCircleButton(
                     iconName: currentDialogueIndex < dialogues.count - 1 ? "arrow.right.circle.fill" : "play.fill",
-                    color: .gameLightBlue,
                     action: {
                         if currentDialogueIndex < dialogues.count - 1 {
                             currentDialogueIndex += 1

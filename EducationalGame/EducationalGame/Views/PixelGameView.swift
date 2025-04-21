@@ -212,7 +212,7 @@ struct PixelGameChallenge: View {
                     // Check Answer Button
                     AnimatedCircleButton(
                         iconName: "checkmark.circle.fill",
-                        color: .gameLightBlue,
+                        
                         action: {
                             viewModel.checkAnswer()
                         }
@@ -288,7 +288,7 @@ struct PixelGameExploration: View {
                 
                     AnimatedCircleButton(
                         iconName: "arrow.right.circle.fill",
-                        color: .gameLightBlue,
+                        
                         action: {
                             viewModel.completeGame(score: 50, percentage: 1.0)
                         }
@@ -371,7 +371,7 @@ struct PixelGameBinaryEncoding: View {
                     Spacer()
                     AnimatedCircleButton(
                         iconName: "checkmark.circle.fill",
-                        color: .gameLightBlue,
+                        
                         action: {
                             viewModel.checkBinaryEncoding()
                         }
@@ -509,7 +509,7 @@ struct PixelGameRLEChallenge: View {
                     Spacer()
                     AnimatedCircleButton(
                         iconName: "checkmark.circle.fill",
-                        color: .gameLightBlue,
+                        
                         action: {
                             viewModel.checkRLEAnswer()
                         }
@@ -595,7 +595,7 @@ struct PixelReviewView: View {
                 
                     AnimatedCircleButton(
                         iconName: "arrow.right.circle.fill",
-                        color: .gameLightBlue,
+                        
                         action: {
                             viewModel.completeGame(score: 50, percentage: 1.0)
                         }

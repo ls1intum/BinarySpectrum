@@ -2,7 +2,7 @@ import SwiftUI
 
 struct AnimatedCircleButton: View {
     var iconName: String
-    var color: Color
+    var color: Color = .gamePurple
     var action: () -> Void // Added action closure
 
     var body: some View {
@@ -28,5 +28,5 @@ struct AnimatedCircleButton: View {
 
 
 #Preview {
-    AnimatedCircleButton(iconName: "plus", color: .blue, action: { })
+    AnimatedCircleButton(iconName: "plus", action: { })
 }
