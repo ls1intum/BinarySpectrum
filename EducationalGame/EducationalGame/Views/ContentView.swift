@@ -3,6 +3,7 @@ import SwiftUI
 struct ContentView: View {
     @EnvironmentObject var userViewModel: UserViewModel
     @EnvironmentObject var navigationState: NavigationState
+    @State private var startAnimation = false
     
     var body: some View {
         NavigationStack(path: $navigationState.path) {
@@ -25,6 +26,8 @@ struct ContentView: View {
                                     destination: game.id
                                 )
                                 .scaleTransition()
+                                .offset(y: startAnimation ? 0 : 50)
+                                .opacity(startAnimation ? 1 : 0)
                             }
                         }
                         
@@ -48,6 +51,8 @@ struct ContentView: View {
                             }
                             .shadow(radius: 5)
                             .scaleTransition()
+                            .offset(y: startAnimation ? 0 : 50)
+                            .opacity(startAnimation ? 1 : 0)
                             
                             Button(action: {
                                 print("Another Feature tapped!")
@@ -65,6 +70,8 @@ struct ContentView: View {
                             }
                             .disabled(true)
                             .shadow(radius: 5)
+                            .offset(y: startAnimation ? 0 : 50)
+                            .opacity(startAnimation ? 1 : 0)
                         }
                         .padding(.horizontal)
                         
@@ -75,6 +82,8 @@ struct ContentView: View {
                 
                 // TopBarView overlay at the top
                 TopBarView(title: GameConstants.gameTitle, leftIcon: "gear")
+                    .offset(y: startAnimation ? 0 : -50)
+                    .opacity(startAnimation ? 1 : 0)
             }
             .edgesIgnoringSafeArea(.top)
             .navigationDestination(for: Int.self) { gameId in
@@ -109,6 +118,14 @@ struct ContentView: View {
             .toolbar(.hidden, for: .navigationBar) // Also hide for the root view
         }
         .transition(.opacity)
+        .onAppear {
+            // Add a small delay to ensure the animation happens after splash screen disappears
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                withAnimation(.spring(response: 0.6, dampingFraction: 0.7)) {
+                    startAnimation = true
+                }
+            }
+        }
     }
 }
 
