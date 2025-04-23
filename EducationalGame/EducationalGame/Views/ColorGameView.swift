@@ -15,19 +15,22 @@ struct ColorGameView: View {
             case .intro:
                 DialogueView(
                     personaImage: GameConstants.miniGames[2].personaImage,
+                    color: GameConstants.miniGames[2].color,
                     dialogues: viewModel.introDialogue,
                     currentPhase: $viewModel.currentPhase
                 )
             case .questions:
                 QuestionsView(
                     questions: viewModel.introQuestions,
-                    currentPhase: $viewModel.currentPhase
+                    currentPhase: $viewModel.currentPhase,
+                    color: GameConstants.miniGames[2].color
                 )
             case .exploration:
                 ColorExploration(viewModel: viewModel)
             case .tutorial:
                 DialogueView(
                     personaImage: GameConstants.miniGames[2].personaImage,
+                    color: GameConstants.miniGames[2].color,
                     dialogues: viewModel.hexLearningDialogue,
                     currentPhase: $viewModel.currentPhase
                 )
@@ -36,6 +39,7 @@ struct ColorGameView: View {
             case .challenges:
                 DialogueView(
                     personaImage: GameConstants.miniGames[2].personaImage,
+                    color: GameConstants.miniGames[2].color,
                     dialogues: viewModel.opacityLearningDialogue,
                     currentPhase: $viewModel.currentPhase
                 )
@@ -92,7 +96,7 @@ struct ColorExploration: View {
                 
                     AnimatedCircleButton(
                         iconName: "arrow.right.circle.fill",
-                        
+                        color: GameConstants.miniGames[2].color,
                         action: {
                             // Complete exploration and advance
                             viewModel.completeGame(score: 50, percentage: 1.0)
@@ -378,7 +382,7 @@ struct ColorReview: View {
                 
                     AnimatedCircleButton(
                         iconName: "arrow.right.circle.fill",
-                        
+                        color: GameConstants.miniGames[2].color,
                         action: {
                             viewModel.completeGame(score: 50, percentage: 1.0)
                         }
@@ -401,7 +405,7 @@ struct ColorGameControls: View {
                 Spacer()
                 AnimatedCircleButton(
                     iconName: "checkmark.circle.fill",
-                    
+                    color: GameConstants.miniGames[2].color,
                     action: {
                         viewModel.checkColorMatch()
                         showAlert = true

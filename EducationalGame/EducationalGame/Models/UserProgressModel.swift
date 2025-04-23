@@ -24,62 +24,49 @@ enum GamePhase: String, CaseIterable {
         self = allCases[(currentIndex + 1) % allCases.count]
     }
     
-    // Helper function to get the next phase based on game type
-    mutating func next(for gameType: String) {
-        switch gameType {
-        case "Binary Game":
-            switch self {
-            case .intro: self = .questions
-            case .questions: self = .tutorial
-            case .tutorial: self = .practice
-            case .practice: self = .challenges
-            case .challenges: self = .advancedChallenges
-            case .advancedChallenges: self = .finalChallenge
-            case .finalChallenge: self = .reward
-            case .reward: self = .intro
-            default: self = .intro
-            }
-        case "Pixel Art Game":
-            switch self {
-            case .intro: self = .exploration
-            case .exploration: self = .tutorial
-            case .tutorial: self = .practice
-            case .practice: self = .challenges
-            case .challenges: self = .advancedChallenges
-            case .advancedChallenges: self = .finalChallenge
-            case .finalChallenge: self = .reward
-            case .reward: self = .intro
-            default: self = .intro
-            }
-        case "Color Game":
-            switch self {
-            case .intro: self = .questions
-            case .questions: self = .exploration
-            case .exploration: self = .tutorial
-            case .tutorial: self = .challenges
-            case .challenges: self = .finalChallenge
-            case .finalChallenge: self = .reward
-            case .reward: self = .intro
-            default: self = .intro
-            }
-        default:
-            self = .intro
-        }
-    }
-    
-    // Helper function to check if a phase is valid for a specific game
-    func isValid(for gameType: String) -> Bool {
-        switch gameType {
-        case "Binary Game":
-            return [.intro, .questions, .tutorial, .practice, .challenges, .advancedChallenges, .finalChallenge, .reward].contains(self)
-        case "Pixel Art Game":
-            return [.intro, .exploration, .tutorial, .practice, .challenges, .advancedChallenges, .finalChallenge, .reward].contains(self)
-        case "Color Game":
-            return [.intro, .questions, .exploration, .tutorial, .challenges, .finalChallenge, .reward].contains(self)
-        default:
-            return false
-        }
-    }
+    /* Helper function to get the next phase based on game type
+     mutating func next(for gameType: String) {
+         switch gameType {
+         case "Binary Game":
+             switch self {
+             case .intro: self = .questions
+             case .questions: self = .tutorial
+             case .tutorial: self = .practice
+             case .practice: self = .challenges
+             case .challenges: self = .advancedChallenges
+             case .advancedChallenges: self = .finalChallenge
+             case .finalChallenge: self = .reward
+             case .reward: self = .intro
+             default: self = .intro
+             }
+         case "Pixel Art Game":
+             switch self {
+             case .intro: self = .exploration
+             case .exploration: self = .tutorial
+             case .tutorial: self = .practice
+             case .practice: self = .challenges
+             case .challenges: self = .advancedChallenges
+             case .advancedChallenges: self = .finalChallenge
+             case .finalChallenge: self = .reward
+             case .reward: self = .intro
+             default: self = .intro
+             }
+         case "Color Game":
+             switch self {
+             case .intro: self = .questions
+             case .questions: self = .exploration
+             case .exploration: self = .tutorial
+             case .tutorial: self = .challenges
+             case .challenges: self = .finalChallenge
+             case .finalChallenge: self = .reward
+             case .reward: self = .intro
+             default: self = .intro
+             }
+         default:
+             self = .intro
+         }
+     }
+     */
 }
 
 // Use only ObservableObject for better compatibility with SwiftUI views
@@ -135,8 +122,7 @@ class UserProgressModel: ObservableObject {
             currentGamePhase[gameType] = .intro
             return
         }
-        
-        currentPhase.next(for: gameType)
+        currentPhase.next()
         currentGamePhase[gameType] = currentPhase
     }
 }

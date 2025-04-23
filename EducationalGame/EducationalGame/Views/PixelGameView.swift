@@ -15,6 +15,7 @@ struct PixelGameView: View {
             case .intro:
                 DialogueView(
                     personaImage: GameConstants.miniGames[1].personaImage,
+                    color: GameConstants.miniGames[1].color,
                     dialogues: viewModel.introDialogue,
                     currentPhase: $viewModel.currentPhase
                 )
@@ -27,6 +28,7 @@ struct PixelGameView: View {
             case .tutorial:
                 DialogueView(
                     personaImage: GameConstants.miniGames[1].personaImage,
+                    color: GameConstants.miniGames[1].color,
                     dialogues: viewModel.rleDialogue,
                     currentPhase: $viewModel.currentPhase
                 )
@@ -56,7 +58,8 @@ struct PixelGameQuestions: View {
     @State var viewModel: PixelGameViewModel
     
     var body: some View {
-        QuestionsView(questions: viewModel.introQuestions, currentPhase: $viewModel.currentPhase)
+        QuestionsView(questions: viewModel.introQuestions,
+                      currentPhase: $viewModel.currentPhase, color: GameConstants.miniGames[1].color)
     }
 }
 
@@ -212,7 +215,7 @@ struct PixelGameChallenge: View {
                     // Check Answer Button
                     AnimatedCircleButton(
                         iconName: "checkmark.circle.fill",
-                        
+                        color: GameConstants.miniGames[1].color,
                         action: {
                             viewModel.checkAnswer()
                         }
@@ -288,7 +291,7 @@ struct PixelGameExploration: View {
                 
                     AnimatedCircleButton(
                         iconName: "arrow.right.circle.fill",
-                        
+                        color: GameConstants.miniGames[1].color,
                         action: {
                             viewModel.completeGame(score: 50, percentage: 1.0)
                         }
@@ -371,7 +374,7 @@ struct PixelGameBinaryEncoding: View {
                     Spacer()
                     AnimatedCircleButton(
                         iconName: "checkmark.circle.fill",
-                        
+                        color: GameConstants.miniGames[1].color,
                         action: {
                             viewModel.checkBinaryEncoding()
                         }
@@ -509,7 +512,7 @@ struct PixelGameRLEChallenge: View {
                     Spacer()
                     AnimatedCircleButton(
                         iconName: "checkmark.circle.fill",
-                        
+                        color: GameConstants.miniGames[1].color,
                         action: {
                             viewModel.checkRLEAnswer()
                         }
@@ -595,7 +598,7 @@ struct PixelReviewView: View {
                 
                     AnimatedCircleButton(
                         iconName: "arrow.right.circle.fill",
-                        
+                        color: GameConstants.miniGames[1].color,
                         action: {
                             viewModel.completeGame(score: 50, percentage: 1.0)
                         }

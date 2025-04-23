@@ -8,64 +8,59 @@ struct AchievementsView: View {
     }
     
     var body: some View {
-        VStack {
-            TopBarView(title: "Achievements", color: .gameYellow)
-            Spacer()
-            HStack(spacing: 30) {
-                ForEach(GameConstants.miniGames) { game in
-                    AchievementTile(
-                        game: game,
-                        isUnlocked: viewModel.isAchievementUnlocked(forGameId: game.id)
-                    )
+        ZStack(alignment: .top) {
+            // Background and content
+            VStack {
+                // Top spacing to accommodate the TopBarView
+                Spacer().frame(height: 60)
+                
+                Spacer()
+                HStack(spacing: 30) {
+                    ForEach(GameConstants.miniGames) { game in
+                        AchievementTile(
+                            game: game,
+                            isUnlocked: viewModel.isAchievementUnlocked(forGameId: game.id)
+                        )
+                    }
                 }
+                Spacer()
             }
-            Spacer()
+            
+            // TopBarView overlay at the top
+            TopBarView(title: "Achievements", color: .gamePurple)
         }
+        .edgesIgnoringSafeArea(.top)
     }
 }
 
 struct AchievementTile: View {
     let game: MiniGame
     let isUnlocked: Bool
-    @State private var isPressed = false
     
     var body: some View {
         VStack(spacing: 15) {
-            // Trophy Icon
             Image(systemName: "trophy.fill")
                 .resizable()
                 .scaledToFit()
                 .frame(width: 50, height: 50)
-                .foregroundColor(isUnlocked ? .yellow : .gray)
+                .foregroundColor(isUnlocked ? .gameYellow : .gameDarkBlue)
             
-            // Achievement Title
             Text(game.name)
-                .font(.headline)
-                .foregroundColor(.black)
+                .font(GameTheme.headingFont)
+                .foregroundColor(isUnlocked ? .gameYellow : .gameDarkBlue)
             
-            // Achievement Description
-            Text(isUnlocked ? "Completed!" : "In Progress")
-                .font(.subheadline)
-                .foregroundColor(isUnlocked ? .green : .gray)
+            Text(isUnlocked ? game.achievementName : "In Progress")
+                .font(GameTheme.bodyFont)
+                .foregroundColor(isUnlocked ? .gameYellow : .gameDarkBlue)
         }
         .frame(width: 320, height: 240)
-        .background(isUnlocked ? game.color : game.color.opacity(0.2))
+        .background(isUnlocked ? game.color : game.color.opacity(0.3))
         .clipShape(RoundedRectangle(cornerRadius: 30))
         .overlay(
             RoundedRectangle(cornerRadius: 30)
                 .stroke(game.color, lineWidth: 3)
         )
-        .shadow(radius: isPressed ? 2 : 5)
-        .scaleEffect(isPressed ? 0.95 : 1.0)
-        .opacity(isPressed ? 0.8 : 1.0)
-        .onTapGesture {
-            withAnimation(.easeInOut(duration: 0.15)) {
-                isPressed = true
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
-                    isPressed = false
-                }
-            }
-        }
+        .shadow(radius: 5)
     }
 }
 

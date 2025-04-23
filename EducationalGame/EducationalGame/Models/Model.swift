@@ -12,6 +12,7 @@ struct MiniGame: Identifiable {
     let icon: String
     let color: Color
     let personaImage: String
+    let achievementName: String
     let view: AnyView
     var highScore: Int
 }

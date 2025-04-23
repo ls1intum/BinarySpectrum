@@ -31,11 +31,11 @@ struct GameButtonView: View {
                     .resizable()
                     .scaledToFit()
                     .frame(width: 50, height: 50)
-                    .foregroundColor(.black)
+                    .foregroundColor(.gameWhite)
                 
                 Text(title)
                     .font(.headline)
-                    .foregroundColor(.black)
+                    .foregroundColor(.gameWhite)
             }
             .frame(width: 320, height: 240)
             .background(color)

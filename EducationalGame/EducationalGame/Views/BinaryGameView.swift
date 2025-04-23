@@ -15,6 +15,7 @@ struct BinaryGameView: View {
             case .intro:
                 DialogueView(
                     personaImage: GameConstants.miniGames[0].personaImage,
+                    color: GameConstants.miniGames[0].color,
                     dialogues: viewModel.introDialogue,
                     currentPhase: $viewModel.currentPhase
                 )
@@ -25,6 +26,7 @@ struct BinaryGameView: View {
             case .tutorial:
                 DialogueView(
                     personaImage: GameConstants.miniGames[0].personaImage,
+                    color: GameConstants.miniGames[0].color,
                     dialogues: viewModel.practiceDialogue,
                     currentPhase: $viewModel.currentPhase
                 )
@@ -57,6 +59,7 @@ struct Questions: View {
         QuestionsView(
             questions: viewModel.introQuestions,
             currentPhase: $viewModel.currentPhase,
+            color: GameConstants.miniGames[0].color,
             gameType: viewModel.gameType
         )
     }
@@ -131,6 +134,7 @@ struct BinaryLearningGame: View {
                 
                     AnimatedCircleButton(
                         iconName: "checkmark.circle.fill",
+                        color: GameConstants.miniGames[0].color,
                         action: {
                             isCorrect = viewModel.decimalValue == viewModel.targetNumber
                             viewModel.checkAnswer()
@@ -249,7 +253,7 @@ struct BinaryExplorationView: View {
                 
                     AnimatedCircleButton(
                         iconName: "arrow.right.circle.fill",
-                        
+                        color: GameConstants.miniGames[0].color,
                         action: {
                             // Complete exploration and update progress
                             viewModel.completeGame(score: 50, percentage: 1.0)
@@ -332,7 +336,7 @@ struct BinaryChallengeView: View {
                 
                     AnimatedCircleButton(
                         iconName: "checkmark.circle.fill",
-                        
+                        color: GameConstants.miniGames[0].color,
                         action: {
                             isCorrect = viewModel.challengeDecimalValue == viewModel.challengeTargetNumber
                             viewModel.checkChallengeAnswer()
@@ -416,7 +420,7 @@ struct BinaryAdvancedChallengeView: View {
                 
                     AnimatedCircleButton(
                         iconName: "checkmark.circle.fill",
-                        
+                        color: GameConstants.miniGames[0].color,
                         action: {
                             isCorrect = Int(viewModel.userDecimalAnswer) == viewModel.advancedTargetNumber
                             viewModel.checkAdvancedAnswer()
@@ -567,7 +571,7 @@ struct BinaryFinalChallengeView: View {
                 
                     AnimatedCircleButton(
                         iconName: "checkmark.circle.fill",
-                        
+                        color: GameConstants.miniGames[0].color,
                         action: {
                             isCorrect = viewModel.isBirthdateValid
                             viewModel.checkBirthdateChallenge()
@@ -654,7 +658,7 @@ struct BinaryReviewView: View {
                 
                     AnimatedCircleButton(
                         iconName: "arrow.right.circle.fill",
-                        
+                        color: GameConstants.miniGames[0].color,
                         action: {
                             // Complete review and advance to reward
                             viewModel.completeGame(score: 50, percentage: 1.0)

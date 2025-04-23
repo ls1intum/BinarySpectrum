@@ -2,7 +2,7 @@ import SwiftUI
 
 extension Color {
     static let gameBlue = Color(red: 0, green: 0.643, blue: 1)
-    static let gameYellow = Color(red: 0.988, green: 0.859, blue: 0.282)
+    static let gameYellow = Color(red: 1, green: 0.815, blue: 0)
     static let gameGreen = Color(red: 0, green: 0.729, blue: 0.627)
     static let gameOrange = Color(red: 0.988, green: 0.506, blue: 0.282)
     static let gameRed = Color(red: 1, green: 0.384, blue: 0.4)
@@ -15,6 +15,7 @@ extension Color {
 
 struct GameTheme {
     static let titleFont = Font.custom("LoveYaLikeASister-Regular", size: 75)
+    static let headingFont = Font.custom("LoveYaLikeASister-Regular", size: 36)
     static let subtitleFont = Font.custom("LoveYaLikeASister-Regular", size: 24)
     static let bodyFont = Font.custom("LoveYaLikeASister-Regular", size: 21)
     static let buttonFont = Font.custom("Poppins-Medium", size: 20)

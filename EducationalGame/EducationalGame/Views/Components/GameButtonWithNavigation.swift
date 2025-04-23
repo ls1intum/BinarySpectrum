@@ -34,14 +34,14 @@ struct GameButtonWithNavigation: View {
                 Image(systemName: icon)
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 50, height: 50)
-                    .foregroundColor(.black)
+                    .frame(width: 65, height: 65)
+                    .foregroundColor(.gameWhite)
                     .scaleEffect(isHovered ? 1.1 : 1.0)
                     .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isHovered)
                 
                 Text(title)
-                    .font(GameTheme.subtitleFont)
-                    .foregroundColor(.black)
+                    .font(GameTheme.headingFont)
+                    .foregroundColor(.gameWhite)
             }
             .frame(width: 320, height: 240)
             .background(color)
@@ -77,12 +77,12 @@ struct GameButtonWithNavigation: View {
 #Preview {
     NavigationStack {
         GameButtonWithNavigation(
-            gameId: 1, 
-            color: .blue, 
-            icon: "plus", 
-            title: "Add", 
+            gameId: 1,
+            color: .blue,
+            icon: "plus",
+            title: "Add",
             navigationPath: .constant(NavigationPath()),
             destination: 1
         )
     }
-} 
+}

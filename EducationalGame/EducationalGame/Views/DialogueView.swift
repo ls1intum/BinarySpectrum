@@ -2,6 +2,7 @@ import SwiftUI
 
 struct DialogueView: View {
     let personaImage: String
+    let color: Color
     let dialogues: [String]
     @Binding var currentPhase: GamePhase
     
@@ -78,6 +79,7 @@ struct DialogueView: View {
                 // Next Button
                 AnimatedCircleButton(
                     iconName: currentDialogueIndex < dialogues.count - 1 ? "arrow.right.circle.fill" : "play.fill",
+                    color: color,
                     action: {
                         if currentDialogueIndex < dialogues.count - 1 {
                             currentDialogueIndex += 1
@@ -99,6 +101,7 @@ struct DialogueView: View {
     
     DialogueView(
         personaImage: "Persona1",
+        color: .gameGreen,
         dialogues: ["Welcome to our educational game! Here you'll learn important computational thinking concepts.", "Each mini-game teaches different skills like binary representation, pixel art, and color theory.", "Navigate through the dialogue using the buttons at the bottom."],
         currentPhase: $previewPhase // Pass as a Binding
     )

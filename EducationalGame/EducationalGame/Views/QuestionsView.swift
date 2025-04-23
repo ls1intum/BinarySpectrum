@@ -4,11 +4,13 @@ struct QuestionsView: View {
     var questions: [Question]
     @StateObject var viewModel: QuestionsViewModel
     @Binding var currentPhase: GamePhase
+    var color: Color
     var gameType: String
     
-    init(questions: [Question], currentPhase: Binding<GamePhase>, gameType: String = "Binary Game") {
+    init(questions: [Question], currentPhase: Binding<GamePhase>, color: Color, gameType: String = "Binary Game") {
         self.questions = questions
         self._currentPhase = currentPhase
+        self.color = color
         self.gameType = gameType
         self._viewModel = StateObject(wrappedValue: QuestionsViewModel(questions: questions))
     }
@@ -171,7 +173,7 @@ struct QuestionsView: View {
                 // Next/Finish Button
                 AnimatedCircleButton(
                     iconName: viewModel.currentQuestionIndex < viewModel.questions.count - 1 ? "arrow.right.circle.fill" : "checkmark.circle.fill",
-                    color: viewModel.canNavigateToNextQuestion() ? .gamePurple : .gray,
+                    color: viewModel.canNavigateToNextQuestion() ? color : .gray,
                     action: {
                         if viewModel.nextQuestion() {
                             // We've completed all questions, move to next phase
@@ -186,7 +188,7 @@ struct QuestionsView: View {
                             
                             // Update the local binding to advance to next phase
                             var nextPhase = currentPhase
-                            nextPhase.next(for: gameType)
+                            nextPhase.next()
                             currentPhase = nextPhase
                         }
                     }
@@ -234,5 +236,5 @@ struct QuestionsView: View {
             explanation: "Spiders have 8 legs."
         )
     ]
-    return QuestionsView(questions: sampleQuestions, currentPhase: $previewPhase)
+    return QuestionsView(questions: sampleQuestions, currentPhase: $previewPhase, color: .gameGreen)
 }

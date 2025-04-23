@@ -6,69 +6,77 @@ struct ContentView: View {
     
     var body: some View {
         NavigationStack(path: $navigationState.path) {
-            VStack {
-                TopBarView(title: GameConstants.gameTitle, leftIcon: "gear")
-                
-                VStack(spacing: 40) {
-                    Spacer()
-                    HStack(spacing: 30) {
-                        ForEach(GameConstants.miniGames) { game in
-                            GameButtonWithNavigation(
-                                gameId: game.id,
-                                color: game.color,
-                                icon: game.icon,
-                                title: game.name,
-                                navigationPath: $navigationState.path,
-                                destination: game.id
-                            )
-                            .scaleTransition()
-                        }
-                    }
+            ZStack(alignment: .top) {
+                // Background and content
+                VStack {
+                    // Top spacing to accommodate the TopBarView
+                    Spacer().frame(height: 60)
                     
-                    // Bottom Buttons 
-                    HStack(spacing: 20) {
-                        Button(action: {
-                            withAnimation(.easeInOut(duration: 0.3)) {
-                                navigationState.navigateTo("achievements")
+                    VStack(spacing: 40) {
+                        Spacer()
+                        HStack(spacing: 30) {
+                            ForEach(GameConstants.miniGames) { game in
+                                GameButtonWithNavigation(
+                                    gameId: game.id,
+                                    color: game.color,
+                                    icon: game.icon,
+                                    title: game.name,
+                                    navigationPath: $navigationState.path,
+                                    destination: game.id
+                                )
+                                .scaleTransition()
                             }
-                        }) {
-                            HStack {
-                                Image(systemName: "trophy.fill")
-                                Text("Achievements")
-                            }
-                            .font(GameTheme.subtitleFont)
-                            .padding()
-                            .frame(width: 480, height: 80)
-                            .background(Color.yellow)
-                            .foregroundColor(.black)
-                            .clipShape(RoundedRectangle(cornerRadius: 30))
                         }
-                        .shadow(radius: 2)
-                        .scaleTransition()
                         
-                        Button(action: {
-                            print("Another Feature tapped!")
-                        }) {
-                            HStack {
-                                Image(systemName: "hammer.circle.fill")
-                                Text("More Features")
+                        // Bottom Buttons
+                        HStack(spacing: 20) {
+                            Button(action: {
+                                withAnimation(.easeInOut(duration: 0.3)) {
+                                    navigationState.navigateTo("achievements")
+                                }
+                            }) {
+                                HStack {
+                                    Image(systemName: "trophy.fill")
+                                    Text("Achievements")
+                                }
+                                .font(GameTheme.headingFont)
+                                .padding()
+                                .frame(width: 480, height: 80)
+                                .background(Color.gameYellow)
+                                .foregroundColor(.black)
+                                .clipShape(RoundedRectangle(cornerRadius: 30))
                             }
-                            .font(GameTheme.subtitleFont)
-                            .padding()
-                            .frame(width: 480, height: 80)
-                            .background(Color.orange)
-                            .foregroundColor(.black)
-                            .clipShape(RoundedRectangle(cornerRadius: 30))
+                            .shadow(radius: 5)
+                            .scaleTransition()
+                            
+                            Button(action: {
+                                print("Another Feature tapped!")
+                            }) {
+                                HStack {
+                                    Image(systemName: "hammer")
+                                    Text("More Features")
+                                }
+                                .font(GameTheme.headingFont)
+                                .padding()
+                                .frame(width: 480, height: 80)
+                                .background(Color.gameOrange)
+                                .foregroundColor(.gameWhite)
+                                .clipShape(RoundedRectangle(cornerRadius: 30))
+                            }
+                            .disabled(true)
+                            .shadow(radius: 5)
                         }
-                        .shadow(radius: 2)
-                        .scaleTransition()
+                        .padding(.horizontal)
+                        
+                        Spacer()
                     }
-                    .padding(.horizontal)
-                    
-                    Spacer()
+                    .padding()
                 }
-                .padding()
+                
+                // TopBarView overlay at the top
+                TopBarView(title: GameConstants.gameTitle, leftIcon: "gear")
             }
+            .edgesIgnoringSafeArea(.top)
             .navigationDestination(for: Int.self) { gameId in
                 // This will navigate to the selected game view
                 if let game = GameConstants.miniGames.first(where: { $0.id == gameId }) {

@@ -62,7 +62,7 @@ import SwiftUICore
             alternatives: [
                 1: "Pattern recognition",
                 2: "Data representation",
-                3: "Algorithm design", 
+                3: "Algorithm design",
                 4: "Debugging"
             ],
             correctAnswer: 2,
@@ -359,13 +359,10 @@ import SwiftUICore
     // Complete a game stage and advance to next phase
     func completeGame(score: Int, percentage: Double) {
         // Record completion using the shared userViewModel
-        sharedUserViewModel.completeMiniGame("Pixel Game - \(currentPhase.rawValue)", 
-                                      score: score, 
-                                      percentage: percentage)
+        sharedUserViewModel.completeMiniGame("Pixel Game - \(currentPhase.rawValue)",
+                                             score: score,
+                                             percentage: percentage)
         
-        // Advance to next phase locally
-        var nextPhase = self.currentPhase
-        nextPhase.next(for: "Pixel Art Game")
-        self.currentPhase = nextPhase
+        currentPhase.next()
     }
 }

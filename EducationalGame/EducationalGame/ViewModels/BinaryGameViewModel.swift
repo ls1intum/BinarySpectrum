@@ -1,6 +1,6 @@
 import Foundation
-import SwiftUICore
 import SwiftUI
+import SwiftUICore
 
 @Observable class BinaryGameViewModel: ObservableObject {
     // Current game phase
@@ -89,14 +89,14 @@ import SwiftUI
     // Complete a game stage and advance to next phase
     func completeGame(score: Int, percentage: Double) {
         // Record completion using the shared userViewModel
-        sharedUserViewModel.completeMiniGame("\(gameType) - \(currentPhase.rawValue)", 
-                                      score: score, 
-                                      percentage: percentage)
+        sharedUserViewModel.completeMiniGame("\(gameType) - \(currentPhase.rawValue)",
+                                             score: score,
+                                             percentage: percentage)
         
         // Advance to next phase locally
-        var nextPhase = self.currentPhase
-        nextPhase.next(for: gameType)
-        self._currentPhase = nextPhase
+        var nextPhase = currentPhase
+        nextPhase.next()
+        _currentPhase = nextPhase
     }
     
     func checkAnswer() {
