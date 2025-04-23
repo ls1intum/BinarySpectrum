@@ -7,7 +7,7 @@ struct ContentView: View {
     var body: some View {
         NavigationStack(path: $navigationState.path) {
             VStack {
-                TopBarView(title: "Educational Game", leftIcon: "gear")
+                TopBarView(title: GameConstants.gameTitle, leftIcon: "gear")
                 
                 VStack(spacing: 40) {
                     Spacer()

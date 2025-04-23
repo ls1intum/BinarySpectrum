@@ -343,4 +343,43 @@ import SwiftUI
         nextPhase.next(for: "Color Game")
         self.currentPhase = nextPhase
     }
+    
+    init() {
+        // Initialize the alpha grid
+        setupAlphaGrid()
+        
+        // Listen for reset notifications
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(resetGameState),
+            name: NSNotification.Name("ResetGameProgress"),
+            object: nil
+        )
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    @objc func resetGameState() {
+        // Reset game to initial state
+        currentPhase = .intro
+        red = 0.5
+        green = 0.5
+        blue = 0.5
+        alpha = 1.0
+        showHint = false
+        isCorrect = false
+        hintMessage = ""
+        setupAlphaGrid() // Reset the grid
+    }
+    
+    private func setupAlphaGrid() {
+        // Initialize or reset the alpha grid
+        // This is a placeholder for your actual implementation
+        alphaGrid = []
+        
+        // Pick a random word from hiddenWords
+        currentWord = hiddenWords.randomElement() ?? "SWIFT"
+    }
 }

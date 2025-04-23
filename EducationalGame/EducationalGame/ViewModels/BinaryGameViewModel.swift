@@ -1,5 +1,6 @@
 import Foundation
 import SwiftUICore
+import SwiftUI
 
 @Observable class BinaryGameViewModel: ObservableObject {
     // Current game phase
@@ -218,4 +219,26 @@ import SwiftUICore
             example: "Month: 4 bits (1-12)\nDay: 5 bits (1-31)"
         )
     ]
+    
+    init() {
+        // Initialize game state
+        
+        // Listen for reset notifications
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(resetGameState),
+            name: NSNotification.Name("ResetGameProgress"),
+            object: nil
+        )
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    @objc func resetGameState() {
+        // Reset game to initial state
+        currentPhase = .intro
+        // Reset any other state as needed
+    }
 }

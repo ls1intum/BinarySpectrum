@@ -99,6 +99,28 @@ import SwiftUICore
     
     init() {
         generateCellSets()
+        
+        // Listen for reset notifications
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(resetGameState),
+            name: NSNotification.Name("ResetGameProgress"),
+            object: nil
+        )
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    @objc func resetGameState() {
+        // Reset game to initial state
+        currentPhase = .intro
+        blackCells.removeAll()
+        progress = 0.0
+        hintShown = false
+        hintMessage = ""
+        isCorrect = false
     }
     
     private func generateCellSets() {

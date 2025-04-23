@@ -22,6 +22,14 @@ class UserViewModel: ObservableObject {
     private let miniGamePercentagesKey = "miniGamePercentages"
     private let achievementsKey = "achievements"
     
+    // Keys that might be used by other parts of the app
+    private let gamePhaseKeys = [
+        "BinaryGamePhase",
+        "PixelGamePhase",
+        "ColorGamePhase",
+        "currentGamePhases"
+    ]
+    
     init() {
         // Initialize with empty data
         loadSavedData()
@@ -58,11 +66,20 @@ class UserViewModel: ObservableObject {
     
     // Reset all progress data
     func resetProgress() {
+        // Clear all game progress data
         completedMiniGames = [:]
         miniGameScores = [:]
         miniGamePercentages = [:]
         achievements = []
+        
+        // Save changes to UserDefaults
         saveData()
+        
+        // Clear any other game state data that might be stored in UserDefaults
+        resetAllGameStates()
+        
+        // Force refresh any game view models that might be in memory
+        NotificationCenter.default.post(name: NSNotification.Name("ResetGameProgress"), object: nil)
     }
     
     // MARK: - Private Methods
@@ -117,5 +134,36 @@ class UserViewModel: ObservableObject {
            let decoded = try? JSONDecoder().decode([String].self, from: savedData) {
             achievements = decoded
         }
+    }
+    
+    private func resetAllGameStates() {
+        let defaults = UserDefaults.standard
+        
+        // Remove known game phase keys
+        for key in gamePhaseKeys {
+            defaults.removeObject(forKey: key)
+        }
+        
+        // Also remove any keys that might be related to game progress
+        let allKeys = defaults.dictionaryRepresentation().keys
+        let progressKeys = allKeys.filter { key in
+            return key.contains("Game") && 
+                  (key.contains("Phase") || 
+                   key.contains("Progress") || 
+                   key.contains("State") ||
+                   key.contains("Completed"))
+        }
+        
+        for key in progressKeys {
+            defaults.removeObject(forKey: key)
+        }
+        
+        // Ensure specific game phases are reset
+        defaults.removeObject(forKey: "BinaryGameCurrentPhase")
+        defaults.removeObject(forKey: "PixelGameCurrentPhase")
+        defaults.removeObject(forKey: "ColorGameCurrentPhase")
+        
+        // Synchronize to ensure changes are saved
+        defaults.synchronize()
     }
 }

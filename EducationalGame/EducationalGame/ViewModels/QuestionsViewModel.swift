@@ -1,81 +1,113 @@
 import SwiftUI
+import Foundation
 
-@Observable class QuestionsViewModel: ObservableObject {
-    var questions: [Question]
-    var selectedAnswers: [Int: Int] = [:] // Stores selected answer per question
-    var correctAnswersCount: Int = 0 // Stores total correct answers
-    var currentQuestionIndex: Int = 0 // Tracks current question
-    var showExplanation: Bool = false // Controls explanation visibility
-    var currentExplanation: String = "" // Stores current explanation
-    var isAnswerCorrect: Bool = false // Tracks if current answer is correct
+class QuestionsViewModel: ObservableObject {
+    @Published var questions: [Question]
+    @Published var currentQuestionIndex: Int = 0
+    @Published var selectedAnswers: [Int: Int] = [:]
+    @Published var correctAnswersCount: Int = 0
+    var showExplanation: Bool = false
+    var currentExplanation: String = ""
+    var isAnswerCorrect: Bool = false
     
-    // Store randomized order of alternatives for each question
-    private var randomizedAlternativeKeys: [[Int]] = []
+    // Randomized alternatives to avoid memorization
+    private var alternativeMap: [Int: [Int]] = [:]
     
     init(questions: [Question]) {
         self.questions = questions
-        
         // Initialize randomized alternative keys for each question
         randomizeAlternatives()
+        
+        // Listen for reset notifications
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(resetGameState),
+            name: NSNotification.Name("ResetGameProgress"),
+            object: nil
+        )
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    @objc func resetGameState() {
+        // Reset the quiz state
+        currentQuestionIndex = 0
+        selectedAnswers = [:]
+        correctAnswersCount = 0
+        showExplanation = false
+        currentExplanation = ""
+        isAnswerCorrect = false
+        randomizeAlternatives() // Randomize again for a fresh experience
     }
     
     // Randomize the order of alternatives for all questions
     private func randomizeAlternatives() {
-        randomizedAlternativeKeys = []
+        alternativeMap.removeAll()
         
-        for question in questions {
-            // Get the sorted keys from the alternatives dictionary
-            let keys = Array(question.alternatives.keys).sorted()
+        for (index, question) in questions.enumerated() {
+            // Get the keys from the alternatives dictionary
+            let keys = Array(question.alternatives.keys)
             
             // Create a shuffled copy of the keys
             var shuffledKeys = keys
             shuffledKeys.shuffle()
             
             // Store the shuffled keys for this question
-            randomizedAlternativeKeys.append(shuffledKeys)
+            alternativeMap[index] = shuffledKeys
         }
     }
     
-    // Get the randomized keys for the current question
+    // Get the current question's randomized alternative keys
     func getRandomizedKeys() -> [Int] {
-        // If we haven't generated random keys yet or if the array is too short
-        if randomizedAlternativeKeys.count <= currentQuestionIndex {
-            // Get the sorted keys as a fallback
-            let fallbackKeys = Array(questions[currentQuestionIndex].alternatives.keys).sorted()
-            return fallbackKeys
+        guard currentQuestionIndex < questions.count else { return [] }
+        
+        // If we have stored randomized keys for this question, use them
+        if let randomKeys = alternativeMap[currentQuestionIndex] {
+            return randomKeys
         }
         
-        return randomizedAlternativeKeys[currentQuestionIndex]
+        // Otherwise, fall back to the natural order of keys
+        return Array(questions[currentQuestionIndex].alternatives.keys).sorted()
     }
     
+    // Handle selection of an answer
     func selectAnswer(_ alternativeID: Int) {
-        let questionIndex = currentQuestionIndex
-        selectedAnswers[questionIndex] = alternativeID
-        checkAnswer(selected: alternativeID)
-    }
-    
-    func checkAnswer(selected: Int) {
-        let question = questions[currentQuestionIndex]
-        isAnswerCorrect = selected == question.correctAnswer
-        currentExplanation = question.explanation
+        guard currentQuestionIndex < questions.count else { return }
         
-        if isAnswerCorrect {
+        let question = questions[currentQuestionIndex]
+        
+        // Store the selected answer
+        selectedAnswers[currentQuestionIndex] = alternativeID
+        
+        // Check if the answer is correct
+        isAnswerCorrect = (alternativeID == question.correctAnswer)
+        
+        // Update correct answer count if this is the first time answering correctly
+        if isAnswerCorrect && selectedAnswers[currentQuestionIndex] == alternativeID {
             correctAnswersCount += 1
         }
         
+        // Show explanation
+        currentExplanation = questions[currentQuestionIndex].explanation
         showExplanation = true
     }
     
+    // Move to the next question
     func nextQuestion() -> Bool {
-        if currentQuestionIndex < questions.count - 1 {
-            currentQuestionIndex += 1
-            
-            // If this question was already answered, immediately show its explanation
-            updateStateForCurrentQuestion()
-            
-            return false
+        // Reset the explanation state
+        showExplanation = false
+        currentExplanation = ""
+        
+        // If we're at the last question, return true to indicate completion
+        if currentQuestionIndex >= questions.count - 1 {
+            return true
         }
-        return true // Indicates all questions are completed
+        
+        // Otherwise, go to the next question
+        currentQuestionIndex += 1
+        return false
     }
     
     // Go back to the previous question
@@ -100,11 +132,10 @@ import SwiftUI
             // If not answered yet, hide the explanation
             showExplanation = false
             currentExplanation = ""
-            isAnswerCorrect = false
         }
     }
     
-    // Check if a specific question has been answered
+    // Check if a question has been answered
     func isQuestionAnswered(_ index: Int) -> Bool {
         return selectedAnswers[index] != nil
     }
