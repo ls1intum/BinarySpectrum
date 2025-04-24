@@ -66,12 +66,6 @@
     "Adjust the opacity to reveal the hidden message!" : {
 
     },
-    "All game progress has been successfully reset. The mini-games are now ready to be played from the beginning." : {
-
-    },
-    "Are you sure you want to reset all game progress? This will return all mini-games to their initial state as if you're playing them for the first time. This action cannot be undone." : {
-
-    },
     "Attempts remaining: %lld" : {
 
     },
@@ -85,9 +79,6 @@
 
     },
     "Binary Representation" : {
-
-    },
-    "Cancel" : {
 
     },
     "Check Answer" : {
@@ -194,15 +185,6 @@
 
     },
     "Progress" : {
-
-    },
-    "Progress Reset" : {
-
-    },
-    "Reset" : {
-
-    },
-    "Reset Progress" : {
 
     },
     "Result" : {

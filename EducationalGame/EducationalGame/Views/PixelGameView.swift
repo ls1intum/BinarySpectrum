@@ -44,7 +44,7 @@ struct PixelGameView: View {
                 RewardView(
                     message: "Incredible achievement! You've mastered binary images and Run-Length Encoding! You now understand how computers store images efficiently, from simple black-and-white patterns to complex pixel art. This knowledge is the foundation of image compression and digital graphics. You're well on your way to becoming a true computer scientist!",
                     personaImage: GameConstants.miniGames[1].personaImage,
-                    badgeTitle: "Pixel Master! 🎖️",
+                    badgeTitle: GameConstants.miniGames[1].achievementName,
                     color: GameConstants.miniGames[1].color
                 )
             }
@@ -234,6 +234,9 @@ struct PixelGameChallenge: View {
 struct PixelGameExploration: View {
     @ObservedObject var viewModel: PixelGameViewModel
     @State private var isAnimating = false
+    // Custom grid size for exploration phase
+    private let explorationGridSize = 16
+    private let explorationCellSize: CGFloat = 25 
     
     var body: some View {
         ZStack {
@@ -249,12 +252,12 @@ struct PixelGameExploration: View {
                             .cornerRadius(15)
                             .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 2)
                     
-                        LazyVGrid(columns: Array(repeating: GridItem(.fixed(viewModel.cellSize)), count: viewModel.gridSize), spacing: 2) {
-                            ForEach(0..<(viewModel.gridSize * viewModel.gridSize), id: \.self) { index in
+                        LazyVGrid(columns: Array(repeating: GridItem(.fixed(explorationCellSize), spacing: 2), count: explorationGridSize), spacing: 2) {
+                            ForEach(0..<(explorationGridSize * explorationGridSize), id: \.self) { index in
                                 ZStack {
                                     Rectangle()
                                         .fill(viewModel.blackCells.contains(index) ? Color.black : Color.white)
-                                        .frame(width: viewModel.cellSize, height: viewModel.cellSize)
+                                        .frame(width: explorationCellSize, height: explorationCellSize)
                                         .border(Color.gray.opacity(0.3), width: 1)
                                         .shadow(color: .black.opacity(0.1), radius: 1, x: 0, y: 1)
                                 
@@ -277,8 +280,8 @@ struct PixelGameExploration: View {
                         }
                         .padding(8)
                     }
-                    .frame(width: CGFloat(viewModel.gridSize) * viewModel.cellSize + CGFloat(viewModel.gridSize - 1) * 2 + 16,
-                           height: CGFloat(viewModel.gridSize) * viewModel.cellSize + CGFloat(viewModel.gridSize - 1) * 2 + 16)
+                    .frame(width: CGFloat(explorationGridSize) * explorationCellSize + CGFloat(explorationGridSize - 1) * 2 + 16,
+                           height: CGFloat(explorationGridSize) * explorationCellSize + CGFloat(explorationGridSize - 1) * 2 + 16)
                 }
                 .padding()
             
@@ -574,40 +577,20 @@ struct PixelReviewView: View {
     @ObservedObject var viewModel: PixelGameViewModel
     
     var body: some View {
-        VStack(spacing: 20) {
-            InstructionBar(text: "Let's review what you've learned about binary images! Scroll down.")
-            
-            ScrollView {
-                VStack(spacing: 25) {
-                    ForEach(viewModel.reviewCards, id: \.title) { card in
-                        ReviewCard(
-                            title: card.title,
-                            content: card.content,
-                            example: card.example,
-                            titleColor: GameConstants.miniGames[1].color
-                        )
-                    }
-                }
-                .padding()
+        ChecklistReviewView(
+            title: "Binary Images",
+            items: viewModel.reviewCards.map { card in
+                ReviewItem(
+                    title: card.title,
+                    content: card.content,
+                    example: card.example
+                )
+            },
+            color: GameConstants.miniGames[1].color,
+            onCompletion: {
+                viewModel.completeGame(score: 50, percentage: 1.0)
             }
-            .frame(maxHeight: .infinity)
-            
-            VStack {
-                HStack {
-                    Spacer()
-                
-                    AnimatedCircleButton(
-                        iconName: "arrow.right.circle.fill",
-                        color: GameConstants.miniGames[1].color,
-                        action: {
-                            viewModel.completeGame(score: 50, percentage: 1.0)
-                        }
-                    )
-                    .padding()
-                }
-            }
-        }
-        .padding()
+        )
     }
 }
 

@@ -10,7 +10,7 @@ struct RewardView: View {
     @State private var badgeOffset: CGFloat = 50
     @State private var badgeOpacity: Double = 0
     
-    init(message: String, personaImage: String = GameConstants.miniGames[2].personaImage, badgeTitle: String = "Pixel Master!", color: Color = .gameLightBlue) {
+    init(message: String, personaImage: String = GameConstants.miniGames[2].personaImage, badgeTitle: String = "Pixel Master!", color: Color = .gamePurple) {
         self.message = message
         self.personaImage = personaImage
         self.badgeTitle = badgeTitle
@@ -93,7 +93,7 @@ struct RewardView: View {
                 HStack {
                     Spacer()
                     CircleButton(
-                        iconName: "trophy.circle.fill",
+                        iconName: "trophy",
                         color: color
                     )
                     .padding()

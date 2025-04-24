@@ -359,38 +359,20 @@ struct ColorReview: View {
     @ObservedObject var viewModel: ColorGameViewModel
     
     var body: some View {
-        VStack(spacing: 20) {
-            InstructionBar(text: "Review what you've learned about colors!")
-            
-            ScrollView {
-                VStack(spacing: 20) {
-                    ForEach(viewModel.reviewCards, id: \.title) { card in
-                        ReviewCard(
-                            title: card.title,
-                            content: card.content,
-                            example: card.example,
-                            titleColor: GameConstants.miniGames[2].color
-                        )
-                    }
-                }
-                .padding()
+        ChecklistReviewView(
+            title: "Digital Colors",
+            items: viewModel.reviewCards.map { card in
+                ReviewItem(
+                    title: card.title,
+                    content: card.content,
+                    example: card.example
+                )
+            },
+            color: GameConstants.miniGames[2].color,
+            onCompletion: {
+                viewModel.completeGame(score: 50, percentage: 1.0)
             }
-            
-            VStack {
-                HStack {
-                    Spacer()
-                
-                    AnimatedCircleButton(
-                        iconName: "arrow.right.circle.fill",
-                        color: GameConstants.miniGames[2].color,
-                        action: {
-                            viewModel.completeGame(score: 50, percentage: 1.0)
-                        }
-                    )
-                    .padding()
-                }
-            }
-        }
+        )
     }
 }
 

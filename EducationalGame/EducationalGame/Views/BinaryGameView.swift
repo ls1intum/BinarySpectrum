@@ -634,41 +634,20 @@ struct BinaryReviewView: View {
     @State var viewModel: BinaryGameViewModel
     
     var body: some View {
-        VStack(spacing: 20) {
-            InstructionBar(text: "Let's review what you've learned about binary numbers! Scroll down.")
-            
-            ScrollView {
-                VStack(spacing: 25) {
-                    ForEach(viewModel.reviewCards, id: \.title) { card in
-                        ReviewCard(
-                            title: card.title,
-                            content: card.content,
-                            example: card.example,
-                            titleColor: GameConstants.miniGames[0].color
-                        )
-                    }
-                }
-                .padding()
+        ChecklistReviewView(
+            title: "Binary Numbers",
+            items: viewModel.reviewCards.map { card in
+                ReviewItem(
+                    title: card.title,
+                    content: card.content,
+                    example: card.example
+                )
+            },
+            color: GameConstants.miniGames[0].color,
+            onCompletion: {
+                viewModel.completeGame(score: 50, percentage: 1.0)
             }
-            .frame(maxHeight: .infinity)
-            
-            VStack {
-                HStack {
-                    Spacer()
-                
-                    AnimatedCircleButton(
-                        iconName: "arrow.right.circle.fill",
-                        color: GameConstants.miniGames[0].color,
-                        action: {
-                            // Complete review and advance to reward
-                            viewModel.completeGame(score: 50, percentage: 1.0)
-                        }
-                    )
-                    .padding()
-                }
-            }
-        }
-        .padding()
+        )
     }
 }
 
