@@ -7,6 +7,7 @@ struct SettingsView: View {
     @StateObject private var userViewModel = UserViewModel()
     @State private var showResetConfirmation = false
     @State private var showResetSuccess = false
+    @EnvironmentObject var navigationState: NavigationState
     
     var body: some View {
         ZStack(alignment: .top) {
@@ -65,22 +66,38 @@ struct SettingsView: View {
             
             // TopBarView overlay at the top
             TopBarView(title: "Settings", color: .gamePurple)
+            
+            // Reset Confirmation Popup
+            if showResetConfirmation {
+                TwoButtonInfoPopup(
+                    title: "Reset Progress",
+                    message: "Are you sure you want to reset all game progress? This will return all mini-games to their initial state as if you're playing them for the first time. This action cannot be undone.",
+                    primaryButtonTitle: "Reset",
+                    secondaryButtonTitle: "Cancel",
+                    onPrimaryButtonTap: {
+                        userViewModel.resetProgress()
+                        showResetConfirmation = false
+                        showResetSuccess = true
+                    },
+                    onSecondaryButtonTap: {
+                        showResetConfirmation = false
+                    }
+                )
+            }
+            
+            // Reset Success Popup
+            if showResetSuccess {
+                InfoPopup(
+                    title: "Progress Reset",
+                    message: "All game progress has been successfully reset. The mini-games are now ready to be played from the beginning.",
+                    buttonTitle: "OK",
+                    onButtonTap: {
+                        showResetSuccess = false
+                    }
+                )
+            }
         }
         .edgesIgnoringSafeArea(.top)
-        .alert("Reset Progress", isPresented: $showResetConfirmation) {
-            Button("Cancel", role: .cancel) {}
-            Button("Reset", role: .destructive) {
-                userViewModel.resetProgress()
-                showResetSuccess = true
-            }
-        } message: {
-            Text("Are you sure you want to reset all game progress? This will return all mini-games to their initial state as if you're playing them for the first time. This action cannot be undone.")
-        }
-        .alert("Progress Reset", isPresented: $showResetSuccess) {
-            Button("OK", role: .cancel) {}
-        } message: {
-            Text("All game progress has been successfully reset. The mini-games are now ready to be played from the beginning.")
-        }
     }
 }
 
@@ -121,4 +138,5 @@ struct SettingsButton: View {
 
 #Preview {
     SettingsView()
+        .environmentObject(NavigationState())
 }

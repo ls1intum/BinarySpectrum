@@ -18,5 +18,5 @@ struct GameTheme {
     static let headingFont = Font.custom("LoveYaLikeASister-Regular", size: 36)
     static let subtitleFont = Font.custom("LoveYaLikeASister-Regular", size: 24)
     static let bodyFont = Font.custom("LoveYaLikeASister-Regular", size: 21)
-    static let buttonFont = Font.custom("Poppins-Medium", size: 20)
+    static let buttonFont = Font.custom("LoveYaLikeASister-Regular", size: 20)
 }

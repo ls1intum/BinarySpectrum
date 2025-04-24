@@ -119,8 +119,8 @@ struct ContentView: View {
         }
         .transition(.opacity)
         .onAppear {
-            // Add a small delay to ensure the animation happens after splash screen disappears
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            // Trigger animation immediately but with a very slight delay to ensure view is fully loaded
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                 withAnimation(.spring(response: 0.6, dampingFraction: 0.7)) {
                     startAnimation = true
                 }

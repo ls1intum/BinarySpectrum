@@ -27,9 +27,6 @@ struct EducationalGameApp: App {
     // Global navigation state
     @StateObject private var navigationState = NavigationState()
     
-    // State to control showing splash screen
-    @State private var showSplashScreen = true
-    
     // Register app delegate
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     
@@ -45,21 +42,10 @@ struct EducationalGameApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ZStack {
-                ContentView()
-                    .environmentObject(userViewModel)
-                    .environmentObject(navigationState)
-                    .preferredColorScheme(.light)
-                    .opacity(showSplashScreen ? 0 : 1)
-                
-                if showSplashScreen {
-                    SplashScreenView(onFinished: {
-                        showSplashScreen = false
-                    })
-                    .transition(.opacity)
-                }
-            }
-            .animation(.easeInOut(duration: 0.5), value: showSplashScreen)
+            ContentView()
+                .environmentObject(userViewModel)
+                .environmentObject(navigationState)
+                .preferredColorScheme(.light)
         }
     }
 }
