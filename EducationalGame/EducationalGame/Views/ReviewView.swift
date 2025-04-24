@@ -7,7 +7,7 @@ struct ReviewItem: Identifiable {
     let example: String
 }
 
-struct ChecklistReviewView: View {
+struct ReviewView: View {
     let title: String
     let items: [ReviewItem]
     let color: Color
@@ -33,6 +33,7 @@ struct ChecklistReviewView: View {
                     }
                 }
                 .padding()
+                .frame(maxWidth: .infinity, alignment: .center)
             }
             .frame(maxHeight: .infinity)
             
@@ -63,7 +64,7 @@ struct ChecklistReviewView: View {
 }
 
 #Preview {
-    ChecklistReviewView(
+    ReviewView(
         title: "Binary Images",
         items: [
             ReviewItem(

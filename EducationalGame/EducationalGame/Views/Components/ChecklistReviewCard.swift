@@ -20,6 +20,10 @@ struct ChecklistReviewCard: View {
                         scale = 1.1
                         rotationDegrees = 5
                         
+                        // Play haptic feedback
+                        let generator = UIImpactFeedbackGenerator(style: .medium)
+                        generator.impactOccurred()
+                        
                         // Reset animation after a delay
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                             withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
@@ -72,6 +76,7 @@ struct ChecklistReviewCard: View {
         .background(Color.gameGray.opacity(0.1))
         .cornerRadius(15)
         .frame(maxWidth: .infinity, alignment: .leading)
+        .frame(width:800)
         .scaleEffect(scale)
         .rotationEffect(Angle(degrees: rotationDegrees))
         .overlay(
@@ -82,6 +87,7 @@ struct ChecklistReviewCard: View {
                 radius: isChecked ? 8 : 5, 
                 x: 0, 
                 y: isChecked ? 3 : 2)
+        .animation(.spring(response: 0.4, dampingFraction: 0.7), value: isChecked)
     }
 }
 

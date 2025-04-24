@@ -119,17 +119,14 @@ struct QuestionsView: View {
                         }
                     }
                 }
-                
-                // Character Icon
                 Image(systemName: "questionmark.circle.fill")
                     .resizable()
                     .scaledToFit()
                     .frame(width: 250, height: 250)
-                    .foregroundColor(Color.gameBlue)
+                    .foregroundColor(Color.gamePurple)
                     .offset(x: -400)
                     .zIndex(1)
             }
-            
             Spacer()
             
             // Navigation buttons (Back, Progress indicator, Next)

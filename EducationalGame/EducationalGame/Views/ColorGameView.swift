@@ -48,7 +48,20 @@ struct ColorGameView: View {
             case .finalChallenge:
                 ColorAlphaChallenge(viewModel: viewModel)
             case .review:
-                ColorReview(viewModel: viewModel)
+                ReviewView(
+                    title: "Digital Colors",
+                    items: viewModel.reviewCards.map { card in
+                        ReviewItem(
+                            title: card.title,
+                            content: card.content,
+                            example: card.example
+                        )
+                    },
+                    color: GameConstants.miniGames[2].color,
+                    onCompletion: {
+                        viewModel.completeGame(score: 50, percentage: 1.0)
+                    }
+                )
             case .reward:
                 RewardView(
                     message: "Amazing work! You've mastered the art of digital colors! From RGB values to hex codes and opacity, you now understand how computers create and store every color you see on screen. This knowledge is fundamental to everything from web design to digital art. Keep exploring the colorful world of computer science!",
@@ -352,27 +365,6 @@ struct ColorFinalChallenge: View {
                 .font(.headline)
                 .foregroundColor(viewModel.attemptsRemaining < 3 ? .red : .primary)
         }
-    }
-}
-
-struct ColorReview: View {
-    @ObservedObject var viewModel: ColorGameViewModel
-    
-    var body: some View {
-        ChecklistReviewView(
-            title: "Digital Colors",
-            items: viewModel.reviewCards.map { card in
-                ReviewItem(
-                    title: card.title,
-                    content: card.content,
-                    example: card.example
-                )
-            },
-            color: GameConstants.miniGames[2].color,
-            onCompletion: {
-                viewModel.completeGame(score: 50, percentage: 1.0)
-            }
-        )
     }
 }
 

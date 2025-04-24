@@ -39,7 +39,20 @@ struct PixelGameView: View {
             case .finalChallenge:
                 Text("TODO")
             case .review:
-                PixelReviewView(viewModel: viewModel)
+                ReviewView(
+                    title: "Binary Images",
+                    items: viewModel.reviewCards.map { card in
+                        ReviewItem(
+                            title: card.title,
+                            content: card.content,
+                            example: card.example
+                        )
+                    },
+                    color: GameConstants.miniGames[1].color,
+                    onCompletion: {
+                        viewModel.completeGame(score: 50, percentage: 1.0)
+                    }
+                )
             case .reward:
                 RewardView(
                     message: "Incredible achievement! You've mastered binary images and Run-Length Encoding! You now understand how computers store images efficiently, from simple black-and-white patterns to complex pixel art. This knowledge is the foundation of image compression and digital graphics. You're well on your way to becoming a true computer scientist!",
@@ -236,7 +249,7 @@ struct PixelGameExploration: View {
     @State private var isAnimating = false
     // Custom grid size for exploration phase
     private let explorationGridSize = 16
-    private let explorationCellSize: CGFloat = 25 
+    private let explorationCellSize: CGFloat = 25
     
     var body: some View {
         ZStack {
@@ -570,27 +583,6 @@ struct PixelGameRLEChallenge: View {
                 .padding()
             }
         }
-    }
-}
-
-struct PixelReviewView: View {
-    @ObservedObject var viewModel: PixelGameViewModel
-    
-    var body: some View {
-        ChecklistReviewView(
-            title: "Binary Images",
-            items: viewModel.reviewCards.map { card in
-                ReviewItem(
-                    title: card.title,
-                    content: card.content,
-                    example: card.example
-                )
-            },
-            color: GameConstants.miniGames[1].color,
-            onCompletion: {
-                viewModel.completeGame(score: 50, percentage: 1.0)
-            }
-        )
     }
 }
 

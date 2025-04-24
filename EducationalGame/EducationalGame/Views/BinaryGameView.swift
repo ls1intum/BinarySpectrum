@@ -39,7 +39,20 @@ struct BinaryGameView: View {
             case .finalChallenge:
                 BinaryFinalChallengeView(viewModel: viewModel)
             case .review:
-                BinaryReviewView(viewModel: viewModel)
+                ReviewView(
+                    title: "Binary Numbers",
+                    items: viewModel.reviewCards.map { card in
+                        ReviewItem(
+                            title: card.title,
+                            content: card.content,
+                            example: card.example
+                        )
+                    },
+                    color: GameConstants.miniGames[0].color,
+                    onCompletion: {
+                        viewModel.completeGame(score: 50, percentage: 1.0)
+                    }
+                )
             case .reward:
                 RewardView(
                     message: "Outstanding achievement! You've mastered the language of computers - binary numbers! From basic conversions to creating your own binary armband, you now understand how computers represent and process all information using just 0s and 1s. This fundamental knowledge is the building block of all digital technology. You're thinking like a true computer scientist!",
@@ -627,27 +640,6 @@ struct BinaryArmbandView: View {
             .background(Color.black.opacity(0.1))
             .cornerRadius(20)
         }
-    }
-}
-
-struct BinaryReviewView: View {
-    @State var viewModel: BinaryGameViewModel
-    
-    var body: some View {
-        ChecklistReviewView(
-            title: "Binary Numbers",
-            items: viewModel.reviewCards.map { card in
-                ReviewItem(
-                    title: card.title,
-                    content: card.content,
-                    example: card.example
-                )
-            },
-            color: GameConstants.miniGames[0].color,
-            onCompletion: {
-                viewModel.completeGame(score: 50, percentage: 1.0)
-            }
-        )
     }
 }
 
