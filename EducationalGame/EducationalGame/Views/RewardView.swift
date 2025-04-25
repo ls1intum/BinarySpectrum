@@ -59,18 +59,18 @@ struct RewardView: View {
                     Image(systemName: "medal.fill")
                         .font(.system(size: 60))
                         .foregroundColor(.yellow)
-                        .shadow(color: .yellow.opacity(0.5), radius: 10)
+                        .shadow(color: .gameYellow.opacity(0.5), radius: 10)
                     
                     Text(badgeTitle)
                         .font(.system(size: 36, weight: .bold))
                         .foregroundColor(.yellow)
-                        .shadow(color: .yellow.opacity(0.5), radius: 5)
+                        .shadow(color: .gameYellow.opacity(0.5), radius: 5)
                 }
                 .padding(30)
                 .background(
                     RoundedRectangle(cornerRadius: 20)
                         .fill(Color.gameGray.opacity(0.3))
-                        .shadow(color: .yellow.opacity(0.3), radius: 10)
+                        .shadow(color: .gameYellow.opacity(0.3), radius: 10)
                 )
                 .scaleEffect(scale)
                 .offset(y: badgeOffset)
@@ -82,7 +82,7 @@ struct RewardView: View {
                         badgeOpacity = 1.0
                     }
                 }
-                
+                 
                 Spacer()
             }
             .padding()
@@ -107,6 +107,6 @@ struct RewardView: View {
     RewardView(
         message: "You've mastered storing black-and-white images and now colorful images too! Computers use these techniques to save memory and load images quickly. You're becoming a real computer scientist!",
         personaImage: GameConstants.miniGames[2].personaImage,
-        badgeTitle: "Pixel Master! 🎖️"
+        badgeTitle: "Pixel Master!"
     )
 }

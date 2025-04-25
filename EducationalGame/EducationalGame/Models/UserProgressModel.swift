@@ -24,49 +24,55 @@ enum GamePhase: String, CaseIterable {
         self = allCases[(currentIndex + 1) % allCases.count]
     }
     
-    /* Helper function to get the next phase based on game type
-     mutating func next(for gameType: String) {
-         switch gameType {
-         case "Binary Game":
-             switch self {
-             case .intro: self = .questions
-             case .questions: self = .tutorial
-             case .tutorial: self = .practice
-             case .practice: self = .challenges
-             case .challenges: self = .advancedChallenges
-             case .advancedChallenges: self = .finalChallenge
-             case .finalChallenge: self = .reward
-             case .reward: self = .intro
-             default: self = .intro
-             }
-         case "Pixel Art Game":
-             switch self {
-             case .intro: self = .exploration
-             case .exploration: self = .tutorial
-             case .tutorial: self = .practice
-             case .practice: self = .challenges
-             case .challenges: self = .advancedChallenges
-             case .advancedChallenges: self = .finalChallenge
-             case .finalChallenge: self = .reward
-             case .reward: self = .intro
-             default: self = .intro
-             }
-         case "Color Game":
-             switch self {
-             case .intro: self = .questions
-             case .questions: self = .exploration
-             case .exploration: self = .tutorial
-             case .tutorial: self = .challenges
-             case .challenges: self = .finalChallenge
-             case .finalChallenge: self = .reward
-             case .reward: self = .intro
-             default: self = .intro
-             }
-         default:
-             self = .intro
-         }
-     }
-     */
+    // Helper function to get the next phase based on game type
+    mutating func next(for gameType: String) {
+        switch gameType {
+        case "Binary Game":
+            switch self {
+            case .intro: self = .questions
+            case .questions: self = .exploration
+            case .exploration: self = .tutorial
+            case .tutorial: self = .practice
+            case .practice: self = .challenges
+            case .challenges: self = .advancedChallenges
+            case .advancedChallenges: self = .finalChallenge
+            case .finalChallenge: self = .review
+            case .review: self = .reward
+            case .reward: self = .intro
+            default: self = .intro
+            }
+        case "Pixel Art Game":
+            switch self {
+            case .intro: self = .questions
+            case .questions: self = .exploration
+            case .exploration: self = .practice
+            case .practice: self = .tutorial
+            case .tutorial: self = .challenges
+            case .challenges: self = .advancedChallenges
+            case .advancedChallenges: self = .finalChallenge
+            case .finalChallenge: self = .review
+            case .review: self = .reward
+            case .reward: self = .intro
+            default: self = .intro
+            }
+        case "Color Game":
+            switch self {
+            case .intro: self = .questions
+            case .questions: self = .exploration
+            case .exploration: self = .tutorial
+            case .tutorial: self = .practice
+            case .practice: self = .challenges
+            case .challenges: self = .advancedChallenges
+            case .advancedChallenges: self = .finalChallenge
+            case .finalChallenge: self = .review
+            case .review: self = .reward
+            case .reward: self = .intro
+            default: self = .intro
+            }
+        default:
+            self = .intro
+        }
+    }
 }
 
 // Use only ObservableObject for better compatibility with SwiftUI views

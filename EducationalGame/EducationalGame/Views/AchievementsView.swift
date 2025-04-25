@@ -30,6 +30,10 @@ struct AchievementsView: View {
             TopBarView(title: "Achievements", color: .gamePurple)
         }
         .edgesIgnoringSafeArea(.top)
+        .onAppear {
+            // Force a refresh of achievements when the view appears
+            viewModel.updateAchievementsFromUserViewModel()
+        }
     }
 }
 

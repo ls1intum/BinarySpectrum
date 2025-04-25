@@ -8,69 +8,82 @@ struct ColorGameView: View {
     }
     
     var body: some View {
-        VStack {
-            TopBarView(title: GameConstants.miniGames[2].name, color: GameConstants.miniGames[2].color)
-            
-            switch viewModel.currentPhase {
-            case .intro:
-                DialogueView(
-                    personaImage: GameConstants.miniGames[2].personaImage,
-                    color: GameConstants.miniGames[2].color,
-                    dialogues: viewModel.introDialogue,
-                    currentPhase: $viewModel.currentPhase
-                )
-            case .questions:
-                QuestionsView(
-                    questions: viewModel.introQuestions,
-                    currentPhase: $viewModel.currentPhase,
-                    color: GameConstants.miniGames[2].color
-                )
-            case .exploration:
-                ColorExploration(viewModel: viewModel)
-            case .tutorial:
-                DialogueView(
-                    personaImage: GameConstants.miniGames[2].personaImage,
-                    color: GameConstants.miniGames[2].color,
-                    dialogues: viewModel.hexLearningDialogue,
-                    currentPhase: $viewModel.currentPhase
-                )
-            case .practice:
-                ColorHexChallenge(viewModel: viewModel)
-            case .challenges:
-                DialogueView(
-                    personaImage: GameConstants.miniGames[2].personaImage,
-                    color: GameConstants.miniGames[2].color,
-                    dialogues: viewModel.opacityLearningDialogue,
-                    currentPhase: $viewModel.currentPhase
-                )
-            case .advancedChallenges:
-                OpacityChallenge(viewModel: viewModel)
-            case .finalChallenge:
-                ColorAlphaChallenge(viewModel: viewModel)
-            case .review:
-                ReviewView(
-                    title: "Digital Colors",
-                    items: viewModel.reviewCards.map { card in
-                        ReviewItem(
-                            title: card.title,
-                            content: card.content,
-                            example: card.example
-                        )
-                    },
-                    color: GameConstants.miniGames[2].color,
-                    onCompletion: {
-                        viewModel.completeGame(score: 50, percentage: 1.0)
-                    }
-                )
-            case .reward:
-                RewardView(
-                    message: "Amazing work! You've mastered the art of digital colors! From RGB values to hex codes and opacity, you now understand how computers create and store every color you see on screen. This knowledge is fundamental to everything from web design to digital art. Keep exploring the colorful world of computer science!",
-                    personaImage: GameConstants.miniGames[2].personaImage,
-                    badgeTitle: "Color Master! 🎨",
-                    color: GameConstants.miniGames[2].color
-                )
+        ZStack(alignment: .top) {
+            // Main content
+            VStack {
+                // Top spacing to accommodate the TopBarView
+                Spacer().frame(height: 90)
+                
+                // Game content based on phase
+                switch viewModel.currentPhase {
+                case .intro:
+                    DialogueView(
+                        personaImage: GameConstants.miniGames[2].personaImage,
+                        color: GameConstants.miniGames[2].color,
+                        dialogues: viewModel.introDialogue,
+                        gameType: viewModel.gameType,
+                        currentPhase: $viewModel.currentPhase
+                    )
+                case .questions:
+                    QuestionsView(
+                        questions: viewModel.introQuestions,
+                        currentPhase: $viewModel.currentPhase,
+                        color: GameConstants.miniGames[2].color,
+                        gameType: viewModel.gameType
+                    )
+                case .exploration:
+                    ColorExploration(viewModel: viewModel)
+                case .tutorial:
+                    DialogueView(
+                        personaImage: GameConstants.miniGames[2].personaImage,
+                        color: GameConstants.miniGames[2].color,
+                        dialogues: viewModel.hexLearningDialogue,
+                        gameType: viewModel.gameType,
+                        currentPhase: $viewModel.currentPhase
+                    )
+                case .practice:
+                    ColorHexChallenge(viewModel: viewModel)
+                case .challenges:
+                    DialogueView(
+                        personaImage: GameConstants.miniGames[2].personaImage,
+                        color: GameConstants.miniGames[2].color,
+                        dialogues: viewModel.opacityLearningDialogue,
+                        gameType: viewModel.gameType,
+                        currentPhase: $viewModel.currentPhase
+                    )
+                case .advancedChallenges:
+                    OpacityChallenge(viewModel: viewModel)
+                case .finalChallenge:
+                    ColorAlphaChallenge(viewModel: viewModel)
+                case .review:
+                    ReviewView(
+                        title: "Digital Colors",
+                        items: viewModel.reviewCards.map { card in
+                            ReviewItem(
+                                title: card.title,
+                                content: card.content,
+                                example: card.example
+                            )
+                        },
+                        color: GameConstants.miniGames[2].color,
+                        onCompletion: {
+                            viewModel.completeGame(score: 50, percentage: 1.0)
+                        }
+                    )
+                case .reward:
+                    RewardView(
+                        message: "Amazing work! You've mastered the art of digital colors! From RGB values to hex codes and opacity, you now understand how computers create and store every color you see on screen. This knowledge is fundamental to everything from web design to digital art. Keep exploring the colorful world of computer science!",
+                        personaImage: GameConstants.miniGames[2].personaImage,
+                        badgeTitle: GameConstants.miniGames[2].achievementName,
+                        color: GameConstants.miniGames[2].color
+                    )
+                }
             }
+            
+            // TopBarView overlay at the top
+            TopBarView(title: GameConstants.miniGames[2].name, color: GameConstants.miniGames[2].color)
         }
+        .edgesIgnoringSafeArea(.top)
     }
 }
 
@@ -80,7 +93,7 @@ struct ColorExploration: View {
     var body: some View {
         ZStack {
             VStack(spacing: 30) {
-                InstructionBar(text: "Experiment with the RGB sliders to create different colors!")
+                InstructionBar(text: "Change the RGB colors to make your favorite color")
             
                 Circle()
                     .fill(Color(red: viewModel.red, green: viewModel.green, blue: viewModel.blue))
@@ -371,40 +384,48 @@ struct ColorFinalChallenge: View {
 struct ColorGameControls: View {
     @ObservedObject var viewModel: ColorGameViewModel
     @State private var showAlert = false
+    @State private var showPopup = false
     
     var body: some View {
-        VStack {
-            Spacer()
-            HStack {
+        ZStack {
+            VStack {
                 Spacer()
-                AnimatedCircleButton(
-                    iconName: "checkmark.circle.fill",
-                    color: GameConstants.miniGames[2].color,
-                    action: {
-                        viewModel.checkColorMatch()
-                        showAlert = true
-                    }
-                )
-                .padding()
+                HStack {
+                    Spacer()
+                    AnimatedCircleButton(
+                        iconName: "checkmark.circle.fill",
+                        color: GameConstants.miniGames[2].color,
+                        action: {
+                            viewModel.checkColorMatch()
+                            showPopup = true
+                        }
+                    )
+                    .padding()
+                }
             }
-        }
-        .alert(isPresented: $showAlert) {
-            if viewModel.isCorrect {
-                Alert(
-                    title: Text("Correct!"),
-                    message: Text(viewModel.hintMessage),
-                    dismissButton: .default(Text("Continue")) {
-                        viewModel.completeGame(score: 100, percentage: 1.0)
-                    }
-                )
-            } else {
-                Alert(
-                    title: Text("Try Again"),
-                    message: Text(viewModel.hintMessage),
-                    dismissButton: .default(Text("OK")) {
-                        viewModel.hideHint()
-                    }
-                )
+            
+            if showPopup {
+                if viewModel.isCorrect {
+                    InfoPopup(
+                        title: "Correct!",
+                        message: viewModel.hintMessage,
+                        buttonTitle: "Continue",
+                        onButtonTap: {
+                            showPopup = false
+                            viewModel.completeGame(score: 100, percentage: 1.0)
+                        }
+                    )
+                } else {
+                    InfoPopup(
+                        title: "Try Again",
+                        message: viewModel.hintMessage,
+                        buttonTitle: "OK",
+                        onButtonTap: {
+                            showPopup = false
+                            viewModel.hideHint()
+                        }
+                    )
+                }
             }
         }
     }

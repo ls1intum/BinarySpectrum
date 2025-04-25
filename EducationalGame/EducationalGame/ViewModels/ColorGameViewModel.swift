@@ -2,8 +2,9 @@ import Foundation
 import SwiftUI
 
 @Observable class ColorGameViewModel: ObservableObject {
+    let gameType = "Color Game"
     var currentPhase = GamePhase.intro
-    
+
     // Game State
     var red: Double = 0.5
     var green: Double = 0.5
@@ -340,7 +341,7 @@ import SwiftUI
         
         // Advance to next phase locally
         var nextPhase = currentPhase
-        nextPhase.next()
+        nextPhase.next(for: gameType)
         currentPhase = nextPhase
     }
     

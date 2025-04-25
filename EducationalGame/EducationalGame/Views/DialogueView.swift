@@ -4,6 +4,7 @@ struct DialogueView: View {
     let personaImage: String
     let color: Color
     let dialogues: [String]
+    let gameType: String
     @Binding var currentPhase: GamePhase
     
     @State private var currentDialogueIndex = 0
@@ -84,7 +85,7 @@ struct DialogueView: View {
                         if currentDialogueIndex < dialogues.count - 1 {
                             currentDialogueIndex += 1
                         } else {
-                            currentPhase.next()
+                            currentPhase.next(for: gameType)
                         }
                     }
                 )
@@ -103,6 +104,7 @@ struct DialogueView: View {
         personaImage: "Persona1",
         color: .gameGreen,
         dialogues: ["Welcome to our educational game! Here you'll learn important computational thinking concepts.", "Each mini-game teaches different skills like binary representation, pixel art, and color theory.", "Navigate through the dialogue using the buttons at the bottom."],
+        gameType: "Binary Game",
         currentPhase: $previewPhase // Pass as a Binding
     )
 }

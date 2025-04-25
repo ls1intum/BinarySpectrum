@@ -8,60 +8,71 @@ struct PixelGameView: View {
     }
     
     var body: some View {
-        VStack {
-            TopBarView(title: GameConstants.miniGames[1].name, color: GameConstants.miniGames[1].color)
-            
-            switch viewModel.currentPhase {
-            case .intro:
-                DialogueView(
-                    personaImage: GameConstants.miniGames[1].personaImage,
-                    color: GameConstants.miniGames[1].color,
-                    dialogues: viewModel.introDialogue,
-                    currentPhase: $viewModel.currentPhase
-                )
-            case .questions:
-                PixelGameQuestions(viewModel: viewModel)
-            case .exploration:
-                PixelGameExploration(viewModel: viewModel)
-            case .challenges:
-                PixelGameChallenge(viewModel: viewModel)
-            case .tutorial:
-                DialogueView(
-                    personaImage: GameConstants.miniGames[1].personaImage,
-                    color: GameConstants.miniGames[1].color,
-                    dialogues: viewModel.rleDialogue,
-                    currentPhase: $viewModel.currentPhase
-                )
-            case .practice:
-                PixelGameBinaryEncoding(viewModel: viewModel)
-            case .advancedChallenges:
-                PixelGameRLEChallenge(viewModel: viewModel)
-            case .finalChallenge:
-                Text("TODO")
-            case .review:
-                ReviewView(
-                    title: "Binary Images",
-                    items: viewModel.reviewCards.map { card in
-                        ReviewItem(
-                            title: card.title,
-                            content: card.content,
-                            example: card.example
-                        )
-                    },
-                    color: GameConstants.miniGames[1].color,
-                    onCompletion: {
-                        viewModel.completeGame(score: 50, percentage: 1.0)
-                    }
-                )
-            case .reward:
-                RewardView(
-                    message: "Incredible achievement! You've mastered binary images and Run-Length Encoding! You now understand how computers store images efficiently, from simple black-and-white patterns to complex pixel art. This knowledge is the foundation of image compression and digital graphics. You're well on your way to becoming a true computer scientist!",
-                    personaImage: GameConstants.miniGames[1].personaImage,
-                    badgeTitle: GameConstants.miniGames[1].achievementName,
-                    color: GameConstants.miniGames[1].color
-                )
+        ZStack(alignment: .top) {
+            // Main content
+            VStack {
+                // Top spacing to accommodate the TopBarView
+                Spacer().frame(height: 90)
+                
+                // Game content based on phase
+                switch viewModel.currentPhase {
+                case .intro:
+                    DialogueView(
+                        personaImage: GameConstants.miniGames[1].personaImage,
+                        color: GameConstants.miniGames[1].color,
+                        dialogues: viewModel.introDialogue,
+                        gameType: viewModel.gameType,
+                        currentPhase: $viewModel.currentPhase
+                    )
+                case .questions:
+                    PixelGameQuestions(viewModel: viewModel)
+                case .exploration:
+                    PixelGameExploration(viewModel: viewModel)
+                case .practice:
+                    PixelGameChallenge(viewModel: viewModel)
+                case .tutorial:
+                    DialogueView(
+                        personaImage: GameConstants.miniGames[1].personaImage,
+                        color: GameConstants.miniGames[1].color,
+                        dialogues: viewModel.rleDialogue,
+                        gameType: viewModel.gameType,
+                        currentPhase: $viewModel.currentPhase
+                    )
+                case .challenges:
+                    PixelGameBinaryEncoding(viewModel: viewModel)
+                case .advancedChallenges:
+                    PixelGameRLEChallenge(viewModel: viewModel)
+                case .finalChallenge:
+                    Text("TODO")
+                case .review:
+                    ReviewView(
+                        title: "Binary Images",
+                        items: viewModel.reviewCards.map { card in
+                            ReviewItem(
+                                title: card.title,
+                                content: card.content,
+                                example: card.example
+                            )
+                        },
+                        color: GameConstants.miniGames[1].color,
+                        onCompletion: {
+                            viewModel.completeGame(score: 50, percentage: 1.0)
+                        }
+                    )
+                case .reward:
+                    RewardView(
+                        message: "Incredible achievement! You've mastered binary images and Run-Length Encoding! You now understand how computers store images efficiently, from simple black-and-white patterns to complex pixel art. This knowledge is the foundation of image compression and digital graphics. You're well on your way to becoming a true computer scientist!",
+                        personaImage: GameConstants.miniGames[1].personaImage,
+                        badgeTitle: GameConstants.miniGames[1].achievementName,
+                        color: GameConstants.miniGames[1].color
+                    )
+                }
             }
+            
+            // TopBarView overlay at the top
+            TopBarView(title: GameConstants.miniGames[1].name, color: GameConstants.miniGames[1].color)
         }
+        .edgesIgnoringSafeArea(.top)
     }
 }
 

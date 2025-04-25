@@ -106,6 +106,9 @@ class UserViewModel: ObservableObject {
         if let encoded = try? JSONEncoder().encode(achievements) {
             defaults.set(encoded, forKey: achievementsKey)
         }
+        
+        // Notify listeners that user data has been updated
+        NotificationCenter.default.post(name: NSNotification.Name("UserDataUpdated"), object: nil)
     }
     
     private func loadSavedData() {

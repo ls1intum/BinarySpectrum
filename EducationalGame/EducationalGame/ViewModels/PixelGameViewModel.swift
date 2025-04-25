@@ -2,8 +2,9 @@ import Foundation
 import SwiftUICore
 
 @Observable class PixelGameViewModel: ObservableObject {
-    // Game State
+    let gameType = "Pixel Game"
     var currentPhase: GamePhase = .intro
+
     var blackCells: Set<Int> = [] // Stores the black squares
     var progress: Double = 0.0
     var hintShown: Bool = false
@@ -362,7 +363,5 @@ import SwiftUICore
         sharedUserViewModel.completeMiniGame("Pixel Game - \(currentPhase.rawValue)",
                                              score: score,
                                              percentage: percentage)
-        
-        currentPhase.next()
     }
 }

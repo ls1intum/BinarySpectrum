@@ -6,6 +6,7 @@ struct CircleButton: View {
     @Environment(\.currentView) var currentView
     @Environment(\.currentPhase) var currentPhase
     @State private var showInfoAlert = false
+    @State private var showInfoPopup = false
     @State private var viewModel: CircleButtonViewModel
     @EnvironmentObject private var navigationState: NavigationState
     
@@ -17,24 +18,30 @@ struct CircleButton: View {
     }
 
     var body: some View {
-        Button(action: handleAction) {
-            ZStack {
-                Circle()
-                    .fill(color.opacity(0.7))
-                    .frame(width: 90, height: 90)
-                    .shadow(radius: 5)
+        ZStack {
+            Button(action: handleAction) {
+                ZStack {
+                    Circle()
+                        .fill(color.opacity(0.7))
+                        .frame(width: 90, height: 90)
+                        .shadow(radius: 5)
 
-                Image(systemName: iconName)
-                    .font(.title)
-                    .foregroundColor(.black)
+                    Image(systemName: iconName)
+                        .font(.title)
+                        .foregroundColor(.black)
+                }
             }
-        }
-        .alert(isPresented: $showInfoAlert) {
-            Alert(
-                title: Text(viewModel.getInfoTitle()),
-                message: Text(viewModel.getInfoMessage()),
-                dismissButton: .default(Text("OK"))
-            )
+            
+            if showInfoPopup {
+                InfoPopup(
+                    title: viewModel.getInfoTitle(),
+                    message: viewModel.getInfoMessage(),
+                    buttonTitle: "OK",
+                    onButtonTap: {
+                        showInfoPopup = false
+                    }
+                )
+            }
         }
         .onChange(of: currentView) { _, newValue in
             viewModel.currentView = newValue
@@ -60,10 +67,10 @@ struct CircleButton: View {
                 }
             }
         case "info.circle":
-            // Update viewModel with current values before showing alert
+            // Update viewModel with current values before showing popup
             viewModel.currentView = currentView
             viewModel.currentPhase = currentPhase
-            showInfoAlert = true
+            showInfoPopup = true
         case "trophy.circle.fill":
             withAnimation(.easeInOut(duration: 0.3)) {
                 navigationState.path = NavigationPath() // Go to root

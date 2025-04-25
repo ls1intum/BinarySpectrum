@@ -182,11 +182,7 @@ struct QuestionsView: View {
                                 score: Int(percentage * 100),
                                 percentage: percentage
                             )
-                            
-                            // Update the local binding to advance to next phase
-                            var nextPhase = currentPhase
-                            nextPhase.next()
-                            currentPhase = nextPhase
+                            currentPhase.next(for: gameType)
                         }
                     }
                 )

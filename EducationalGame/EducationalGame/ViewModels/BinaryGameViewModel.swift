@@ -3,16 +3,9 @@ import SwiftUI
 import SwiftUICore
 
 @Observable class BinaryGameViewModel: ObservableObject {
-    // Current game phase
-    private var _currentPhase: GamePhase = .intro
-    var currentPhase: GamePhase {
-        get { _currentPhase }
-        set { _currentPhase = newValue }
-    }
-    
-    // Game type identifier
     let gameType = "Binary Game"
-    
+    var currentPhase: GamePhase = .intro
+   
     // For exploration view
     var selectedNumber: Int = 0
     
@@ -95,7 +88,7 @@ import SwiftUICore
         
         // Advance to next phase locally
         var nextPhase = currentPhase
-        nextPhase.next()
+        nextPhase.next(for: gameType)
         _currentPhase = nextPhase
     }
     
