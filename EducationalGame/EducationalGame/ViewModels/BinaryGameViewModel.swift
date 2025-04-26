@@ -9,37 +9,6 @@ import SwiftUICore
     // For exploration view
     var selectedNumber: Int = 0
     
-    let introDialogue = [
-        "Welcome to the Binary Code Detective Academy!",
-        "Did you know? Computers don't understand words or numbers the way we do. They only understand ON and OFF - or 1 and 0.",
-        "This is called 'binary code', and it's the secret language that powers all technology!",
-        "As a Binary Detective, you'll learn how to turn regular numbers into binary code, and decode binary back into numbers.",
-        "This is a fundamental concept in computational thinking - breaking down information into its simplest form!"
-    ]
-    
-    let practiceDialogue = [
-        "Great exploration, Detective! You've discovered how binary numbers work.",
-        "Binary is all about patterns and breaking down numbers into powers of 2: 1, 2, 4, 8, 16...",
-        "This is a key computational thinking skill called 'decomposition' - breaking big problems into smaller parts!",
-        "Now let's practice converting decimal numbers (what we use every day) into binary (what computers use).",
-        "Remember: Each position represents a power of 2, starting from the right with 1, then 2, 4, 8, and so on."
-    ]
-    
-    let introQuestions: [Question] = [
-        Question(
-            question: "Why do computers use binary code instead of regular numbers?",
-            alternatives: [
-                1: "Binary numbers look cooler in movies",
-                2: "Electronics can easily represent two states (ON/OFF)",
-                3: "Binary uses less electricity than decimal numbers",
-                4: "Programmers prefer working with only two digits"
-            ],
-            correctAnswer: 2,
-            explanation: "Computers use binary because electronic circuits can easily represent two states: ON (1) or OFF (0)."
-        )
-        // TODO: Add more questions
-    ]
-    
     // Binary Learning Properties
     let digitCount: Int = 4
     var binaryDigits: [String] = Array(repeating: "0", count: 4)
@@ -78,6 +47,12 @@ import SwiftUICore
     var challengeTargetNumberBinary: [String] {
         String(challengeTargetNumber, radix: 2).paddingLeft(with: "0", toLength: challengeDigitCount).map { String($0) }
     }
+    
+    // Use data from GameConstants.BinaryGameContent
+    var introDialogue: [String] { GameConstants.BinaryGameContent.introDialogue }
+    var practiceDialogue: [String] { GameConstants.BinaryGameContent.practiceDialogue }
+    var introQuestions: [Question] { GameConstants.BinaryGameContent.introQuestions }
+    var reviewCards: [(title: String, content: String, example: String)] { GameConstants.BinaryGameContent.reviewCards }
     
     // Complete a game stage and advance to next phase
     func completeGame(score: Int, percentage: Double) {
@@ -184,35 +159,6 @@ import SwiftUICore
         }
     }
 
-    // Review Cards Content
-    let reviewCards: [(title: String, content: String, example: String)] = [
-        (
-            title: "Binary Basics",
-            content: "Binary is a base-2 number system that uses only two digits: 0 and 1. Each digit is called a 'bit'.",
-            example: "101 = 1×4 + 0×2 + 1×1 = 5"
-        ),
-        (
-            title: "Powers of 2",
-            content: "Each position in a binary number represents a power of 2, starting from the right.",
-            example: "8 4 2 1\n1 0 1 0 = 10"
-        ),
-        (
-            title: "Binary to Decimal",
-            content: "To convert binary to decimal, multiply each bit by its power of 2 and add the results.",
-            example: "1101 = 1×8 + 1×4 + 0×2 + 1×1 = 13"
-        ),
-        (
-            title: "Decimal to Binary",
-            content: "To convert decimal to binary, find the largest power of 2 that fits, subtract it, and repeat.",
-            example: "11 = 8 + 2 + 1 = 1011"
-        ),
-        (
-            title: "Binary Armband",
-            content: "You can represent dates in binary! Your armband shows your birthdate in binary form.",
-            example: "Month: 4 bits (1-12)\nDay: 5 bits (1-31)"
-        )
-    ]
-    
     init() {
         // Initialize game state
         

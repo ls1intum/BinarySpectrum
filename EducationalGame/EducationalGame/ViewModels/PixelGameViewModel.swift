@@ -26,51 +26,14 @@ import SwiftUICore
     // Game Config
     let gridSize = 8
     let cellSize: CGFloat = 30
-    let penaltyFactor: Double = 0.05 // Decrease progress by 5% for each wrong action
     
-    // Game Content
-    let introDialogue = [
-        "Welcome to Pixel Decoder, digital artist!",
-        "Images on computers are made of tiny squares called 'pixels'. Each pixel can be different colors, but the simplest are just black or white.",
-        "Computers store these images as sequences of 1s and 0s - where 1 means 'black pixel' and 0 means 'white pixel'.",
-        "This is a fundamental concept in computational thinking called 'data representation' - finding efficient ways to store information.",
-        "Your mission is to decode binary patterns into pixel art and learn how computers compress images to save space!"
-    ]
-    
-    let rleDialogue = [
-        "Great job decoding those binary patterns!",
-        "But here's a challenge: what if our images have long stretches of the same color?",
-        "Writing each pixel one by one is inefficient! For example, writing '00000111100000' takes 14 characters.",
-        "Instead, we can use 'Run-Length Encoding' or RLE: 'W5B4W5' - only 6 characters!",
-        "This is an important computational thinking concept called 'abstraction' - simplifying complex data by focusing on patterns.",
-        "RLE is a real compression technique used in image formats, fax machines, and more!"
-    ]
-    
-    let introQuestions: [Question] = [
-        Question(
-            question: "How do computers represent images at their most basic level?",
-            alternatives: [
-                1: "As a collection of circles of different sizes",
-                2: "As a grid of tiny squares called pixels",
-                3: "As mathematical curves and lines",
-                4: "As text descriptions of what's in the image"
-            ],
-            correctAnswer: 2,
-            explanation: "Computers represent images as a grid of tiny squares called pixels. Each pixel contains color information, and when viewed together, they form the complete image."
-        ),
-        Question(
-            question: "What computational thinking concept is demonstrated when we convert an image into binary (1s and 0s)?",
-            alternatives: [
-                1: "Pattern recognition",
-                2: "Data representation",
-                3: "Algorithm design",
-                4: "Debugging"
-            ],
-            correctAnswer: 2,
-            explanation: "Converting images to binary shows 'data representation' - finding ways to store and process information in forms that computers can understand."
-        )
-        // TODO: Add more questions
-    ]
+    // Game Content from GameConstants
+    var introDialogue: [String] { GameConstants.PixelGameContent.introDialogue }
+    var secondDialogue: [String] { GameConstants.PixelGameContent.secondDialogue }
+    var thirdDialogue: [String] { GameConstants.PixelGameContent.thirdDialogue }
+    var rleDialogue: [String] { GameConstants.PixelGameContent.rleDialogue }
+    var introQuestions: [Question] { GameConstants.PixelGameContent.introQuestions }
+    var reviewCards: [(title: String, content: String, example: String)] { GameConstants.PixelGameContent.reviewCards }
     
     // Binary Encoding Challenge
     let encodingChallengeGrid: Set<Int> = [
@@ -163,17 +126,13 @@ import SwiftUICore
         // Count correctly filled black cells (where binary is 1)
         let correctBlackCells = blackCells.intersection(correctCells).count
         
-        // Count incorrectly filled black cells (where binary is 0)
-        let incorrectBlackCells = blackCells.intersection(whiteCells).count
-        
         // Calculate progress percentage based on correct black cells
         let correctPercentage = Double(correctBlackCells) / Double(correctCells.count)
         
         // Calculate penalty based on incorrect black cells
-        let penalty = Double(incorrectBlackCells) * penaltyFactor
         
         // Calculate final progress (capped between 0 and 1)
-        progress = max(0.0, min(1.0, correctPercentage - penalty))
+        progress = max(0.0, min(1.0, correctPercentage))
     }
     
     func checkBinaryEncoding() {
@@ -327,35 +286,6 @@ import SwiftUICore
             .trimmingCharacters(in: .whitespacesAndNewlines)
             .replacingOccurrences(of: "\n", with: "\n ")
     }
-    
-    // Review Cards Content
-    let reviewCards: [(title: String, content: String, example: String)] = [
-        (
-            title: "Binary Images",
-            content: "Digital images are made up of tiny squares called pixels. In binary images, each pixel is either black (1) or white (0).",
-            example: "00000000\n00011000\n00111100\n01111110\n01111110\n00111100\n00011000\n00000000"
-        ),
-        (
-            title: "Binary Encoding",
-            content: "Binary encoding represents images using 1s and 0s. Each row of pixels is written as a sequence of binary digits.",
-            example: "Row 1: 00000000\nRow 2: 00011000\nRow 3: 00111100"
-        ),
-        (
-            title: "Run-Length Encoding",
-            content: "RLE is a way to compress binary images by counting consecutive pixels of the same color.",
-            example: "W2B4W2 means:\n2 white pixels\n4 black pixels\n2 white pixels"
-        ),
-        (
-            title: "Image Compression",
-            content: "Compression reduces file size by finding patterns and using shorter representations.",
-            example: "Instead of: 000011110000\nUse: W4B4W4"
-        ),
-        (
-            title: "Pixel Art",
-            content: "Binary images are perfect for pixel art and simple graphics like icons and symbols.",
-            example: "Binary patterns can create:\n• Icons\n• Emojis\n• Simple graphics"
-        )
-    ]
     
     // Complete a game stage and advance to next phase
     func completeGame(score: Int, percentage: Double) {

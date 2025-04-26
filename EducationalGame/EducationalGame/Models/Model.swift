@@ -23,3 +23,45 @@ struct Question {
     let correctAnswer: Int
     let explanation: String
 }
+
+struct GridImage {
+    var size: Int
+    var grid: [[Bool]]
+
+    init(size: Int = 8, blackPixels: Set<Int> = []) {
+        self.size = size
+        self.grid = Array(repeating: Array(repeating: false, count: size), count: size)
+
+        for index in blackPixels {
+            let position = self.position(from: index)
+            if position.row >= 0, position.row < size,
+               position.column >= 0, position.column < size
+            {
+                grid[position.row][position.column] = true
+            }
+        }
+    }
+
+    /// Converts a linear index to a row and column position
+    func position(from index: Int) -> (row: Int, column: Int) {
+        let row = index / size
+        let column = index % size
+        return (row, column)
+    }
+
+    /// Converts a row and column position to a linear index
+    func index(from position: (row: Int, column: Int)) -> Int {
+        return position.row * size + position.column
+    }
+}
+
+struct PixelArt {
+    var id = UUID()
+    var name: String = "Untitled"
+    var grid: GridImage
+
+    init(name: String = "Untitled", grid: GridImage) {
+        self.name = name
+        self.grid = grid
+    }
+}

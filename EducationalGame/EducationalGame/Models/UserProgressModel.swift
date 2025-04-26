@@ -39,7 +39,6 @@ enum GamePhase: String, CaseIterable {
             case .finalChallenge: self = .review
             case .review: self = .reward
             case .reward: self = .intro
-            default: self = .intro
             }
         case "Pixel Art Game":
             switch self {
@@ -53,7 +52,6 @@ enum GamePhase: String, CaseIterable {
             case .finalChallenge: self = .review
             case .review: self = .reward
             case .reward: self = .intro
-            default: self = .intro
             }
         case "Color Game":
             switch self {
@@ -67,7 +65,6 @@ enum GamePhase: String, CaseIterable {
             case .finalChallenge: self = .review
             case .review: self = .reward
             case .reward: self = .intro
-            default: self = .intro
             }
         default:
             self = .intro

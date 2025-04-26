@@ -36,83 +36,12 @@ import SwiftUI
     var attemptsRemaining: Int = 5
     private var timer: Timer?
     
-    // Game Content
-    let introDialogue = [
-        "Welcome to the Digital Color Lab!",
-        "Did you know? Your screen creates every color you see using just three primary colors: Red, Green, and Blue (RGB)!",
-        "By mixing different amounts of these colors, computers can create millions of different colors.",
-        "This is a computational thinking concept called 'decomposition' - breaking complex things (like colors) into simpler components.",
-        "In this lab, you'll learn how to mix RGB values to create your own digital colors and understand how computers represent visual information!"
-    ]
-    
-    let hexLearningDialogue = [
-        "Great job mixing colors using RGB values!",
-        "Now let's explore how programmers and designers write these color values using hexadecimal codes.",
-        "Hex codes are a special shorthand that uses both numbers (0-9) and letters (A-F) to represent colors.",
-        "Each hex code starts with # and has 6 digits: #RRGGBB",
-        "• The first two digits control Red (00-FF)",
-        "• The middle two control Green (00-FF)",
-        "• The last two control Blue (00-FF)",
-        "For example, pure red is #FF0000, pure green is #00FF00, and pure blue is #0000FF.",
-        "This system is another example of 'abstraction' in computing - representing complex data in more concise ways!"
-    ]
-    
-    let opacityLearningDialogue = [
-        "Excellent work with hex codes! Now let's add another dimension to our colors: Opacity!",
-        "Opacity (or alpha) controls how transparent a color is - whether you can see through it or not.",
-        "It's measured from 0.0 (completely invisible) to 1.0 (completely solid).",
-        "This is crucial for creating effects like shadows, glass, water, and layered interfaces.",
-        "Many modern color formats add this fourth value to RGB to create 'RGBA' - where A stands for Alpha.",
-        "In hex, we add two more digits: #RRGGBBAA",
-        "Let's experiment with opacity values to see how they affect our colors!"
-    ]
-    
-    let introQuestions: [Question] = [
-        Question(
-            question: "What computational thinking concept is being used when we break colors down into Red, Green, and Blue components?",
-            alternatives: [
-                1: "Pattern recognition",
-                2: "Decomposition",
-                3: "Algorithmic thinking",
-                4: "Evaluation"
-            ],
-            correctAnswer: 2,
-            explanation: "Breaking colors into RGB components is an example of 'decomposition' - dividing complex problems into smaller, manageable parts."
-        ),
-        Question(
-            question: "How do computers create the color yellow on your screen?",
-            alternatives: [
-                1: "By using yellow pixels",
-                2: "By mixing red and green light",
-                3: "By removing blue from white light",
-                4: "By using a special yellow filter"
-            ],
-            correctAnswer: 2,
-            explanation: "Computers create yellow by mixing red and green light at full intensity (with no blue). This RGB value would be (255,255,0)."
-        ),
-        Question(
-            question: "What's the purpose of hexadecimal color codes like #FF00FF?",
-            alternatives: [
-                1: "They look more professional in code",
-                2: "They create more vibrant colors than RGB values",
-                3: "They provide a shorter, standardized way to represent RGB colors",
-                4: "They work better on mobile devices"
-            ],
-            correctAnswer: 3,
-            explanation: "Hexadecimal color codes provide a concise, standardized way to represent RGB colors. The example #FF00FF represents (255,0,255) - bright magenta."
-        ),
-        Question(
-            question: "What does the alpha (opacity) value control in RGBA colors?",
-            alternatives: [
-                1: "How bright the color appears",
-                2: "How much the color can change over time",
-                3: "How the color looks under different lighting",
-                4: "How transparent or see-through the color is"
-            ],
-            correctAnswer: 4,
-            explanation: "The alpha value controls transparency - how much you can see through a color. A value of 1.0 means completely solid, while 0.0 means completely transparent."
-        )
-    ]
+    // Game Content from GameConstants
+    var introDialogue: [String] { GameConstants.ColorGameContent.introDialogue }
+    var hexLearningDialogue: [String] { GameConstants.ColorGameContent.hexLearningDialogue }
+    var opacityLearningDialogue: [String] { GameConstants.ColorGameContent.opacityLearningDialogue }
+    var introQuestions: [Question] { GameConstants.ColorGameContent.introQuestions }
+    var reviewCards: [(title: String, content: String, example: String)] { GameConstants.ColorGameContent.reviewCards }
     
     // MARK: - Game Logic
     
@@ -302,35 +231,6 @@ import SwiftUI
             showHint = true
         }
     }
-    
-    // Review Cards Content
-    let reviewCards: [(title: String, content: String, example: String)] = [
-        (
-            title: "RGB Color Model",
-            content: "RGB stands for Red, Green, and Blue - the primary colors of light. By mixing these colors in different amounts, computers can create millions of colors on your screen.",
-            example: "Pure Red: (255, 0, 0)\nPure Green: (0, 255, 0)\nYellow: (255, 255, 0)"
-        ),
-        (
-            title: "Color Values",
-            content: "Each RGB component ranges from 0 (none) to 255 (maximum intensity). This gives 256 possible values for each color channel.",
-            example: "Black: (0, 0, 0)\nWhite: (255, 255, 255)\nPurple: (128, 0, 128)"
-        ),
-        (
-            title: "Hexadecimal Colors",
-            content: "Hex codes are a shorthand for RGB values, using base-16 numbers. Each pair of characters represents one color component (red, green, or blue).",
-            example: "#FF0000 = Red\n#00FF00 = Green\n#0000FF = Blue\n#FFFFFF = White"
-        ),
-        (
-            title: "Opacity (Alpha)",
-            content: "Opacity controls how transparent a color is. Values range from 0.0 (invisible) to 1.0 (solid), allowing you to see through objects.",
-            example: "Solid Blue: rgba(0,0,255,1.0)\nSemi-transparent: rgba(0,0,255,0.5)\nInvisible: rgba(0,0,255,0.0)"
-        ),
-        (
-            title: "Color Applications",
-            content: "Understanding digital color is essential for design, game development, web development, and digital art.",
-            example: "User Interfaces\nDigital Artwork\nAnimations\nCoding with CSS"
-        )
-    ]
     
     // Complete a game stage and advance to next phase
     func completeGame(score: Int, percentage: Double) {

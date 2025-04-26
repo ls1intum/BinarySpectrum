@@ -606,6 +606,8 @@ struct ScaleButtonStyle: ButtonStyle {
     }
 }
 
+// MARK: - Previews
+
 #Preview("Intro Phase") {
     let viewModel = PixelGameViewModel()
     return PixelGameView(viewModel: viewModel)

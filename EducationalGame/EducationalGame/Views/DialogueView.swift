@@ -98,7 +98,7 @@ struct DialogueView: View {
 }
 
 #Preview {
-    @State var previewPhase = GamePhase.challenges // Sample mutable state
+    @Previewable @State var previewPhase = GamePhase.challenges // Sample mutable state
     
     DialogueView(
         personaImage: "Persona1",

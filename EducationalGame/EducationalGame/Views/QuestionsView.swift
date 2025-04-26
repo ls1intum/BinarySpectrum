@@ -208,7 +208,7 @@ struct QuestionsView: View {
 }
 
 #Preview {
-    @State var previewPhase = GamePhase.challenges
+    @Previewable @State var previewPhase = GamePhase.challenges
     let sampleQuestions: [Question] = [
         Question(
             question: "What is the capital of France?",

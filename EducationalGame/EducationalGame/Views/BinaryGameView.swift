@@ -9,12 +9,11 @@ struct BinaryGameView: View {
     
     var body: some View {
         ZStack(alignment: .top) {
-            // Main content
+
             VStack {
                 // Top spacing to accommodate the TopBarView
                 Spacer().frame(height: 90)
                 
-                // Game content based on phase
                 switch viewModel.currentPhase {
                 case .intro:
                     DialogueView(
@@ -73,114 +72,9 @@ struct BinaryGameView: View {
                     )
                 }
             }
-            
-            // TopBarView overlay at the top
             TopBarView(title: GameConstants.miniGames[0].name, color: GameConstants.miniGames[0].color)
         }
         .edgesIgnoringSafeArea(.top)
-    }
-}
-
-struct BinaryLearningGame: View {
-    @State var viewModel: BinaryGameViewModel
-    @State private var showAlert = false
-    @State private var showPopup = false
-    @State private var isCorrect = false
-    
-    var body: some View {
-        ZStack {
-            VStack(spacing: 20) {
-                InstructionBar(text: "Tap the circles to toggle between 0 and 1. Your goal is to represent \(viewModel.targetNumber) in binary.")
-                Spacer()
-                
-                HStack(spacing: 30) {
-                    Spacer()
-                    VStack {
-                        HStack(spacing: 16) {
-                            ForEach(0..<viewModel.digitCount, id: \.self) { index in
-                                VStack {
-                                    Text("\(Int(pow(2.0, Double(viewModel.digitCount - 1 - index))))")
-                                        .font(.caption)
-                                        .foregroundColor(.gray)
-                                    
-                                    Button(action: {
-                                        withAnimation {
-                                            viewModel.binaryDigits[index] = (viewModel.binaryDigits[index] == "0") ? "1" : "0"
-                                        }
-                                    }) {
-                                        Text(viewModel.binaryDigits[index])
-                                            .font(.system(size: 24, weight: .bold))
-                                            .frame(width: 75, height: 75)
-                                            .background(viewModel.binaryDigits[index] == "1" ? Color.gamePurple.opacity(0.8) : Color.gameGray.opacity(0.3))
-                                            .foregroundColor(.black)
-                                            .cornerRadius(12)
-                                            .shadow(radius: 3)
-                                    }
-                                }
-                            }
-                        }
-                        
-                        Text("\(viewModel.decimalValue)")
-                            .font(GameTheme.bodyFont)
-                            .frame(width: 85, height: 85)
-                            .background(Color.gameGray.opacity(0.3))
-                            .cornerRadius(12)
-                    }
-                    Spacer()
-                    VStack(spacing: 8) {
-                        Text("Target")
-                            .font(.caption)
-                            .foregroundColor(.gray)
-                        
-                        Text("\(viewModel.targetNumber)")
-                            .font(.system(size: 24, weight: .bold))
-                            .frame(width: 85, height: 85)
-                            .background(Color.gameLightBlue.opacity(0.8))
-                            .foregroundColor(.black)
-                            .cornerRadius(12)
-                            .shadow(radius: 3)
-                    }
-                    Spacer()
-                }
-                
-                Spacer()
-                
-                VStack {
-                    Spacer()
-                    HStack {
-                        Spacer()
-                    
-                        AnimatedCircleButton(
-                            iconName: "checkmark.circle.fill",
-                            color: GameConstants.miniGames[0].color,
-                            action: {
-                                isCorrect = viewModel.decimalValue == viewModel.targetNumber
-                                viewModel.checkAnswer()
-                                showPopup = true
-                            }
-                        )
-                        .padding()
-                    }
-                }
-            }
-            .padding()
-            
-            // Popup instead of alert
-            if showPopup {
-                InfoPopup(
-                    title: "Result",
-                    message: viewModel.alertMessage,
-                    buttonTitle: "OK",
-                    onButtonTap: {
-                        showPopup = false
-                        if isCorrect {
-                            // Complete this challenge and advance
-                            viewModel.completeGame(score: 100, percentage: 1.0)
-                        }
-                    }
-                )
-            }
-        }
     }
 }
 
@@ -254,11 +148,6 @@ struct BinaryExplorationView: View {
             Text("\(viewModel.selectedNumber) in binary is \(binaryString)")
                 .font(.headline)
                 .padding(.top, 10)
-                    
-            Text("Total: \(binaryDigits.enumerated().map { Int(String($0.element))! * Int(pow(2.0, Double(2 - $0.offset))) }.reduce(0, +))")
-                .font(.headline)
-                .bold()
-                .padding(.top, 5)
         }
         .padding()
         .background(Color.gameGray.opacity(0.1))
@@ -275,11 +164,113 @@ struct BinaryExplorationView: View {
                     iconName: "arrow.right.circle.fill",
                     color: GameConstants.miniGames[0].color,
                     action: {
-                        // Complete exploration and update progress
-                        viewModel.completeGame(score: 50, percentage: 1.0)
+                        viewModel.currentPhase.next(for: viewModel.gameType)
                     }
                 )
                 .padding()
+            }
+        }
+    }
+}
+
+struct BinaryLearningGame: View {
+    @State var viewModel: BinaryGameViewModel
+    @State private var showAlert = false
+    @State private var showPopup = false
+    @State private var isCorrect = false
+    
+    var body: some View {
+        ZStack {
+            VStack(spacing: 20) {
+                InstructionBar(text: "Tap the circles to toggle between 0 and 1. Your goal is to represent \(viewModel.targetNumber) in binary.")
+                Spacer()
+                
+                HStack(spacing: 30) {
+                    Spacer()
+                    VStack {
+                        HStack(spacing: 16) {
+                            ForEach(0..<viewModel.digitCount, id: \.self) { index in
+                                VStack {
+                                    Text("\(Int(pow(2.0, Double(viewModel.digitCount - 1 - index))))")
+                                        .font(.caption)
+                                        .foregroundColor(.gray)
+                                    
+                                    Button(action: {
+                                        withAnimation {
+                                            viewModel.binaryDigits[index] = (viewModel.binaryDigits[index] == "0") ? "1" : "0"
+                                        }
+                                    }) {
+                                        Text(viewModel.binaryDigits[index])
+                                            .font(.system(size: 24, weight: .bold))
+                                            .frame(width: 75, height: 75)
+                                            .background(viewModel.binaryDigits[index] == "1" ? Color.gamePurple.opacity(0.8) : Color.gameGray.opacity(0.3))
+                                            .foregroundColor(.black)
+                                            .cornerRadius(12)
+                                            .shadow(radius: 3)
+                                    }
+                                }
+                            }
+                        }
+                        
+                        Text("\(viewModel.decimalValue)")
+                            .font(GameTheme.bodyFont)
+                            .frame(width: 85, height: 85)
+                            .background(Color.gameGray.opacity(0.3))
+                            .cornerRadius(12)
+                    }
+                    Spacer()
+                    VStack(spacing: 8) {
+                        Text("Target")
+                            .font(.caption)
+                            .foregroundColor(.gray)
+                        
+                        Text("\(viewModel.targetNumber)")
+                            .font(.system(size: 24, weight: .bold))
+                            .frame(width: 85, height: 85)
+                            .background(Color.gamePurple.opacity(0.8))
+                            .foregroundColor(.gameWhite)
+                            .cornerRadius(12)
+                            .shadow(radius: 3)
+                    }
+                    Spacer()
+                }
+                
+                Spacer()
+                
+                VStack {
+                    Spacer()
+                    HStack {
+                        Spacer()
+                    
+                        AnimatedCircleButton(
+                            iconName: "checkmark.circle.fill",
+                            color: GameConstants.miniGames[0].color,
+                            action: {
+                                isCorrect = viewModel.decimalValue == viewModel.targetNumber
+                                viewModel.checkAnswer()
+                                showPopup = true
+                            }
+                        )
+                        .padding()
+                    }
+                }
+            }
+            .padding()
+            
+            // Popup instead of alert
+            if showPopup {
+                InfoPopup(
+                    title: "Result",
+                    message: viewModel.alertMessage,
+                    buttonTitle: "OK",
+                    onButtonTap: {
+                        showPopup = false
+                        if isCorrect {
+                            // Complete this challenge and advance
+                            viewModel.completeGame(score: 100, percentage: 1.0)
+                        }
+                    }
+                )
             }
         }
     }
@@ -339,7 +330,7 @@ struct BinaryChallengeView: View {
                         Text("\(viewModel.challengeTargetNumber)")
                             .font(.system(size: 24, weight: .bold))
                             .frame(width: 85, height: 85)
-                            .background(Color.gameLightBlue.opacity(0.8))
+                            .background(Color.gamePurple.opacity(0.8))
                             .foregroundColor(.black)
                             .cornerRadius(12)
                             .shadow(radius: 3)
@@ -411,7 +402,7 @@ struct BinaryAdvancedChallengeView: View {
                             .keyboardType(.numberPad)
                             .font(.system(size: 24, weight: .bold))
                             .frame(width: 85, height: 85)
-                            .background(Color.gameLightBlue.opacity(0.8))
+                            .background(Color.gamePurple.opacity(0.8))
                             .foregroundColor(.black)
                             .cornerRadius(12)
                             .multilineTextAlignment(.center)
@@ -671,6 +662,8 @@ struct BinaryArmbandView: View {
         }
     }
 }
+
+// MARK: - Previews
 
 #Preview("Intro Phase") {
     let viewModel = BinaryGameViewModel()
