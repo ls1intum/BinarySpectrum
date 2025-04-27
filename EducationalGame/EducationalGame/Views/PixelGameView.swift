@@ -60,12 +60,7 @@ struct PixelGameView: View {
                         }
                     )
                 case .reward:
-                    RewardView(
-                        message: "Incredible achievement! You've mastered binary images and Run-Length Encoding! You now understand how computers store images efficiently, from simple black-and-white patterns to complex pixel art. This knowledge is the foundation of image compression and digital graphics. You're well on your way to becoming a true computer scientist!",
-                        personaImage: GameConstants.miniGames[1].personaImage,
-                        badgeTitle: GameConstants.miniGames[1].achievementName,
-                        color: GameConstants.miniGames[1].color
-                    )
+                    RewardView(miniGameIndex: 1, message: viewModel.rewardMessage)
                 }
             }
             
@@ -626,13 +621,6 @@ struct PixelGameRLEChallenge: View {
         .environment(\.colorScheme, .light)
 }
 
-#Preview("Reward Phase") {
-    let viewModel = PixelGameViewModel()
-    viewModel.currentPhase = .reward
-    return PixelGameView(viewModel: viewModel)
-        .environment(\.colorScheme, .light)
-}
-
 #Preview("Tutorial Phase") {
     let viewModel = PixelGameViewModel()
     viewModel.currentPhase = .tutorial
@@ -664,6 +652,13 @@ struct PixelGameRLEChallenge: View {
 #Preview("Review Phase") {
     let viewModel = PixelGameViewModel()
     viewModel.currentPhase = .review
+    return PixelGameView(viewModel: viewModel)
+        .environment(\.colorScheme, .light)
+}
+
+#Preview("Reward Phase") {
+    let viewModel = PixelGameViewModel()
+    viewModel.currentPhase = .reward
     return PixelGameView(viewModel: viewModel)
         .environment(\.colorScheme, .light)
 }

@@ -9,7 +9,6 @@ struct BinaryGameView: View {
     
     var body: some View {
         ZStack(alignment: .top) {
-
             VStack {
                 // Top spacing to accommodate the TopBarView
                 Spacer().frame(height: 90)
@@ -64,12 +63,7 @@ struct BinaryGameView: View {
                         }
                     )
                 case .reward:
-                    RewardView(
-                        message: "Outstanding achievement! You've mastered the language of computers - binary numbers! From basic conversions to creating your own binary armband, you now understand how computers represent and process all information using just 0s and 1s. This fundamental knowledge is the building block of all digital technology. You're thinking like a true computer scientist!",
-                        personaImage: GameConstants.miniGames[0].personaImage,
-                        badgeTitle: "Binary Master! 🔢",
-                        color: GameConstants.miniGames[0].color
-                    )
+                    RewardView(miniGameIndex: 0, message: viewModel.rewardMessage)
                 }
             }
             TopBar(title: GameConstants.miniGames[0].name, color: GameConstants.miniGames[0].color)

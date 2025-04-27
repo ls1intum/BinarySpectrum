@@ -33,7 +33,7 @@ import Foundation
     var rleDialogue: [String] { GameConstants.PixelGameContent.rleDialogue }
     var introQuestions: [Question] { GameConstants.PixelGameContent.introQuestions }
     var reviewCards: [ReviewCard] { GameConstants.PixelGameContent.reviewCards }
-    
+    var rewardMessage: String { GameConstants.PixelGameContent.rewardMessage }
     // Binary Encoding Challenge
     let encodingChallengeGrid: Set<Int> = [
         9, 10, 11, 12, 13, 14, // First row of black pixels

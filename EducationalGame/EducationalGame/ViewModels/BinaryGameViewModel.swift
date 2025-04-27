@@ -51,6 +51,7 @@ import Foundation
     var practiceDialogue: [String] { GameConstants.BinaryGameContent.practiceDialogue }
     var introQuestions: [Question] { GameConstants.BinaryGameContent.introQuestions }
     var reviewCards: [ReviewCard] { GameConstants.BinaryGameContent.reviewCards }
+    var rewardMessage: String { GameConstants.BinaryGameContent.rewardMessage }
     
     // Complete a game stage and advance to next phase
     func completeGame(score: Int, percentage: Double) {

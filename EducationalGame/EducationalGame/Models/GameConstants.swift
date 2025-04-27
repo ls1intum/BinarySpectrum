@@ -121,6 +121,7 @@ enum GameConstants {
                 example: "Month: 4 bits (1-12)\nDay: 5 bits (1-31)"
             )
         ]
+        static let rewardMessage = "Outstanding achievement! You've mastered the language of computers - binary numbers! From basic conversions to creating your own binary armband, you now understand how computers represent and process all information using just 0s and 1s. This fundamental knowledge is the building block of all digital technology. You're thinking like a true computer scientist!"
     }
     
     // MARK: - Pixel Game Content
@@ -227,6 +228,7 @@ enum GameConstants {
                 example: "Binary patterns can create:\n• Icons\n• Emojis\n• Simple graphics"
             )
         ]
+        static let rewardMessage = "Incredible achievement! You've mastered binary images and Run-Length Encoding! You now understand how computers store images efficiently, from simple black-and-white patterns to complex pixel art. This knowledge is the foundation of image compression and digital graphics. You're well on your way to becoming a true computer scientist!"
     }
     
     // MARK: - Color Game Content
@@ -324,5 +326,6 @@ enum GameConstants {
                 example: "User Interfaces\nDigital Artwork\nAnimations\nCoding with CSS"
             )
         ]
+        static let rewardMessage = "Amazing work! You've mastered the art of digital colors! From RGB values to hex codes and opacity, you now understand how computers create and store every color you see on screen. This knowledge is fundamental to everything from web design to digital art. Keep exploring the colorful world of computer science!"
     }
 }

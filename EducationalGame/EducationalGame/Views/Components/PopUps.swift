@@ -29,7 +29,7 @@ struct InfoPopup: View {
                         .foregroundColor(.gameWhite)
                         .padding()
                         .frame(width: 200)
-                        .background(Color.gameOrange)
+                        .background(Color.gamePink)
                         .cornerRadius(12)
                 }
                 .padding(.top, 10)
@@ -94,7 +94,7 @@ struct TwoButtonInfoPopup: View {
                             .foregroundColor(.gameWhite)
                             .padding()
                             .frame(width: 180)
-                            .background(Color.gameOrange)
+                            .background(Color.gamePink)
                             .cornerRadius(12)
                     }
                 }
@@ -141,7 +141,11 @@ struct WelcomeFormPopup: View {
         (.gameYellow, "Yellow"),
         (.gameOrange, "Orange"),
         (.gameRed, "Red"),
-        (.gamePink, "Pink")
+        (.gamePink, "Pink"),
+        // (.gameGray, "Gray"),
+        // (.gameWhite, "White"),
+        // (.gameBlack, "Black"),
+        // (.gameBrown, "Brown")
     ]
 
     var body: some View {

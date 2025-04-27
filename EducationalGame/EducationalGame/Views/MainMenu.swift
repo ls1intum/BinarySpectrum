@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct ContentView: View {
+struct MainMenu: View {
     @EnvironmentObject var userViewModel: UserViewModel
     @EnvironmentObject var navigationState: NavigationState
     @State private var startAnimation = false
@@ -25,14 +25,14 @@ struct ContentView: View {
                             (
                                 Text("Welcome, ")
                                     .foregroundColor(.gameDarkBlue)
-                                + Text(userViewModel.userName)
+                                    + Text(userViewModel.userName)
                                     .foregroundColor(userViewModel.favoriteColor)
                             )
-                                .font(GameTheme.headingFont)
-                                .foregroundColor(userViewModel.favoriteColor)
-                                .scaleTransition()
-                                .offset(y: startAnimation ? 0 : 50)
-                                .opacity(startAnimation ? 1 : 0)
+                            .font(GameTheme.headingFont)
+                            .foregroundColor(userViewModel.favoriteColor)
+                            .scaleTransition()
+                            .offset(y: startAnimation ? 0 : 50)
+                            .opacity(startAnimation ? 1 : 0)
                         } else {
                             Text("Welcome!")
                                 .font(GameTheme.headingFont)
@@ -191,13 +191,13 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    MainMenu()
         .environmentObject(UserViewModel())
         .environmentObject(NavigationState())
 }
 
 #Preview("BR") {
-    ContentView()
+    MainMenu()
         .environment(\.locale, Locale(identifier: "pt_BR"))
         .environmentObject(UserViewModel())
         .environmentObject(NavigationState())

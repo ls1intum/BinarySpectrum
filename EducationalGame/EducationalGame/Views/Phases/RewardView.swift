@@ -1,37 +1,25 @@
 import SwiftUI
 
 struct RewardView: View {
+    let miniGameIndex: Int
     let message: String
-    let personaImage: String
-    let badgeTitle: String
-    let color: Color
     @State private var opacity: Double = 0
     @State private var scale: CGFloat = 0.8
     @State private var badgeOffset: CGFloat = 50
     @State private var badgeOpacity: Double = 0
     
-    init(message: String, personaImage: String = GameConstants.miniGames[2].personaImage, badgeTitle: String = "Pixel Master!", color: Color = .gamePurple) {
-        self.message = message
-        self.personaImage = personaImage
-        self.badgeTitle = badgeTitle
-        self.color = color
-    }
-    
     var body: some View {
         ZStack {
-            
             VStack(spacing: 30) {
                 Spacer()
                 
                 // Main Content
                 ZStack {
-                    // Text Box
                     RoundedRectangle(cornerRadius: 20)
                         .fill(Color.gameGray)
                         .shadow(radius: 5)
                         .frame(width: 660, height: 250)
                     
-                    // Text Inside Box
                     Text(message)
                         .font(GameTheme.bodyFont)
                         .foregroundColor(.gameDarkBlue)
@@ -44,8 +32,7 @@ struct RewardView: View {
                             }
                         }
                     
-                    // Character
-                    Image(personaImage)
+                    Image(GameConstants.miniGames[miniGameIndex].personaImage)
                         .resizable()
                         .scaledToFit()
                         .frame(width: 250, height: 250)
@@ -61,7 +48,7 @@ struct RewardView: View {
                         .foregroundColor(.yellow)
                         .shadow(color: .gameYellow.opacity(0.5), radius: 10)
                     
-                    Text(badgeTitle)
+                    Text(GameConstants.miniGames[miniGameIndex].achievementName)
                         .font(.system(size: 36, weight: .bold))
                         .foregroundColor(.yellow)
                         .shadow(color: .gameYellow.opacity(0.5), radius: 5)
@@ -87,16 +74,12 @@ struct RewardView: View {
             }
             .padding()
             
-            // TODO: other kind of button?
             VStack {
                 Spacer()
                 HStack {
                     Spacer()
-                    CircleButton(
-                        iconName: "trophy",
-                        color: color
-                    )
-                    .padding()
+                    RewardButton(miniGameIndex: miniGameIndex)
+                        .padding()
                 }
             }
         }
@@ -104,9 +87,6 @@ struct RewardView: View {
 }
 
 #Preview {
-    RewardView(
-        message: "You've mastered storing black-and-white images and now colorful images too! Computers use these techniques to save memory and load images quickly. You're becoming a real computer scientist!",
-        personaImage: GameConstants.miniGames[2].personaImage,
-        badgeTitle: "Pixel Master!"
-    )
+    RewardView(miniGameIndex: 1, message: "Great job")
+        .environmentObject(NavigationState())
 }

@@ -42,7 +42,8 @@ import SwiftUI
     var opacityLearningDialogue: [String] { GameConstants.ColorGameContent.opacityLearningDialogue }
     var introQuestions: [Question] { GameConstants.ColorGameContent.introQuestions }
     var reviewCards: [ReviewCard] { GameConstants.ColorGameContent.reviewCards }
-    
+    var rewardMessage: String { GameConstants.ColorGameContent.rewardMessage }
+
     // MARK: - Game Logic
     
     func generateNewTargetColor(includeAlpha: Bool = false) {

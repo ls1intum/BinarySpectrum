@@ -172,7 +172,7 @@ struct ChecklistReviewCard: View {
     )
 }
 
-#Preview ("ChecklistReviewCard"){
+#Preview("ChecklistReviewCard") {
     VStack {
         ChecklistReviewCard(
             title: "Binary Basics",

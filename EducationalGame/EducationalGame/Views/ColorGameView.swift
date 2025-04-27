@@ -71,12 +71,7 @@ struct ColorGameView: View {
                         }
                     )
                 case .reward:
-                    RewardView(
-                        message: "Amazing work! You've mastered the art of digital colors! From RGB values to hex codes and opacity, you now understand how computers create and store every color you see on screen. This knowledge is fundamental to everything from web design to digital art. Keep exploring the colorful world of computer science!",
-                        personaImage: GameConstants.miniGames[2].personaImage,
-                        badgeTitle: GameConstants.miniGames[2].achievementName,
-                        color: GameConstants.miniGames[2].color
-                    )
+                    RewardView(miniGameIndex: 2, message: viewModel.rewardMessage)
                 }
             }
             

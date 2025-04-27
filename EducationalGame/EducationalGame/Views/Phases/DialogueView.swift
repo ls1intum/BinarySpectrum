@@ -19,7 +19,7 @@ struct DialogueView: View {
                 RoundedRectangle(cornerRadius: 20)
                     .fill(Color.gameGray)
                     .shadow(radius: 5)
-                    .frame(width: 660, height: 450)
+                    .frame(width: 600, height: 300)
                 
                 // Text Inside Box
                 Text(dialogues[currentDialogueIndex])

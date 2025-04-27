@@ -29,11 +29,11 @@ struct EducationalGameApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            MainMenu()
                 .environmentObject(userViewModel)
                 .environmentObject(navigationState)
                 .preferredColorScheme(.light)
-                .tint(.gamePurple) // Set the app tint color
+                .tint(.gamePurple)
         }
     }
     
