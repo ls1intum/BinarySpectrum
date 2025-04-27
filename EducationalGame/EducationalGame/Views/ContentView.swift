@@ -4,6 +4,10 @@ struct ContentView: View {
     @EnvironmentObject var userViewModel: UserViewModel
     @EnvironmentObject var navigationState: NavigationState
     @State private var startAnimation = false
+    @State private var showWelcomePopup = false
+    @State private var userName = ""
+    @State private var userAge = ""
+    @State private var favoriteColor: Color = .gamePurple
     
     var body: some View {
         NavigationStack(path: $navigationState.path) {
@@ -15,6 +19,24 @@ struct ContentView: View {
                     
                     VStack(spacing: 40) {
                         Spacer()
+                        
+                        // Welcome message positioned above the mini game buttons
+                        if !userViewModel.userName.isEmpty {
+                            Text("Welcome \(userViewModel.userName)!")
+                                .font(GameTheme.headingFont)
+                                .foregroundColor(userViewModel.favoriteColor)
+                                .scaleTransition()
+                                .offset(y: startAnimation ? 0 : 50)
+                                .opacity(startAnimation ? 1 : 0)
+                        } else {
+                            Text("Welcome!")
+                                .font(GameTheme.headingFont)
+                                .foregroundColor(.gameDarkBlue)
+                                .scaleTransition()
+                                .offset(y: startAnimation ? 0 : 50)
+                                .opacity(startAnimation ? 1 : 0)
+                        }
+                        
                         HStack(spacing: 30) {
                             ForEach(GameConstants.miniGames) { game in
                                 GameButtonWithNavigation(
@@ -85,6 +107,26 @@ struct ContentView: View {
                     .offset(y: startAnimation ? 0 : -50)
                     .opacity(startAnimation ? 1 : 0)
             }
+            .overlay {
+                // Welcome popup - moved to overlay to prevent interaction issues
+                if showWelcomePopup {
+                    WelcomeFormPopup(
+                        isShowing: $showWelcomePopup,
+                        userName: $userName,
+                        userAge: $userAge,
+                        favoriteColor: $favoriteColor,
+                        onSubmit: { name, age, color in
+                            userViewModel.saveUserInfo(name: name, age: age, favoriteColor: color)
+                            userViewModel.setFirstLaunchCompleted()
+                        },
+                        onSkip: {
+                            // Still save any entered information
+                            userViewModel.saveUserInfo(name: userName, age: userAge, favoriteColor: favoriteColor)
+                            userViewModel.setFirstLaunchCompleted()
+                        }
+                    )
+                }
+            }
             .edgesIgnoringSafeArea(.top)
             .navigationDestination(for: Int.self) { gameId in
                 // This will navigate to the selected game view
@@ -119,10 +161,24 @@ struct ContentView: View {
         }
         .transition(.opacity)
         .onAppear {
+            // Populate fields with any existing data (in case popup reopens)
+            userName = userViewModel.userName
+            userAge = userViewModel.userAge
+            favoriteColor = userViewModel.favoriteColor
+            
             // Trigger animation immediately but with a very slight delay to ensure view is fully loaded
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                 withAnimation(.spring(response: 0.6, dampingFraction: 0.7)) {
                     startAnimation = true
+                }
+            }
+            
+            // Check if it's the first launch and show welcome popup after a delay
+            if userViewModel.isFirstLaunch() {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                    withAnimation {
+                        showWelcomePopup = true
+                    }
                 }
             }
         }

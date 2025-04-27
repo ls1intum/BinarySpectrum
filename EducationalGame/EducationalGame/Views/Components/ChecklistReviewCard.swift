@@ -56,7 +56,7 @@ struct ChecklistReviewCard: View {
             // Card content
             VStack(alignment: .leading, spacing: 15) {
                 Text(title)
-                    .font(GameTheme.subtitleFont)
+                    .font(GameTheme.subheadingFont)
                     .bold()
                     .foregroundColor(titleColor)
                 

@@ -11,12 +11,14 @@ extension Color {
     static let gameWhite = Color(red: 0.96, green: 0.96, blue: 0.96)
     static let gameGray = Color(red: 0.878, green: 0.878, blue: 0.878)
     static let gameDarkBlue = Color(red: 0.173, green: 0.243, blue: 0.313)
+    static let gamePink = Color(red: 1, green: 0.447, blue: 0.824)
 }
 
-struct GameTheme {
+enum GameTheme {
     static let titleFont = Font.custom("LoveYaLikeASister-Regular", size: 75)
+    static let subtitleFont = Font.custom("LoveYaLikeASister-Regular", size: 48)
     static let headingFont = Font.custom("LoveYaLikeASister-Regular", size: 36)
-    static let subtitleFont = Font.custom("LoveYaLikeASister-Regular", size: 24)
+    static let subheadingFont = Font.custom("LoveYaLikeASister-Regular", size: 24)
     static let bodyFont = Font.custom("LoveYaLikeASister-Regular", size: 21)
     static let buttonFont = Font.custom("LoveYaLikeASister-Regular", size: 20)
 }

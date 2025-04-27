@@ -4,7 +4,7 @@ struct InstructionBar: View {
     let text: LocalizedStringResource
     var body: some View {
         Text(text)
-            .font(GameTheme.subtitleFont)
+            .font(GameTheme.subheadingFont)
             .foregroundColor(Color.gameDarkBlue)
             .padding(.vertical, 30)
             .padding(.horizontal, 30)

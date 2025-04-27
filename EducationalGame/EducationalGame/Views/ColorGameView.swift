@@ -147,7 +147,7 @@ struct ColorHexChallenge: View {
                     // Target Color
                     VStack {
                         Text("Target Color")
-                            .font(GameTheme.subtitleFont)
+                            .font(GameTheme.subheadingFont)
                         Circle()
                             .fill(viewModel.targetColor)
                             .frame(width: 150, height: 150)
@@ -162,7 +162,7 @@ struct ColorHexChallenge: View {
                     // Current Color
                     VStack {
                         Text("Your Color")
-                            .font(GameTheme.subtitleFont)
+                            .font(GameTheme.subheadingFont)
                         Circle()
                             .fill(Color(red: viewModel.red, green: viewModel.green, blue: viewModel.blue))
                             .frame(width: 150, height: 150)
@@ -201,7 +201,7 @@ struct OpacityChallenge: View {
                     // Target Color
                     VStack {
                         Text("Target Color")
-                            .font(GameTheme.subtitleFont)
+                            .font(GameTheme.subheadingFont)
                         ZStack {
                             CheckerboardBackground()
                             Circle()
@@ -220,7 +220,7 @@ struct OpacityChallenge: View {
                     // Current Color
                     VStack {
                         Text("Your Color")
-                            .font(GameTheme.subtitleFont)
+                            .font(GameTheme.subheadingFont)
                         ZStack {
                             CheckerboardBackground()
                             Circle()
@@ -479,7 +479,7 @@ struct ColorSlider: View {
 
 #Preview("Intro Phase") {
     let viewModel = ColorGameViewModel()
-    return ColorGameView()
+    return ColorGameView(viewModel: viewModel)
         .environment(\.colorScheme, .light)
 }
 
