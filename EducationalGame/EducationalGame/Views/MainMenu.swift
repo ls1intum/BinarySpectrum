@@ -149,6 +149,7 @@ struct MainMenu: View {
                 if destination == "achievements" {
                     AchievementsView()
                         .environmentObject(navigationState)
+                        .environmentObject(userViewModel)
                         .slideTransition(edge: .bottom)
                         .toolbar(.hidden, for: .navigationBar)
                 } else if destination == "settings" {

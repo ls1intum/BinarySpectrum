@@ -33,6 +33,7 @@ struct InfoPopup: View {
                         .cornerRadius(12)
                 }
                 .padding(.top, 10)
+                .buttonStyle(ScaleButtonStyle())
             }
             .padding(30)
             .background(
@@ -47,6 +48,12 @@ struct InfoPopup: View {
             .padding(.horizontal, 60)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
+        .contentShape(Rectangle())
+        .gesture(
+            TapGesture().onEnded { _ in
+                // Do nothing, prevents taps from passing through
+            }
+        )
     }
 }
 

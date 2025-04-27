@@ -7,6 +7,7 @@ struct RewardView: View {
     @State private var scale: CGFloat = 0.8
     @State private var badgeOffset: CGFloat = 50
     @State private var badgeOpacity: Double = 0
+    @EnvironmentObject private var navigationState: NavigationState
     
     var body: some View {
         ZStack {

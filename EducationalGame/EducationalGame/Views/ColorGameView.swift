@@ -2,6 +2,8 @@ import SwiftUI
 
 struct ColorGameView: View {
     @State private var viewModel: ColorGameViewModel
+    @EnvironmentObject var navigationState: NavigationState
+    @EnvironmentObject var userViewModel: UserViewModel
     
     init(viewModel: ColorGameViewModel = ColorGameViewModel()) {
         _viewModel = State(initialValue: viewModel)
@@ -72,6 +74,8 @@ struct ColorGameView: View {
                     )
                 case .reward:
                     RewardView(miniGameIndex: 2, message: viewModel.rewardMessage)
+                        .environmentObject(navigationState)
+                        .environmentObject(userViewModel)
                 }
             }
             

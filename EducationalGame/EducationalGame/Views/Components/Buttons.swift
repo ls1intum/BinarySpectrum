@@ -35,7 +35,8 @@ struct CircleButton: View {
     @Environment(\.currentView) var currentView
     @Environment(\.currentPhase) var currentPhase
     @EnvironmentObject private var navigationState: NavigationState
-
+    @Environment(\.dismiss) private var dismiss
+    
     var body: some View {
         ZStack {
             Button(action: handleAction) {
@@ -57,15 +58,14 @@ struct CircleButton: View {
         switch iconName {
         case "gear":
             withAnimation(.easeInOut(duration: 0.3)) {
-                navigationState.path.append("settings")
+                navigationState.navigateTo("settings")
             }
         case "arrow.left":
             withAnimation(.easeInOut(duration: 0.3)) {
-                // Go back or to root if we can't go back
-                if navigationState.path.count > 0 {
-                    navigationState.path.removeLast()
-                } else {
-                    navigationState.path = NavigationPath()
+                dismiss()
+                // If dismiss doesn't work, try the navigation state's back function
+                if navigationState.canGoBack {
+                    navigationState.goBack()
                 }
             }
         default:
@@ -79,21 +79,23 @@ struct CircleButton: View {
 struct RewardButton: View {
     var miniGameIndex: Int
     @EnvironmentObject private var navigationState: NavigationState
+    @EnvironmentObject private var userViewModel: UserViewModel
     @State private var isPressed = false
-
+    @State private var navigateToAchievements = false
+    
     var body: some View {
         Button(action: {
             withAnimation(.easeInOut(duration: 0.3)) {
                 isPressed = true
-
+                
                 // Unlock the achievement for this mini-game
                 // This would typically call an achievement service to mark the achievement as obtained
                 // AchievementService.shared.unlockAchievement(for: miniGameIndex)
-
+                
                 // Navigate to the achievements view after a brief delay
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                    navigationState.path.append("achievements")
-
+                    navigateToAchievements = true
+                    
                     // Reset the button state
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                         isPressed = false
@@ -106,7 +108,7 @@ struct RewardButton: View {
                     .fill(GameConstants.miniGames[miniGameIndex].color)
                     .frame(width: 90, height: 90)
                     .shadow(radius: isPressed ? 2 : 5)
-
+                
                 Image(systemName: "trophy.fill")
                     .font(.largeTitle)
                     .foregroundColor(.gameWhite)
@@ -114,6 +116,13 @@ struct RewardButton: View {
             .scaleEffect(isPressed ? 0.95 : 1.0)
         }
         .buttonStyle(PlainButtonStyle())
+        .fullScreenCover(isPresented: $navigateToAchievements) {
+            NavigationStack {
+                AchievementsView()
+                    .environmentObject(navigationState)
+                    .environmentObject(userViewModel)
+            }
+        }
     }
 }
 
@@ -123,7 +132,7 @@ struct InfoButton: View {
     @State private var showInfoPopup = false
     @Environment(\.currentView) var currentView
     @Environment(\.currentPhase) var currentPhase
-
+    
     var body: some View {
         ZStack {
             Button(action: {
@@ -141,13 +150,13 @@ struct InfoButton: View {
                 }
             }
         }
-        .overlay {
-            if showInfoPopup {
+        .fullScreenCover(isPresented: $showInfoPopup) {
+            ZStack {
                 let view = currentView.isEmpty ? "MainMenu" : currentView
                 let title = InfoButtonService.shared.getTitleForInfo(view: view, phase: currentPhase)
-                let message = InfoButtonService.shared.getTip(for: view, phase: currentPhase) ??
+                let message = InfoButtonService.shared.getTip(for: view, phase: currentPhase) ?? 
                     "Welcome to the game! This informational popup provides context about your current screen."
-
+                
                 InfoPopup(
                     title: title,
                     message: message,
@@ -157,6 +166,7 @@ struct InfoButton: View {
                     }
                 )
             }
+            .edgesIgnoringSafeArea(.all)
         }
     }
 }

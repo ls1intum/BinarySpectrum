@@ -1,10 +1,15 @@
 import Foundation
+import SwiftUI
 
-@Observable class AchievementsViewModel {
+class AchievementsViewModel: ObservableObject {
     // Achievement states for each mini game
-    var binaryAchievement: Bool = false
-    var pixelAchievement: Bool = false
-    var colorAchievement: Bool = false
+    @Published var binaryAchievement: Bool = false
+    @Published var pixelAchievement: Bool = false
+    @Published var colorAchievement: Bool = false
+    
+    // UserDefaults keys
+    private let completedMiniGamesKey = "completedMiniGames"
+    private let achievementsKey = "achievements"
     
     // Achievement titles and descriptions
     let achievements: [(id: Int, title: String, description: String)] = [
@@ -30,26 +35,55 @@ import Foundation
     }
     
     @objc func updateAchievementsFromUserViewModel() {
-        // Check for achievements in the shared user view model
-        binaryAchievement = checkCompletionForGame(name: "Binary Game")
-        pixelAchievement = checkCompletionForGame(name: "Pixel Game")
-        colorAchievement = checkCompletionForGame(name: "Color Game")
+        // Get the user data from UserDefaults
+        let completedGames = getCompletedGames()
+        let userAchievements = getAchievements()
+        
+        // Print debug information
+        print("Completed games: \(completedGames)")
+        print("User achievements: \(userAchievements)")
+        
+        // Check for achievements
+        binaryAchievement = checkCompletionForGame(name: "Binary Game", completedGames: completedGames, achievements: userAchievements)
+        pixelAchievement = checkCompletionForGame(name: "Pixel Game", completedGames: completedGames, achievements: userAchievements)
+        colorAchievement = checkCompletionForGame(name: "Color Game", completedGames: completedGames, achievements: userAchievements)
+        
+        // Print achievement states
+        print("Binary achievement: \(binaryAchievement)")
+        print("Pixel achievement: \(pixelAchievement)")
+        print("Color achievement: \(colorAchievement)")
     }
     
-    private func checkCompletionForGame(name: String) -> Bool {
+    private func getCompletedGames() -> [String: Bool] {
+        if let data = UserDefaults.standard.data(forKey: completedMiniGamesKey),
+           let decodedGames = try? JSONDecoder().decode([String: Bool].self, from: data) {
+            return decodedGames
+        }
+        return [:]
+    }
+    
+    private func getAchievements() -> [String] {
+        if let data = UserDefaults.standard.data(forKey: achievementsKey),
+           let decodedAchievements = try? JSONDecoder().decode([String].self, from: data) {
+            return decodedAchievements
+        }
+        return []
+    }
+    
+    private func checkCompletionForGame(name: String, completedGames: [String: Bool], achievements: [String]) -> Bool {
         // Check if any game phase with this base name has been completed
         // Either the base game or specific phases like "Binary Game - reward"
-        let matchingAchievements = sharedUserViewModel.achievements.filter { 
+        let matchingAchievements = achievements.filter { 
             $0.contains(name)
         }
         
         // Check completions directly from completedMiniGames
-        let completedGames = sharedUserViewModel.completedMiniGames.filter { 
+        let completedGameEntries = completedGames.filter { 
             $0.key.contains(name) && $0.value == true
         }
         
         // Return true if there's any matching achievement or completed game
-        return !matchingAchievements.isEmpty || !completedGames.isEmpty
+        return !matchingAchievements.isEmpty || !completedGameEntries.isEmpty
     }
     
     // Check if an achievement is unlocked

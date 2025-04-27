@@ -1,12 +1,12 @@
 import SwiftUI
 
 /// Manages navigation state for the entire app
-@Observable final class NavigationState: ObservableObject {
+final class NavigationState: ObservableObject {
     // The navigation path representing the current navigation stack
-    var path = NavigationPath()
+    @Published var path = NavigationPath()
     
     // The current screen being shown
-    var currentScreen: String = "home"
+    @Published var currentScreen: String = "home"
     
     // Navigation history for enabling "back" functionality
     private var navigationHistory: [String] = []

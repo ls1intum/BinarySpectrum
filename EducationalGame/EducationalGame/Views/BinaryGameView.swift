@@ -2,6 +2,8 @@ import SwiftUI
 
 struct BinaryGameView: View {
     @State private var viewModel: BinaryGameViewModel
+    @EnvironmentObject private var navigationState: NavigationState
+    @EnvironmentObject private var userViewModel: UserViewModel
     
     init(viewModel: BinaryGameViewModel = BinaryGameViewModel()) {
         _viewModel = State(initialValue: viewModel)
@@ -64,6 +66,8 @@ struct BinaryGameView: View {
                     )
                 case .reward:
                     RewardView(miniGameIndex: 0, message: viewModel.rewardMessage)
+                        .environmentObject(navigationState)
+                        .environmentObject(userViewModel)
                 }
             }
             TopBar(title: GameConstants.miniGames[0].name, color: GameConstants.miniGames[0].color)

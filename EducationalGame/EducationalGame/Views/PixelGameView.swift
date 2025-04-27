@@ -2,6 +2,8 @@ import SwiftUI
 
 struct PixelGameView: View {
     @State private var viewModel: PixelGameViewModel
+    @EnvironmentObject private var navigationState: NavigationState
+    @EnvironmentObject private var userViewModel: UserViewModel
     
     init(viewModel: PixelGameViewModel = PixelGameViewModel()) {
         _viewModel = State(initialValue: viewModel)
@@ -61,6 +63,8 @@ struct PixelGameView: View {
                     )
                 case .reward:
                     RewardView(miniGameIndex: 1, message: viewModel.rewardMessage)
+                        .environmentObject(navigationState)
+                        .environmentObject(userViewModel)
                 }
             }
             

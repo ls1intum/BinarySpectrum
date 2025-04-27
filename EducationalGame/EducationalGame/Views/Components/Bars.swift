@@ -31,6 +31,8 @@ struct TopBar: View {
             Spacer()
             
             InfoButton()
+                .environment(\.currentView, title.key)
+                .environment(\.currentPhase, .intro)
         }
         .padding(.horizontal)
         .frame(maxWidth: .infinity) // Makes sure it stretches across the screen
