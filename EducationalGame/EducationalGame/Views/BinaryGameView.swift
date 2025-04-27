@@ -72,7 +72,7 @@ struct BinaryGameView: View {
                     )
                 }
             }
-            TopBarView(title: GameConstants.miniGames[0].name, color: GameConstants.miniGames[0].color)
+            TopBar(title: GameConstants.miniGames[0].name, color: GameConstants.miniGames[0].color)
         }
         .edgesIgnoringSafeArea(.top)
     }

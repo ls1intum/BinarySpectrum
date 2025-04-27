@@ -81,7 +81,7 @@ struct ColorGameView: View {
             }
             
             // TopBarView overlay at the top
-            TopBarView(title: GameConstants.miniGames[2].name, color: GameConstants.miniGames[2].color)
+            TopBar(title: GameConstants.miniGames[2].name, color: GameConstants.miniGames[2].color)
         }
         .edgesIgnoringSafeArea(.top)
     }

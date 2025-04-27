@@ -87,7 +87,7 @@ struct RewardView: View {
             }
             .padding()
             
-            // Continue Button
+            // TODO: other kind of button?
             VStack {
                 Spacer()
                 HStack {

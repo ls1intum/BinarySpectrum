@@ -65,7 +65,7 @@ struct SettingsView: View {
             }
             
             // TopBarView overlay at the top
-            TopBarView(title: "Settings", color: .gamePurple)
+            TopBar(title: "Settings", color: .gamePurple)
             
             // Reset Confirmation Popup
             if showResetConfirmation {

@@ -70,7 +70,7 @@ struct PixelGameView: View {
             }
             
             // TopBarView overlay at the top
-            TopBarView(title: GameConstants.miniGames[1].name, color: GameConstants.miniGames[1].color)
+            TopBar(title: GameConstants.miniGames[1].name, color: GameConstants.miniGames[1].color)
         }
         .edgesIgnoringSafeArea(.top)
     }
@@ -594,15 +594,6 @@ struct PixelGameRLEChallenge: View {
                 .padding()
             }
         }
-    }
-}
-
-// Button Style for Scale Animation
-struct ScaleButtonStyle: ButtonStyle {
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .scaleEffect(configuration.isPressed ? 0.95 : 1.0)
-            .animation(.spring(response: 0.3, dampingFraction: 0.6), value: configuration.isPressed)
     }
 }
 

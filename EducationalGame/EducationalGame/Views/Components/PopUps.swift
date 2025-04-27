@@ -1,5 +1,121 @@
 import SwiftUI
 
+struct InfoPopup: View {
+    let title: String
+    let message: String
+    let buttonTitle: String
+    let onButtonTap: () -> Void
+
+    var body: some View {
+        ZStack {
+            // Semi-transparent background overlay
+            Color.gameBlack.opacity(0.1)
+                .ignoresSafeArea()
+
+            VStack(spacing: 20) {
+                Text(title)
+                    .font(GameTheme.headingFont)
+                    .foregroundColor(.gamePurple)
+
+                Text(message)
+                    .font(GameTheme.bodyFont)
+                    .multilineTextAlignment(.center)
+                    .foregroundColor(.gameDarkBlue)
+                    .padding(.horizontal)
+
+                Button(action: onButtonTap) {
+                    Text(buttonTitle)
+                        .font(GameTheme.buttonFont)
+                        .foregroundColor(.gameWhite)
+                        .padding()
+                        .frame(width: 200)
+                        .background(Color.gameOrange)
+                        .cornerRadius(12)
+                }
+                .padding(.top, 10)
+            }
+            .padding(30)
+            .background(
+                RoundedRectangle(cornerRadius: 20)
+                    .fill(Color.gameWhite.opacity(0.8))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 20)
+                            .stroke(Color.gamePurple, lineWidth: 5)
+                    )
+            )
+            .shadow(radius: 10)
+            .padding(.horizontal, 60)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+        }
+    }
+}
+
+struct TwoButtonInfoPopup: View {
+    let title: String
+    let message: String
+    let primaryButtonTitle: String
+    let secondaryButtonTitle: String
+    let onPrimaryButtonTap: () -> Void
+    let onSecondaryButtonTap: () -> Void
+
+    var body: some View {
+        ZStack {
+            // Semi-transparent background overlay
+            Color.gameBlack.opacity(0.1)
+                .ignoresSafeArea()
+
+            VStack(spacing: 20) {
+                Text(title)
+                    .font(GameTheme.headingFont)
+                    .foregroundColor(.gamePurple)
+
+                Text(message)
+                    .font(GameTheme.bodyFont)
+                    .multilineTextAlignment(.center)
+                    .foregroundColor(.gameDarkBlue)
+                    .padding(.horizontal)
+
+                HStack(spacing: 20) {
+                    // Secondary button
+                    Button(action: onSecondaryButtonTap) {
+                        Text(secondaryButtonTitle)
+                            .font(GameTheme.buttonFont)
+                            .foregroundColor(.gameDarkBlue)
+                            .padding()
+                            .frame(width: 180)
+                            .background(Color.gameGray)
+                            .cornerRadius(12)
+                    }
+
+                    // Primary button
+                    Button(action: onPrimaryButtonTap) {
+                        Text(primaryButtonTitle)
+                            .font(GameTheme.buttonFont)
+                            .foregroundColor(.gameWhite)
+                            .padding()
+                            .frame(width: 180)
+                            .background(Color.gameOrange)
+                            .cornerRadius(12)
+                    }
+                }
+                .padding(.top, 10)
+            }
+            .padding(30)
+            .background(
+                RoundedRectangle(cornerRadius: 20)
+                    .fill(Color.gameWhite.opacity(0.8))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 20)
+                            .stroke(Color.gamePurple, lineWidth: 5)
+                    )
+            )
+            .shadow(radius: 10)
+            .padding(.horizontal, 60)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+        }
+    }
+}
+
 struct WelcomeFormPopup: View {
     @Binding var isShowing: Bool
     @Binding var userName: String
@@ -7,16 +123,16 @@ struct WelcomeFormPopup: View {
     @Binding var favoriteColor: Color
     let onSubmit: (String, String, Color) -> Void
     let onSkip: () -> Void
-    
+
     // Add focus state
     @FocusState private var nameFieldFocused: Bool
     @FocusState private var ageFieldFocused: Bool
-    
+
     // Add local state to ensure values persist
     @State private var localUserName: String = ""
     @State private var localUserAge: String = ""
     @State private var localFavoriteColor: Color = .gamePurple
-    
+
     // Available color options
     private let colorOptions: [(Color, String)] = [
         (.gamePurple, "Purple"),
@@ -27,7 +143,7 @@ struct WelcomeFormPopup: View {
         (.gameRed, "Red"),
         (.gamePink, "Pink")
     ]
-    
+
     var body: some View {
         ZStack {
             // Semi-transparent background overlay - capture all taps
@@ -39,24 +155,24 @@ struct WelcomeFormPopup: View {
                     nameFieldFocused = false
                     ageFieldFocused = false
                 }
-            
+
             VStack(spacing: 16) {
                 Text("Welcome to \(GameConstants.gameTitle)")
                     .font(GameTheme.subtitleFont)
                     .foregroundColor(.gamePurple)
-                
+
                 Text("We're excited to have you join us! This game offers 3 fun mini-games that will challenge your mind while you learn about computational thinking.")
                     .font(GameTheme.bodyFont)
                     .multilineTextAlignment(.center)
                     .foregroundColor(.gameDarkBlue)
                     .padding(.horizontal)
-                
+
                 HStack {
                     VStack(alignment: .leading, spacing: 5) {
                         Text("Your Name")
                             .font(GameTheme.headingFont)
                             .foregroundColor(.gameDarkBlue)
-                        
+
                         TextField("Enter your name", text: $localUserName)
                             .font(GameTheme.bodyFont)
                             .padding()
@@ -78,12 +194,12 @@ struct WelcomeFormPopup: View {
                             }
                     }
                     .padding(.horizontal)
-                    
+
                     VStack(alignment: .leading, spacing: 5) {
                         Text("Your Age")
                             .font(GameTheme.headingFont)
                             .foregroundColor(.gameDarkBlue)
-                        
+
                         TextField("Age", text: $localUserAge)
                             .font(GameTheme.bodyFont)
                             .keyboardType(.numberPad)
@@ -106,13 +222,13 @@ struct WelcomeFormPopup: View {
                     }
                     .padding(.horizontal)
                 }
-                
+
                 // Favorite color selection
                 VStack(alignment: .center, spacing: 8) {
                     Text("Choose Your Favorite Color")
                         .font(GameTheme.headingFont)
                         .foregroundColor(.gameDarkBlue)
-                    
+
                     // Center the color circles
                     HStack(spacing: 12) {
                         Spacer()
@@ -126,7 +242,7 @@ struct WelcomeFormPopup: View {
                                         .fill(color)
                                         .frame(width: 40, height: 40)
                                         .shadow(radius: 2)
-                                    
+
                                     if localFavoriteColor == color {
                                         Circle()
                                             .strokeBorder(Color.gameWhite, lineWidth: 3)
@@ -140,7 +256,7 @@ struct WelcomeFormPopup: View {
                     }
                 }
                 .padding(.horizontal)
-                
+
                 // Buttons
                 HStack(spacing: 20) {
                     // Skip button
@@ -160,7 +276,7 @@ struct WelcomeFormPopup: View {
                             .background(Color.gameGray)
                             .cornerRadius(12)
                     }
-                    
+
                     // Start button
                     Button(action: submitForm) {
                         Text("Start Playing")
@@ -200,20 +316,37 @@ struct WelcomeFormPopup: View {
             localFavoriteColor = favoriteColor
         }
     }
-    
+
     // Extract the submit action to a method
     private func submitForm() {
         // Make sure the bindings are updated with current values
         userName = localUserName
         userAge = localUserAge
         favoriteColor = localFavoriteColor
-        
+
         onSubmit(localUserName, localUserAge, localFavoriteColor)
         isShowing = false
     }
 }
 
-#Preview {
+// MARK: - Previews
+
+#Preview("InfoPopup") {
+    InfoPopup(title: "Information", message: "This is an important message for the user that requires attention.", buttonTitle: "OK", onButtonTap: {})
+}
+
+#Preview("TwoButtonInfoPopup") {
+    TwoButtonInfoPopup(
+        title: "Confirm Action",
+        message: "Are you sure you want to proceed with this action?",
+        primaryButtonTitle: "Confirm",
+        secondaryButtonTitle: "Cancel",
+        onPrimaryButtonTap: {},
+        onSecondaryButtonTap: {}
+    )
+}
+
+#Preview("WelcomeFormPopup") {
     WelcomeFormPopup(
         isShowing: .constant(true),
         userName: .constant(""),

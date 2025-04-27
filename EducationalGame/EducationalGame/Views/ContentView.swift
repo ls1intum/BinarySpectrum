@@ -44,7 +44,7 @@ struct ContentView: View {
                         
                         HStack(spacing: 30) {
                             ForEach(GameConstants.miniGames) { game in
-                                GameButtonWithNavigation(
+                                GameButton(
                                     gameId: game.id,
                                     color: game.color,
                                     icon: game.icon,
@@ -108,7 +108,7 @@ struct ContentView: View {
                 }
                 
                 // TopBarView overlay at the top
-                TopBarView(title: GameConstants.gameTitle, leftIcon: "gear")
+                TopBar(title: GameConstants.gameTitle, leftIcon: "gear")
                     .offset(y: startAnimation ? 0 : -50)
                     .opacity(startAnimation ? 1 : 0)
             }

@@ -27,7 +27,7 @@ struct AchievementsView: View {
             }
             
             // TopBarView overlay at the top
-            TopBarView(title: "Achievements", color: .gamePurple)
+            TopBar(title: "Achievements", color: .gamePurple)
         }
         .edgesIgnoringSafeArea(.top)
         .onAppear {
