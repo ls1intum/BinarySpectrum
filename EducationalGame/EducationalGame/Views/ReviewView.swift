@@ -1,12 +1,5 @@
 import SwiftUI
 
-struct ReviewItem: Identifiable {
-    let id = UUID()
-    let title: String
-    let content: String
-    let example: String
-}
-
 struct ReviewView: View {
     let title: String
     let items: [ReviewItem]

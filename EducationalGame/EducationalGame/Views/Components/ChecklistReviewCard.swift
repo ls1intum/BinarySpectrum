@@ -83,7 +83,7 @@ struct ChecklistReviewCard: View {
             RoundedRectangle(cornerRadius: 15)
                 .stroke(isChecked ? titleColor : Color.clear, lineWidth: isChecked ? 2 : 0)
         )
-        .shadow(color: isChecked ? titleColor.opacity(0.3) : Color.black.opacity(0.1), 
+        .shadow(color: isChecked ? titleColor.opacity(0.3) : Color.gameBlack.opacity(0.1), 
                 radius: isChecked ? 8 : 5, 
                 x: 0, 
                 y: isChecked ? 3 : 2)

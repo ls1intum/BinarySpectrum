@@ -22,7 +22,12 @@ struct ContentView: View {
                         
                         // Welcome message positioned above the mini game buttons
                         if !userViewModel.userName.isEmpty {
-                            Text("Welcome \(userViewModel.userName)!")
+                            (
+                                Text("Welcome, ")
+                                    .foregroundColor(.gameDarkBlue)
+                                + Text(userViewModel.userName)
+                                    .foregroundColor(userViewModel.favoriteColor)
+                            )
                                 .font(GameTheme.headingFont)
                                 .foregroundColor(userViewModel.favoriteColor)
                                 .scaleTransition()
@@ -68,7 +73,7 @@ struct ContentView: View {
                                 .padding()
                                 .frame(width: 480, height: 80)
                                 .background(Color.gameYellow)
-                                .foregroundColor(.black)
+                                .foregroundColor(.gameBlack)
                                 .clipShape(RoundedRectangle(cornerRadius: 30))
                             }
                             .shadow(radius: 5)

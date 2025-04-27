@@ -9,7 +9,7 @@ struct InfoPopup: View {
     var body: some View {
         ZStack {
             // Semi-transparent background overlay
-            Color.black.opacity(0.1)
+            Color.gameBlack.opacity(0.1)
                 .ignoresSafeArea()
 
             VStack(spacing: 20) {
@@ -61,7 +61,7 @@ struct TwoButtonInfoPopup: View {
     var body: some View {
         ZStack {
             // Semi-transparent background overlay
-            Color.black.opacity(0.1)
+            Color.gameBlack.opacity(0.1)
                 .ignoresSafeArea()
 
             VStack(spacing: 20) {

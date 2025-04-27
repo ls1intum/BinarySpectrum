@@ -8,35 +8,22 @@
 import SwiftUI
 import UIKit
 
-// Create a shared instance of UserViewModel to access globally
-let sharedUserViewModel = UserViewModel()
-
-// App delegate to enforce orientation
-class AppDelegate: NSObject, UIApplicationDelegate {
-    func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
-        // Return landscape orientations only
-        return .landscape
-    }
-}
-
 @main
 struct EducationalGameApp: App {
-    // Use the shared instance
-    @StateObject private var userViewModel = sharedUserViewModel
-    
-    // Global navigation state
+    // Use the environment property wrapper for view models
+    @StateObject private var userViewModel = UserViewModel()
     @StateObject private var navigationState = NavigationState()
     
-    // Register app delegate
-    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    // State to control debug features
+    @AppStorage("debugMode") private var debugMode = false
     
     init() {
-        // Debug: Print all available fonts
-        for familyName in UIFont.familyNames.sorted() {
-            print("Font Family: \(familyName)")
-            for fontName in UIFont.fontNames(forFamilyName: familyName).sorted() {
-                print("    Font: \(fontName)")
-            }
+        // Configure app appearance
+        configureAppAppearance()
+        
+        // Print available fonts in debug mode
+        if debugMode {
+            printAvailableFonts()
         }
     }
     
@@ -46,6 +33,43 @@ struct EducationalGameApp: App {
                 .environmentObject(userViewModel)
                 .environmentObject(navigationState)
                 .preferredColorScheme(.light)
+                .tint(.gamePurple) // Set the app tint color
+        }
+    }
+    
+    // MARK: - Private Helper Methods
+    
+    // Configure overall app appearance
+    private func configureAppAppearance() {
+        // Configure navigation bar appearance
+        let navBarAppearance = UINavigationBarAppearance()
+        navBarAppearance.configureWithOpaqueBackground()
+        navBarAppearance.backgroundColor = UIColor(Color.gameWhite)
+        navBarAppearance.titleTextAttributes = [
+            .foregroundColor: UIColor(Color.gamePurple),
+            .font: UIFont(name: "Avenir-Heavy", size: 20) ?? .systemFont(ofSize: 20, weight: .bold)
+        ]
+        
+        UINavigationBar.appearance().standardAppearance = navBarAppearance
+        UINavigationBar.appearance().compactAppearance = navBarAppearance
+        UINavigationBar.appearance().scrollEdgeAppearance = navBarAppearance
+        
+        // Configure tab bar appearance
+        let tabBarAppearance = UITabBarAppearance()
+        tabBarAppearance.configureWithOpaqueBackground()
+        tabBarAppearance.backgroundColor = UIColor(Color.gameWhite)
+        
+        UITabBar.appearance().standardAppearance = tabBarAppearance
+        UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
+    }
+    
+    // Print all available fonts for debugging
+    private func printAvailableFonts() {
+        for familyName in UIFont.familyNames.sorted() {
+            print("Font Family: \(familyName)")
+            for fontName in UIFont.fontNames(forFamilyName: familyName).sorted() {
+                print("    Font: \(fontName)")
+            }
         }
     }
 }

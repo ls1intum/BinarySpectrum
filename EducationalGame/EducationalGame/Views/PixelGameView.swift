@@ -112,7 +112,7 @@ struct PixelGameChallenge: View {
                             ForEach(0..<(viewModel.gridSize * viewModel.gridSize), id: \.self) { index in
                                 ZStack {
                                     Rectangle()
-                                        .fill(viewModel.blackCells.contains(index) ? Color.black : Color.white)
+                                        .fill(viewModel.blackCells.contains(index) ? Color.gameBlack : Color.gameWhite)
                                         .frame(width: viewModel.cellSize, height: viewModel.cellSize)
                                         .border(Color.gray.opacity(0.3), width: 1)
                                         .shadow(color: .black.opacity(0.1), radius: 1, x: 0, y: 1)
@@ -120,7 +120,7 @@ struct PixelGameChallenge: View {
                                     if viewModel.blackCells.contains(index) {
                                         Text("1")
                                             .font(.system(size: 12, weight: .bold))
-                                            .foregroundColor(.white)
+                                            .foregroundColor(.gameWhite)
                                     } else {
                                         Text("0")
                                             .font(.system(size: 12, weight: .bold))
@@ -160,7 +160,7 @@ struct PixelGameChallenge: View {
                                 )
                         }
                         .padding()
-                        .background(Color.white)
+                        .background(Color.gameWhite)
                         .cornerRadius(15)
                         .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 2)
                     
@@ -176,7 +176,7 @@ struct PixelGameChallenge: View {
                                 .padding(.bottom)
                         }
                         .padding()
-                        .background(Color.white)
+                        .background(Color.gameWhite)
                         .cornerRadius(15)
                         .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 2)
                     }
@@ -193,7 +193,7 @@ struct PixelGameChallenge: View {
                             .foregroundColor(viewModel.isCorrect ? .green : .orange)
                             .padding()
                             .multilineTextAlignment(.center)
-                            .background(Color.white)
+                            .background(Color.gameWhite)
                             .cornerRadius(15)
                             .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 2)
                     
@@ -206,7 +206,7 @@ struct PixelGameChallenge: View {
                                     .padding()
                                     .frame(width: 160)
                                     .background(Color.green)
-                                    .foregroundColor(.white)
+                                    .foregroundColor(.gameWhite)
                                     .cornerRadius(10)
                                     .shadow(radius: 5)
                             }
@@ -220,7 +220,7 @@ struct PixelGameChallenge: View {
                                     .padding()
                                     .frame(width: 160)
                                     .background(Color.orange)
-                                    .foregroundColor(.white)
+                                    .foregroundColor(.gameWhite)
                                     .cornerRadius(10)
                                     .shadow(radius: 5)
                             }
@@ -280,7 +280,7 @@ struct PixelGameExploration: View {
                             ForEach(0..<(explorationGridSize * explorationGridSize), id: \.self) { index in
                                 ZStack {
                                     Rectangle()
-                                        .fill(viewModel.blackCells.contains(index) ? Color.black : Color.white)
+                                        .fill(viewModel.blackCells.contains(index) ? Color.gameBlack : Color.gameWhite)
                                         .frame(width: explorationCellSize, height: explorationCellSize)
                                         .border(Color.gray.opacity(0.3), width: 1)
                                         .shadow(color: .black.opacity(0.1), radius: 1, x: 0, y: 1)
@@ -288,7 +288,7 @@ struct PixelGameExploration: View {
                                     if viewModel.blackCells.contains(index) {
                                         Text("1")
                                             .font(.system(size: 12, weight: .bold))
-                                            .foregroundColor(.white)
+                                            .foregroundColor(.gameWhite)
                                     } else {
                                         Text("0")
                                             .font(.system(size: 12, weight: .bold))
@@ -353,7 +353,7 @@ struct PixelGameBinaryEncoding: View {
                         ForEach(0..<(viewModel.gridSize * viewModel.gridSize), id: \.self) { index in
                             ZStack {
                                 Rectangle()
-                                    .fill(viewModel.encodingChallengeGrid.contains(index) ? Color.black : Color.white)
+                                    .fill(viewModel.encodingChallengeGrid.contains(index) ? Color.gameBlack : Color.gameWhite)
                                     .frame(width: viewModel.cellSize, height: viewModel.cellSize)
                                     .border(Color.gray.opacity(0.3), width: 1)
                                     .shadow(color: .black.opacity(0.1), radius: 1, x: 0, y: 1)
@@ -385,7 +385,7 @@ struct PixelGameBinaryEncoding: View {
                         )
                 }
                 .padding()
-                .background(Color.white)
+                .background(Color.gameWhite)
                 .cornerRadius(15)
                 .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 2)
                 
@@ -419,7 +419,7 @@ struct PixelGameBinaryEncoding: View {
                         .foregroundColor(viewModel.isCorrect ? .green : .orange)
                         .padding()
                         .multilineTextAlignment(.center)
-                        .background(Color.white)
+                        .background(Color.gameWhite)
                         .cornerRadius(15)
                         .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 2)
                     
@@ -432,7 +432,7 @@ struct PixelGameBinaryEncoding: View {
                                 .padding()
                                 .frame(width: 160)
                                 .background(Color.green)
-                                .foregroundColor(.white)
+                                .foregroundColor(.gameWhite)
                                 .cornerRadius(10)
                                 .shadow(radius: 5)
                         }
@@ -446,7 +446,7 @@ struct PixelGameBinaryEncoding: View {
                                 .padding()
                                 .frame(width: 160)
                                 .background(Color.orange)
-                                .foregroundColor(.white)
+                                .foregroundColor(.gameWhite)
                                 .cornerRadius(10)
                                 .shadow(radius: 5)
                         }
@@ -494,7 +494,7 @@ struct PixelGameRLEChallenge: View {
                     )
                 }
                 .padding()
-                .background(Color.white)
+                .background(Color.gameWhite)
                 .cornerRadius(15)
                 .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 2)
                 
@@ -510,7 +510,7 @@ struct PixelGameRLEChallenge: View {
                         ForEach(0..<(viewModel.gridSize * viewModel.gridSize), id: \.self) { index in
                             ZStack {
                                 Rectangle()
-                                    .fill(viewModel.blackCells.contains(index) ? Color.black : Color.white)
+                                    .fill(viewModel.blackCells.contains(index) ? Color.gameBlack : Color.gameWhite)
                                     .frame(width: viewModel.cellSize, height: viewModel.cellSize)
                                     .border(Color.gray.opacity(0.3), width: 1)
                                     .shadow(color: .black.opacity(0.1), radius: 1, x: 0, y: 1)
@@ -557,7 +557,7 @@ struct PixelGameRLEChallenge: View {
                         .foregroundColor(viewModel.isCorrect ? .green : .orange)
                         .padding()
                         .multilineTextAlignment(.center)
-                        .background(Color.white)
+                        .background(Color.gameWhite)
                         .cornerRadius(15)
                         .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 2)
                     
@@ -570,7 +570,7 @@ struct PixelGameRLEChallenge: View {
                                 .padding()
                                 .frame(width: 160)
                                 .background(Color.green)
-                                .foregroundColor(.white)
+                                .foregroundColor(.gameWhite)
                                 .cornerRadius(10)
                                 .shadow(radius: 5)
                         }
@@ -584,7 +584,7 @@ struct PixelGameRLEChallenge: View {
                                 .padding()
                                 .frame(width: 160)
                                 .background(Color.orange)
-                                .foregroundColor(.white)
+                                .foregroundColor(.gameWhite)
                                 .cornerRadius(10)
                                 .shadow(radius: 5)
                         }

@@ -74,7 +74,7 @@ struct QuestionsView: View {
                                         // Alternative Text
                                         Text(viewModel.questions[viewModel.currentQuestionIndex].alternatives[alternativeID] ?? "")
                                             .font(GameTheme.bodyFont)
-                                            .foregroundColor(.black)
+                                            .foregroundColor(.gameBlack)
                                             .frame(minWidth: 400, maxWidth: .infinity, alignment: .leading)
                                             .padding(.vertical, 10)
                                             .padding(.horizontal, 15)

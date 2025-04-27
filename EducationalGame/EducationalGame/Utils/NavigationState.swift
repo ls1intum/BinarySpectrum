@@ -1,27 +1,50 @@
 import SwiftUI
 
-class NavigationState: ObservableObject {
-    @Published var path = NavigationPath()
+/// Manages navigation state for the entire app
+@Observable final class NavigationState: ObservableObject {
+    // The navigation path representing the current navigation stack
+    var path = NavigationPath()
     
-    // Convenience methods
+    // The current screen being shown
+    var currentScreen: String = "home"
+    
+    // Navigation history for enabling "back" functionality
+    private var navigationHistory: [String] = []
+    
+    // Reset navigation to the root
     func navigateToRoot() {
         withAnimation(.easeInOut(duration: 0.3)) {
             path = NavigationPath()
+            currentScreen = "home"
+            navigationHistory = []
         }
     }
     
-    // Generic method that requires the destination to be Hashable
+    // Navigate to a destination with animation
     func navigateTo<T: Hashable>(_ destination: T) {
         withAnimation(.easeInOut(duration: 0.3)) {
+            if let stringDest = destination as? String {
+                navigationHistory.append(currentScreen)
+                currentScreen = stringDest
+            }
             path.append(destination)
         }
     }
     
+    // Go back one step in the navigation stack
     func goBack() {
         withAnimation(.easeInOut(duration: 0.3)) {
             if path.count > 0 {
                 path.removeLast()
+                if !navigationHistory.isEmpty {
+                    currentScreen = navigationHistory.removeLast()
+                }
             }
         }
     }
-} 
+    
+    // Check if we can go back from the current screen
+    var canGoBack: Bool {
+        path.count > 0
+    }
+}

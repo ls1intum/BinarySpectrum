@@ -1,88 +1,64 @@
-// centralized state manager for user-related data
-// provides global access to user progress and achievements
+/// centralized state manager for user-related data
+/// provides global access to user progress and achievements
 
+import Observation
 import SwiftUI
 
-// Extension to help with color persistence
-extension Color {
-    // Convert Color to a string representation
-    var storageString: String {
-        switch self {
-        case .gamePurple: return "gamePurple"
-        case .gameBlue: return "gameBlue"
-        case .gameOrange: return "gameOrange" 
-        case .gameYellow: return "gameYellow"
-        case .gameGreen: return "gameGreen"
-        case .gamePink: return "gamePink"
-        case .gameRed: return "gameRed"
-        default: return "gamePurple" // Default case
-        }
-    }
-    
-    // Create Color from string
-    init(fromStorage string: String) {
-        switch string {
-        case "gamePurple": self = .gamePurple
-        case "gameBlue": self = .gameBlue
-        case "gameOrange": self = .gameOrange
-        case "gameYellow": self = .gameYellow
-        case "gameGreen": self = .gameGreen
-        case "gamePink": self = .gamePink
-        case "gameRed": self = .gameRed
-        default: self = .gamePurple
-        }
-    }
-}
+// MARK: - Global Shared Instance
 
-class UserViewModel: ObservableObject {
-    // User personal information
-    @Published var userName: String = ""
-    @Published var userAge: String = ""
-    @Published var favoriteColor: Color = .gamePurple
+// Create shared instance for global access
+let sharedUserViewModel = UserViewModel()
+
+// Centralized state manager for user-related data that provides global access to user progress and achievements
+@Observable class UserViewModel: ObservableObject {
+    // MARK: - Published Properties
+
+    var userName: String = ""
+    var userAge: String = ""
+    var favoriteColor: Color = .gamePurple
+    var completedMiniGames: [String: Bool] = [:]
+    var miniGameScores: [String: Int] = [:]
+    var miniGamePercentages: [String: Double] = [:]
+    var achievements: [String] = []
     
-    // Track completion status for each mini game
-    @Published var completedMiniGames: [String: Bool] = [:]
+    // MARK: - Private Constants
     
-    // Track score data for each mini game
-    @Published var miniGameScores: [String: Int] = [:]
+    // Storage keys for UserDefaults
+    private enum StorageKey {
+        static let userName = "userName"
+        static let userAge = "userAge"
+        static let favoriteColor = "favoriteColor"
+        static let completedGames = "completedGames"
+        static let miniGameScores = "miniGameScores"
+        static let miniGamePercentages = "miniGamePercentages"
+        static let achievements = "achievements"
+        static let hasLaunchedBefore = "hasLaunchedBefore"
+        
+        // Keys that might be used by other parts of the app
+        static let gamePhases = [
+            "BinaryGamePhase",
+            "PixelGamePhase",
+            "ColorGamePhase",
+            "currentGamePhases"
+        ]
+    }
     
-    // Track percentage of correct answers for each mini game
-    @Published var miniGamePercentages: [String: Double] = [:]
-    
-    // Track achievements earned
-    @Published var achievements: [String] = []
-    
-    // Keys for persistence
-    private let userNameKey = "userName"
-    private let userAgeKey = "userAge"
-    private let favoriteColorKey = "favoriteColor"
-    private let completedGamesKey = "completedGames"
-    private let miniGameScoresKey = "miniGameScores"
-    private let miniGamePercentagesKey = "miniGamePercentages"
-    private let achievementsKey = "achievements"
-    private let hasLaunchedBeforeKey = "hasLaunchedBefore"
-    
-    // Keys that might be used by other parts of the app
-    private let gamePhaseKeys = [
-        "BinaryGamePhase",
-        "PixelGamePhase",
-        "ColorGamePhase",
-        "currentGamePhases"
-    ]
+    // MARK: - Init
     
     init() {
-        // Initialize with empty data
         loadSavedData()
     }
     
-    // Check if this is the first launch
+    // MARK: - Public Methods
+    
+    // Check if this is the first launch of the app
     func isFirstLaunch() -> Bool {
-        return !UserDefaults.standard.bool(forKey: hasLaunchedBeforeKey)
+        !UserDefaults.standard.bool(forKey: StorageKey.hasLaunchedBefore)
     }
     
-    // Set first launch completed
+    // Set first launch as completed
     func setFirstLaunchCompleted() {
-        UserDefaults.standard.set(true, forKey: hasLaunchedBeforeKey)
+        UserDefaults.standard.set(true, forKey: StorageKey.hasLaunchedBefore)
     }
     
     // Save user information
@@ -109,17 +85,17 @@ class UserViewModel: ObservableObject {
     
     // Check if a mini game has been completed
     func isGameCompleted(_ gameName: String) -> Bool {
-        return completedMiniGames[gameName] ?? false
+        completedMiniGames[gameName] ?? false
     }
     
     // Get the score for a mini game
     func getScore(for gameName: String) -> Int {
-        return miniGameScores[gameName] ?? 0
+        miniGameScores[gameName] ?? 0
     }
     
     // Get the percentage for a mini game
     func getPercentage(for gameName: String) -> Double {
-        return miniGamePercentages[gameName] ?? 0.0
+        miniGamePercentages[gameName] ?? 0.0
     }
     
     // Reset all progress data
@@ -137,92 +113,93 @@ class UserViewModel: ObservableObject {
         resetAllGameStates()
         
         // Force refresh any game view models that might be in memory
-        NotificationCenter.default.post(name: NSNotification.Name("ResetGameProgress"), object: nil)
+        NotificationCenter.default.post(name: .resetGameProgress, object: nil)
     }
     
     // MARK: - Private Methods
     
+    // Save all user data to UserDefaults
     private func saveData() {
         let defaults = UserDefaults.standard
         
         // Save user information
-        defaults.set(userName, forKey: userNameKey)
-        defaults.set(userAge, forKey: userAgeKey)
-        defaults.set(favoriteColor.storageString, forKey: favoriteColorKey)
+        defaults.set(userName, forKey: StorageKey.userName)
+        defaults.set(userAge, forKey: StorageKey.userAge)
+        defaults.set(favoriteColor.storageString, forKey: StorageKey.favoriteColor)
         
-        // Save completed games
+        // Save completed games using Swift's Codable protocol
         if let encoded = try? JSONEncoder().encode(completedMiniGames) {
-            defaults.set(encoded, forKey: completedGamesKey)
+            defaults.set(encoded, forKey: StorageKey.completedGames)
         }
         
-        // Save scores
         if let encoded = try? JSONEncoder().encode(miniGameScores) {
-            defaults.set(encoded, forKey: miniGameScoresKey)
+            defaults.set(encoded, forKey: StorageKey.miniGameScores)
         }
         
-        // Save percentages
         if let encoded = try? JSONEncoder().encode(miniGamePercentages) {
-            defaults.set(encoded, forKey: miniGamePercentagesKey)
+            defaults.set(encoded, forKey: StorageKey.miniGamePercentages)
         }
         
-        // Save achievements
         if let encoded = try? JSONEncoder().encode(achievements) {
-            defaults.set(encoded, forKey: achievementsKey)
+            defaults.set(encoded, forKey: StorageKey.achievements)
         }
         
         // Notify listeners that user data has been updated
-        NotificationCenter.default.post(name: NSNotification.Name("UserDataUpdated"), object: nil)
+        NotificationCenter.default.post(name: .userDataUpdated, object: nil)
     }
     
+    // Load all user data from UserDefaults
     private func loadSavedData() {
         let defaults = UserDefaults.standard
         
         // Load user information
-        userName = defaults.string(forKey: userNameKey) ?? ""
-        userAge = defaults.string(forKey: userAgeKey) ?? ""
-        favoriteColor = Color(fromStorage: defaults.string(forKey: favoriteColorKey) ?? "gamePurple")
+        userName = defaults.string(forKey: StorageKey.userName) ?? ""
+        userAge = defaults.string(forKey: StorageKey.userAge) ?? ""
+        favoriteColor = Color(fromStorage: defaults.string(forKey: StorageKey.favoriteColor) ?? "gamePurple")
         
-        // Load completed games
-        if let savedData = defaults.data(forKey: completedGamesKey),
-           let decoded = try? JSONDecoder().decode([String: Bool].self, from: savedData) {
+        // Load saved game data using Swift's Codable protocol
+        if let savedData = defaults.data(forKey: StorageKey.completedGames),
+           let decoded = try? JSONDecoder().decode([String: Bool].self, from: savedData)
+        {
             completedMiniGames = decoded
         }
         
-        // Load scores
-        if let savedData = defaults.data(forKey: miniGameScoresKey),
-           let decoded = try? JSONDecoder().decode([String: Int].self, from: savedData) {
+        if let savedData = defaults.data(forKey: StorageKey.miniGameScores),
+           let decoded = try? JSONDecoder().decode([String: Int].self, from: savedData)
+        {
             miniGameScores = decoded
         }
         
-        // Load percentages
-        if let savedData = defaults.data(forKey: miniGamePercentagesKey),
-           let decoded = try? JSONDecoder().decode([String: Double].self, from: savedData) {
+        if let savedData = defaults.data(forKey: StorageKey.miniGamePercentages),
+           let decoded = try? JSONDecoder().decode([String: Double].self, from: savedData)
+        {
             miniGamePercentages = decoded
         }
         
-        // Load achievements
-        if let savedData = defaults.data(forKey: achievementsKey),
-           let decoded = try? JSONDecoder().decode([String].self, from: savedData) {
+        if let savedData = defaults.data(forKey: StorageKey.achievements),
+           let decoded = try? JSONDecoder().decode([String].self, from: savedData)
+        {
             achievements = decoded
         }
     }
     
+    // Reset all game states in UserDefaults
     private func resetAllGameStates() {
         let defaults = UserDefaults.standard
         
         // Remove known game phase keys
-        for key in gamePhaseKeys {
+        for key in StorageKey.gamePhases {
             defaults.removeObject(forKey: key)
         }
         
-        // Also remove any keys that might be related to game progress
+        // Remove any keys that might be related to game progress
         let allKeys = defaults.dictionaryRepresentation().keys
         let progressKeys = allKeys.filter { key in
-            return key.contains("Game") && 
-                  (key.contains("Phase") || 
-                   key.contains("Progress") || 
-                   key.contains("State") ||
-                   key.contains("Completed"))
+            key.contains("Game") &&
+                (key.contains("Phase") ||
+                    key.contains("Progress") ||
+                    key.contains("State") ||
+                    key.contains("Completed"))
         }
         
         for key in progressKeys {
@@ -233,8 +210,15 @@ class UserViewModel: ObservableObject {
         defaults.removeObject(forKey: "BinaryGameCurrentPhase")
         defaults.removeObject(forKey: "PixelGameCurrentPhase")
         defaults.removeObject(forKey: "ColorGameCurrentPhase")
-        
-        // Synchronize to ensure changes are saved
-        defaults.synchronize()
     }
+}
+
+// MARK: - Notification Extension
+
+extension Notification.Name {
+    // Notification sent when user data is updated
+    static let userDataUpdated = Notification.Name("UserDataUpdated")
+    
+    // Notification sent when game progress is reset
+    static let resetGameProgress = Notification.Name("ResetGameProgress")
 }

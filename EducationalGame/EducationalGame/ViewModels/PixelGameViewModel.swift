@@ -1,5 +1,4 @@
 import Foundation
-import SwiftUICore
 
 @Observable class PixelGameViewModel: ObservableObject {
     let gameType = "Pixel Game"
@@ -33,7 +32,7 @@ import SwiftUICore
     var thirdDialogue: [String] { GameConstants.PixelGameContent.thirdDialogue }
     var rleDialogue: [String] { GameConstants.PixelGameContent.rleDialogue }
     var introQuestions: [Question] { GameConstants.PixelGameContent.introQuestions }
-    var reviewCards: [(title: String, content: String, example: String)] { GameConstants.PixelGameContent.reviewCards }
+    var reviewCards: [ReviewCard] { GameConstants.PixelGameContent.reviewCards }
     
     // Binary Encoding Challenge
     let encodingChallengeGrid: Set<Int> = [

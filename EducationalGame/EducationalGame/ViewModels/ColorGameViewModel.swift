@@ -41,7 +41,7 @@ import SwiftUI
     var hexLearningDialogue: [String] { GameConstants.ColorGameContent.hexLearningDialogue }
     var opacityLearningDialogue: [String] { GameConstants.ColorGameContent.opacityLearningDialogue }
     var introQuestions: [Question] { GameConstants.ColorGameContent.introQuestions }
-    var reviewCards: [(title: String, content: String, example: String)] { GameConstants.ColorGameContent.reviewCards }
+    var reviewCards: [ReviewCard] { GameConstants.ColorGameContent.reviewCards }
     
     // MARK: - Game Logic
     

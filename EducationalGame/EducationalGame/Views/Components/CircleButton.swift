@@ -28,7 +28,7 @@ struct CircleButton: View {
 
                     Image(systemName: iconName)
                         .font(.title)
-                        .foregroundColor(.black)
+                        .foregroundColor(.gameBlack)
                 }
             }
             

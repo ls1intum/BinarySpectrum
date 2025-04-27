@@ -1,6 +1,4 @@
 import Foundation
-import SwiftUI
-import SwiftUICore
 
 @Observable class BinaryGameViewModel: ObservableObject {
     let gameType = "Binary Game"
@@ -52,7 +50,7 @@ import SwiftUICore
     var introDialogue: [String] { GameConstants.BinaryGameContent.introDialogue }
     var practiceDialogue: [String] { GameConstants.BinaryGameContent.practiceDialogue }
     var introQuestions: [Question] { GameConstants.BinaryGameContent.introQuestions }
-    var reviewCards: [(title: String, content: String, example: String)] { GameConstants.BinaryGameContent.reviewCards }
+    var reviewCards: [ReviewCard] { GameConstants.BinaryGameContent.reviewCards }
     
     // Complete a game stage and advance to next phase
     func completeGame(score: Int, percentage: Double) {

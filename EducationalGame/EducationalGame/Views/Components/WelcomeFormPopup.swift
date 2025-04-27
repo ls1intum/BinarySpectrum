@@ -31,7 +31,7 @@ struct WelcomeFormPopup: View {
     var body: some View {
         ZStack {
             // Semi-transparent background overlay - capture all taps
-            Color.black.opacity(0.4)
+            Color.gameBlack.opacity(0.4)
                 .ignoresSafeArea()
                 .contentShape(Rectangle())
                 .onTapGesture {

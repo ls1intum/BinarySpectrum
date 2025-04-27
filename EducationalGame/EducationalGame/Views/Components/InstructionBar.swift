@@ -12,10 +12,10 @@ struct InstructionBar: View {
             .background(
                 RoundedRectangle(cornerRadius: 30)
                     .fill(Color.gameGray)
-                    .shadow(color: Color.black.opacity(0.3), radius: 10, x: 0, y: 5)
+                    .shadow(color: Color.gameBlack.opacity(0.3), radius: 10, x: 0, y: 5)
                     .overlay(
                         RoundedRectangle(cornerRadius: 30)
-                            .stroke(Color.white.opacity(0.4), lineWidth: 2)
+                            .stroke(Color.gameWhite.opacity(0.4), lineWidth: 2)
                     )
             )
             .frame(maxWidth: 1000)

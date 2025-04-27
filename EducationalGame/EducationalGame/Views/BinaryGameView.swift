@@ -96,7 +96,7 @@ struct BinaryExplorationView: View {
                             .font(GameTheme.buttonFont.bold())
                             .frame(width: 60, height: 60)
                             .background(viewModel.selectedNumber == number ? Color.gamePurple.opacity(0.8) : Color.gameGray.opacity(0.3))
-                            .foregroundColor(.black)
+                            .foregroundColor(.gameBlack)
                             .cornerRadius(8)
                     }
                 }
@@ -128,7 +128,7 @@ struct BinaryExplorationView: View {
                                 .font(.system(size: 24, weight: .bold))
                                 .frame(width: 50, height: 50)
                                 .background(Color.gamePurple.opacity(0.8))
-                                .foregroundColor(.black)
+                                .foregroundColor(.gameBlack)
                                 .cornerRadius(12)
                         }
                                 
@@ -204,7 +204,7 @@ struct BinaryLearningGame: View {
                                             .font(.system(size: 24, weight: .bold))
                                             .frame(width: 75, height: 75)
                                             .background(viewModel.binaryDigits[index] == "1" ? Color.gamePurple.opacity(0.8) : Color.gameGray.opacity(0.3))
-                                            .foregroundColor(.black)
+                                            .foregroundColor(.gameBlack)
                                             .cornerRadius(12)
                                             .shadow(radius: 3)
                                     }
@@ -307,7 +307,7 @@ struct BinaryChallengeView: View {
                                             .font(.system(size: 24, weight: .bold))
                                             .frame(width: 75, height: 75)
                                             .background(viewModel.challengeBinaryDigits[index] == "1" ? Color.gamePurple.opacity(0.8) : Color.gameGray.opacity(0.3))
-                                            .foregroundColor(.black)
+                                            .foregroundColor(.gameBlack)
                                             .cornerRadius(12)
                                             .shadow(radius: 3)
                                     }
@@ -331,7 +331,7 @@ struct BinaryChallengeView: View {
                             .font(.system(size: 24, weight: .bold))
                             .frame(width: 85, height: 85)
                             .background(Color.gamePurple.opacity(0.8))
-                            .foregroundColor(.black)
+                            .foregroundColor(.gameBlack)
                             .cornerRadius(12)
                             .shadow(radius: 3)
                     }
@@ -403,7 +403,7 @@ struct BinaryAdvancedChallengeView: View {
                             .font(.system(size: 24, weight: .bold))
                             .frame(width: 85, height: 85)
                             .background(Color.gamePurple.opacity(0.8))
-                            .foregroundColor(.black)
+                            .foregroundColor(.gameBlack)
                             .cornerRadius(12)
                             .multilineTextAlignment(.center)
                     }
@@ -420,7 +420,7 @@ struct BinaryAdvancedChallengeView: View {
                                         .font(.system(size: 24, weight: .bold))
                                         .frame(width: 75, height: 75)
                                         .background(Color.gamePurple.opacity(0.8))
-                                        .foregroundColor(.black)
+                                        .foregroundColor(.gameBlack)
                                         .cornerRadius(12)
                                         .shadow(radius: 3)
                                 }
@@ -508,7 +508,7 @@ struct BinaryFinalChallengeView: View {
                                                 .font(.system(size: 22, weight: .bold))
                                                 .frame(width: 50, height: 50)
                                                 .background(viewModel.monthBinaryDigits[index] == "1" ? Color.gamePurple.opacity(0.8) : Color.gameGray.opacity(0.3))
-                                                .foregroundColor(.black)
+                                                .foregroundColor(.gameBlack)
                                                 .cornerRadius(10)
                                                 .shadow(radius: 2)
                                         }
@@ -518,12 +518,12 @@ struct BinaryFinalChallengeView: View {
                             
                             Text("Value: \(viewModel.monthDecimalValue)")
                                 .font(.headline)
-                                .foregroundColor(viewModel.isMonthValid ? .black : .red)
+                                .foregroundColor(viewModel.isMonthValid ? .gameBlack : .gameRed)
                             
                             if !viewModel.isMonthValid {
                                 Text("Month must be 1-12")
                                     .font(.caption)
-                                    .foregroundColor(.red)
+                                    .foregroundColor(.gameRed)
                             }
                         }
                         
@@ -547,7 +547,7 @@ struct BinaryFinalChallengeView: View {
                                                 .font(.system(size: 22, weight: .bold))
                                                 .frame(width: 50, height: 50)
                                                 .background(viewModel.dayBinaryDigits[index] == "1" ? Color.gamePurple.opacity(0.8) : Color.gameGray.opacity(0.3))
-                                                .foregroundColor(.black)
+                                                .foregroundColor(.gameBlack)
                                                 .cornerRadius(10)
                                                 .shadow(radius: 2)
                                         }
@@ -557,12 +557,12 @@ struct BinaryFinalChallengeView: View {
                             
                             Text("Value: \(viewModel.dayDecimalValue)")
                                 .font(.headline)
-                                .foregroundColor(viewModel.isDayValid ? .black : .red)
+                                .foregroundColor(viewModel.isDayValid ? .gameBlack : .gameRed)
                             
                             if !viewModel.isDayValid {
                                 Text("Day must be 1-31")
                                     .font(.caption)
-                                    .foregroundColor(.red)
+                                    .foregroundColor(.gameRed)
                             }
                         }
                     }
@@ -571,12 +571,12 @@ struct BinaryFinalChallengeView: View {
                         Text("Your birthdate in binary: \(viewModel.monthDecimalValue)/\(viewModel.dayDecimalValue)")
                             .font(.headline)
                             .padding(.top, 10)
-                            .foregroundColor(viewModel.isBirthdateValid ? .black : .red)
+                            .foregroundColor(viewModel.isBirthdateValid ? .gameBlack : .gameRed)
                         
                         if !viewModel.isBirthdateValid {
                             Text("This date does not exist in the calendar")
                                 .font(.caption)
-                                .foregroundColor(.red)
+                                .foregroundColor(.gameRed)
                         }
                     }
                 }
@@ -647,7 +647,7 @@ struct BinaryArmbandView: View {
                 }
                 
                 Rectangle()
-                    .fill(Color.black)
+                    .fill(Color.gameBlack)
                     .frame(width: 2, height: 30)
                 
                 ForEach(dayBits, id: \.self) { bit in
@@ -657,7 +657,7 @@ struct BinaryArmbandView: View {
                 }
             }
             .padding(10)
-            .background(Color.black.opacity(0.1))
+            .background(Color.gameBlack.opacity(0.1))
             .cornerRadius(20)
         }
     }

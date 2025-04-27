@@ -94,28 +94,28 @@ enum GameConstants {
             )
         ]
 
-        static let reviewCards: [(title: String, content: String, example: String)] = [
-            (
+        static let reviewCards: [ReviewCard] = [
+            ReviewCard(
                 title: "Binary Basics",
                 content: "Binary is a base-2 number system that uses only two digits: 0 and 1. Each digit is called a 'bit'.",
                 example: "101 = 1×4 + 0×2 + 1×1 = 5"
             ),
-            (
+            ReviewCard(
                 title: "Powers of 2",
                 content: "Each position in a binary number represents a power of 2, starting from the right.",
                 example: "8 4 2 1\n1 0 1 0 = 10"
             ),
-            (
+            ReviewCard(
                 title: "Binary to Decimal",
                 content: "To convert binary to decimal, multiply each bit by its power of 2 and add the results.",
                 example: "1101 = 1×8 + 1×4 + 0×2 + 1×1 = 13"
             ),
-            (
+            ReviewCard(
                 title: "Decimal to Binary",
                 content: "To convert decimal to binary, find the largest power of 2 that fits, subtract it, and repeat.",
                 example: "11 = 8 + 2 + 1 = 1011"
             ),
-            (
+            ReviewCard(
                 title: "Binary Armband",
                 content: "You can represent dates in binary! Your armband shows your birthdate in binary form.",
                 example: "Month: 4 bits (1-12)\nDay: 5 bits (1-31)"
@@ -200,28 +200,28 @@ enum GameConstants {
             )
         ]
         
-        static let reviewCards: [(title: String, content: String, example: String)] = [
-            (
+        static let reviewCards: [ReviewCard] = [
+            ReviewCard(
                 title: "Binary Images",
                 content: "Digital images are made up of tiny squares called pixels. In binary images, each pixel is either black (1) or white (0).",
                 example: "00000000\n00011000\n00111100\n01111110\n01111110\n00111100\n00011000\n00000000"
             ),
-            (
+            ReviewCard(
                 title: "Binary Encoding",
                 content: "Binary encoding represents images using 1s and 0s. Each row of pixels is written as a sequence of binary digits.",
                 example: "Row 1: 00000000\nRow 2: 00011000\nRow 3: 00111100"
             ),
-            (
+            ReviewCard(
                 title: "Run-Length Encoding",
                 content: "RLE is a way to compress binary images by counting consecutive pixels of the same color.",
                 example: "W2B4W2 means:\n2 white pixels\n4 black pixels\n2 white pixels"
             ),
-            (
+            ReviewCard(
                 title: "Image Compression",
                 content: "Compression reduces file size by finding patterns and using shorter representations.",
                 example: "Instead of: 000011110000\nUse: W4B4W4"
             ),
-            (
+            ReviewCard(
                 title: "Pixel Art",
                 content: "Binary images are perfect for pixel art and simple graphics like icons and symbols.",
                 example: "Binary patterns can create:\n• Icons\n• Emojis\n• Simple graphics"
@@ -297,28 +297,28 @@ enum GameConstants {
             )
         ]
         
-        static let reviewCards: [(title: String, content: String, example: String)] = [
-            (
+        static let reviewCards: [ReviewCard] = [
+            ReviewCard(
                 title: "RGB Color Model",
                 content: "RGB stands for Red, Green, and Blue - the primary colors of light. By mixing these colors in different amounts, computers can create millions of colors on your screen.",
                 example: "Pure Red: (255, 0, 0)\nPure Green: (0, 255, 0)\nYellow: (255, 255, 0)"
             ),
-            (
+            ReviewCard(
                 title: "Color Values",
                 content: "Each RGB component ranges from 0 (none) to 255 (maximum intensity). This gives 256 possible values for each color channel.",
                 example: "Black: (0, 0, 0)\nWhite: (255, 255, 255)\nPurple: (128, 0, 128)"
             ),
-            (
+            ReviewCard(
                 title: "Hexadecimal Colors",
                 content: "Hex codes are a shorthand for RGB values, using base-16 numbers. Each pair of characters represents one color component (red, green, or blue).",
                 example: "#FF0000 = Red\n#00FF00 = Green\n#0000FF = Blue\n#FFFFFF = White"
             ),
-            (
+            ReviewCard(
                 title: "Opacity (Alpha)",
                 content: "Opacity controls how transparent a color is. Values range from 0.0 (invisible) to 1.0 (solid), allowing you to see through objects.",
                 example: "Solid Blue: rgba(0,0,255,1.0)\nSemi-transparent: rgba(0,0,255,0.5)\nInvisible: rgba(0,0,255,0.0)"
             ),
-            (
+            ReviewCard(
                 title: "Color Applications",
                 content: "Understanding digital color is essential for design, game development, web development, and digital art.",
                 example: "User Interfaces\nDigital Artwork\nAnimations\nCoding with CSS"
