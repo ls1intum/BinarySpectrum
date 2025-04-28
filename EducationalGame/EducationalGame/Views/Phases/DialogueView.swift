@@ -48,27 +48,22 @@ struct DialogueView: View {
             
             Spacer()
             
-            // Navigation Buttons at the Bottom
+            // Navigation buttons
             HStack {
-                // Back Button (only visible if not on first dialogue)
-                if currentDialogueIndex > 0 {
-                    AnimatedCircleButton(
-                        iconName: "arrow.left.circle.fill",
-                        color: .gameGray,
-                        action: {
-                            if currentDialogueIndex > 0 {
-                                currentDialogueIndex -= 1
-                            }
+                // Back Button
+                AnimatedCircleButton(
+                    iconName: "arrow.left.circle.fill",
+                    color: .gameGray,
+                    action: {
+                        if currentDialogueIndex > 0 {
+                            currentDialogueIndex -= 1
                         }
-                    )
-                    .padding()
-                    .transition(.scale.combined(with: .opacity))
-                    .animation(.spring(response: 0.3), value: currentDialogueIndex)
-                } else {
-                    // Empty space to maintain layout when back button is not visible
-                    Spacer()
-                        .frame(width: 70)
-                }
+                    }
+                )
+                .padding(.leading, 20)
+                .disabled(currentDialogueIndex == 0)
+                
+                Spacer()
                 
                 // Page indicator
                 Text("\(currentDialogueIndex + 1) / \(dialogues.count)")
@@ -89,9 +84,9 @@ struct DialogueView: View {
                         }
                     }
                 )
-                .padding()
+                .padding(.trailing, 20)
             }
-            .padding(.horizontal, 40)
+            .frame(maxWidth: .infinity)
         }
         .frame(maxHeight: .infinity, alignment: .center)
     }

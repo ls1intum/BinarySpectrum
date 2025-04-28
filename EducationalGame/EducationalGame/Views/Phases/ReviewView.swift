@@ -10,6 +10,12 @@ struct ReviewView: View {
     @State private var completionScale: CGFloat = 0.8
     
     var body: some View {
+        Text("")
+            .font(GameTheme.titleFont)
+            .foregroundColor(.white.opacity(0))
+            .padding(.vertical, 30)
+            .padding(.horizontal, 70)   
+        
         VStack(spacing: 20) {
             InstructionBar(text: "Check off what you've learned about \(title)! Mark your understanding.")
             
@@ -41,11 +47,10 @@ struct ReviewView: View {
                             onCompletion()
                         }
                     )
-                    .padding()
+                    .padding(.trailing, 20)
                 }
             }
         }
-        .padding()
     }
     
     private func checkedItemBinding(for id: UUID) -> Binding<Bool> {

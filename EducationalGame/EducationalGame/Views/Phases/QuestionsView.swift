@@ -119,13 +119,6 @@ struct QuestionsView: View {
                         }
                     }
                 }
-                Image(systemName: "questionmark.circle.fill")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 250, height: 250)
-                    .foregroundColor(Color.gamePurple)
-                    .offset(x: -400)
-                    .zIndex(1)
             }
             Spacer()
             
@@ -140,7 +133,7 @@ struct QuestionsView: View {
                             viewModel.previousQuestion()
                         }
                     )
-                    .padding()
+                    .padding(.leading, 20)
                     .transition(.scale.combined(with: .opacity))
                     .animation(.spring(response: 0.3), value: viewModel.currentQuestionIndex)
                 } else {
@@ -189,7 +182,7 @@ struct QuestionsView: View {
                 .padding()
                 .disabled(!viewModel.canNavigateToNextQuestion())
             }
-            .padding(.horizontal, 40)
+            .frame(maxWidth: .infinity)
         }
         .frame(maxHeight: .infinity, alignment: .center)
         .ignoresSafeArea()

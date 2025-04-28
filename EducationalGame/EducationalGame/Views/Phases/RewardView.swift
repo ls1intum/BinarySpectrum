@@ -80,7 +80,7 @@ struct RewardView: View {
                 HStack {
                     Spacer()
                     RewardButton(miniGameIndex: miniGameIndex)
-                        .padding()
+                        .padding(.trailing, 20)
                 }
             }
         }
