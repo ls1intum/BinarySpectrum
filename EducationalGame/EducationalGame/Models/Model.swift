@@ -48,6 +48,7 @@ enum GamePhase: String, CaseIterable, Codable {
     case practice = "Practice"
     case challenges = "Challenges"
     case advancedChallenges = "Advanced Challenges"
+    case lastDialogue = "Last Dialogue"
     case finalChallenge = "Final Challenge"
     case review = "Review"
     case reward = "Reward"
@@ -69,7 +70,8 @@ enum GamePhase: String, CaseIterable, Codable {
             case .tutorial: self = .practice
             case .practice: self = .challenges
             case .challenges: self = .advancedChallenges
-            case .advancedChallenges: self = .finalChallenge
+            case .advancedChallenges: self = .lastDialogue
+            case .lastDialogue: self = .finalChallenge
             case .finalChallenge: self = .review
             case .review: self = .reward
             case .reward: self = .intro
@@ -83,6 +85,7 @@ enum GamePhase: String, CaseIterable, Codable {
             case .tutorial: self = .challenges
             case .challenges: self = .advancedChallenges
             case .advancedChallenges: self = .finalChallenge
+            case .lastDialogue: self = .lastDialogue // change?
             case .finalChallenge: self = .review
             case .review: self = .reward
             case .reward: self = .intro
@@ -96,6 +99,7 @@ enum GamePhase: String, CaseIterable, Codable {
             case .practice: self = .challenges
             case .challenges: self = .advancedChallenges
             case .advancedChallenges: self = .finalChallenge
+            case .lastDialogue: self = .lastDialogue // change?
             case .finalChallenge: self = .review
             case .review: self = .reward
             case .reward: self = .intro

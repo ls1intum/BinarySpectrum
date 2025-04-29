@@ -36,7 +36,7 @@ struct PixelGameView: View {
                     DialogueView(
                         personaImage: GameConstants.miniGames[1].personaImage,
                         color: GameConstants.miniGames[1].color,
-                        dialogues: viewModel.rleDialogue,
+                        dialogues: viewModel.secondDialogue,
                         gameType: viewModel.gameType,
                         currentPhase: $viewModel.currentPhase
                     )
@@ -44,6 +44,14 @@ struct PixelGameView: View {
                     PixelGameBinaryEncoding(viewModel: viewModel)
                 case .advancedChallenges:
                     PixelGameRLEChallenge(viewModel: viewModel)
+                case .lastDialogue:
+                    DialogueView(
+                        personaImage: GameConstants.miniGames[1].personaImage,
+                        color: GameConstants.miniGames[1].color,
+                        dialogues: viewModel.finalDialogue,
+                        gameType: viewModel.gameType,
+                        currentPhase: $viewModel.currentPhase
+                    )
                 case .finalChallenge:
                     Text("TODO")
                 case .review:
@@ -93,7 +101,7 @@ struct PixelGameChallenge: View {
     
     var body: some View {
         ZStack {
-            VStack {
+            VStack(spacing: 30) {
                 Spacer()
                 InstructionBar(text: "Decode the image. Remember: if a pixel is 1, turn it black. If it's 0, leave it white. Selecting wrong pixels decreases progress!")
                 Spacer()
@@ -118,11 +126,11 @@ struct PixelGameChallenge: View {
                                 
                                     if viewModel.blackCells.contains(index) {
                                         Text("1")
-                                            .font(.system(size: 12, weight: .bold))
+                                            .font(GameTheme.captionFont)
                                             .foregroundColor(.gameWhite)
                                     } else {
                                         Text("0")
-                                            .font(.system(size: 12, weight: .bold))
+                                            .font(GameTheme.captionFont)
                                             .foregroundColor(.gray)
                                     }
                                 }
@@ -263,9 +271,9 @@ struct PixelGameExploration: View {
     
     var body: some View {
         ZStack {
-            VStack {
+            VStack(spacing: 30) {
                 Spacer()
-                InstructionBar(text: "Explore the grid! Click pixels to toggle them between black and white, and see how the binary code changes.")
+                InstructionBar(text: "Explore the grid! Click pixels to toggle them between black and white, and see how the binary code changes.") //TODO
                 Spacer()
             
                 HStack {
@@ -286,11 +294,11 @@ struct PixelGameExploration: View {
                                 
                                     if viewModel.blackCells.contains(index) {
                                         Text("1")
-                                            .font(.system(size: 12, weight: .bold))
+                                            .font(GameTheme.captionFont)
                                             .foregroundColor(.gameWhite)
                                     } else {
                                         Text("0")
-                                            .font(.system(size: 12, weight: .bold))
+                                            .font(GameTheme.captionFont)
                                             .foregroundColor(.gray)
                                     }
                                 }

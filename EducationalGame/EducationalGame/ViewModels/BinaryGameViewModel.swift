@@ -1,8 +1,12 @@
 import Foundation
+import SwiftUI
 
 @Observable class BinaryGameViewModel: ObservableObject {
     let gameType = "Binary Game"
     var currentPhase: GamePhase = .intro
+    
+    // User info
+    let favoriteColor: Color = .gamePink // TODO: get from userviewmodel
    
     // For exploration view
     var selectedNumber: Int = 0
@@ -49,6 +53,7 @@ import Foundation
     // Use data from GameConstants.BinaryGameContent
     var introDialogue: [String] { GameConstants.BinaryGameContent.introDialogue }
     var practiceDialogue: [String] { GameConstants.BinaryGameContent.practiceDialogue }
+    var finalDialogue: [String] { GameConstants.BinaryGameContent.finalDialogue }
     var introQuestions: [Question] { GameConstants.BinaryGameContent.introQuestions }
     var reviewCards: [ReviewCard] { GameConstants.BinaryGameContent.reviewCards }
     var rewardMessage: String { GameConstants.BinaryGameContent.rewardMessage }
@@ -60,7 +65,6 @@ import Foundation
                                              score: score,
                                              percentage: percentage)
         
-        // Advance to next phase locally
         var nextPhase = currentPhase
         nextPhase.next(for: gameType)
         _currentPhase = nextPhase
@@ -68,7 +72,7 @@ import Foundation
     
     func checkAnswer() {
         if decimalValue == targetNumber {
-            alertMessage = "✅ Great job! \(targetNumber) in binary is \(String(targetNumber, radix: 2))"
+            alertMessage = "Great job! \(targetNumber) in binary is \(String(targetNumber, radix: 2))"
             showAlert = true
         } else {
             let difference = decimalValue - targetNumber
@@ -83,7 +87,7 @@ import Foundation
     
     func checkChallengeAnswer() {
         if challengeDecimalValue == challengeTargetNumber {
-            alertMessage = "✅ Great job! \(challengeTargetNumber) in binary is \(String(challengeTargetNumber, radix: 2))"
+            alertMessage = "Great job! \(challengeTargetNumber) in binary is \(String(challengeTargetNumber, radix: 2))"
             showAlert = true
         } else {
             let difference = challengeDecimalValue - challengeTargetNumber
@@ -98,7 +102,7 @@ import Foundation
     
     func checkAdvancedAnswer() {
         if let answer = Int(userDecimalAnswer), answer == advancedTargetNumber {
-            alertMessage = "✅ Great job! \(advancedTargetNumber) in binary is \(String(advancedTargetNumber, radix: 2))"
+            alertMessage = "Great job! \(advancedTargetNumber) in binary is \(String(advancedTargetNumber, radix: 2))"
             showAlert = true
         } else {
             let difference = (Int(userDecimalAnswer) ?? 0) - advancedTargetNumber
@@ -144,7 +148,7 @@ import Foundation
         if isBirthdateValid {
             birthDay = dayDecimalValue
             birthMonth = monthDecimalValue
-            alertMessage = "✅ Great job! Your binary armband shows your birthday: \(birthMonth)/\(birthDay)"
+            alertMessage = "Great job! Your binary armband shows your birthday: \(birthMonth)/\(birthDay)"
             showAlert = true
         } else {
             if !isDayValid {

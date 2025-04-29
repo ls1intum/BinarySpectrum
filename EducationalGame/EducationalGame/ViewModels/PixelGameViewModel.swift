@@ -29,8 +29,7 @@ import Foundation
     // Game Content from GameConstants
     var introDialogue: [String] { GameConstants.PixelGameContent.introDialogue }
     var secondDialogue: [String] { GameConstants.PixelGameContent.secondDialogue }
-    var thirdDialogue: [String] { GameConstants.PixelGameContent.thirdDialogue }
-    var rleDialogue: [String] { GameConstants.PixelGameContent.rleDialogue }
+    var finalDialogue: [String] { GameConstants.PixelGameContent.finalDialogue }
     var introQuestions: [Question] { GameConstants.PixelGameContent.introQuestions }
     var reviewCards: [ReviewCard] { GameConstants.PixelGameContent.reviewCards }
     var rewardMessage: String { GameConstants.PixelGameContent.rewardMessage }

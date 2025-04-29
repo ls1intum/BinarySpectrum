@@ -172,7 +172,7 @@ struct WelcomeFormPopup: View {
                     .font(GameTheme.subtitleFont)
                     .foregroundColor(.gamePurple)
 
-                Text("We're excited to have you join us! This game offers 3 fun mini-games that will challenge your mind while you learn about computational thinking.")
+                Text(GameConstants.gameDescription)
                     .font(GameTheme.bodyFont)
                     .multilineTextAlignment(.center)
                     .foregroundColor(.gameDarkBlue)

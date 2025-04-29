@@ -38,8 +38,8 @@ import SwiftUI
     
     // Game Content from GameConstants
     var introDialogue: [String] { GameConstants.ColorGameContent.introDialogue }
-    var hexLearningDialogue: [String] { GameConstants.ColorGameContent.hexLearningDialogue }
-    var opacityLearningDialogue: [String] { GameConstants.ColorGameContent.opacityLearningDialogue }
+    var hexLearningDialogue: [String] { GameConstants.ColorGameContent.hexDialogue }
+    var opacityLearningDialogue: [String] { GameConstants.ColorGameContent.opacityDialogue }
     var introQuestions: [Question] { GameConstants.ColorGameContent.introQuestions }
     var reviewCards: [ReviewCard] { GameConstants.ColorGameContent.reviewCards }
     var rewardMessage: String { GameConstants.ColorGameContent.rewardMessage }

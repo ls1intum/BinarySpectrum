@@ -2,6 +2,7 @@ import SwiftUICore
 
 enum GameConstants {
     static let gameTitle: LocalizedStringResource = "Binary Spectrum"
+    static let gameDescription: LocalizedStringResource = "Discover how computers turn zeros and ones into amazing worlds of color, images, and creativity. This game offers 3 fun mini-games that will challenge your mind while you learn about computational thinking."
     
     static let miniGames: [MiniGame] = [
         MiniGame(id: 0, name: "BitPearls", icon: "lightswitch.on", color: .gameGreen, personaImage: "Figma2", achievementName: "Binary Jewel", view: AnyView(BinaryGameView()), highScore: 0),
@@ -32,8 +33,8 @@ enum GameConstants {
 
         static let finalDialogue = [
             "Now that you know how binary numbers are built, it's time to use that knowledge to design something personal: your Binary Armband!",
-            "You’ll choose a number that’s special to you, convert it into binary, and then create an armband pattern based on your unique code. Think of it like a hidden message you can wear!",
-            "Your armband will be a badge of your new skills — proof that you can speak the same language as computers. Let’s get creative and code something truly one-of-a-kind!"
+            "We’ll use your birthday to do it! Since days go up to 31, we’ll use 5 binary digits to represent the day. Months go up to 12, so we’ll use 4 binary digits for the month.",
+            "Each binary digit will turn into a pearl on your virtual armband. Light and dark pearls will represent 0s and 1s, turning your birthday into a secret pattern."
         ]
         
         static let introQuestions: [Question] = [
@@ -139,21 +140,12 @@ enum GameConstants {
             "Let's see how it feels to work with a bigger canvas. Can you notice how your pictures can now be sharper and more complex? Get ready to create something even more awesome!"
         ]
         
-        static let thirdDialogue = [
+        static let finalDialogue = [
             "Whoa, look at all the pixels we're using! But here's a little secret: sometimes, we don't need to store every single pixel separately. We can spot patterns and store them in a smarter way. That's called compression!",
             "In the Compression Challenge, you'll practice making your art easy to store. Instead of thinking pixel by pixel, you'll group similar pixels together and find a simpler way to describe them.",
             "Let's see if you can create a beautiful picture that also takes up as little space as possible. Ready to become a true pixel-saving wizard?"
         ]
-        
-        static let rleDialogue = [
-            "Great job decoding those binary patterns!",
-            "But here's a challenge: what if our images have long stretches of the same color?",
-            "Writing each pixel one by one is inefficient! For example, writing '00000111100000' takes 14 characters.",
-            "Instead, we can use 'Run-Length Encoding' or RLE: 'W5B4W5' - only 6 characters!",
-            "This is an important computational thinking concept called 'abstraction' - simplifying complex data by focusing on patterns.",
-            "RLE is a real compression technique used in image formats, fax machines, and more!"
-        ]
-        
+    
         static let introQuestions: [Question] = [
             Question(
                 question: "How do computers represent images at their most basic level?",
@@ -240,13 +232,13 @@ enum GameConstants {
             "In this game, you'll discover how computers store and mix colors, and how you can create stunning effects with transparency. Let's dive into the science behind the magic of digital color!"
         ]
         
-        static let hexLearningDialogue = [
+        static let hexDialogue = [
             "Now that you know computers mix red, green, and blue light, here’s a cool trick: they store those color amounts as numbers! One popular way to write colors is called hexadecimal, or 'hex' for short.",
             "A hex color code looks something like this: #FF5733. The first two characters show how much red, the next two are for green, and the last two are for blue. Each pair can range from 00 (none) to FF (the most!).",
             "By combining different hex values, computers can create millions of colors! It's like a secret color recipe that tells the screen exactly what to show."
         ]
         
-        static let opacityLearningDialogue = [
+        static let opacityDialogue = [
             "But wait — there’s even more magic! Besides color, computers can also control how transparent something looks. This is called opacity.",
             "Opacity is usually a number between 0% and 100%. At 100%, the color is fully solid. At 0%, it’s completely invisible! We can blend images together by adjusting their opacity.",
             "In this part of the game, you’ll explore how opacity works and create effects where colors gently fade, overlap, and glow. Let’s experiment and bring your designs to life!"

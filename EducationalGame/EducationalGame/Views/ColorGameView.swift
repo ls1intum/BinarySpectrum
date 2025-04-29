@@ -55,6 +55,8 @@ struct ColorGameView: View {
                     )
                 case .advancedChallenges:
                     OpacityChallenge(viewModel: viewModel)
+                case .lastDialogue:
+                    Text("")
                 case .finalChallenge:
                     ColorAlphaChallenge(viewModel: viewModel)
                 case .review:
@@ -301,7 +303,7 @@ struct ColorAlphaChallenge: View {
                                         
                                         if !square.letter.isEmpty {
                                             Text(square.letter)
-                                                .font(.system(size: 24, weight: .bold))
+                                                .font(GameTheme.bodyFont)
                                                 .foregroundColor(.blue.opacity(0.8)) // Fixed opacity for letters
                                         }
                                     }

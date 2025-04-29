@@ -24,7 +24,7 @@ struct QuestionsView: View {
                 RoundedRectangle(cornerRadius: 20)
                     .fill(Color.gameGray)
                     .shadow(radius: 5)
-                    .frame(width: 660, height: 450)
+                    .frame(width: 660, height: 500)
                 
                 // Display the current question text
                 VStack {
