@@ -50,15 +50,15 @@ struct AchievementTile: View {
                 .foregroundColor(isUnlocked ? .gameYellow : .gameDarkBlue)
             
             Text(isUnlocked ? game.achievementName : "In Progress")
-                .font(GameTheme.bodyFont)
+                .font(GameTheme.headingFont)
                 .foregroundColor(isUnlocked ? .gameYellow : .gameDarkBlue)
         }
         .frame(width: 320, height: 240)
-        .background(isUnlocked ? game.color : game.color.opacity(0.3))
+        .background(isUnlocked ? game.color : game.color.opacity(0.1))
         .clipShape(RoundedRectangle(cornerRadius: 30))
         .overlay(
             RoundedRectangle(cornerRadius: 30)
-                .stroke(game.color, lineWidth: 3)
+                .stroke(game.color, lineWidth: 2)
         )
         .shadow(radius: 5)
     }

@@ -227,8 +227,8 @@ enum GameConstants {
 
     enum ColorGameContent {
         static let introDialogue = [
-            "Hello! I'm Iris, a Graphics Programmer. I write the code that makes colors, light, and transparency come alive on screen. I'm here to teach you how computers mix and display colors — and how you can control the magic yourself. Let's dive into the world behind the pixels!",
-            "Colors on a screen aren't mixed like paint — they're made by blending red, green, and blue light! Computers even control how 'see-through' something is using something called opacity.",
+            "Hello! I'm Iris, a Graphics Programmer. I write the code that makes colors, light, and transparency come alive on screen. I'm here to teach you how computers mix and display colors, and how you can control the magic yourself.",
+            "Colors on a screen aren't mixed like paint, they're made by blending red, green, and blue light! Computers even control how 'see-through' something is using something called opacity.",
             "In this game, you'll discover how computers store and mix colors, and how you can create stunning effects with transparency. Let's dive into the science behind the magic of digital color!"
         ]
         

@@ -120,6 +120,7 @@ struct TwoButtonInfoPopup: View {
             .padding(.horizontal, 60)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
+        .transition(.scale.combined(with: .opacity))
     }
 }
 
@@ -319,7 +320,7 @@ struct WelcomeFormPopup: View {
                 ageFieldFocused = false
             }
         }
-        .transition(.opacity)
+        .transition(.scale.combined(with: .opacity))
         .animation(.easeInOut, value: isShowing)
         .onAppear {
             localUserName = userName

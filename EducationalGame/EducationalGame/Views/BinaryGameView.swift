@@ -549,7 +549,7 @@ struct BinaryFinalChallengeView: View {
                                 }
                             }
                             
-                            Text("Value: \(viewModel.dayDecimalValue)")
+                            Text(viewModel.dayDecimalValue == 0 ? " " : "\(viewModel.dayDecimalValue).")
                                 .font(GameTheme.subheadingFont)
                                 .foregroundColor(.gameBlack)
                         }
@@ -581,7 +581,7 @@ struct BinaryFinalChallengeView: View {
                                 }
                             }
                             
-                            Text("Value: \(viewModel.monthDecimalValue)")
+                            Text(viewModel.monthStringValue)
                                 .font(GameTheme.subheadingFont)
                                 .foregroundColor(.gameBlack)
                         }
@@ -646,20 +646,34 @@ struct BinaryArmbandView: View {
                 .foregroundColor(.gameDarkBlue)
             
             HStack(spacing: 2) {
-                ForEach(dayBits, id: \.self) { bit in
-                    Circle()
-                        .fill(bit == "1" ? favColor : Color.white)
-                        .stroke(Color.gameDarkBlue, lineWidth: 2)
-                        .frame(width: 30, height: 30)
-                }
-                Rectangle()
-                    .fill(Color.gameBlack)
-                    .frame(width: 2, height: 30)
-                ForEach(monthBits, id: \.self) { bit in
-                    Circle()
-                        .fill(bit == "1" ? favColor : Color.white)
-                        .stroke(Color.gameDarkBlue, lineWidth: 2)
-                        .frame(width: 30, height: 30)
+                ZStack {
+                    // "Band"
+                    Rectangle()
+                        .fill(Color.gameDarkBlue)
+                        .frame(width: 500, height: 2)
+                    
+                    // "Pearls"
+                    HStack(spacing: 2) {
+                        ForEach(dayBits, id: \.self) { bit in
+                            Circle()
+                                .fill(bit == "1" ? favColor : Color.white)
+                                .overlay(
+                                    Circle().stroke(Color.gameDarkBlue, lineWidth: 2)
+                                )
+                                .frame(width: 30, height: 30)
+                        }
+                        Rectangle()
+                            .fill(Color.gameBlack)
+                            .frame(width: 2, height: 30)
+                        ForEach(monthBits, id: \.self) { bit in
+                            Circle()
+                                .fill(bit == "1" ? favColor : Color.white)
+                                .overlay(
+                                    Circle().stroke(Color.gameDarkBlue, lineWidth: 2)
+                                )
+                                .frame(width: 30, height: 30)
+                        }
+                    }
                 }
             }
             .padding(10)

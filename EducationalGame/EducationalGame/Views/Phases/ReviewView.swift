@@ -169,7 +169,7 @@ struct ChecklistReviewCard: View {
                 example: "W3B2W3 = □□□■■□□□"
             )
         ],
-        color: .gamePurple,
+        color: .gameRed,
         onCompletion: {}
     )
 }

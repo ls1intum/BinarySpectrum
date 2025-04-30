@@ -36,7 +36,7 @@ struct CircleButton: View {
     @Environment(\.currentPhase) var currentPhase
     @EnvironmentObject private var navigationState: NavigationState
     @Environment(\.dismiss) private var dismiss
-    
+
     var body: some View {
         ZStack {
             Button(action: handleAction) {
@@ -135,16 +135,16 @@ struct InfoButton: View {
     
     var body: some View {
         ZStack {
-            Button(action: {
+        Button(action: {
                 showInfoPopup = true
-            }) {
+        }) {
                 ZStack {
                     Circle()
                         .fill(Color.gameGray.opacity(0.7))
                         .frame(width: 90, height: 90)
                         .shadow(radius: 5)
 
-                    Image(systemName: "info.circle")
+            Image(systemName: "info.circle")
                         .font(.largeTitle)
                         .foregroundColor(.gameBlack)
                 }

@@ -7,6 +7,14 @@ import SwiftUI
     
     // User info
     let favoriteColor: Color = .gamePink // TODO: get from userviewmodel
+    
+    // Use data from GameConstants.BinaryGameContent
+    var introDialogue: [String] { GameConstants.BinaryGameContent.introDialogue }
+    var practiceDialogue: [String] { GameConstants.BinaryGameContent.practiceDialogue }
+    var finalDialogue: [String] { GameConstants.BinaryGameContent.finalDialogue }
+    var introQuestions: [Question] { GameConstants.BinaryGameContent.introQuestions }
+    var reviewCards: [ReviewCard] { GameConstants.BinaryGameContent.reviewCards }
+    var rewardMessage: String { GameConstants.BinaryGameContent.rewardMessage }
    
     // For exploration view
     var selectedNumber: Int = 0
@@ -49,15 +57,7 @@ import SwiftUI
     var challengeTargetNumberBinary: [String] {
         String(challengeTargetNumber, radix: 2).paddingLeft(with: "0", toLength: challengeDigitCount).map { String($0) }
     }
-    
-    // Use data from GameConstants.BinaryGameContent
-    var introDialogue: [String] { GameConstants.BinaryGameContent.introDialogue }
-    var practiceDialogue: [String] { GameConstants.BinaryGameContent.practiceDialogue }
-    var finalDialogue: [String] { GameConstants.BinaryGameContent.finalDialogue }
-    var introQuestions: [Question] { GameConstants.BinaryGameContent.introQuestions }
-    var reviewCards: [ReviewCard] { GameConstants.BinaryGameContent.reviewCards }
-    var rewardMessage: String { GameConstants.BinaryGameContent.rewardMessage }
-    
+
     // Complete a game stage and advance to next phase
     func completeGame(score: Int, percentage: Double) {
         // Record completion using the shared userViewModel
@@ -68,6 +68,10 @@ import SwiftUI
         var nextPhase = currentPhase
         nextPhase.next(for: gameType)
         _currentPhase = nextPhase
+    }
+    
+    func nextPhase() {
+        currentPhase.next(for: gameType)
     }
     
     func checkAnswer() {
@@ -128,6 +132,36 @@ import SwiftUI
     var monthDecimalValue: Int {
         return Int(monthBinaryDigits.joined(), radix: 2) ?? 0
     }
+
+    var monthStringValue: LocalizedStringResource {
+        if monthDecimalValue == 1 {
+            return .init("of January")
+        } else if monthDecimalValue == 2 {
+            return .init("of February")
+        } else if monthDecimalValue == 3 {
+            return .init("of March")
+        } else if monthDecimalValue == 4 {
+            return .init("of April")
+        } else if monthDecimalValue == 5 {
+            return .init("of May")
+        } else if monthDecimalValue == 6 {
+            return .init("of June")
+        } else if monthDecimalValue == 7 {
+            return .init("of July")
+        } else if monthDecimalValue == 8 {
+            return .init("of August")
+        } else if monthDecimalValue == 9 {
+            return .init("of September")
+        } else if monthDecimalValue == 10 {
+            return .init("of October")
+        } else if monthDecimalValue == 11 {
+            return .init("of November")
+        } else if monthDecimalValue == 12 {
+            return .init("of December")
+        } else {
+            return " "
+        }
+    }
     
     var isDayValid: Bool {
         return dayDecimalValue >= 1 && dayDecimalValue <= 31
@@ -148,7 +182,7 @@ import SwiftUI
         if isBirthdateValid {
             birthDay = dayDecimalValue
             birthMonth = monthDecimalValue
-            alertMessage = "Great job! Your binary armband shows your birthday: \(birthMonth)/\(birthDay)"
+            alertMessage = "Great job! Your binary armband shows your birthday: \(birthDay).\(birthMonth)."
             showAlert = true
         } else {
             if !isDayValid {
@@ -179,8 +213,8 @@ import SwiftUI
     }
     
     @objc func resetGameState() {
-        // Reset game to initial state
         currentPhase = .intro
-        // Reset any other state as needed
+        // TODO: totally reset
+        userDecimalAnswer = ""
     }
 }

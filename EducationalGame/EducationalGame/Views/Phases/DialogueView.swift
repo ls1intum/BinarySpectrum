@@ -51,19 +51,19 @@ struct DialogueView: View {
             // Navigation buttons
             HStack {
                 // Back Button
-                AnimatedCircleButton(
-                    iconName: "arrow.left.circle.fill",
-                    color: .gameGray,
-                    action: {
-                        if currentDialogueIndex > 0 {
-                            currentDialogueIndex -= 1
+                    AnimatedCircleButton(
+                        iconName: "arrow.left.circle.fill",
+                        color: .gameGray,
+                        action: {
+                            if currentDialogueIndex > 0 {
+                                currentDialogueIndex -= 1
+                            }
                         }
-                    }
-                )
+                    )
                 .padding(.leading, 20)
                 .disabled(currentDialogueIndex == 0)
                 
-                Spacer()
+                    Spacer()
                 
                 // Page indicator
                 Text("\(currentDialogueIndex + 1) / \(dialogues.count)")

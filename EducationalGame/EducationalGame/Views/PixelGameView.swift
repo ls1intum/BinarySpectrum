@@ -152,7 +152,7 @@ struct PixelGameChallenge: View {
                         // Binary Code Display
                         VStack(alignment: .leading, spacing: 8) {
                             Text("Binary Code")
-                                .font(.headline)
+                                .font(GameTheme.buttonFont)
                                 .foregroundColor(.gray)
                         
                             Text(viewModel.formattedCode)
@@ -174,7 +174,7 @@ struct PixelGameChallenge: View {
                         // Progress Bar
                         VStack(alignment: .leading, spacing: 8) {
                             Text("Progress")
-                                .font(.headline)
+                                .font(GameTheme.buttonFont)
                                 .foregroundColor(.gray)
                         
                             ProgressView(value: viewModel.progress, total: 1.0)
@@ -196,7 +196,7 @@ struct PixelGameChallenge: View {
                 if viewModel.hintShown {
                     VStack(spacing: 16) {
                         Text(viewModel.hintMessage)
-                            .font(.headline)
+                            .font(GameTheme.buttonFont)
                             .foregroundColor(viewModel.isCorrect ? .green : .orange)
                             .padding()
                             .multilineTextAlignment(.center)
@@ -209,7 +209,7 @@ struct PixelGameChallenge: View {
                                 viewModel.completeGame(score: 100, percentage: viewModel.progress)
                             }) {
                                 Text("Continue")
-                                    .font(.headline)
+                                    .font(GameTheme.buttonFont)
                                     .padding()
                                     .frame(width: 160)
                                     .background(Color.green)
@@ -223,7 +223,7 @@ struct PixelGameChallenge: View {
                                 viewModel.hideHint()
                             }) {
                                 Text("Try Again")
-                                    .font(.headline)
+                                    .font(GameTheme.buttonFont)
                                     .padding()
                                     .frame(width: 160)
                                     .background(Color.orange)
@@ -377,7 +377,7 @@ struct PixelGameBinaryEncoding: View {
                 // Binary Code Input
                 VStack(alignment: .leading, spacing: 8) {
                     Text("Your Binary Code")
-                        .font(.headline)
+                        .font(GameTheme.buttonFont)
                         .foregroundColor(.gray)
                     
                     TextEditor(text: $viewModel.playerBinaryCode)
@@ -422,7 +422,7 @@ struct PixelGameBinaryEncoding: View {
             if viewModel.hintShown {
                 VStack(spacing: 16) {
                     Text(viewModel.hintMessage)
-                        .font(.headline)
+                        .font(GameTheme.buttonFont)
                         .foregroundColor(viewModel.isCorrect ? .green : .orange)
                         .padding()
                         .multilineTextAlignment(.center)
@@ -435,7 +435,7 @@ struct PixelGameBinaryEncoding: View {
                             viewModel.completeGame(score: 150, percentage: 1.0)
                         }) {
                             Text("Continue")
-                                .font(.headline)
+                                .font(GameTheme.buttonFont)
                                 .padding()
                                 .frame(width: 160)
                                 .background(Color.green)
@@ -449,7 +449,7 @@ struct PixelGameBinaryEncoding: View {
                             viewModel.hideHint()
                         }) {
                             Text("Try Again")
-                                .font(.headline)
+                                .font(GameTheme.buttonFont)
                                 .padding()
                                 .frame(width: 160)
                                 .background(Color.orange)
@@ -482,7 +482,7 @@ struct PixelGameRLEChallenge: View {
                 // RLE Code Display
                 VStack(alignment: .leading, spacing: 8) {
                     Text("RLE Code")
-                        .font(.headline)
+                        .font(GameTheme.buttonFont)
                         .foregroundColor(.gray)
                     
                     VStack(alignment: .leading, spacing: 4) {
@@ -560,7 +560,7 @@ struct PixelGameRLEChallenge: View {
             if viewModel.hintShown {
                 VStack(spacing: 16) {
                     Text(viewModel.hintMessage)
-                        .font(.headline)
+                        .font(GameTheme.buttonFont)
                         .foregroundColor(viewModel.isCorrect ? .green : .orange)
                         .padding()
                         .multilineTextAlignment(.center)
@@ -573,7 +573,7 @@ struct PixelGameRLEChallenge: View {
                             viewModel.completeGame(score: 200, percentage: 1.0)
                         }) {
                             Text("Continue")
-                                .font(.headline)
+                                .font(GameTheme.buttonFont)
                                 .padding()
                                 .frame(width: 160)
                                 .background(Color.green)
@@ -587,7 +587,7 @@ struct PixelGameRLEChallenge: View {
                             viewModel.hideHint()
                         }) {
                             Text("Try Again")
-                                .font(.headline)
+                                .font(GameTheme.buttonFont)
                                 .padding()
                                 .frame(width: 160)
                                 .background(Color.orange)

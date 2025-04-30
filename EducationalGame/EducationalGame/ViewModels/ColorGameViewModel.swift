@@ -4,140 +4,241 @@ import SwiftUI
 @Observable class ColorGameViewModel: ObservableObject {
     let gameType = "Color Game"
     var currentPhase = GamePhase.intro
-
-    // Game State
-    var red: Double = 0.5
-    var green: Double = 0.5
-    var blue: Double = 0.5
-    var alpha: Double = 1.0
-    var targetColor: Color = .clear
-    var targetAlpha: Double = 1.0
+    
+    // MARK: - Game State
+    
+    struct ColorState {
+        var red: Double = 0.5
+        var green: Double = 0.5
+        var blue: Double = 0.5
+        var alpha: Double = 1.0
+        
+        var color: Color {
+            Color(red: red, green: green, blue: blue)
+        }
+        
+        var hexString: String {
+            String(format: "#%02X%02X%02X",
+                   Int(red * 255),
+                   Int(green * 255),
+                   Int(blue * 255))
+        }
+        
+        mutating func reset() {
+            red = 0.5
+            green = 0.5
+            blue = 0.5
+            alpha = 1.0
+        }
+    }
+    
+    struct ChallengeState {
+        var targetColor: Color = .clear
+        var targetAlpha: Double = 1.0
+        var tolerance: Double = 0.15
+        var timeRemaining: Int = 60
+        private var timer: Timer?
+        
+        var targetHexString: String {
+            var targetRed: CGFloat = 0
+            var targetGreen: CGFloat = 0
+            var targetBlue: CGFloat = 0
+            
+            UIColor(targetColor).getRed(&targetRed, green: &targetGreen, blue: &targetBlue, alpha: nil)
+            
+            return String(format: "#%02X%02X%02X",
+                          Int(targetRed * 255),
+                          Int(targetGreen * 255),
+                          Int(targetBlue * 255))
+        }
+        
+        var targetComponents: (red: Double, green: Double, blue: Double) {
+            var red: CGFloat = 0
+            var green: CGFloat = 0
+            var blue: CGFloat = 0
+            
+            UIColor(targetColor).getRed(&red, green: &green, blue: &blue, alpha: nil)
+            return (Double(red), Double(green), Double(blue))
+        }
+        
+        mutating func startTimer() { // TODO: remove?
+            stopTimer()
+        }
+        
+        mutating func stopTimer() {
+            timer?.invalidate()
+            timer = nil
+        }
+        
+        mutating func reset() {
+            targetColor = .clear
+            targetAlpha = 1.0
+            timeRemaining = 60
+            stopTimer()
+        }
+    }
+    
+    struct AlphaChallengeState {
+        var opacityValue: Double = 0.5
+        var userAnswer: String = ""
+        var showSuccess: Bool = false
+        var grid: [[AlphaSquare]] = []
+        private let hiddenWords = ["SWIFT", "COLOR", "ALPHA", "PIXEL", "GAME"]
+        private var currentWord: String = ""
+        
+        struct AlphaSquare {
+            let baseAlpha: Double
+            let letter: String
+            let increasesOpacity: Bool
+        }
+        
+        mutating func generateNewGrid() {
+            currentWord = hiddenWords.randomElement() ?? "SWIFT"
+            grid = []
+            
+            let wordArray = Array(currentWord)
+            
+            for row in 0..<4 {
+                var rowSquares: [AlphaSquare] = []
+                for col in 0..<4 {
+                    let index = row * 4 + col
+                    let letter = index < wordArray.count ? String(wordArray[index]) : ""
+                    let baseAlpha = letter.isEmpty ? Double.random(in: 0.1...0.4) : Double.random(in: 0.3...0.7)
+                    let increasesOpacity = Bool.random()
+                    
+                    rowSquares.append(AlphaSquare(baseAlpha: baseAlpha, letter: letter, increasesOpacity: increasesOpacity))
+                }
+                grid.append(rowSquares)
+            }
+            
+            opacityValue = 0.5
+            userAnswer = ""
+            showSuccess = false
+        }
+        
+        func checkAnswer() -> (isCorrect: Bool, message: String) {
+            let normalizedAnswer = userAnswer.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+            if normalizedAnswer == currentWord {
+                return (true, "Correct! Well done! 🎉")
+            } else {
+                return (false, "Try adjusting the opacity to see the letters more clearly!")
+            }
+        }
+    }
+    
+    struct ReversedChallengeState {
+        var targetColor: Color = .clear
+        var targetAlpha: Double = 1.0
+        var options: [Color] = []
+        var correctOptionIndex: Int = 0
+        var selectedOptionIndex: Int? = nil
+        
+        var targetHexString: String {
+            var targetRed: CGFloat = 0
+            var targetGreen: CGFloat = 0
+            var targetBlue: CGFloat = 0
+            
+            UIColor(targetColor).getRed(&targetRed, green: &targetGreen, blue: &targetBlue, alpha: nil)
+            
+            return String(format: "#%02X%02X%02X",
+                          Int(targetRed * 255),
+                          Int(targetGreen * 255),
+                          Int(targetBlue * 255))
+        }
+        
+        mutating func generateNewChallenge() {
+            // Generate a random target color with alpha
+            let targetRed = Double.random(in: 0...1)
+            let targetGreen = Double.random(in: 0...1)
+            let targetBlue = Double.random(in: 0...1)
+            
+            targetColor = Color(red: targetRed, green: targetGreen, blue: targetBlue)
+            targetAlpha = Double.random(in: 0.2...0.8)
+            
+            // Generate three options, one being the correct one
+            options = []
+            correctOptionIndex = Int.random(in: 0...2)
+            
+            for i in 0...2 {
+                if i == correctOptionIndex {
+                    options.append(targetColor.opacity(targetAlpha))
+                } else {
+                    let similarColor = Color(red: Double.random(in: 0...1), green: Double.random(in: 0...1), blue: Double.random(in: 0...1))
+                    options.append(similarColor.opacity((targetAlpha + Double(i + 1) * 0.3).truncatingRemainder(dividingBy: 1)))
+                }
+            }
+            selectedOptionIndex = nil
+        }
+        
+        func checkAnswer(selectedIndex: Int) -> (isCorrect: Bool, message: String) {
+            if selectedIndex == correctOptionIndex {
+                return (true, "Correct! You've matched the color perfectly!")
+            } else {
+                return (false, "Not quite! Try comparing the colors more carefully.")
+            }
+        }
+    }
+    
+    // MARK: - State Properties
+    
+    var currentColor = ColorState()
+    var challengeState = ChallengeState()
+    var alphaChallengeState = AlphaChallengeState()
+    var reversedChallengeState = ReversedChallengeState()
+    
+    // MARK: - UI State
+    
     var showHint = false
     var isCorrect = false
     var hintMessage = ""
     
-    // Alpha Challenge State
-    var opacityValue: Double = 0.5
-    var userAnswer: String = ""
-    var showAlphaSuccess: Bool = false
-    var alphaGrid: [[AlphaSquare]] = []
-    private let hiddenWords = ["SWIFT", "COLOR", "ALPHA", "PIXEL", "GAME"]
-    private var currentWord: String = ""
+    // MARK: - Game Content
     
-    struct AlphaSquare {
-        let baseAlpha: Double
-        let letter: String
-        let increasesOpacity: Bool
-    }
-    
-    // Challenge properties
-    private var tolerance: Double = 0.15 // Increased tolerance for more forgiving color matching
-    var timeRemaining: Int = 60
-    var attemptsRemaining: Int = 5
-    private var timer: Timer?
-    
-    // Game Content from GameConstants
     var introDialogue: [String] { GameConstants.ColorGameContent.introDialogue }
     var hexLearningDialogue: [String] { GameConstants.ColorGameContent.hexDialogue }
     var opacityLearningDialogue: [String] { GameConstants.ColorGameContent.opacityDialogue }
     var introQuestions: [Question] { GameConstants.ColorGameContent.introQuestions }
     var reviewCards: [ReviewCard] { GameConstants.ColorGameContent.reviewCards }
     var rewardMessage: String { GameConstants.ColorGameContent.rewardMessage }
-
+    
     // MARK: - Game Logic
     
     func generateNewTargetColor(includeAlpha: Bool = false) {
-        targetColor = Color(
+        challengeState.targetColor = Color(
             red: Double.random(in: 0...1),
             green: Double.random(in: 0...1),
             blue: Double.random(in: 0...1)
         )
         if includeAlpha {
-            targetAlpha = Double.random(in: 0.2...0.8) // Avoid extremes for better visibility
+            challengeState.targetAlpha = Double.random(in: 0.2...0.8)
         }
     }
     
-    func checkColorMatch() {
-        let currentColor = Color(red: red, green: green, blue: blue)
-        var difference = colorDifference(current: currentColor, target: targetColor)
+    func checkColorMatch() -> (isCorrect: Bool, message: String) {
+        let colorDiff = colorDifference(current: currentColor.color, target: challengeState.targetColor)
+        let alphaDiff = abs(currentColor.alpha - challengeState.targetAlpha)
+        let totalDiff = max(colorDiff, alphaDiff * 2)
         
-        // For opacity, we want to be a bit more strict but still allow some tolerance
-        let alphaDifference = abs(alpha - targetAlpha)
-        difference = max(difference, alphaDifference * 2) // Weight opacity differences more heavily
+        let isMatch = totalDiff <= challengeState.tolerance
         
-        isCorrect = difference <= tolerance
-        showHint = true
-        
-        if isCorrect {
-            hintMessage = "Great job! The colors match well!"
-            if currentPhase == .finalChallenge {
-                attemptsRemaining = 5 // Reset attempts for next challenge
-            }
+        if isMatch {
+            return (true, "Great job! The colors match well!")
         } else {
-            if currentPhase == .finalChallenge {
-                attemptsRemaining -= 1
-            }
+            var hint = "Try comparing the colors carefully. "
+            let target = challengeState.targetComponents
             
-            if difference <= tolerance * 1.5 {
-                hintMessage = "Very close! Just need a tiny adjustment."
-            } else if difference <= tolerance * 2 {
-                hintMessage = "Getting there! Try adjusting the sliders a bit more."
-            } else {
-                var hint = "Try comparing the colors carefully. "
-                if red > targetRed + tolerance { hint += "Less red. " }
-                else if red < targetRed - tolerance { hint += "More red. " }
-                if green > targetGreen + tolerance { hint += "Less green. " }
-                else if green < targetGreen - tolerance { hint += "More green. " }
-                if blue > targetBlue + tolerance { hint += "Less blue. " }
-                else if blue < targetBlue - tolerance { hint += "More blue. " }
-                if alpha > targetAlpha + tolerance { hint += "Less opacity. " }
-                else if alpha < targetAlpha - tolerance { hint += "More opacity. " }
-                hintMessage = hint
-            }
+            if currentColor.red > target.red + challengeState.tolerance { hint += "Less red. " }
+            else if currentColor.red < target.red - challengeState.tolerance { hint += "More red. " }
+            if currentColor.green > target.green + challengeState.tolerance { hint += "Less green. " }
+            else if currentColor.green < target.green - challengeState.tolerance { hint += "More green. " }
+            if currentColor.blue > target.blue + challengeState.tolerance { hint += "Less blue. " }
+            else if currentColor.blue < target.blue - challengeState.tolerance { hint += "More blue. " }
+            if currentColor.alpha > challengeState.targetAlpha + challengeState.tolerance { hint += "Less opacity. " }
+            else if currentColor.alpha < challengeState.targetAlpha - challengeState.tolerance { hint += "More opacity. " }
+            
+            return (false, hint)
         }
     }
-    
-    func hideHint() {
-        showHint = false
-        hintMessage = ""
-    }
-    
-    func resetGame() {
-        red = 0.5
-        green = 0.5
-        blue = 0.5
-        alpha = 1.0
-        showHint = false
-        isCorrect = false
-        hintMessage = ""
-        timeRemaining = 60
-        attemptsRemaining = 5
-        stopTimer()
-        currentPhase = .intro
-    }
-    
-    // MARK: - Timer Management
-    
-    func startTimer() {
-        stopTimer()
-        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
-            guard let self = self else { return }
-            if self.timeRemaining > 0 {
-                self.timeRemaining -= 1
-            } else {
-                self.stopTimer()
-                self.showHint = true
-                self.hintMessage = "Time's up! Try again."
-            }
-        }
-    }
-    
-    func stopTimer() {
-        timer?.invalidate()
-        timer = nil
-    }
-    
-    // MARK: - Helper Functions
     
     private func colorDifference(current: Color, target: Color) -> Double {
         var currentRed: CGFloat = 0
@@ -157,100 +258,34 @@ import SwiftUI
         return (redDiff + greenDiff + blueDiff) / 3.0
     }
     
-    var currentColorHex: String {
-        String(format: "#%02X%02X%02X",
-               Int(red * 255),
-               Int(green * 255),
-               Int(blue * 255))
-    }
-    
-    var targetColorHex: String {
-        var targetRed: CGFloat = 0
-        var targetGreen: CGFloat = 0
-        var targetBlue: CGFloat = 0
-        
-        UIColor(targetColor).getRed(&targetRed, green: &targetGreen, blue: &targetBlue, alpha: nil)
-        
-        return String(format: "#%02X%02X%02X",
-                      Int(targetRed * 255),
-                      Int(targetGreen * 255),
-                      Int(targetBlue * 255))
-    }
-    
-    // Helper properties for hints
-    private var targetRed: Double {
-        var red: CGFloat = 0
-        UIColor(targetColor).getRed(&red, green: nil, blue: nil, alpha: nil)
-        return red
-    }
-    
-    private var targetGreen: Double {
-        var green: CGFloat = 0
-        UIColor(targetColor).getRed(nil, green: &green, blue: nil, alpha: nil)
-        return green
-    }
-    
-    private var targetBlue: Double {
-        var blue: CGFloat = 0
-        UIColor(targetColor).getRed(nil, green: nil, blue: &blue, alpha: nil)
-        return blue
-    }
-    
-    // MARK: - Alpha Challenge Methods
-    
-    func generateNewAlphaGrid() {
-        currentWord = hiddenWords.randomElement() ?? "SWIFT"
-        alphaGrid = []
-        
-        let wordArray = Array(currentWord)
-
-        for row in 0..<4 {
-            var rowSquares: [AlphaSquare] = []
-            for col in 0..<4 {
-                let index = row * 4 + col
-                let letter = index < wordArray.count ? String(wordArray[index]) : ""
-                let baseAlpha = letter.isEmpty ? Double.random(in: 0.1...0.4) : Double.random(in: 0.3...0.7)
-                let increasesOpacity = Bool.random()
-        
-                rowSquares.append(AlphaSquare(baseAlpha: baseAlpha, letter: letter, increasesOpacity: increasesOpacity))
-            }
-            alphaGrid.append(rowSquares)
-        }
-
-        // Reset state
-        opacityValue = 0.5
-        userAnswer = ""
-        showAlphaSuccess = false
-    }
-    
-    func checkAlphaAnswer() {
-        let normalizedAnswer = userAnswer.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
-        if normalizedAnswer == currentWord {
-            showAlphaSuccess = true
-        } else {
-            hintMessage = "Try adjusting the opacity to see the letters more clearly!"
-            showHint = true
-        }
-    }
-    
-    // Complete a game stage and advance to next phase
     func completeGame(score: Int, percentage: Double) {
-        // Record completion using the shared userViewModel
-        sharedUserViewModel.completeMiniGame("Color Game - \(currentPhase.rawValue)",
+        sharedUserViewModel.completeMiniGame("\(gameType) - \(currentPhase.rawValue)",
                                              score: score,
                                              percentage: percentage)
-        
-        // Advance to next phase locally
-        var nextPhase = currentPhase
-        nextPhase.next(for: gameType)
-        currentPhase = nextPhase
+        currentPhase.next(for: gameType)
+        currentColor.reset()
+    }
+    
+    func nextPhase() {
+        currentPhase.next(for: gameType)
+        currentColor.reset()
+    }
+    
+    func resetGame() {
+        currentPhase = .intro
+        currentColor.reset()
+        challengeState.reset()
+        alphaChallengeState.generateNewGrid()
+        reversedChallengeState.generateNewChallenge()
+        showHint = false
+        isCorrect = false
+        hintMessage = ""
     }
     
     init() {
-        // Initialize the alpha grid
-        setupAlphaGrid()
+        alphaChallengeState.generateNewGrid()
+        reversedChallengeState.generateNewChallenge()
         
-        // Listen for reset notifications
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(resetGameState),
@@ -264,24 +299,6 @@ import SwiftUI
     }
     
     @objc func resetGameState() {
-        // Reset game to initial state
-        currentPhase = .intro
-        red = 0.5
-        green = 0.5
-        blue = 0.5
-        alpha = 1.0
-        showHint = false
-        isCorrect = false
-        hintMessage = ""
-        setupAlphaGrid() // Reset the grid
-    }
-    
-    private func setupAlphaGrid() {
-        // Initialize or reset the alpha grid
-        // This is a placeholder for your actual implementation
-        alphaGrid = []
-        
-        // Pick a random word from hiddenWords
-        currentWord = hiddenWords.randomElement() ?? "SWIFT"
+        resetGame()
     }
 }

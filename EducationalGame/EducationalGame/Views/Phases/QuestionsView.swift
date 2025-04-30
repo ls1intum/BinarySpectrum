@@ -100,7 +100,7 @@ struct QuestionsView: View {
                         if viewModel.showExplanation {
                             VStack(alignment: .leading, spacing: 10) {
                                 Text(viewModel.isAnswerCorrect ? "Correct! 🎉" : "Not quite right 😕")
-                                    .font(.headline)
+                                    .font(GameTheme.buttonFont)
                                     .foregroundColor(viewModel.isAnswerCorrect ? .green : .red)
                                 
                                 Text(viewModel.currentExplanation)
@@ -145,7 +145,7 @@ struct QuestionsView: View {
                 // Progress Indicator
                 VStack(spacing: 5) {
                     Text("\(viewModel.currentQuestionIndex + 1) of \(viewModel.questions.count)")
-                        .font(.headline)
+                        .font(GameTheme.buttonFont)
                         .foregroundColor(.gray)
                     
                     // Dots showing question progress
