@@ -116,7 +116,7 @@ import SwiftUI
             showSuccess = false
         }
         
-        func checkAnswer() -> (isCorrect: Bool, message: String) {
+        func checkAnswer() -> (isCorrect: Bool, message: LocalizedStringResource) {
             let normalizedAnswer = userAnswer.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
             if normalizedAnswer == currentWord {
                 return (true, "Correct! Well done! 🎉")
@@ -170,7 +170,7 @@ import SwiftUI
             selectedOptionIndex = nil
         }
         
-        func checkAnswer(selectedIndex: Int) -> (isCorrect: Bool, message: String) {
+        func checkAnswer(selectedIndex: Int) -> (isCorrect: Bool, message: LocalizedStringResource) {
             if selectedIndex == correctOptionIndex {
                 return (true, "Correct! You've matched the color perfectly!")
             } else {
@@ -190,16 +190,16 @@ import SwiftUI
     
     var showHint = false
     var isCorrect = false
-    var hintMessage = ""
+    var hintMessage: LocalizedStringResource = ""
     
     // MARK: - Game Content
     
-    var introDialogue: [String] { GameConstants.ColorGameContent.introDialogue }
-    var hexLearningDialogue: [String] { GameConstants.ColorGameContent.hexDialogue }
-    var opacityLearningDialogue: [String] { GameConstants.ColorGameContent.opacityDialogue }
+    var introDialogue: [LocalizedStringResource] { GameConstants.ColorGameContent.introDialogue }
+    var hexLearningDialogue: [LocalizedStringResource] { GameConstants.ColorGameContent.hexDialogue }
+    var opacityLearningDialogue: [LocalizedStringResource] { GameConstants.ColorGameContent.opacityDialogue }
     var introQuestions: [Question] { GameConstants.ColorGameContent.introQuestions }
     var reviewCards: [ReviewCard] { GameConstants.ColorGameContent.reviewCards }
-    var rewardMessage: String { GameConstants.ColorGameContent.rewardMessage }
+    var rewardMessage: LocalizedStringResource { GameConstants.ColorGameContent.rewardMessage }
     
     // MARK: - Game Logic
     
@@ -214,32 +214,48 @@ import SwiftUI
         }
     }
     
-    func checkColorMatch() -> (isCorrect: Bool, message: String) {
+    func checkColorMatch() -> (isCorrect: Bool, message: LocalizedStringResource) {
         let colorDiff = colorDifference(current: currentColor.color, target: challengeState.targetColor)
         let alphaDiff = abs(currentColor.alpha - challengeState.targetAlpha)
         let totalDiff = max(colorDiff, alphaDiff * 2)
-        
+    
         let isMatch = totalDiff <= challengeState.tolerance
-        
+    
         if isMatch {
             return (true, "Great job! The colors match well!")
         } else {
-            var hint = "Try comparing the colors carefully. "
+            var hints: [LocalizedStringResource] = []
             let target = challengeState.targetComponents
-            
-            if currentColor.red > target.red + challengeState.tolerance { hint += "Less red. " }
-            else if currentColor.red < target.red - challengeState.tolerance { hint += "More red. " }
-            if currentColor.green > target.green + challengeState.tolerance { hint += "Less green. " }
-            else if currentColor.green < target.green - challengeState.tolerance { hint += "More green. " }
-            if currentColor.blue > target.blue + challengeState.tolerance { hint += "Less blue. " }
-            else if currentColor.blue < target.blue - challengeState.tolerance { hint += "More blue. " }
-            if currentColor.alpha > challengeState.targetAlpha + challengeState.tolerance { hint += "Less opacity. " }
-            else if currentColor.alpha < challengeState.targetAlpha - challengeState.tolerance { hint += "More opacity. " }
-            
-            return (false, hint)
+        
+            if currentColor.red > target.red + challengeState.tolerance {
+                hints.append("Less red.")
+            } else if currentColor.red < target.red - challengeState.tolerance {
+                hints.append("More red.")
+            }
+
+            if currentColor.green > target.green + challengeState.tolerance {
+                hints.append("Less green.")
+            } else if currentColor.green < target.green - challengeState.tolerance {
+                hints.append("More green.")
+            }
+
+            if currentColor.blue > target.blue + challengeState.tolerance {
+                hints.append("Less blue.")
+            } else if currentColor.blue < target.blue - challengeState.tolerance {
+                hints.append("More blue.")
+            }
+
+            if currentColor.alpha > challengeState.targetAlpha + challengeState.tolerance {
+                hints.append("Less opacity.")
+            } else if currentColor.alpha < challengeState.targetAlpha - challengeState.tolerance {
+                hints.append("More opacity.")
+            }
+
+            let combined = "Try comparing the colors carefully. " + hints.map { String(localized: $0) }.joined(separator: " ")
+            return (false, LocalizedStringResource(stringLiteral: combined))
         }
     }
-    
+
     private func colorDifference(current: Color, target: Color) -> Double {
         var currentRed: CGFloat = 0
         var currentGreen: CGFloat = 0

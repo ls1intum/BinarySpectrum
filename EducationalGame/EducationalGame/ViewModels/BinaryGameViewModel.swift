@@ -9,12 +9,12 @@ import SwiftUI
     let favoriteColor: Color = .gamePink // TODO: get from userviewmodel
     
     // Use data from GameConstants.BinaryGameContent
-    var introDialogue: [String] { GameConstants.BinaryGameContent.introDialogue }
-    var practiceDialogue: [String] { GameConstants.BinaryGameContent.practiceDialogue }
-    var finalDialogue: [String] { GameConstants.BinaryGameContent.finalDialogue }
+    var introDialogue: [LocalizedStringResource] { GameConstants.BinaryGameContent.introDialogue }
+    var practiceDialogue: [LocalizedStringResource] { GameConstants.BinaryGameContent.practiceDialogue }
+    var finalDialogue: [LocalizedStringResource] { GameConstants.BinaryGameContent.finalDialogue }
     var introQuestions: [Question] { GameConstants.BinaryGameContent.introQuestions }
     var reviewCards: [ReviewCard] { GameConstants.BinaryGameContent.reviewCards }
-    var rewardMessage: String { GameConstants.BinaryGameContent.rewardMessage }
+    var rewardMessage: LocalizedStringResource { GameConstants.BinaryGameContent.rewardMessage }
    
     // For exploration view
     var selectedNumber: Int = 0
@@ -23,7 +23,7 @@ import SwiftUI
     let digitCount: Int = 4
     var binaryDigits: [String] = Array(repeating: "0", count: 4)
     var showAlert = false
-    var alertMessage = ""
+    var alertMessage: LocalizedStringResource = ""
     var highlightCorrectBits = false
     var stepIndex = 0
     let targetNumber: Int = .random(in: 8...15)

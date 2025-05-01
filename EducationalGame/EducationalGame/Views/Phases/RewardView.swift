@@ -2,7 +2,7 @@ import SwiftUI
 
 struct RewardView: View {
     let miniGameIndex: Int
-    let message: String
+    let message: LocalizedStringResource
     @State private var opacity: Double = 0
     @State private var scale: CGFloat = 0.8
     @State private var badgeOffset: CGFloat = 50

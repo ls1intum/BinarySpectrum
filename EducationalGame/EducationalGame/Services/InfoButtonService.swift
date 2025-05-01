@@ -7,7 +7,7 @@ class InfoButtonService {
     static let shared = InfoButtonService()
     
     // Store predefined tip content for different views and phases
-    private let gameInfoTips: [String: [GamePhase: String]] = [
+    private let gameInfoTips: [String: [GamePhase: LocalizedStringResource]] = [
         "MainMenu": [
             .intro: "Welcome to the Educational Game! Choose a mini-game to start learning about computer science fundamentals in a fun, interactive way."
         ],
@@ -17,7 +17,7 @@ class InfoButtonService {
     ]
     
     // Additional information that can be shown with more detail
-    private let additionalInfo: [String: [String: String]] = [
+    private let additionalInfo: [String: [String: LocalizedStringResource]] = [
         "BinaryGame": [
             "what_is_binary": "Binary is a number system that uses only two digits: 0 and 1. It's the foundation of all computing because electronic circuits can easily represent these two states (on/off, true/false).",
             "binary_to_decimal": "To convert binary to decimal, multiply each digit by its position value (powers of 2) and add them together. For example, 1011 = 1×8 + 0×4 + 1×2 + 1×1 = 11.",
@@ -70,7 +70,7 @@ class InfoButtonService {
     }
     
     // Get title for info popup based on view and phase
-    func getTitleForInfo(view: String, phase: GamePhase) -> String {
+    func getTitleForInfo(view: String, phase: GamePhase) -> LocalizedStringResource {
         switch view {
         case "BinaryGame":
             return "Binary Number System - \(phase.rawValue)"
@@ -88,12 +88,12 @@ class InfoButtonService {
     }
     
     // Get detailed content for specific topics within each game
-    func getDetailedInfo(for game: String, topic: String) -> String? {
+    func getDetailedInfo(for game: String, topic: String) -> LocalizedStringResource? {
         return additionalInfo[game]?[topic]
     }
     
     // Get a tip for current view and phase
-    func getTip(for view: String, phase: GamePhase) -> String? {
+    func getTip(for view: String, phase: GamePhase) -> LocalizedStringResource? {
         return gameInfoTips[view]?[phase]
     }
     
@@ -102,10 +102,10 @@ class InfoButtonService {
         guard let content = getDetailedInfo(for: game, topic: topic) else { return nil }
         
         return InfoPopup(
-            title: topic.replacingOccurrences(of: "_", with: " ").capitalized,
+            title: LocalizedStringResource(stringLiteral: topic.replacingOccurrences(of: "_", with: " ").capitalized),
             message: content,
             buttonTitle: "Got it!",
             onButtonTap: onButtonTap
         )
     }
-} 
+}

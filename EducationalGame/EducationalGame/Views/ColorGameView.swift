@@ -87,7 +87,7 @@ struct ColorGameView: View {
         }
     }
     
-    private var dialogueContent: [String] {
+    private var dialogueContent: [LocalizedStringResource] {
         switch viewModel.currentPhase {
         case .intro: return viewModel.introDialogue
         case .tutorial: return viewModel.hexLearningDialogue
@@ -309,6 +309,9 @@ struct ReversedChallengeView: View {
                         )
                     }
                 }
+                .padding()
+                .background(Color.gameGray.opacity(0.3))
+                .cornerRadius(15)
             }
         }
         .onAppear {
@@ -392,13 +395,13 @@ struct ColorAlphaChallengeView: View {
 struct ColorPreviewView: View {
     let color: Color
     let hexString: String
-    let title: String?
+    let title: LocalizedStringResource?
     let showCheckerboard: Bool
     
     init(
         color: Color,
         hexString: String,
-        title: String? = nil,
+        title: LocalizedStringResource? = nil,
         showCheckerboard: Bool = false
     ) {
         self.color = color

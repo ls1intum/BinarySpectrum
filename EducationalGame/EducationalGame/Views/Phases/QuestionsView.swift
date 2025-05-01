@@ -7,7 +7,7 @@ struct QuestionsView: View {
     var color: Color
     var gameType: String
     
-    init(questions: [Question], currentPhase: Binding<GamePhase>, color: Color, gameType: String = "Binary Game") {
+    init(questions: [Question], currentPhase: Binding<GamePhase>, color: Color, gameType: String) {
         self.questions = questions
         self._currentPhase = currentPhase
         self.color = color
@@ -222,5 +222,5 @@ struct QuestionsView: View {
             explanation: "Spiders have 8 legs."
         )
     ]
-    return QuestionsView(questions: sampleQuestions, currentPhase: $previewPhase, color: .gameGreen)
+    QuestionsView(questions: sampleQuestions, currentPhase: $previewPhase, color: .gameGreen, gameType: "Binary Game")
 }

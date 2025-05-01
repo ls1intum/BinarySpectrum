@@ -82,20 +82,20 @@ struct RewardButton: View {
     @EnvironmentObject private var userViewModel: UserViewModel
     @State private var isPressed = false
     @State private var navigateToAchievements = false
-    
+
     var body: some View {
         Button(action: {
             withAnimation(.easeInOut(duration: 0.3)) {
                 isPressed = true
-                
+
                 // Unlock the achievement for this mini-game
                 // This would typically call an achievement service to mark the achievement as obtained
                 // AchievementService.shared.unlockAchievement(for: miniGameIndex)
-                
+
                 // Navigate to the achievements view after a brief delay
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                     navigateToAchievements = true
-                    
+
                     // Reset the button state
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                         isPressed = false
@@ -108,7 +108,7 @@ struct RewardButton: View {
                     .fill(GameConstants.miniGames[miniGameIndex].color)
                     .frame(width: 90, height: 90)
                     .shadow(radius: isPressed ? 2 : 5)
-                
+
                 Image(systemName: "trophy.fill")
                     .font(.largeTitle)
                     .foregroundColor(.gameWhite)
@@ -132,19 +132,19 @@ struct InfoButton: View {
     @State private var showInfoPopup = false
     @Environment(\.currentView) var currentView
     @Environment(\.currentPhase) var currentPhase
-    
+
     var body: some View {
         ZStack {
-        Button(action: {
+            Button(action: {
                 showInfoPopup = true
-        }) {
+            }) {
                 ZStack {
                     Circle()
                         .fill(Color.gameGray.opacity(0.7))
                         .frame(width: 90, height: 90)
                         .shadow(radius: 5)
 
-            Image(systemName: "info.circle")
+                    Image(systemName: "info.circle")
                         .font(.largeTitle)
                         .foregroundColor(.gameBlack)
                 }
@@ -154,9 +154,9 @@ struct InfoButton: View {
             ZStack {
                 let view = currentView.isEmpty ? "MainMenu" : currentView
                 let title = InfoButtonService.shared.getTitleForInfo(view: view, phase: currentPhase)
-                let message = InfoButtonService.shared.getTip(for: view, phase: currentPhase) ?? 
+                let message = InfoButtonService.shared.getTip(for: view, phase: currentPhase) ??
                     "Welcome to the game! This informational popup provides context about your current screen."
-                
+
                 InfoPopup(
                     title: title,
                     message: message,
@@ -165,6 +165,7 @@ struct InfoButton: View {
                         showInfoPopup = false
                     }
                 )
+                .transition(.scale.combined(with: .opacity))
             }
             .edgesIgnoringSafeArea(.all)
         }

@@ -65,7 +65,7 @@ struct SettingsView: View {
             }
             
             // TopBarView overlay at the top
-            TopBar(title: "Settings", color: .gamePurple)
+            TopBar(title: "Settings", color: .gamePurple, infoButtonDisabled: true)
             
             // Reset Confirmation Popup
             if showResetConfirmation {
@@ -102,7 +102,7 @@ struct SettingsView: View {
 }
 
 struct SettingsButton: View {
-    let title: String
+    let title: LocalizedStringResource
     let icon: String
     let color: Color
     let action: () -> Void

@@ -3,7 +3,7 @@ import SwiftUI
 struct DialogueView: View {
     let personaImage: String
     let color: Color
-    let dialogues: [String]
+    let dialogues: [LocalizedStringResource]
     let gameType: String
     @Binding var currentPhase: GamePhase
     

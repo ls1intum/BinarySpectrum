@@ -7,7 +7,7 @@ class QuestionsViewModel: ObservableObject {
     @Published var selectedAnswers: [Int: Int] = [:]
     @Published var correctAnswersCount: Int = 0
     var showExplanation: Bool = false
-    var currentExplanation: String = ""
+    var currentExplanation: LocalizedStringResource = ""
     var isAnswerCorrect: Bool = false
     
     // Randomized alternatives to avoid memorization

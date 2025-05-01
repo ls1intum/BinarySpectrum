@@ -4,15 +4,18 @@ struct TopBar: View {
     let title: LocalizedStringResource
     let color: Color
     let leftIcon: String
+    let infoButtonDisabled: Bool
     
     init(
         title: LocalizedStringResource,
         color: Color = .gamePurple,
-        leftIcon: String = "arrow.left"
+        leftIcon: String = "arrow.left",
+        infoButtonDisabled: Bool = false
     ) {
         self.title = title
         self.color = color
         self.leftIcon = leftIcon
+        self.infoButtonDisabled = infoButtonDisabled
     }
     
     var body: some View {
@@ -30,9 +33,16 @@ struct TopBar: View {
             
             Spacer()
             
-            InfoButton()
-                .environment(\.currentView, title.key)
-                .environment(\.currentPhase, .intro)
+            if !infoButtonDisabled {
+                InfoButton()
+                    .environment(\.currentView, title.key)
+                    .environment(\.currentPhase, .intro)
+            }
+            else {
+                Circle()
+                    .fill(Color.clear)
+                    .frame(width: 90, height: 90)
+            }
         }
         .padding(.horizontal)
         .frame(maxWidth: .infinity) // Makes sure it stretches across the screen

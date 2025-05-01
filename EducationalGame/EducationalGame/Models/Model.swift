@@ -13,31 +13,31 @@ struct MiniGame: Identifiable {
     let icon: String
     let color: Color
     let personaImage: String
-    let achievementName: String
+    let achievementName: LocalizedStringResource
     let view: AnyView
     var highScore: Int
 }
 
 struct Question: Identifiable {
     let id = UUID()
-    let question: String
-    let alternatives: [Int: String]
+    let question: LocalizedStringResource
+    let alternatives: [Int: LocalizedStringResource]
     let correctAnswer: Int
-    let explanation: String
+    let explanation: LocalizedStringResource
 }
 
 struct ReviewCard: Identifiable {
     let id = UUID()
-    let title: String
-    let content: String
-    let example: String
+    let title: LocalizedStringResource
+    let content: LocalizedStringResource
+    let example: LocalizedStringResource
 }
 
 struct ReviewItem: Identifiable {
     let id = UUID()
-    let title: String
-    let content: String
-    let example: String
+    let title: LocalizedStringResource
+    let content: LocalizedStringResource
+    let example: LocalizedStringResource
 }
 
 enum GamePhase: String, CaseIterable, Codable {

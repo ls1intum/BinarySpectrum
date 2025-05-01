@@ -1,9 +1,9 @@
 import SwiftUI
 
 struct InfoPopup: View {
-    let title: String
-    let message: String
-    let buttonTitle: String
+    let title: LocalizedStringResource
+    let message: LocalizedStringResource
+    let buttonTitle: LocalizedStringResource
     let onButtonTap: () -> Void
 
     var body: some View {
@@ -58,10 +58,10 @@ struct InfoPopup: View {
 }
 
 struct TwoButtonInfoPopup: View {
-    let title: String
-    let message: String
-    let primaryButtonTitle: String
-    let secondaryButtonTitle: String
+    let title: LocalizedStringResource
+    let message: LocalizedStringResource
+    let primaryButtonTitle: LocalizedStringResource
+    let secondaryButtonTitle: LocalizedStringResource
     let onPrimaryButtonTap: () -> Void
     let onSecondaryButtonTap: () -> Void
 

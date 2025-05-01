@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct ReviewView: View {
-    let title: String
+    let title: LocalizedStringResource
     let items: [ReviewItem]
     let color: Color
     let onCompletion: () -> Void
@@ -62,9 +62,9 @@ struct ReviewView: View {
 }
 
 struct ChecklistReviewCard: View {
-    let title: String
-    let content: String
-    let example: String
+    let title: LocalizedStringResource
+    let content: LocalizedStringResource
+    let example: LocalizedStringResource
     let color: Color
     @Binding var isChecked: Bool
     
@@ -118,7 +118,7 @@ struct ChecklistReviewCard: View {
                         .font(GameTheme.bodyFont)
                         .foregroundColor(.gameBlack)
                     
-                    if !example.isEmpty {
+                    if !String(localized: example).isEmpty {
                         Text(example)
                             .font(.system(.body, design: .monospaced))
                             .foregroundColor(.gameBlack)
