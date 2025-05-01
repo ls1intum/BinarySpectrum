@@ -5,7 +5,7 @@ private struct CurrentViewKey: EnvironmentKey {
 }
 
 private struct CurrentPhaseKey: EnvironmentKey {
-    static let defaultValue: GamePhase = .intro
+    static let defaultValue: GamePhase = .introDialogue
 }
 
 extension EnvironmentValues {

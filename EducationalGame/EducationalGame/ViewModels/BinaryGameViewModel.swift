@@ -3,7 +3,7 @@ import SwiftUI
 
 @Observable class BinaryGameViewModel: ObservableObject {
     let gameType = "Binary Game"
-    var currentPhase: GamePhase = .intro
+    var currentPhase: GamePhase = .introDialogue
     
     // User info
     let favoriteColor: Color = .gamePink // TODO: get from userviewmodel
@@ -65,9 +65,7 @@ import SwiftUI
                                              score: score,
                                              percentage: percentage)
         
-        var nextPhase = currentPhase
-        nextPhase.next(for: gameType)
-        _currentPhase = nextPhase
+        currentPhase.next(for: gameType)
     }
     
     func nextPhase() {
@@ -213,7 +211,7 @@ import SwiftUI
     }
     
     @objc func resetGameState() {
-        currentPhase = .intro
+        currentPhase = .introDialogue
         // TODO: totally reset
         userDecimalAnswer = ""
     }

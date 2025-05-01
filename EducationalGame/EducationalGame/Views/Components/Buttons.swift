@@ -153,19 +153,24 @@ struct InfoButton: View {
         .fullScreenCover(isPresented: $showInfoPopup) {
             ZStack {
                 let view = currentView.isEmpty ? "MainMenu" : currentView
-                let title = InfoButtonService.shared.getTitleForInfo(view: view, phase: currentPhase)
-                let message = InfoButtonService.shared.getTip(for: view, phase: currentPhase) ??
-                    "Welcome to the game! This informational popup provides context about your current screen."
 
-                InfoPopup(
-                    title: title,
-                    message: message,
-                    buttonTitle: "Got it!",
-                    onButtonTap: {
-                        showInfoPopup = false
-                    }
-                )
-                .transition(.scale.combined(with: .opacity))
+                if let popup = InfoButtonService.shared.createInfoPopup(
+                    for: view,
+                    phase: currentPhase,
+                    onButtonTap: { showInfoPopup = false }
+                ) {
+                    popup
+                        .transition(.scale.combined(with: .opacity))
+                } else {
+                    // Fallback for any unexpected cases
+                    InfoPopup(
+                        title: LocalizedStringResource(stringLiteral: view),
+                        message: "Welcome to the game! This informational popup provides context about your current screen.",
+                        buttonTitle: "Got it!",
+                        onButtonTap: { showInfoPopup = false }
+                    )
+                    .transition(.scale.combined(with: .opacity))
+                }
             }
             .edgesIgnoringSafeArea(.all)
         }
@@ -269,12 +274,12 @@ struct CircleButton_Previews: PreviewProvider {
         Group {
             CircleButton(iconName: "gear", color: .blue)
                 .environment(\.currentView, "MainMenu")
-                .environment(\.currentPhase, .intro)
+                .environment(\.currentPhase, .introDialogue)
                 .environmentObject(NavigationState())
 
             CircleButton(iconName: "arrow.left", color: .blue)
                 .environment(\.currentView, "PixelGame")
-                .environment(\.currentPhase, .challenges)
+                .environment(\.currentPhase, .apprenticeChallenge)
                 .environmentObject(NavigationState())
         }
     }

@@ -41,15 +41,15 @@ struct ReviewItem: Identifiable {
 }
 
 enum GamePhase: String, CaseIterable, Codable {
-    case intro = "Introduction"
+    case introDialogue = "Introduction Dialogue"
     case questions = "Questions"
     case exploration = "Exploration"
-    case tutorial = "Tutorial"
-    case practice = "Practice"
-    case challenges = "Challenges"
-    case advancedChallenges = "Advanced Challenges"
+    case tutorialDialogue = "Tutorial Dialogue"
     case lastDialogue = "Last Dialogue"
-    case finalChallenge = "Final Challenge"
+    case noviceChallenge = "Novice Challenge"
+    case apprenticeChallenge = "Apprentice Challenge"
+    case adeptChallenge = "Adept Challenge"
+    case expertChallenge = "Expert Challenge"
     case review = "Review"
     case reward = "Reward"
 
@@ -64,48 +64,48 @@ enum GamePhase: String, CaseIterable, Codable {
         switch gameType {
         case "Binary Game":
             switch self {
-            case .intro: self = .questions
+            case .introDialogue: self = .questions
             case .questions: self = .exploration
-            case .exploration: self = .tutorial
-            case .tutorial: self = .practice
-            case .practice: self = .challenges
-            case .challenges: self = .advancedChallenges
-            case .advancedChallenges: self = .lastDialogue
-            case .lastDialogue: self = .finalChallenge
-            case .finalChallenge: self = .review
+            case .exploration: self = .tutorialDialogue
+            case .tutorialDialogue: self = .noviceChallenge
+            case .noviceChallenge: self = .apprenticeChallenge
+            case .apprenticeChallenge: self = .adeptChallenge
+            case .adeptChallenge: self = .lastDialogue
+            case .lastDialogue: self = .expertChallenge
+            case .expertChallenge: self = .review
             case .review: self = .reward
-            case .reward: self = .intro
+            case .reward: self = .introDialogue
             }
         case "Pixel Game":
             switch self {
-            case .intro: self = .questions
+            case .introDialogue: self = .questions
             case .questions: self = .exploration
-            case .exploration: self = .practice
-            case .practice: self = .tutorial
-            case .tutorial: self = .challenges
-            case .challenges: self = .advancedChallenges
-            case .advancedChallenges: self = .finalChallenge
+            case .exploration: self = .noviceChallenge
+            case .noviceChallenge: self = .tutorialDialogue
+            case .tutorialDialogue: self = .apprenticeChallenge
+            case .apprenticeChallenge: self = .adeptChallenge
+            case .adeptChallenge: self = .expertChallenge
             case .lastDialogue: self = .lastDialogue // change?
-            case .finalChallenge: self = .review
+            case .expertChallenge: self = .review
             case .review: self = .reward
-            case .reward: self = .intro
+            case .reward: self = .introDialogue
             }
         case "Color Game":
             switch self {
-            case .intro: self = .questions
+            case .introDialogue: self = .questions
             case .questions: self = .exploration
-            case .exploration: self = .tutorial
-            case .tutorial: self = .practice
-            case .practice: self = .lastDialogue
-            case .lastDialogue: self = .challenges
-            case .challenges: self = .advancedChallenges
-            case .advancedChallenges: self = .finalChallenge
-            case .finalChallenge: self = .review
+            case .exploration: self = .tutorialDialogue
+            case .tutorialDialogue: self = .noviceChallenge
+            case .noviceChallenge: self = .lastDialogue
+            case .lastDialogue: self = .apprenticeChallenge
+            case .apprenticeChallenge: self = .adeptChallenge
+            case .adeptChallenge: self = .expertChallenge
+            case .expertChallenge: self = .review
             case .review: self = .reward
-            case .reward: self = .intro
+            case .reward: self = .introDialogue
             }
         default:
-            self = .intro
+            self = .introDialogue
         }
     }
 }

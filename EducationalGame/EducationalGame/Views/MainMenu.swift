@@ -26,7 +26,7 @@ struct MainMenu: View {
                                 Text("Welcome, ")
                                     .foregroundColor(.gameDarkBlue)
                                     + Text(userViewModel.userName)
-                                    .foregroundColor(userViewModel.favoriteColor)
+                                    .foregroundColor(.gameDarkBlue) // or userViewModel.favoriteColor
                             )
                             .font(GameTheme.headingFont)
                             .foregroundColor(userViewModel.favoriteColor)
@@ -108,7 +108,7 @@ struct MainMenu: View {
                 }
                 
                 // TopBarView overlay at the top
-                TopBar(title: GameConstants.gameTitle, leftIcon: "gear")
+                TopBar(title: LocalizedStringResource(stringLiteral: GameConstants.gameTitle), leftIcon: "gear")
                     .offset(y: startAnimation ? 0 : -50)
                     .opacity(startAnimation ? 1 : 0)
             }

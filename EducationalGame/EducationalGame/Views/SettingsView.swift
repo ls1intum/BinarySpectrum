@@ -7,6 +7,7 @@ struct SettingsView: View {
     @StateObject private var userViewModel = UserViewModel()
     @State private var showResetConfirmation = false
     @State private var showResetSuccess = false
+    @State private var showProfileEdit = false
     @EnvironmentObject var navigationState: NavigationState
     
     var body: some View {
@@ -41,11 +42,11 @@ struct SettingsView: View {
                     
                     // Display Settings Button (placeholder)
                     SettingsButton(
-                        title: "Display Settings",
-                        icon: "display",
+                        title: "Edit Profile",
+                        icon: "person",
                         color: .gameOrange,
                         action: {
-                            // Placeholder for future functionality
+                            showProfileEdit = true
                         }
                     )
                     
@@ -66,8 +67,7 @@ struct SettingsView: View {
             
             // TopBarView overlay at the top
             TopBar(title: "Settings", color: .gamePurple, infoButtonDisabled: true)
-            
-            // Reset Confirmation Popup
+
             if showResetConfirmation {
                 TwoButtonInfoPopup(
                     title: "Reset Progress",
@@ -84,8 +84,7 @@ struct SettingsView: View {
                     }
                 )
             }
-            
-            // Reset Success Popup
+
             if showResetSuccess {
                 InfoPopup(
                     title: "Progress Reset",
@@ -94,6 +93,12 @@ struct SettingsView: View {
                     onButtonTap: {
                         showResetSuccess = false
                     }
+                )
+            }
+            
+            if showProfileEdit {
+                ProfileEditPopup(
+                    isShowing: $showProfileEdit
                 )
             }
         }

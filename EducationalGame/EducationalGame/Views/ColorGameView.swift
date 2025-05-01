@@ -40,7 +40,7 @@ struct ColorGameView: View {
     @ViewBuilder
     private var currentPhaseView: some View {
         switch viewModel.currentPhase {
-        case .intro, .tutorial, .lastDialogue:
+        case .introDialogue, .tutorialDialogue, .lastDialogue:
             DialogueView(
                 personaImage: GameConstants.miniGames[2].personaImage,
                 color: GameConstants.miniGames[2].color,
@@ -57,13 +57,13 @@ struct ColorGameView: View {
             )
         case .exploration:
             ColorExplorationView(viewModel: viewModel)
-        case .practice:
+        case .noviceChallenge:
             ColorHexChallengeView(viewModel: viewModel)
-        case .challenges:
+        case .apprenticeChallenge:
             OpacityChallengeView(viewModel: viewModel)
-        case .advancedChallenges:
+        case .adeptChallenge:
             ReversedChallengeView(viewModel: viewModel)
-        case .finalChallenge:
+        case .expertChallenge:
             ColorAlphaChallengeView(viewModel: viewModel)
         case .review:
             ReviewView(
@@ -89,8 +89,8 @@ struct ColorGameView: View {
     
     private var dialogueContent: [LocalizedStringResource] {
         switch viewModel.currentPhase {
-        case .intro: return viewModel.introDialogue
-        case .tutorial: return viewModel.hexLearningDialogue
+        case .introDialogue: return viewModel.introDialogue
+        case .tutorialDialogue: return viewModel.hexLearningDialogue
         case .lastDialogue: return viewModel.opacityLearningDialogue
         default: return []
         }
@@ -585,28 +585,28 @@ struct AlphaGridView: View {
 
 #Preview("Color match") {
     let viewModel = ColorGameViewModel()
-    viewModel.currentPhase = .practice
+    viewModel.currentPhase = .noviceChallenge
     return ColorGameView(viewModel: viewModel)
         .environment(\.colorScheme, .light)
 }
 
 #Preview("Opacity match") {
     let viewModel = ColorGameViewModel()
-    viewModel.currentPhase = .challenges
+    viewModel.currentPhase = .apprenticeChallenge
     return ColorGameView(viewModel: viewModel)
         .environment(\.colorScheme, .light)
 }
 
 #Preview("Advanced Challenges Phase") {
     let viewModel = ColorGameViewModel()
-    viewModel.currentPhase = .advancedChallenges
+    viewModel.currentPhase = .adeptChallenge
     return ColorGameView(viewModel: viewModel)
         .environment(\.colorScheme, .light)
 }
 
 #Preview("Final Challenge Phase") {
     let viewModel = ColorGameViewModel()
-    viewModel.currentPhase = .finalChallenge
+    viewModel.currentPhase = .expertChallenge
     return ColorGameView(viewModel: viewModel)
         .environment(\.colorScheme, .light)
 }

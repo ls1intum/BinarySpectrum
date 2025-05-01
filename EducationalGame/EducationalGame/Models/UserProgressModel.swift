@@ -22,9 +22,9 @@ class UserProgressModel: ObservableObject {
         
         // Initialize default phases for each game
         self.currentGamePhase = [
-            "Binary Game": .intro,
-            "Pixel Art Game": .intro,
-            "Color Game": .intro
+            "Binary Game": .introDialogue,
+            "Pixel Art Game": .introDialogue,
+            "Color Game": .introDialogue
         ]
     }
     
@@ -47,7 +47,7 @@ class UserProgressModel: ObservableObject {
     }
     
     func getPhase(for gameType: String) -> GamePhase {
-        return currentGamePhase[gameType] ?? .intro
+        return currentGamePhase[gameType] ?? .introDialogue
     }
     
     func setPhase(_ phase: GamePhase, for gameType: String) {
@@ -56,7 +56,7 @@ class UserProgressModel: ObservableObject {
     
     func advancePhase(for gameType: String) {
         guard var currentPhase = currentGamePhase[gameType] else {
-            currentGamePhase[gameType] = .intro
+            currentGamePhase[gameType] = .introDialogue
             return
         }
         currentPhase.next()

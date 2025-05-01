@@ -3,7 +3,7 @@ import SwiftUI
 
 @Observable class ColorGameViewModel: ObservableObject {
     let gameType = "Color Game"
-    var currentPhase = GamePhase.intro
+    var currentPhase = GamePhase.introDialogue
     
     // MARK: - Game State
     
@@ -288,7 +288,7 @@ import SwiftUI
     }
     
     func resetGame() {
-        currentPhase = .intro
+        currentPhase = .introDialogue
         currentColor.reset()
         challengeState.reset()
         alphaChallengeState.generateNewGrid()

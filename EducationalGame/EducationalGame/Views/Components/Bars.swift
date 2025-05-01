@@ -36,7 +36,7 @@ struct TopBar: View {
             if !infoButtonDisabled {
                 InfoButton()
                     .environment(\.currentView, title.key)
-                    .environment(\.currentPhase, .intro)
+                    .environment(\.currentPhase, .introDialogue)
             }
             else {
                 Circle()

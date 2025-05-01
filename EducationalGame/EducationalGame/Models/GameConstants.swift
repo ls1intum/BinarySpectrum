@@ -1,7 +1,7 @@
 import SwiftUICore
 
 enum GameConstants {
-    static let gameTitle: LocalizedStringResource = "Binary Spectrum"
+    static let gameTitle = "Binary Spectrum"
     static let gameDescription: LocalizedStringResource = "Discover how computers turn zeros and ones into amazing worlds of color, images, and creativity. This game offers 3 fun mini-games that will challenge your mind while you learn about computational thinking."
     
     static let miniGames: [MiniGame] = [

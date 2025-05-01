@@ -16,7 +16,7 @@ struct BinaryGameView: View {
                 Spacer().frame(height: 90)
                 
                 switch viewModel.currentPhase {
-                case .intro:
+                case .introDialogue:
                     DialogueView(
                         personaImage: GameConstants.miniGames[0].personaImage,
                         color: GameConstants.miniGames[0].color,
@@ -33,7 +33,7 @@ struct BinaryGameView: View {
                     )
                 case .exploration:
                     BinaryExplorationView(viewModel: viewModel)
-                case .tutorial:
+                case .tutorialDialogue:
                     DialogueView(
                         personaImage: GameConstants.miniGames[0].personaImage,
                         color: GameConstants.miniGames[0].color,
@@ -41,11 +41,11 @@ struct BinaryGameView: View {
                         gameType: viewModel.gameType,
                         currentPhase: $viewModel.currentPhase
                     )
-                case .practice:
+                case .noviceChallenge:
                     BinaryPracticeView(viewModel: viewModel)
-                case .challenges:
+                case .apprenticeChallenge:
                     BinaryChallengeView(viewModel: viewModel)
-                case .advancedChallenges:
+                case .adeptChallenge:
                     BinaryAdvancedChallengeView(viewModel: viewModel)
                 case .lastDialogue:
                     DialogueView(
@@ -55,7 +55,7 @@ struct BinaryGameView: View {
                         gameType: viewModel.gameType,
                         currentPhase: $viewModel.currentPhase
                     )
-                case .finalChallenge:
+                case .expertChallenge:
                     BinaryFinalChallengeView(viewModel: viewModel, favColor: viewModel.favoriteColor)
                 case .review:
                     ReviewView(
@@ -710,28 +710,28 @@ struct BinaryArmbandView: View {
 
 #Preview("Tutorial Phase") {
     let viewModel = BinaryGameViewModel()
-    viewModel.currentPhase = .tutorial
+    viewModel.currentPhase = .tutorialDialogue
     return BinaryGameView(viewModel: viewModel)
         .environment(\.colorScheme, .light)
 }
 
 #Preview("Practice Phase") {
     let viewModel = BinaryGameViewModel()
-    viewModel.currentPhase = .practice
+    viewModel.currentPhase = .noviceChallenge
     return BinaryGameView(viewModel: viewModel)
         .environment(\.colorScheme, .light)
 }
 
 #Preview("Challenges Phase") {
     let viewModel = BinaryGameViewModel()
-    viewModel.currentPhase = .challenges
+    viewModel.currentPhase = .apprenticeChallenge
     return BinaryGameView(viewModel: viewModel)
         .environment(\.colorScheme, .light)
 }
 
 #Preview("Advanced Challenges Phase") {
     let viewModel = BinaryGameViewModel()
-    viewModel.currentPhase = .advancedChallenges
+    viewModel.currentPhase = .adeptChallenge
     return BinaryGameView(viewModel: viewModel)
         .environment(\.colorScheme, .light)
 }
@@ -745,7 +745,7 @@ struct BinaryArmbandView: View {
 
 #Preview("Final Challenge Phase") {
     let viewModel = BinaryGameViewModel()
-    viewModel.currentPhase = .finalChallenge
+    viewModel.currentPhase = .expertChallenge
     return BinaryGameView(viewModel: viewModel)
         .environment(\.colorScheme, .light)
 }
