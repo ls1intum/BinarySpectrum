@@ -6,6 +6,7 @@ struct AnimatedCircleButton: View {
     var iconName: String
     var color: Color = .gamePurple
     var action: () -> Void
+    var hapticType: HapticType = .buttonTap
 
     var body: some View {
         ZStack {
@@ -21,6 +22,8 @@ struct AnimatedCircleButton: View {
         .scaleEffect(1.0)
         .onTapGesture {
             withAnimation(.spring(response: 0.3, dampingFraction: 0.5)) {
+                // Play haptic feedback
+                HapticService.shared.play(hapticType)
                 action()
             }
         }
@@ -51,6 +54,7 @@ struct CircleButton: View {
                         .foregroundColor(.gameBlack)
                 }
             }
+            .buttonStyle(HapticButtonStyle(hapticType: .buttonTap))
         }
     }
 
@@ -87,6 +91,9 @@ struct RewardButton: View {
         Button(action: {
             withAnimation(.easeInOut(duration: 0.3)) {
                 isPressed = true
+                
+                // Play achievement haptic feedback
+                HapticService.shared.play(.achievement)
 
                 // Unlock the achievement for this mini-game
                 // This would typically call an achievement service to mark the achievement as obtained
@@ -136,6 +143,8 @@ struct InfoButton: View {
     var body: some View {
         ZStack {
             Button(action: {
+                // Play button tap haptic feedback
+                HapticService.shared.play(.buttonTap)
                 showInfoPopup = true
             }) {
                 ZStack {
@@ -157,7 +166,11 @@ struct InfoButton: View {
                 if let popup = InfoButtonService.shared.createInfoPopup(
                     for: view,
                     phase: currentPhase,
-                    onButtonTap: { showInfoPopup = false }
+                    onButtonTap: { 
+                        // Play light haptic when dismissing info popup
+                        HapticService.shared.play(.light)
+                        showInfoPopup = false 
+                    }
                 ) {
                     popup
                         .transition(.scale.combined(with: .opacity))
@@ -167,7 +180,10 @@ struct InfoButton: View {
                         title: LocalizedStringResource(stringLiteral: view),
                         message: "Welcome to the game! This informational popup provides context about your current screen.",
                         buttonTitle: "Got it!",
-                        onButtonTap: { showInfoPopup = false }
+                        onButtonTap: { 
+                            HapticService.shared.play(.light)
+                            showInfoPopup = false 
+                        }
                     )
                     .transition(.scale.combined(with: .opacity))
                 }
@@ -204,6 +220,9 @@ struct GameButton: View {
         Button(action: {
             withAnimation(.easeInOut(duration: 0.15)) {
                 isPressed = true
+                
+                // Add game selection haptic feedback
+                HapticService.shared.play(.selection)
 
                 // Add a slight delay before navigation to show the button animation
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
@@ -251,6 +270,8 @@ struct GameButton: View {
                     if !isHovered {
                         withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
                             isHovered = true
+                            // Light haptic on hover
+                            HapticService.shared.play(.light)
                         }
                     }
                 }

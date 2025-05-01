@@ -8,6 +8,7 @@ struct SettingsView: View {
     @State private var showResetConfirmation = false
     @State private var showResetSuccess = false
     @State private var showProfileEdit = false
+    @State private var hapticEnabled = HapticService.shared.isHapticEnabled
     @EnvironmentObject var navigationState: NavigationState
     
     var body: some View {
@@ -39,6 +40,37 @@ struct SettingsView: View {
                             // Placeholder for future functionality
                         }
                     )
+                    
+                    // Haptic Feedback Toggle
+                    Toggle(isOn: HapticService.supportsHaptics ? $hapticEnabled : .constant(false)) {
+                        HStack {
+                            Image(systemName: "iphone.radiowaves.left.and.right")
+                                .font(.system(size: 24))
+                                .foregroundColor(.gameWhite)
+                                .frame(width: 40, height: 40)
+                                .padding(.trailing, 8)
+                            
+                            Text("Haptic Feedback")
+                                .font(GameTheme.bodyFont)
+                                .foregroundColor(.gameWhite)
+                        }
+                    }
+                    .disabled(!HapticService.supportsHaptics)
+                    .toggleStyle(SwitchToggleStyle(tint: .gameGreen))
+                    .padding()
+                    .background(
+                        RoundedRectangle(cornerRadius: 12)
+                            .fill(HapticService.supportsHaptics ? Color.gamePurple : Color.gamePurple.opacity(0.5))
+                            .shadow(color: HapticService.supportsHaptics ? Color.gamePurple.opacity(0.5) : Color.gamePurple.opacity(0.2), radius: 5, x: 2, y: 2)
+                    )
+                    .frame(maxWidth: 350)
+                    .onChange(of: hapticEnabled) { _, newValue in
+                        HapticService.shared.toggleHaptic()
+                        // Provide feedback when turned on
+                        if newValue {
+                            HapticService.shared.play(.medium)
+                        }
+                    }
                     
                     // Display Settings Button (placeholder)
                     SettingsButton(
@@ -78,9 +110,13 @@ struct SettingsView: View {
                         userViewModel.resetProgress()
                         showResetConfirmation = false
                         showResetSuccess = true
+                        // Add haptic feedback for reset action
+                        HapticService.shared.play(.heavy)
                     },
                     onSecondaryButtonTap: {
                         showResetConfirmation = false
+                        // Add haptic feedback for cancel action
+                        HapticService.shared.play(.light)
                     }
                 )
             }
@@ -92,6 +128,8 @@ struct SettingsView: View {
                     buttonTitle: "OK",
                     onButtonTap: {
                         showResetSuccess = false
+                        // Add haptic feedback for OK button
+                        HapticService.shared.play(.light)
                     }
                 )
             }
@@ -113,7 +151,11 @@ struct SettingsButton: View {
     let action: () -> Void
     
     var body: some View {
-        Button(action: action) {
+        Button(action: {
+            // Add haptic feedback before performing the action
+            HapticService.shared.play(.buttonTap)
+            action()
+        }) {
             HStack {
                 Image(systemName: icon)
                     .font(.system(size: 24))

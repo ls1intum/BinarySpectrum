@@ -56,6 +56,13 @@ struct QuestionsView: View {
                                 Button(action: {
                                     if !viewModel.showExplanation {
                                         viewModel.selectAnswer(alternativeID)
+                                        
+                                        // Add haptic feedback based on answer correctness
+                                        if alternativeID == correctAnswer {
+                                            HapticService.shared.play(.success)
+                                        } else {
+                                            HapticService.shared.play(.error)
+                                        }
                                     }
                                 }) {
                                     HStack {
@@ -131,7 +138,10 @@ struct QuestionsView: View {
                         color: .gameGray,
                         action: {
                             viewModel.previousQuestion()
-                        }
+                            // Light haptic feedback for navigation
+                            HapticService.shared.play(.light)
+                        },
+                        hapticType: .light
                     )
                     .padding(.leading, 20)
                     .transition(.scale.combined(with: .opacity))
@@ -165,6 +175,14 @@ struct QuestionsView: View {
                     iconName: viewModel.currentQuestionIndex < viewModel.questions.count - 1 ? "arrow.right.circle.fill" : "checkmark.circle.fill",
                     color: viewModel.canNavigateToNextQuestion() ? color : .gray,
                     action: {
+                        // Medium haptic feedback for navigation or completion
+                        if viewModel.currentQuestionIndex < viewModel.questions.count - 1 {
+                            HapticService.shared.play(.light)
+                        } else {
+                            // Stronger haptic for completing all questions
+                            HapticService.shared.play(.gameSuccess)
+                        }
+                        
                         if viewModel.nextQuestion() {
                             // We've completed all questions, move to next phase
                             let percentage = viewModel.getProgress()
@@ -177,7 +195,8 @@ struct QuestionsView: View {
                             )
                             currentPhase.next(for: gameType)
                         }
-                    }
+                    },
+                    hapticType: viewModel.currentQuestionIndex < viewModel.questions.count - 1 ? .light : .success
                 )
                 .padding()
                 .disabled(!viewModel.canNavigateToNextQuestion())

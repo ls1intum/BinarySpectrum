@@ -166,6 +166,9 @@
     "A hex color code looks something like this: #FF5733. The first two characters show how much red, the next two are for green, and the last two are for blue. Each pair can range from 00 (none) to FF (the most!)." : {
 
     },
+    "A larger grid means more detail is possible, but also requires more data to store. This is the trade-off between image quality and file size." : {
+
+    },
     "About" : {
       "localizations" : {
         "de" : {
@@ -215,6 +218,7 @@
       }
     },
     "Adjust game settings, reset progress, or check out information about this educational app." : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -424,6 +428,9 @@
         }
       }
     },
+    "Binary images and compression techniques are foundational concepts in digital graphics and computer vision." : {
+
+    },
     "Binary images are perfect for pixel art and simple graphics like icons and symbols." : {
 
     },
@@ -444,6 +451,7 @@
       }
     },
     "Binary is a number system that uses only two digits: 0 and 1. It's the foundation of all computing because electronic circuits can easily represent these two states (on/off, true/false)." : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -460,9 +468,6 @@
       }
     },
     "Binary Jewel" : {
-
-    },
-    "Binary Number System - %@" : {
 
     },
     "Binary Numbers" : {
@@ -484,6 +489,9 @@
     "Binary numbers and pixels" : {
 
     },
+    "Binary numbers build by doubling each position's value as you move left. This is efficient for computers because they work with electrical signals that are either on or off." : {
+
+    },
     "Binary numbers look cooler in movies" : {
 
     },
@@ -494,6 +502,7 @@
 
     },
     "Binary Spectrum" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -652,6 +661,9 @@
         }
       }
     },
+    "Challenge yourself to create images that can be efficiently compressed while still looking good." : {
+
+    },
     "Change the red, green and blue intensity to make your favorite color" : {
       "localizations" : {
         "de" : {
@@ -715,6 +727,9 @@
     "Colors on a screen aren't mixed like paint, they're made by blending red, green, and blue light! Computers even control how 'see-through' something is using something called opacity." : {
 
     },
+    "Combine your knowledge of color and transparency to solve complex challenges." : {
+
+    },
     "Compressing an image reduces the file size, making it easier to store, share, and load faster." : {
 
     },
@@ -744,6 +759,12 @@
       }
     },
     "Computers use binary numbers to encode each pixel's color information, and pixels are the small building blocks that form the full image." : {
+
+    },
+    "Congratulations on mastering binary! This knowledge is fundamental to understanding how computers work at their most basic level." : {
+
+    },
+    "Congratulations! You now understand how computers display and manipulate colors - essential knowledge for digital design." : {
 
     },
     "Correct!" : {
@@ -857,7 +878,7 @@
         }
       }
     },
-    "Digital Colors - %@" : {
+    "Digital colors work differently from paint. On screens, colors are created by mixing red, green, and blue light in different amounts." : {
 
     },
     "Digital images are made up of tiny squares called pixels. In binary images, each pixel is either black (1) or white (0)." : {
@@ -893,6 +914,7 @@
       }
     },
     "Display Settings" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -930,7 +952,14 @@
         }
       }
     },
+    "Edit Profile" : {
+
+    },
+    "Edit Your Profile" : {
+
+    },
     "Educational Computing Game" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -945,9 +974,6 @@
           }
         }
       }
-    },
-    "Educational Game - %@" : {
-
     },
     "Electronics can easily represent two states (ON/OFF)" : {
       "localizations" : {
@@ -1000,6 +1026,18 @@
     "Everything inside a computer — from photos to music — is made up of just two numbers: 0s and 1s! This special way of counting is called binary. It might look simple, but it's powerful enough to build entire worlds!" : {
 
     },
+    "Experiment with opacity to create layered effects. This concept is crucial in UI design and digital art." : {
+
+    },
+    "Experiment with RGB values to create different colors. Try to predict what color will result from various combinations." : {
+
+    },
+    "Explore converting between binary and decimal. In binary, each position represents a power of 2: 1, 2, 4, 8, 16, etc." : {
+
+    },
+    "Explore how arranging black and white pixels can create recognizable images. This is the simplest form of digital art." : {
+
+    },
     "Explore the grid! Try to make a pixel art" : {
       "localizations" : {
         "de" : {
@@ -1049,6 +1087,7 @@
       }
     },
     "Game Settings" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1151,7 +1190,13 @@
     "Grid Genius" : {
 
     },
+    "Haptic Feedback" : {
+
+    },
     "Hello! I'm Iris, a Graphics Programmer. I write the code that makes colors, light, and transparency come alive on screen. I'm here to teach you how computers mix and display colors, and how you can control the magic yourself." : {
+
+    },
+    "Here you can see your progress and achievements. Complete mini-games and challenges to unlock more achievements!" : {
 
     },
     "Hex codes are a shorthand for RGB values, using base-16 numbers. Each pair of characters represents one color component (red, green, or blue)." : {
@@ -1170,7 +1215,7 @@
         }
       }
     },
-    "Hexadecimal color codes (like #FF0000 for red) represent RGB values in base-16. The first two digits represent red, the next two green, and the last two blue." : {
+    "Hexadecimal (hex) color codes are a shorthand way to write RGB values. Each pair of characters represents red, green, or blue." : {
 
     },
     "Hexadecimal Colors" : {
@@ -1377,9 +1422,6 @@
     "In the Compression Challenge, you'll practice making your art easy to store. Instead of thinking pixel by pixel, you'll group similar pixels together and find a simpler way to describe them." : {
 
     },
-    "In their simplest form, digital images can be represented as binary patterns where 1 represents a colored pixel and 0 represents a blank/white pixel. This is how basic pixel art works." : {
-
-    },
     "In this game, you'll become a pixel artist! You'll paint a black-and-white masterpiece by placing each pixel carefully, just like computers do. Ready to bring your ideas to life, one pixel at a time?" : {
 
     },
@@ -1446,6 +1488,9 @@
         }
       }
     },
+    "Keep practicing with larger numbers. Think of binary conversion as finding which powers of 2 add up to your decimal number." : {
+
+    },
     "Keep trying! Remember: 1 = black pixel, 0 = white pixel." : {
       "localizations" : {
         "de" : {
@@ -1477,6 +1522,9 @@
           }
         }
       }
+    },
+    "Learning about binary numbers helps you understand how computers store and process all data. Each digit in binary (0 or 1) represents an electrical signal being off or on." : {
+
     },
     "Less blue." : {
       "localizations" : {
@@ -1596,6 +1644,12 @@
         }
       }
     },
+    "Month (1-12)" : {
+
+    },
+    "Month: 4 bits (1-12)\nDay: 5 bits (1-31)" : {
+
+    },
     "More blue." : {
       "localizations" : {
         "de" : {
@@ -1611,6 +1665,9 @@
           }
         }
       }
+    },
+    "More Features" : {
+
     },
     "More green." : {
       "localizations" : {
@@ -1756,6 +1813,66 @@
         }
       }
     },
+    "Now lets represent %lld in binary. For that we need 5 digits!" : {
+
+    },
+    "Now that you know computers mix red, green, and blue light, here's a cool trick: they store those color amounts as numbers! One popular way to write colors is called hexadecimal, or 'hex' for short." : {
+
+    },
+    "Now that you know how binary numbers are built, it's time to use that knowledge to design something personal: your Binary Armband!" : {
+
+    },
+    "Now, we're moving up to a 16×16 grid! That means way more pixels, four times as many! With more pixels, you can add much more detail to your art... but it also means your file becomes bigger and needs more storage space." : {
+
+    },
+    "of April" : {
+
+    },
+    "of August" : {
+
+    },
+    "of December" : {
+
+    },
+    "of February" : {
+
+    },
+    "of January" : {
+
+    },
+    "of July" : {
+
+    },
+    "of June" : {
+
+    },
+    "of March" : {
+
+    },
+    "of May" : {
+
+    },
+    "of November" : {
+
+    },
+    "of October" : {
+
+    },
+    "of September" : {
+
+    },
+    "OK" : {
+
+    },
+    "Opacity (Alpha)" : {
+
+    },
+    "Opacity (or alpha) controls how transparent a color appears. This allows for effects like see-through objects and smooth transitions." : {
+
+    },
+    "Opacity controls how transparent a color is. Values range from 0.0 (invisible) to 1.0 (solid), allowing you to see through objects." : {
+
+    },
     "Opacity controls how transparent or solid an object appears — higher opacity means less see-through, and lower opacity means more see-through." : {
       "localizations" : {
         "de" : {
@@ -1771,6 +1888,9 @@
           }
         }
       }
+    },
+    "Opacity is usually a number between 0% and 100%. At 100%, the color is fully solid. At 0%, it's completely invisible! We can blend images together by adjusting their opacity." : {
+
     },
     "Outstanding achievement! You've mastered the language of computers - binary numbers! From basic conversions to creating your own binary armband, you now understand how computers represent and process all information using just 0s and 1s. This fundamental knowledge is the building block of all digital technology. You're thinking like a true computer scientist!" : {
       "localizations" : {
@@ -1836,6 +1956,30 @@
         }
       }
     },
+    "Pixel Art" : {
+
+    },
+    "PixelPrism" : {
+
+    },
+    "Pixels are the building blocks of all digital images. Even the most complex pictures are just collections of these tiny colored squares." : {
+
+    },
+    "Powers of 2" : {
+
+    },
+    "Practice converting decimal numbers to binary. Remember to find the largest power of 2 that fits, then work your way down." : {
+
+    },
+    "Practice creating colors using RGB sliders and observe how the hex code changes accordingly." : {
+
+    },
+    "Programmers prefer working with only two digits" : {
+
+    },
+    "Progress" : {
+
+    },
     "Progress Reset" : {
       "localizations" : {
         "de" : {
@@ -1851,6 +1995,18 @@
           }
         }
       }
+    },
+    "Pure Red: (255, 0, 0)\nPure Green: (0, 255, 0)\nYellow: (255, 255, 0)" : {
+
+    },
+    "Rainbow" : {
+
+    },
+    "Reset" : {
+
+    },
+    "Reset Progress" : {
+
     },
     "Result" : {
       "localizations" : {
@@ -1868,6 +2024,18 @@
         }
       }
     },
+    "Review what you've learned about binary numbers and their role in computing. These concepts apply to all digital technology." : {
+
+    },
+    "Review what you've learned about digital colors, hex codes, and opacity. These concepts are used in all digital media." : {
+
+    },
+    "RGB Color Model" : {
+
+    },
+    "RGB stands for Red, Green, and Blue - the primary colors of light. By mixing these colors in different amounts, computers can create millions of colors on your screen." : {
+
+    },
     "RLE Code" : {
       "localizations" : {
         "de" : {
@@ -1884,7 +2052,20 @@
         }
       }
     },
+    "RLE is a way to compress binary images by counting consecutive pixels of the same color." : {
+
+    },
+    "Row 1: 00000000\nRow 2: 00011000\nRow 3: 00111100" : {
+
+    },
+    "Run-Length Encoding" : {
+
+    },
+    "Run-Length Encoding (RLE) compresses images by storing repeating patterns more efficiently." : {
+
+    },
     "Run-Length Encoding (RLE) is a simple form of data compression that reduces the size of repeating data. For example, instead of storing 'WWWWBBB', RLE would store 'W4B3', indicating 4 Whites followed by 3 Blacks." : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1899,6 +2080,9 @@
           }
         }
       }
+    },
+    "Save Changes" : {
+
     },
     "Select a number to see its binary representation" : {
       "localizations" : {
@@ -1932,6 +2116,15 @@
         }
       }
     },
+    "Settings" : {
+
+    },
+    "Shapes and animations" : {
+
+    },
+    "Skip" : {
+
+    },
     "Skip this value" : {
       "localizations" : {
         "de" : {
@@ -1948,6 +2141,21 @@
         }
       }
     },
+    "So, how do we actually build numbers using only 0s and 1s? It's all about positions. Each spot in a binary number has a special value — and each one doubles as you move left!" : {
+
+    },
+    "Solid Blue: rgba(0,0,255,1.0)\nSemi-transparent: rgba(0,0,255,0.5)\nInvisible: rgba(0,0,255,0.0)" : {
+
+    },
+    "Sound Settings" : {
+
+    },
+    "Sound waves and frames" : {
+
+    },
+    "Start Playing" : {
+
+    },
     "Subtract this value" : {
       "localizations" : {
         "de" : {
@@ -1963,6 +2171,24 @@
           }
         }
       }
+    },
+    "Tap the circles to toggle between 0 and 1. Your goal is to represent %lld in binary." : {
+
+    },
+    "Target" : {
+
+    },
+    "Target Color" : {
+
+    },
+    "Test your understanding of binary concepts. Remember that each position in a binary number represents a power of 2, starting from the right." : {
+
+    },
+    "Test your understanding of how the RGB color model works and how computers create millions of colors from just three primary ones." : {
+
+    },
+    "The 16×16 grid gives you four times as many pixels as the 8×8 grid. Notice how much more detail you can include." : {
+
     },
     "The color's brightness" : {
       "localizations" : {
@@ -2076,6 +2302,135 @@
         }
       }
     },
+    "The rightmost spot is the 'ones' place. Then it's twos, fours, eights, sixteens, and so on. If there's a 1 in a spot, we add that value to our total. If there's a 0, we skip it." : {
+
+    },
+    "This final challenge puts all your binary knowledge to work. You're thinking like a computer now!" : {
+
+    },
+    "To change all pixels to black" : {
+
+    },
+    "To convert binary to decimal, multiply each bit by its power of 2 and add the results." : {
+
+    },
+    "To convert decimal to binary, find the largest power of 2 that fits, subtract it, and repeat." : {
+
+    },
+    "To create colorful images on a screen, computers must first represent each pixel's color using what two key concepts?" : {
+
+    },
+    "To delete unnecessary images" : {
+
+    },
+    "To make it look more colorful" : {
+
+    },
+    "To make the file size smaller" : {
+
+    },
+    "Try adjusting the opacity to see the letters more clearly!" : {
+
+    },
+    "Try Again" : {
+
+    },
+    "Try creating a simple image using an 8×8 grid. Think of each cell as a pixel that can be either on or off." : {
+
+    },
+    "Understanding digital color is essential for design, game development, web development, and digital art." : {
+
+    },
+    "Understanding how images are stored as pixels helps you see how computers represent visual information in a way they can process." : {
+
+    },
+    "Update your profile information" : {
+
+    },
+    "Use hex codes to precisely specify colors. Web developers and digital designers use these codes extensively." : {
+
+    },
+    "User Interfaces\nDigital Artwork\nAnimations\nCoding with CSS" : {
+
+    },
+    "View not found" : {
+
+    },
+    "W2B4W2 means:\n2 white pixels\n4 black pixels\n2 white pixels" : {
+
+    },
+    "We'll use your birthday to do it! Since days go up to 31, we'll use 5 binary digits to represent the day. Months go up to 12, so we'll use 4 binary digits for the month." : {
+
+    },
+    "Welcome to %@" : {
+
+    },
+    "Welcome to %@! Choose a mini-game to start learning about computer science concepts in a fun way." : {
+
+    },
+    "Welcome to the game! This informational popup provides context about your current screen." : {
+
+    },
+    "Welcome, " : {
+
+    },
+    "Welcome!" : {
+
+    },
+    "What color do you see when red, green, and blue are all at their maximum values on a screen?" : {
+
+    },
+    "What does a '0' mean in a binary number?" : {
+
+    },
+    "What does opacity control when working with digital colors?" : {
+
+    },
+    "What happens when we increase the number of pixels in an image?" : {
+
+    },
+    "What is one reason we might want to compress an image?" : {
+
+    },
+    "When red, green, and blue light are all at full strength, they combine to create white!" : {
+
+    },
+    "Which sequence correctly shows how binary place values grow?" : {
+
+    },
+    "White" : {
+
+    },
+    "Whoa, look at all the pixels we're using! But here's a little secret: sometimes, we don't need to store every single pixel separately. We can spot patterns and store them in a smarter way. That's called compression!" : {
+
+    },
+    "Why do computers use binary code instead of regular numbers?" : {
+
+    },
+    "Words and sentences" : {
+
+    },
+    "You can represent dates in binary! Your armband shows your birthdate in binary form." : {
+
+    },
+    "You did amazing painting on the 8×8 grid! Each square was a pixel, and together they built your picture. Just like building a castle out of tiny blocks." : {
+
+    },
+    "You now understand how computers store and compress images - a key concept in digital media technology!" : {
+
+    },
+    "You're becoming quite skilled! Binary is the foundation for all digital information, from text to images to videos." : {
+
+    },
+    "You're very close! Just a few more adjustments needed." : {
+
+    },
+    "Your Age" : {
+
+    },
+    "Your Answer" : {
+
+    },
     "Your Binary Armband" : {
       "localizations" : {
         "de" : {
@@ -2091,6 +2446,9 @@
           }
         }
       }
+    },
+    "Your binary armband will represent your birthday in a unique code that you'll understand but others might not!" : {
+
     },
     "Your Binary Code" : {
       "localizations" : {

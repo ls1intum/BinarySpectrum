@@ -61,6 +61,8 @@ struct MainMenu: View {
                         // Bottom Buttons
                         HStack(spacing: 20) {
                             Button(action: {
+                                // Play selection haptic when navigating to achievements
+                                HapticService.shared.play(.selection)
                                 withAnimation(.easeInOut(duration: 0.3)) {
                                     navigationState.navigateTo("achievements")
                                 }
@@ -82,6 +84,8 @@ struct MainMenu: View {
                             .opacity(startAnimation ? 1 : 0)
                             
                             Button(action: {
+                                // Play light haptic for disabled button
+                                HapticService.shared.play(.light)
                                 print("Another Feature tapped!")
                             }) {
                                 HStack {
@@ -123,11 +127,15 @@ struct MainMenu: View {
                         onSubmit: { name, age, color in
                             userViewModel.saveUserInfo(name: name, age: age, favoriteColor: color)
                             userViewModel.setFirstLaunchCompleted()
+                            // Play success haptic when submitting welcome form
+                            HapticService.shared.play(.success)
                         },
                         onSkip: {
                             // Still save any entered information
                             userViewModel.saveUserInfo(name: userName, age: userAge, favoriteColor: favoriteColor)
                             userViewModel.setFirstLaunchCompleted()
+                            // Play light haptic when skipping welcome form
+                            HapticService.shared.play(.light)
                         }
                     )
                 }
@@ -176,6 +184,9 @@ struct MainMenu: View {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                 withAnimation(.spring(response: 0.6, dampingFraction: 0.7)) {
                     startAnimation = true
+                    
+                    // Subtle haptic to indicate menu is ready
+                    HapticService.shared.play(.light)
                 }
             }
             
@@ -184,6 +195,9 @@ struct MainMenu: View {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                     withAnimation {
                         showWelcomePopup = true
+                        
+                        // Medium haptic when welcome popup appears
+                        HapticService.shared.play(.medium)
                     }
                 }
             }

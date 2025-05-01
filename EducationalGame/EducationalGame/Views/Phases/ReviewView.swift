@@ -44,8 +44,11 @@ struct ReviewView: View {
                         iconName: "arrow.right.circle.fill",
                         color: color,
                         action: {
+                            // Play game success haptic when completing the review
+                            HapticService.shared.play(.gameSuccess)
                             onCompletion()
-                        }
+                        },
+                        hapticType: .success
                     )
                     .padding(.trailing, 20)
                 }
@@ -75,13 +78,12 @@ struct ChecklistReviewCard: View {
         Button(action: {
             withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
                 isChecked.toggle()
+                
+                // Play haptic feedback based on checked state
                 if isChecked {
+                    HapticService.shared.play(.selection)
                     scale = 1.1
                     rotationDegrees = 5
-                    
-                    // Play haptic feedback
-                    let generator = UIImpactFeedbackGenerator(style: .medium)
-                    generator.impactOccurred()
                     
                     // Reset animation after a delay
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
@@ -90,6 +92,9 @@ struct ChecklistReviewCard: View {
                             rotationDegrees = 0
                         }
                     }
+                } else {
+                    // Light haptic when unchecking
+                    HapticService.shared.play(.light)
                 }
             }
         }) {

@@ -23,7 +23,11 @@ struct InfoPopup: View {
                     .foregroundColor(.gameDarkBlue)
                     .padding(.horizontal)
 
-                Button(action: onButtonTap) {
+                Button(action: {
+                    // Play haptic feedback
+                    HapticService.shared.play(.buttonTap)
+                    onButtonTap()
+                }) {
                     Text(buttonTitle)
                         .font(GameTheme.buttonFont)
                         .foregroundColor(.gameWhite)
@@ -84,7 +88,11 @@ struct TwoButtonInfoPopup: View {
 
                 HStack(spacing: 20) {
                     // Secondary button
-                    Button(action: onSecondaryButtonTap) {
+                    Button(action: {
+                        // Play light haptic feedback for secondary action
+                        HapticService.shared.play(.light)
+                        onSecondaryButtonTap()
+                    }) {
                         Text(secondaryButtonTitle)
                             .font(GameTheme.buttonFont)
                             .foregroundColor(.gameDarkBlue)
@@ -95,7 +103,11 @@ struct TwoButtonInfoPopup: View {
                     }
 
                     // Primary button
-                    Button(action: onPrimaryButtonTap) {
+                    Button(action: {
+                        // Play medium haptic feedback for primary action
+                        HapticService.shared.play(.medium)
+                        onPrimaryButtonTap()
+                    }) {
                         Text(primaryButtonTitle)
                             .font(GameTheme.buttonFont)
                             .foregroundColor(.gameWhite)
@@ -200,6 +212,8 @@ struct WelcomeFormPopup: View {
                             .onSubmit {
                                 nameFieldFocused = false
                                 ageFieldFocused = true
+                                // Play selection feedback when moving to next field
+                                HapticService.shared.play(.selection)
                             }
                             .onChange(of: localUserName) {
                                 userName = localUserName
@@ -227,6 +241,8 @@ struct WelcomeFormPopup: View {
                             .submitLabel(.done)
                             .onSubmit {
                                 ageFieldFocused = false
+                                // Play selection feedback when completing field
+                                HapticService.shared.play(.selection)
                             }
                             .onChange(of: localUserAge) {
                                 userAge = localUserAge
@@ -248,6 +264,8 @@ struct WelcomeFormPopup: View {
                             Button(action: {
                                 localFavoriteColor = color
                                 favoriteColor = color
+                                // Play light haptic feedback when selecting color
+                                HapticService.shared.play(.light)
                             }) {
                                 ZStack {
                                     Circle()
@@ -277,6 +295,8 @@ struct WelcomeFormPopup: View {
                         userName = localUserName
                         userAge = localUserAge
                         favoriteColor = localFavoriteColor
+                        // Play light haptic feedback for skip action
+                        HapticService.shared.play(.light)
                         onSkip()
                         isShowing = false
                     }) {
@@ -336,6 +356,9 @@ struct WelcomeFormPopup: View {
         userAge = localUserAge
         favoriteColor = localFavoriteColor
 
+        // Play success haptic feedback for form submission
+        HapticService.shared.play(.success)
+        
         onSubmit(localUserName, localUserAge, localFavoriteColor)
         isShowing = false
     }
@@ -407,6 +430,8 @@ struct ProfileEditPopup: View {
                             .onSubmit {
                                 nameFieldFocused = false
                                 ageFieldFocused = true
+                                // Play selection feedback when moving to next field
+                                HapticService.shared.play(.selection)
                             }
                     }
                     .padding(.horizontal)
@@ -431,6 +456,8 @@ struct ProfileEditPopup: View {
                             .submitLabel(.done)
                             .onSubmit {
                                 ageFieldFocused = false
+                                // Play selection feedback when completing field
+                                HapticService.shared.play(.selection)
                             }
                     }
                     .padding(.horizontal)
@@ -448,6 +475,8 @@ struct ProfileEditPopup: View {
                         ForEach(colorOptions, id: \.1) { color, name in
                             Button(action: {
                                 favoriteColor = color
+                                // Play light haptic feedback when selecting color
+                                HapticService.shared.play(.light)
                             }) {
                                 ZStack {
                                     Circle()
@@ -473,6 +502,8 @@ struct ProfileEditPopup: View {
                 HStack(spacing: 20) {
                     // Cancel button
                     Button(action: {
+                        // Play light haptic feedback for cancel action
+                        HapticService.shared.play(.light)
                         isShowing = false
                     }) {
                         Text("Cancel")
@@ -527,6 +558,9 @@ struct ProfileEditPopup: View {
 
     // Extract the save action to a method
     private func saveProfile() {
+        // Play success haptic feedback for form submission
+        HapticService.shared.play(.success)
+        
         userViewModel.saveUserInfo(
             name: userName,
             age: userAge,
