@@ -10,14 +10,9 @@ struct ReviewView: View {
     @State private var completionScale: CGFloat = 0.8
     
     var body: some View {
-        Text("")
-            .font(GameTheme.titleFont)
-            .foregroundColor(.white.opacity(0))
-            .padding(.vertical, 30)
-            .padding(.horizontal, 70)
-        
-        VStack(spacing: 20) {
+        VStack(spacing: 0) {
             InstructionBar(text: "Check off what you've learned about \(title)!")
+                .padding(.top, 30)
             
             ScrollView {
                 VStack(spacing: 25) {
@@ -34,6 +29,7 @@ struct ReviewView: View {
                 .padding()
                 .frame(maxWidth: .infinity, alignment: .center)
             }
+            .padding(.top, 10)
             .frame(maxHeight: .infinity)
             
             VStack {
@@ -155,28 +151,36 @@ struct ChecklistReviewCard: View {
 }
 
 #Preview {
-    ReviewView(
-        title: "Binary Images",
-        items: [
-            ReviewItem(
-                title: "Binary Basics",
-                content: "Binary is a base-2 number system that uses only two digits: 0 and 1. Each digit is called a 'bit'.",
-                example: "101 = 1×4 + 0×2 + 1×1 = 5"
-            ),
-            ReviewItem(
-                title: "Pixel Representation",
-                content: "In binary images, each pixel is represented by a 0 (white) or 1 (black).",
-                example: "00110011 = □□■■□□■■"
-            ),
-            ReviewItem(
-                title: "Run-Length Encoding",
-                content: "RLE is a compression technique that stores sequences of the same value as a count and a single value.",
-                example: "W3B2W3 = □□□■■□□□"
+    ZStack(alignment: .top) {
+        VStack {
+            Spacer().frame(height: 90)
+            ReviewView(
+                title: "Binary Images",
+                items: [
+                    ReviewItem(
+                        title: "Binary Basics",
+                        content: "Binary is a base-2 number system that uses only two digits: 0 and 1. Each digit is called a 'bit'.",
+                        example: "101 = 1×4 + 0×2 + 1×1 = 5"
+                    ),
+                    ReviewItem(
+                        title: "Pixel Representation",
+                        content: "In binary images, each pixel is represented by a 0 (white) or 1 (black).",
+                        example: "00110011 = □□■■□□■■"
+                    ),
+                    ReviewItem(
+                        title: "Run-Length Encoding",
+                        content: "RLE is a compression technique that stores sequences of the same value as a count and a single value.",
+                        example: "W3B2W3 = □□□■■□□□"
+                    )
+                ],
+                color: .gameRed,
+                onCompletion: {}
             )
-        ],
-        color: .gameRed,
-        onCompletion: {}
-    )
+            Spacer()
+        }
+        TopBar(title: "test", leftIcon: "gear")
+    }
+    .edgesIgnoringSafeArea(.top)
 }
 
 #Preview("ChecklistReviewCard") {

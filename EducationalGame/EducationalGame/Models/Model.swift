@@ -81,11 +81,11 @@ enum GamePhase: String, CaseIterable, Codable {
             case .introDialogue: self = .questions
             case .questions: self = .exploration
             case .exploration: self = .noviceChallenge
-            case .noviceChallenge: self = .tutorialDialogue
-            case .tutorialDialogue: self = .apprenticeChallenge
-            case .apprenticeChallenge: self = .adeptChallenge
-            case .adeptChallenge: self = .expertChallenge
-            case .lastDialogue: self = .lastDialogue // change?
+            case .noviceChallenge: self = .apprenticeChallenge
+            case .apprenticeChallenge: self = .tutorialDialogue
+            case .tutorialDialogue: self = .adeptChallenge
+            case .adeptChallenge: self = .lastDialogue
+            case .lastDialogue: self = .expertChallenge
             case .expertChallenge: self = .review
             case .review: self = .reward
             case .reward: self = .introDialogue
@@ -114,6 +114,19 @@ enum GamePhase: String, CaseIterable, Codable {
 struct GridImage {
     var size: Int
     var grid: [[Bool]]
+    
+    // Computed property that returns all black pixel indices as a Set
+    var blackPixels: Set<Int> {
+        var pixels = Set<Int>()
+        for row in 0..<size {
+            for column in 0..<size {
+                if grid[row][column] {
+                    pixels.insert(index(from: (row, column)))
+                }
+            }
+        }
+        return pixels
+    }
 
     init(size: Int = 8, blackPixels: Set<Int> = []) {
         self.size = size
@@ -127,6 +140,97 @@ struct GridImage {
                 grid[position.row][position.column] = true
             }
         }
+    }
+    
+    // Overload initializer to accept an array of Int
+    init(size: Int = 8, blackPixels: [Int]) {
+        self.init(size: size, blackPixels: Set(blackPixels))
+    }
+    
+    // Initialize a 16x16 grid from a 64-character hexadecimal string
+    init(hexString: String) {
+        // Default to 16x16 grid for hex string initialization
+        self.size = 16
+        self.grid = Array(repeating: Array(repeating: false, count: 16), count: 16)
+        
+        // Convert 64-digit hex string to 256 bits (16x16 grid)
+        let cleanHex = hexString.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard cleanHex.count == 64, let regex = try? NSRegularExpression(pattern: "^[0-9A-Fa-f]+$") else {
+            // If not a valid 64-char hex string, return an empty grid
+            return
+        }
+        
+        // Verify it's a valid hex string
+        let range = NSRange(location: 0, length: cleanHex.utf16.count)
+        guard regex.firstMatch(in: cleanHex, options: [], range: range) != nil else {
+            return
+        }
+        
+        // Process each hex digit (4 bits each)
+        for (index, char) in cleanHex.enumerated() {
+            // Convert hex digit to binary (0-15)
+            let hexValue = Int(String(char), radix: 16)!
+            
+            // Each hex digit represents 4 cells in the grid
+            // Calculate starting position for this hex digit
+            let startingIndex = index * 4
+            let startRow = (startingIndex / 16)
+            let startCol = (startingIndex % 16)
+            
+            // Convert the hex digit (0-15) to 4 binary bits
+            // e.g. 9 (hex) = 1001 (binary)
+            let bit3 = (hexValue & 0b1000) > 0
+            let bit2 = (hexValue & 0b0100) > 0
+            let bit1 = (hexValue & 0b0010) > 0
+            let bit0 = (hexValue & 0b0001) > 0
+            
+            // Position the 4 bits in the correct grid cells
+            if startRow < 16 && startCol < 16 {
+                grid[startRow][startCol] = bit3
+            }
+            if startRow < 16 && startCol + 1 < 16 {
+                grid[startRow][startCol + 1] = bit2
+            }
+            if startRow < 16 && startCol + 2 < 16 {
+                grid[startRow][startCol + 2] = bit1
+            }
+            if startRow < 16 && startCol + 3 < 16 {
+                grid[startRow][startCol + 3] = bit0
+            }
+        }
+    }
+
+    // Convert a 16x16 grid to a 64-character hexadecimal string
+    func toHexString() -> String {
+        guard size == 16 else { return "" }
+        
+        var hexString = ""
+        
+        // Process the grid in groups of 4 cells (4 bits = 1 hex digit)
+        for row in stride(from: 0, to: 16, by: 1) {
+            for col in stride(from: 0, to: 16, by: 4) {
+                // Convert 4 adjacent bits to a hex digit
+                var value = 0
+                if col < 16 && grid[row][col] {
+                    value |= 0b1000
+                }
+                if col + 1 < 16 && grid[row][col + 1] {
+                    value |= 0b0100
+                }
+                if col + 2 < 16 && grid[row][col + 2] {
+                    value |= 0b0010
+                }
+                if col + 3 < 16 && grid[row][col + 3] {
+                    value |= 0b0001
+                }
+                
+                // Convert value (0-15) to hex digit
+                let hexDigit = String(value, radix: 16)
+                hexString += hexDigit
+            }
+        }
+        
+        return hexString
     }
 
     // Converts a linear index to a row and column position
@@ -163,6 +267,7 @@ struct PixelArt: Identifiable {
     var id = UUID()
     var name: String = "Untitled"
     var grid: GridImage
+    
 
     init(name: String = "Untitled", grid: GridImage) {
         self.name = name

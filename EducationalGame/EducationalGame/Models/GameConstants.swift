@@ -11,30 +11,44 @@ enum GameConstants {
     ]
 
     static let pixelArt8x8: [PixelArt] = [
-        PixelArt(name: "Winking Face", grid: GridImage(size: 8, blackPixels: [13, 14, 17, 18, 21, 22, 41, 46, 50, 51, 52, 53])), // for reverse engineering
+        PixelArt(name: "Winking Face", grid: GridImage(size: 8, blackPixels: [13, 14, 17, 18, 21, 22, 41, 46, 50, 51, 52, 53])),
         PixelArt(name: "White Smiley", grid: GridImage(size: 8, blackPixels: [2, 3, 4, 5, 9, 14, 16, 18, 21, 23, 24, 31, 32, 34, 37, 39, 40, 43, 44, 47, 49, 54, 58, 59, 60, 61])),
-        PixelArt(name: "Black Smiley", grid: GridImage(size: 8, blackPixels: [2, 3, 4, 5, 9, 10, 11, 12, 13, 14, 16, 17, 19, 20, 22, 23, 24, 25, 27, 28, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 43, 44, 46, 47, 49, 50, 53, 54, 58, 59, 60, 61]))
+        PixelArt(name: "Black Smiley", grid: GridImage(size: 8, blackPixels: [2, 3, 4, 5, 9, 10, 11, 12, 13, 14, 16, 17, 19, 20, 22, 23, 24, 25, 27, 28, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 43, 44, 46, 47, 49, 50, 53, 54, 58, 59, 60, 61])),
+        PixelArt(name: "Heart", grid: GridImage(size: 8, blackPixels: [10, 11, 13, 14, 17, 18, 19, 20, 21, 22, 23, 25, 26, 27, 28, 29, 30, 31, 34, 35, 36, 37, 38, 42, 43, 44, 45, 51, 52, 53, 60])),
+        PixelArt(name: "Ghost", grid: GridImage(size: 8, blackPixels: [2, 3, 4, 5, 9, 10, 11, 12, 13, 14, 17, 19, 20, 22, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39,40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 59, 60, 63])),
+    ]
+    
+    // Each hex digit represents 4 pixels, so a 16x16 grid needs 64 hex digits
+    static let pixelArt16x16: [PixelArt] = [
+        PixelArt(name: "Cactus", grid: GridImage(hexString: "01800240024802540254025412542A542A642A04267820401E4002401FF81008")),
+        PixelArt(name: "16x16 Smiley", grid: GridImage(hexString: "00003c7ce7e7e7e7e7e7e3c3c3c3c3c300000000000000000000ffff838383838383838383ffffff000000000000"))
     ]
     
     // MARK: - Binary Game Content
 
     enum BinaryGameContent {
         static let introDialogue = [
-            LocalizedStringResource("Hey there! I'm Alex, a Data Scientist. I work with numbers and patterns to help computers make smart decisions. Today, I'll show you how we turn regular numbers into binary — the language computers truly understand. Ready to craft your own digital code and create something amazing?"),
-            LocalizedStringResource("Everything inside a computer — from photos to music — is made up of just two numbers: 0s and 1s! This special way of counting is called binary. It might look simple, but it's powerful enough to build entire worlds!"),
-            LocalizedStringResource("In this game, you'll learn how to turn regular numbers into binary and create your own secret code. At the end, you'll even design a virtual binary armband that shows off your new skills! Let's get coding!")
+            LocalizedStringResource("Hey there! I'm Alex, a Data Scientist. I work with numbers to help computers make smart decisions."),
+            LocalizedStringResource("Today, I'll show you how we use binary - the special language computers understand."),
+            LocalizedStringResource("Everything inside a computer - photos, music, games - is actually made of just 0s and 1s!"),
+            LocalizedStringResource("These two digits might look simple, but they're powerful enough to create entire digital worlds."),
+            LocalizedStringResource("Ready to create your own binary code and make something awesome? Let's go!")
         ]
         
         static let practiceDialogue = [
-            LocalizedStringResource("So, how do we actually build numbers using only 0s and 1s? It's all about positions. Each spot in a binary number has a special value — and each one doubles as you move left!"),
-            LocalizedStringResource("The rightmost spot is the 'ones' place. Then it's twos, fours, eights, sixteens, and so on. If there's a 1 in a spot, we add that value to our total. If there's a 0, we skip it."),
-            LocalizedStringResource("By combining these values smartly, we can represent any number — from tiny ones like 5 to huge ones like 1,024 — all using just two digits! Let's dive deeper and see it in action.")
+            LocalizedStringResource("So how do we make numbers using only 0s and 1s?"),
+            LocalizedStringResource("It's all about position! Each spot in a binary number has a different value."),
+            LocalizedStringResource("Starting from the right: the first spot is worth 1, then 2, then 4, then 8, and so on."),
+            LocalizedStringResource("If there's a 1 in a spot, we add that value. If there's a 0, we skip it."),
+            LocalizedStringResource("Let's try it out and see how it works!")
         ]
 
         static let finalDialogue = [
-            LocalizedStringResource("Now that you know how binary numbers are built, it's time to use that knowledge to design something personal: your Binary Armband!"),
-            LocalizedStringResource("We'll use your birthday to do it! Since days go up to 31, we'll use 5 binary digits to represent the day. Months go up to 12, so we'll use 4 binary digits for the month."),
-            LocalizedStringResource("Each binary digit will turn into a pearl on your virtual armband. Light and dark pearls will represent 0s and 1s, turning your birthday into a secret pattern.")
+            LocalizedStringResource("Awesome job with binary numbers! Now let's make something cool with your new skills."),
+            LocalizedStringResource("We're going to create your personal Binary Armband using your birthday!"),
+            LocalizedStringResource("For the day (1-31), we'll use 5 binary digits."),
+            LocalizedStringResource("For the month (1-12), we'll use 4 binary digits."),
+            LocalizedStringResource("The light and dark pearls will show your birthday as a secret binary pattern!")
         ]
         
         static let introQuestions: [Question] = [
@@ -122,28 +136,34 @@ enum GameConstants {
                 example: LocalizedStringResource("Month: 4 bits (1-12)\nDay: 5 bits (1-31)")
             )
         ]
-        static let rewardMessage: LocalizedStringResource = "Outstanding achievement! You've mastered the language of computers - binary numbers! From basic conversions to creating your own binary armband, you now understand how computers represent and process all information using just 0s and 1s. This fundamental knowledge is the building block of all digital technology. You're thinking like a true computer scientist!"
+        static let rewardMessage: LocalizedStringResource = "Awesome job! You've mastered binary numbers! You now know how computers use 0s and 1s to store all information. This is the foundation of all digital technology. You're thinking like a real computer scientist!"
     }
     
     // MARK: - Pixel Game Content
 
     enum PixelGameContent {
         static let introDialogue = [
-            LocalizedStringResource("Hi! I'm Pixie, a Digital Artist. I bring ideas to life one tiny pixel at a time. Together, we'll learn how computers store pictures and you'll get to paint your own black-and-white pixel masterpiece. Grab your digital brush — let's get creative!"),
-            LocalizedStringResource("Did you know that computers see pictures as tiny grids made of little squares called pixels? Each pixel holds just a bit of information, but together, they create amazing images!"),
-            LocalizedStringResource("In this game, you'll become a pixel artist! You'll paint a black-and-white masterpiece by placing each pixel carefully, just like computers do. Ready to bring your ideas to life, one pixel at a time?")
+            LocalizedStringResource("Hi! I'm Pixie, a Digital Artist. I create art one pixel at a time."),
+            LocalizedStringResource("Did you know computer images are made of tiny squares called pixels?"),
+            LocalizedStringResource("Each pixel is like a tiny dot of color. When you put thousands together, they make pictures!"),
+            LocalizedStringResource("In this game, you'll become a pixel artist and create your own black and white masterpieces."),
+            LocalizedStringResource("Ready to bring your ideas to life, one pixel at a time? Let's get creative!")
         ]
         
         static let secondDialogue = [
-            LocalizedStringResource("You did amazing painting on the 8×8 grid! Each square was a pixel, and together they built your picture. Just like building a castle out of tiny blocks."),
-            LocalizedStringResource("Now, we're moving up to a 16×16 grid! That means way more pixels, four times as many! With more pixels, you can add much more detail to your art... but it also means your file becomes bigger and needs more storage space."),
-            LocalizedStringResource("Let's see how it feels to work with a bigger canvas. Can you notice how your pictures can now be sharper and more complex? Get ready to create something even more awesome!")
+            LocalizedStringResource("Great job with the 8×8 grid! Each square was a pixel in your artwork."),
+            LocalizedStringResource("Now we're leveling up to a 16×16 grid - that's four times more pixels!"),
+            LocalizedStringResource("More pixels means you can add more details to your art."),
+            LocalizedStringResource("But it also means your file gets bigger and needs more storage space."),
+            LocalizedStringResource("Let's see what amazing things you can create with this bigger canvas!")
         ]
         
         static let finalDialogue = [
-            LocalizedStringResource("Whoa, look at all the pixels we're using! But here's a little secret: sometimes, we don't need to store every single pixel separately. We can spot patterns and store them in a smarter way. That's called compression!"),
-            LocalizedStringResource("In the Compression Challenge, you'll practice making your art easy to store. Instead of thinking pixel by pixel, you'll group similar pixels together and find a simpler way to describe them."),
-            LocalizedStringResource("Let's see if you can create a beautiful picture that also takes up as little space as possible. Ready to become a true pixel-saving wizard?")
+            LocalizedStringResource("Look at all those pixels! Now for a cool trick that computers use."),
+            LocalizedStringResource("Instead of storing every single pixel separately, we can find patterns."),
+            LocalizedStringResource("This is called compression - it's like digital magic that saves space!"),
+            LocalizedStringResource("In the next challenge, you'll group similar pixels together to store your art more efficiently."),
+            LocalizedStringResource("Ready to become a pixel-saving wizard? Let's make art that looks awesome AND saves space!")
         ]
     
         static let introQuestions: [Question] = [
@@ -220,28 +240,34 @@ enum GameConstants {
                 example: LocalizedStringResource("Binary patterns can create:\n• Icons\n• Emojis\n• Simple graphics")
             )
         ]
-        static let rewardMessage: LocalizedStringResource = "Incredible achievement! You've mastered binary images and Run-Length Encoding! You now understand how computers store images efficiently, from simple black-and-white patterns to complex pixel art. This knowledge is the foundation of image compression and digital graphics. You're well on your way to becoming a true computer scientist!"
+        static let rewardMessage: LocalizedStringResource = "Amazing job! You've mastered pixel art and image compression! You now know how computers store images efficiently and how to create your own pixel masterpieces. You're on your way to becoming a digital art wizard!"
     }
     
     // MARK: - Color Game Content
 
     enum ColorGameContent {
         static let introDialogue = [
-            LocalizedStringResource("Hello! I'm Iris, a Graphics Programmer. I write the code that makes colors, light, and transparency come alive on screen. I'm here to teach you how computers mix and display colors, and how you can control the magic yourself."),
-            LocalizedStringResource("Colors on a screen aren't mixed like paint, they're made by blending red, green, and blue light! Computers even control how 'see-through' something is using something called opacity."),
-            LocalizedStringResource("In this game, you'll discover how computers store and mix colors, and how you can create stunning effects with transparency. Let's dive into the science behind the magic of digital color!")
+            LocalizedStringResource("Hi! I'm Iris, a Graphics Programmer. I make colors come alive on screen."),
+            LocalizedStringResource("Did you know computer colors aren't like paint? They're made of light!"),
+            LocalizedStringResource("Computers mix red, green, and blue light to create every color you see on screen."),
+            LocalizedStringResource("They can also make things see-through using something called opacity."),
+            LocalizedStringResource("Let's discover how digital colors work and create some amazing effects together!")
         ]
         
         static let hexDialogue = [
-            LocalizedStringResource("Now that you know computers mix red, green, and blue light, here's a cool trick: they store those color amounts as numbers! One popular way to write colors is called hexadecimal, or 'hex' for short."),
-            LocalizedStringResource("A hex color code looks something like this: #FF5733. The first two characters show how much red, the next two are for green, and the last two are for blue. Each pair can range from 00 (none) to FF (the most!)."),
-            LocalizedStringResource("By combining different hex values, computers can create millions of colors! It's like a secret color recipe that tells the screen exactly what to show.")
+            LocalizedStringResource("Now that you know about RGB colors, here's a cool trick computers use."),
+            LocalizedStringResource("Color values are stored as numbers using a system called hexadecimal or 'hex'."),
+            LocalizedStringResource("A hex color looks like this: #FF5733"),
+            LocalizedStringResource("The first two characters show red, the middle two show green, and the last two show blue."),
+            LocalizedStringResource("It's like a secret recipe that tells your screen exactly what color to display!")
         ]
         
         static let opacityDialogue = [
-            LocalizedStringResource("But wait — there's even more magic! Besides color, computers can also control how transparent something looks. This is called opacity."),
-            LocalizedStringResource("Opacity is usually a number between 0% and 100%. At 100%, the color is fully solid. At 0%, it's completely invisible! We can blend images together by adjusting their opacity."),
-            LocalizedStringResource("In this part of the game, you'll explore how opacity works and create effects where colors gently fade, overlap, and glow. Let's experiment and bring your designs to life!")
+            LocalizedStringResource("Color isn't the only cool thing we can control - we can also adjust transparency!"),
+            LocalizedStringResource("This is called opacity. It determines how see-through something is."),
+            LocalizedStringResource("At 100% opacity, a color is completely solid."),
+            LocalizedStringResource("At 0% opacity, it's totally invisible!"),
+            LocalizedStringResource("Let's experiment with fading, overlapping, and glowing effects using opacity!")
         ]
         
         static let introQuestions: [Question] = [
@@ -318,6 +344,6 @@ enum GameConstants {
                 example: LocalizedStringResource("User Interfaces\nDigital Artwork\nAnimations\nCoding with CSS")
             )
         ]
-        static let rewardMessage: LocalizedStringResource = "Amazing work! You've mastered the art of digital colors! From RGB values to hex codes and opacity, you now understand how computers create and store every color you see on screen. This knowledge is fundamental to everything from web design to digital art. Keep exploring the colorful world of computer science!"
+        static let rewardMessage: LocalizedStringResource = "Congratulations! You've mastered digital colors! You now understand RGB values, hex codes, and opacity. You know how computers create every color on your screen. Keep exploring the colorful world of digital art and design!"
     }
 }

@@ -358,7 +358,7 @@ struct WelcomeFormPopup: View {
 
         // Play success haptic feedback for form submission
         HapticService.shared.play(.success)
-        
+
         onSubmit(localUserName, localUserAge, localFavoriteColor)
         isShowing = false
     }
@@ -370,11 +370,11 @@ struct ProfileEditPopup: View {
     @State private var userName: String = ""
     @State private var userAge: String = ""
     @State private var favoriteColor: Color = .gamePurple
-    
+
     // Add focus state
     @FocusState private var nameFieldFocused: Bool
     @FocusState private var ageFieldFocused: Bool
-    
+
     // Available color options - same as WelcomeFormPopup
     private let colorOptions: [(Color, String)] = [
         (.gamePurple, "Purple"),
@@ -433,6 +433,7 @@ struct ProfileEditPopup: View {
                                 // Play selection feedback when moving to next field
                                 HapticService.shared.play(.selection)
                             }
+                            .autocorrectionDisabled(true)
                     }
                     .padding(.horizontal)
 
@@ -560,7 +561,7 @@ struct ProfileEditPopup: View {
     private func saveProfile() {
         // Play success haptic feedback for form submission
         HapticService.shared.play(.success)
-        
+
         userViewModel.saveUserInfo(
             name: userName,
             age: userAge,

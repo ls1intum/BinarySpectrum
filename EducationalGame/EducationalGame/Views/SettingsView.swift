@@ -3,7 +3,6 @@ import SwiftUI
 // MARK: - Views
 
 struct SettingsView: View {
-    @StateObject private var viewModel = SettingsViewModel()
     @StateObject private var userViewModel = UserViewModel()
     @State private var showResetConfirmation = false
     @State private var showResetSuccess = false
