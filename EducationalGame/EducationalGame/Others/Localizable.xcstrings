@@ -138,9 +138,6 @@
     "16×16" : {
 
     },
-    "16×16 Pixel Canvas" : {
-
-    },
     "32" : {
 
     },
@@ -173,10 +170,20 @@
       }
     },
     "A hex color looks like this: #FF5733" : {
-
-    },
-    "A larger grid means more detail is possible, but also requires more data to store. This is the trade-off between image quality and file size." : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eine Hex-Farbe sieht so aus: #FF5733"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uma cor em hexadecimal se parece com isso: #FF5733"
+          }
+        }
+      }
     },
     "About" : {
       "localizations" : {
@@ -242,6 +249,38 @@
         }
       }
     },
+    "Adjust the RGB and alpha values with the pickers to match the given color and its opacity." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passe die RGB- und Alpha-Werte mit den Auswahlwerkzeugen an, um der vorgegebenen Farbe und ihrer Deckkraft zu entsprechen."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajuste os valores RGB e alfa com os seletores para corresponder à cor fornecida e sua opacidade."
+          }
+        }
+      }
+    },
+    "Adjust the RGB values with the pickers to match the given color." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passe die RGB-Werte mit den Auswahlwerkzeugen an, um der vorgegebenen Farbe zu entsprechen."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajuste os valores RGB com os seletores para corresponder à cor fornecida."
+          }
+        }
+      }
+    },
     "Age" : {
       "localizations" : {
         "de" : {
@@ -291,7 +330,20 @@
       }
     },
     "Amazing job! You've mastered pixel art and image compression! You now know how computers store images efficiently and how to create your own pixel masterpieces. You're on your way to becoming a digital art wizard!" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tolle Arbeit! Du hast Pixelkunst und Bildkompression gemeistert! Du weißt jetzt, wie Computer Bilder effizient speichern und wie du deine eigenen Pixelmeisterwerke erstellen kannst. Du bist auf dem Weg, ein digitaler Kunstzauberer zu werden!"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trabalho incrível! Você dominou a arte pixel e a compressão de imagens! Agora você sabe como os computadores armazenam imagens de forma eficiente e como criar suas próprias obras-primas pixeladas. Você está a caminho de se tornar um mago da arte digital!"
+          }
+        }
+      }
     },
     "An 8x8 grid has 8 rows and 8 columns, which makes 64 pixels (8 × 8 = 64)." : {
       "localizations" : {
@@ -325,32 +377,133 @@
         }
       }
     },
-    "Art: %@" : {
-
-    },
     "As a collection of circles of different sizes" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Als eine Sammlung von Kreisen unterschiedlicher Größe"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Como uma coleção de círculos de diferentes tamanhos"
+          }
+        }
+      }
     },
     "As a grid of tiny squares called pixels" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Als ein Raster aus winzigen Quadraten, die Pixel genannt werden"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Como uma grade de pequenos quadrados chamados pixels"
+          }
+        }
+      }
     },
     "As mathematical curves and lines" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Als mathematische Kurven und Linien"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Como curvas e linhas matemáticas"
+          }
+        }
+      }
     },
     "As text descriptions of what's in the image" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Als Textbeschreibungen dessen, was im Bild zu sehen ist"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Como descrições textuais do que está na imagem"
+          }
+        }
+      }
     },
     "At 0% opacity, it's totally invisible!" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bei 0% Deckkraft ist es völlig unsichtbar!"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Com 0% de opacidade, é totalmente invisível!"
+          }
+        }
+      }
     },
     "At 100% opacity, a color is completely solid." : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bei 100% Deckkraft ist eine Farbe völlig undurchsichtig."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Com 100% de opacidade, uma cor é completamente sólida."
+          }
+        }
+      }
     },
     "Awesome job with binary numbers! Now let's make something cool with your new skills." : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tolle Arbeit mit Binärzahlen! Jetzt lass uns etwas Cooles mit deinen neuen Fähigkeiten machen."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ótimo trabalho com números binários! Agora vamos criar algo legal com suas novas habilidades."
+          }
+        }
+      }
     },
     "Awesome job! You've mastered binary numbers! You now know how computers use 0s and 1s to store all information. This is the foundation of all digital technology. You're thinking like a real computer scientist!" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tolle Arbeit! Du hast Binärzahlen gemeistert! Du weißt jetzt, wie Computer 0en und 1en verwenden, um alle Informationen zu speichern. Dies ist die Grundlage aller digitalen Technologie. Du denkst wie ein echter Informatiker!"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Excelente trabalho! Você dominou os números binários! Agora você sabe como os computadores usam 0s e 1s para armazenar todas as informações. Esta é a base de toda tecnologia digital. Você está pensando como um verdadeiro cientista da computação!"
+          }
+        }
+      }
     },
     "Binary Armband" : {
       "localizations" : {
@@ -384,27 +537,37 @@
         }
       }
     },
-    "Binary Code" : {
+    "Binary Encoding" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Binärcode"
+            "value" : "Binäre Kodierung"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Código Binário"
+            "value" : "Codificação Binária"
           }
         }
       }
     },
-    "Binary Encoding" : {
-
-    },
     "Binary encoding represents images using 1s and 0s. Each row of pixels is written as a sequence of binary digits." : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die binäre Kodierung stellt Bilder mithilfe von 1en und 0en dar. Jede Zeile von Pixeln wird als eine Folge von Binärziffern geschrieben."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A codificação binária representa imagens usando 1s e 0s. Cada linha de pixels é escrita como uma sequência de dígitos binários."
+          }
+        }
+      }
     },
     "Binary Images" : {
       "localizations" : {
@@ -422,11 +585,21 @@
         }
       }
     },
-    "Binary images and compression techniques are foundational concepts in digital graphics and computer vision." : {
-
-    },
     "Binary images are perfect for pixel art and simple graphics like icons and symbols." : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Binäre Bilder sind perfekt für Pixelkunst und einfache Grafiken wie Symbole und Zeichen."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Imagens binárias são perfeitas para arte pixel e gráficos simples como ícones e símbolos."
+          }
+        }
+      }
     },
     "Binary is a base-2 number system that uses only two digits: 0 and 1. Each digit is called a 'bit'." : {
       "localizations" : {
@@ -464,9 +637,6 @@
       }
     },
     "Binary numbers and pixels" : {
-
-    },
-    "Binary numbers build by doubling each position's value as you move left. This is efficient for computers because they work with electrical signals that are either on or off." : {
 
     },
     "Binary numbers look cooler in movies" : {
@@ -615,6 +785,9 @@
         }
       }
     },
+    "Canvas Title:" : {
+
+    },
     "Challenge yourself to create images that can be efficiently compressed while still looking good." : {
 
     },
@@ -659,12 +832,6 @@
     "Clear" : {
 
     },
-    "Clear Code" : {
-
-    },
-    "Clear Grid" : {
-
-    },
     "Color Applications" : {
 
     },
@@ -692,9 +859,6 @@
           }
         }
       }
-    },
-    "Combine your knowledge of color and transparency to solve complex challenges." : {
-
     },
     "Compress Image" : {
 
@@ -758,16 +922,10 @@
     "Computing uses RLE to compress data by storing runs of identical values as a count and value instead of repeating the same value multiple times." : {
 
     },
-    "Congratulations on mastering binary! This knowledge is fundamental to understanding how computers work at their most basic level." : {
-
-    },
-    "Congratulations! You now understand how computers display and manipulate colors - essential knowledge for digital design." : {
+    "Congratulations, you finished the mini game and received a badge for your good work!." : {
 
     },
     "Congratulations! You've mastered digital colors! You now understand RGB values, hex codes, and opacity. You know how computers create every color on your screen. Keep exploring the colorful world of digital art and design!" : {
-
-    },
-    "Copy to Clipboard" : {
 
     },
     "Correct!" : {
@@ -795,9 +953,6 @@
     "Correct! You've matched the color perfectly!" : {
 
     },
-    "Create or load pixel art on this 16×16 grid. Your art will be encoded as a 64-character hex string." : {
-
-    },
     "Create your binary armband based on your birthdate" : {
       "localizations" : {
         "de" : {
@@ -814,7 +969,7 @@
         }
       }
     },
-    "Create your own pixel art by tapping the grid squares. When you're done, tap the check button to continue." : {
+    "Create your own pixel art by tapping the grid squares. Give your creation a name!" : {
 
     },
     "Create your own pixel art masterpiece! Toggle between 8×8 and 16×16 grid sizes, and try to optimize your design for compression." : {
@@ -855,6 +1010,9 @@
     "Decode the image by tapping the grid squares according to the binary code. 1 = black, 0 = white." : {
 
     },
+    "Decode this 16x16 image from binary code. 1 = black, 0 = white. This is more challenging with a larger grid!" : {
+
+    },
     "Did you know computer colors aren't like paint? They're made of light!" : {
       "localizations" : {
         "de" : {
@@ -887,6 +1045,54 @@
         }
       }
     },
+    "Digital Colors" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Digitale Farben"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cores Digitais"
+          }
+        }
+      }
+    },
+    "Digital images are made up of tiny squares called pixels. In binary images, each pixel is either black (1) or white (0)." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Digitale Bilder bestehen aus winzigen Quadraten, die Pixel genannt werden. In binären Bildern ist jedes Pixel entweder schwarz (1) oder weiß (0)."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Imagens digitais são formadas por pequenos quadrados chamados pixels. Em imagens binárias, cada pixel é preto (1) ou branco (0)."
+          }
+        }
+      }
+    },
+    "Discover how computers turn zeros and ones into amazing worlds of color, images, and creativity. This game offers 3 fun mini-games that will challenge your mind while you learn about computational thinking." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Entdecke, wie Computer Nullen und Einsen in erstaunliche Welten voller Farben, Bilder und Kreativität verwandeln. Dieses Spiel bietet 3 unterhaltsame Mini-Spiele, die deinen Verstand herausfordern, während du mehr über Computational Thinking lernst."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Descubra como os computadores transformam zeros e uns em mundos incríveis de cores, imagens e criatividade. Este jogo oferece 3 mini-jogos divertidos que desafiarão sua mente enquanto você aprende sobre pensamento computacional."
+          }
+        }
+      }
+    },
     "Each pixel is like a tiny dot of color. When you put thousands together, they make pictures!" : {
       "localizations" : {
         "de" : {
@@ -904,7 +1110,20 @@
       }
     },
     "Each position in a binary number represents a power of 2, starting from the right." : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jede Position in einer Binärzahl repräsentiert eine Potenz von 2, beginnend von rechts."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cada posição em um número binário representa uma potência de 2, começando pela direita."
+          }
+        }
+      }
     },
     "Each RGB component ranges from 0 (none) to 255 (maximum intensity). This gives 256 possible values for each color channel." : {
       "localizations" : {
@@ -923,10 +1142,36 @@
       }
     },
     "Edit Profile" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Profil bearbeiten"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Editar Perfil"
+          }
+        }
+      }
     },
     "Edit Your Profile" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bearbeite dein Profil"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edite Seu Perfil"
+          }
+        }
+      }
     },
     "Electronics can easily represent two states (ON/OFF)" : {
       "localizations" : {
@@ -992,26 +1237,69 @@
         }
       }
     },
-    "Example Art" : {
-
-    },
-    "Experiment with opacity to create layered effects. This concept is crucial in UI design and digital art." : {
-
-    },
-    "Experiment with RGB values to create different colors. Try to predict what color will result from various combinations." : {
-
+    "Experiment with RGB (red, green, blue) values to create different colors." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Experimentiere mit RGB-Werten (Rot, Grün, Blau), um verschiedene Farben zu erstellen."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Experimente com valores RGB (vermelho, verde, azul) para criar diferentes cores."
+          }
+        }
+      }
     },
     "Explore converting between binary and decimal. In binary, each position represents a power of 2: 1, 2, 4, 8, 16, etc." : {
-
-    },
-    "Explore how arranging black and white pixels can create recognizable images. This is the simplest form of digital art." : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Experimentiere mit der Umwandlung zwischen Binär- und Dezimalzahlen. Im Binärsystem repräsentiert jede Position eine Potenz von 2: 1, 2, 4, 8, 16, usw."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Explore a conversão entre binário e decimal. Em binário, cada posição representa uma potência de 2: 1, 2, 4, 8, 16, etc."
+          }
+        }
+      }
     },
     "For the day (1-31), we'll use 5 binary digits." : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Für den Tag (1-31) verwenden wir 5 Binärziffern."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Para o dia (1-31), usaremos 5 dígitos binários."
+          }
+        }
+      }
     },
     "For the month (1-12), we'll use 4 binary digits." : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Für den Monat (1-12) verwenden wir 4 Binärziffern."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Para o mês (1-12), usaremos 4 dígitos binários."
+          }
+        }
+      }
     },
     "Game not found" : {
       "localizations" : {
@@ -1028,9 +1316,6 @@
           }
         }
       }
-    },
-    "Generate Hex" : {
-
     },
     "Good progress, but there are still errors in your solution." : {
       "localizations" : {
@@ -1081,14 +1366,39 @@
       }
     },
     "Great job with the 8×8 grid! Each square was a pixel in your artwork." : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tolle Arbeit mit dem 8×8-Raster! Jedes Quadrat war ein Pixel in deinem Kunstwerk."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ótimo trabalho com a grade 8×8! Cada quadrado era um pixel em sua obra de arte."
+          }
+        }
+      }
     },
     "Great job! %lld in binary is %@" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Super gemacht! %1$lld in Binär ist %2$@"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Great job! %1$lld in binary is %2$@"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ótimo trabalho! %1$lld em binário é %2$@"
           }
         }
       }
@@ -1111,25 +1421,105 @@
     },
     "Great job! Your binary armband shows your birthday: %lld.%lld." : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Super gemacht! Dein binäres Armband zeigt deinen Geburtstag: %1$lld.%2$lld."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Great job! Your binary armband shows your birthday: %1$lld.%2$lld."
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ótimo trabalho! Seu bracelete binário mostra seu aniversário: %1$lld.%2$lld."
+          }
         }
       }
     },
     "Grid Genius" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Raster-Genie"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gênio da Grade"
+          }
+        }
+      }
     },
     "Grid Size:" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rastergröße:"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tamanho da Grade:"
+          }
+        }
+      }
     },
     "Haptic Feedback" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Haptisches Feedback"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resposta Tátil"
+          }
+        }
+      }
     },
     "Here you can see your progress and achievements. Complete mini-games and challenges to unlock more achievements!" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hier kannst du deinen Fortschritt und deine Erfolge sehen. Schließe Mini-Spiele und Herausforderungen ab, um weitere Erfolge freizuschalten!"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aqui você pode ver seu progresso e conquistas. Complete mini-jogos e desafios para desbloquear mais conquistas!"
+          }
+        }
+      }
+    },
+    "Here's a hint! Some pixels have been revealed for you." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hier ist ein Hinweis! Einige Pixel wurden für dich aufgedeckt."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aqui está uma dica! Alguns pixels foram revelados para você."
+          }
+        }
+      }
     },
     "Hex codes are a shorthand for RGB values, using base-16 numbers. Each pair of characters represents one color component (red, green, or blue)." : {
       "localizations" : {
@@ -1147,17 +1537,37 @@
         }
       }
     },
-    "Hex String Representation" : {
-
-    },
     "Hex String: %@" : {
-
-    },
-    "Hexadecimal (hex) color codes are a shorthand way to write RGB values. Each pair of characters represents red, green, or blue." : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hex-Zeichenkette: %@"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "String Hexadecimal: %@"
+          }
+        }
+      }
     },
     "Hexadecimal Colors" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hexadezimale Farben"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cores Hexadecimais"
+          }
+        }
+      }
     },
     "Hey there! I'm Alex, a Data Scientist. I work with numbers to help computers make smart decisions." : {
       "localizations" : {
@@ -1288,7 +1698,20 @@
       }
     },
     "If there's a 1 in a spot, we add that value. If there's a 0, we skip it." : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wenn an einer Stelle eine 1 steht, addieren wir diesen Wert. Wenn dort eine 0 steht, überspringen wir ihn."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se houver um 1 em um lugar, adicionamos esse valor. Se houver um 0, pulamos."
+          }
+        }
+      }
     },
     "Image Compression" : {
       "localizations" : {
@@ -1403,7 +1826,20 @@
       }
     },
     "In the next challenge, you'll group similar pixels together to store your art more efficiently." : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In der nächsten Herausforderung wirst du ähnliche Pixel gruppieren, um deine Kunst effizienter zu speichern."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No próximo desafio, você agrupará pixels semelhantes para armazenar sua arte de forma mais eficiente."
+          }
+        }
+      }
     },
     "In this game, you'll become a pixel artist and create your own black and white masterpieces." : {
       "localizations" : {
@@ -1422,10 +1858,36 @@
       }
     },
     "Instead of storing every single pixel separately, we can find patterns." : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anstatt jeden einzelnen Pixel separat zu speichern, können wir Muster finden."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Em vez de armazenar cada pixel separadamente, podemos encontrar padrões."
+          }
+        }
+      }
     },
     "Instead of: 000011110000\nUse: W4B4W4" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anstatt: 000011110000\nVerwende: W4B4W4"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Em vez de: 000011110000\nUse: W4B4W4"
+          }
+        }
+      }
     },
     "Invalid date. Please check if this date exists in the calendar." : {
       "localizations" : {
@@ -1476,13 +1938,36 @@
       }
     },
     "It's all about position! Each spot in a binary number has a different value." : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Es geht alles um die Position! Jede Stelle in einer Binärzahl hat einen anderen Wert."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "É tudo sobre posição! Cada posição em um número binário tem um valor diferente."
+          }
+        }
+      }
     },
     "It's like a secret recipe that tells your screen exactly what color to display!" : {
-
-    },
-    "Keep practicing with larger numbers. Think of binary conversion as finding which powers of 2 add up to your decimal number." : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Es ist wie ein geheimes Rezept, das deinem Bildschirm genau sagt, welche Farbe angezeigt werden soll!"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "É como uma receita secreta que diz exatamente à sua tela qual cor exibir!"
+          }
+        }
+      }
     },
     "Keep trying! Remember: 1 = black pixel, 0 = white pixel." : {
       "localizations" : {
@@ -1500,8 +1985,21 @@
         }
       }
     },
-    "Learning about binary numbers helps you understand how computers store and process all data. Each digit in binary (0 or 1) represents an electrical signal being off or on." : {
-
+    "Keep trying! The 16×16 grid is more challenging, but you can do it!" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Versuche es weiter! Das 16×16 Raster ist anspruchsvoller, aber du schaffst das!"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continue tentando! A grade 16×16 é mais desafiadora, mas você consegue!"
+          }
+        }
+      }
     },
     "Less blue." : {
       "localizations" : {
@@ -1567,6 +2065,86 @@
         }
       }
     },
+    "Let Alex explain to you how to solve the final challenge." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lass dir von Alex erklären, wie du die letzte Herausforderung lösen kannst."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deixe que o Alex te explique como resolver o desafio final."
+          }
+        }
+      }
+    },
+    "Let Alex explain to you how to solve the next challenges." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lass dir von Alex erklären, wie du die nächsten Herausforderungen lösen kannst."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deixe que o Alex te explique como resolver os próximos desafios."
+          }
+        }
+      }
+    },
+    "Let Iris explain to you how to solve the first challenge." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lass dir von Iris erklären, wie du die erste Herausforderung lösen kannst."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deixe que a Iris te explique como resolver o primeiro desafio."
+          }
+        }
+      }
+    },
+    "Let Pixie explain to you how to solve the final challenge." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lass dir von Pixie erklären, wie du die letzte Herausforderung lösen kannst."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deixe que a Pixie te explique como resolver o desafio final."
+          }
+        }
+      }
+    },
+    "Let Pixie explain to you how to solve the next challenges." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lass dir von Pixie erklären, wie du die nächsten Herausforderungen lösen kannst."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deixe que a Pixie te explique como resolver os próximos desafios."
+          }
+        }
+      }
+    },
     "Let's discover how digital colors work and create some amazing effects together!" : {
       "localizations" : {
         "de" : {
@@ -1584,16 +2162,68 @@
       }
     },
     "Let's experiment with fading, overlapping, and glowing effects using opacity!" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lass uns mit Verblassen, Überlappen und Leuchteffekten experimentieren, indem wir die Deckkraft verwenden!"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vamos experimentar efeitos de desvanecimento, sobreposição e brilho usando opacidade!"
+          }
+        }
+      }
     },
     "Let's see what amazing things you can create with this bigger canvas!" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lass uns sehen, welche erstaunlichen Dinge du mit dieser größeren Leinwand erschaffen kannst!"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vamos ver quais coisas incríveis você pode criar com esta tela maior!"
+          }
+        }
+      }
     },
     "Let's try it out and see how it works!" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lass es uns ausprobieren und sehen, wie es funktioniert!"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vamos tentar e ver como funciona!"
+          }
+        }
+      }
     },
     "Look at all those pixels! Now for a cool trick that computers use." : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schau dir all diese Pixel an! Jetzt kommt ein cooler Trick, den Computer verwenden."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Olhe todos esses pixels! Agora vamos ver um truque legal que os computadores usam."
+          }
+        }
+      }
     },
     "Match both the color and opacity of the target" : {
       "localizations" : {
@@ -1644,10 +2274,36 @@
       }
     },
     "Month (1-12)" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Monat (1-12)"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mês (1-12)"
+          }
+        }
+      }
     },
     "Month: 4 bits (1-12)\nDay: 5 bits (1-31)" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Monat: 4 Bits (1-12)\nTag: 5 Bits (1-31)"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mês: 4 bits (1-12)\nDia: 5 bits (1-31)"
+          }
+        }
+      }
     },
     "More blue." : {
       "localizations" : {
@@ -1666,7 +2322,20 @@
       }
     },
     "More Features" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mehr Funktionen"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mais Recursos"
+          }
+        }
+      }
     },
     "More green." : {
       "localizations" : {
@@ -1717,7 +2386,20 @@
       }
     },
     "More pixels means you can add more details to your art." : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mehr Pixel bedeutet, dass du mehr Details zu deiner Kunst hinzufügen kannst."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mais pixels significa que você pode adicionar mais detalhes à sua arte."
+          }
+        }
+      }
     },
     "More red." : {
       "localizations" : {
@@ -1752,10 +2434,36 @@
       }
     },
     "Name your art" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Benenne deine Kunst"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nomeie sua arte"
+          }
+        }
+      }
     },
-    "None" : {
-
+    "No more hints available. You're on the right track!" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine weiteren Hinweise verfügbar. Du bist auf dem richtigen Weg!"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não há mais dicas disponíveis. Você está no caminho certo!"
+          }
+        }
+      }
     },
     "Not quite right 😕" : {
       "localizations" : {
@@ -1806,98 +2514,116 @@
       }
     },
     "Now lets represent %lld in binary. For that we need 5 digits!" : {
-
-    },
-    "Now that you know about RGB colors, here's a cool trick computers use." : {
-
-    },
-    "Now we're leveling up to a 16×16 grid - that's four times more pixels!" : {
-
-    },
-    "of April" : {
-
-    },
-    "of August" : {
-
-    },
-    "of December" : {
-
-    },
-    "of February" : {
-
-    },
-    "of January" : {
-
-    },
-    "of July" : {
-
-    },
-    "of June" : {
-
-    },
-    "of March" : {
-
-    },
-    "of May" : {
-
-    },
-    "of November" : {
-
-    },
-    "of October" : {
-
-    },
-    "of September" : {
-
-    },
-    "OK" : {
-
-    },
-    "Opacity (Alpha)" : {
-
-    },
-    "Opacity (or alpha) controls how transparent a color appears. This allows for effects like see-through objects and smooth transitions." : {
-
-    },
-    "Opacity controls how transparent a color is. Values range from 0.0 (invisible) to 1.0 (solid), allowing you to see through objects." : {
-
-    },
-    "Opacity controls how transparent or solid an object appears — higher opacity means less see-through, and lower opacity means more see-through." : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Die Deckkraft bestimmt, wie transparent oder massiv ein Objekt erscheint — höhere Deckkraft bedeutet weniger durchsichtig, und niedrigere Deckkraft bedeutet mehr durchsichtig."
+            "value" : "Jetzt stellen wir %lld binär dar. Dafür brauchen wir 5 Stellen!"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "A opacidade controla o quão transparente ou sólido um objeto aparece — maior opacidade significa menos transparência, e menor opacidade significa mais transparência."
+            "value" : "Agora vamos representar %lld em binário. Para isso precisamos de 5 dígitos!"
+          }
+        }
+      }
+    },
+    "Now that you know about RGB colors, here's a cool trick computers use." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jetzt, wo du über RGB-Farben Bescheid weißt, hier ist ein cooler Trick, den Computer verwenden."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agora que você conhece as cores RGB, aqui está um truque legal que os computadores usam."
           }
         }
       }
     },
     "Perfect! You've successfully decoded %@!" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Perfekt! Du hast %@ erfolgreich entschlüsselt!"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Perfeito! Você decodificou %@ com sucesso!"
+          }
+        }
+      }
+    },
+    "Perfect! You've successfully decoded the 16×16 image of %@!" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Perfekt! Du hast das 16×16 Bild von %@ erfolgreich entschlüsselt!"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Perfeito! Você decodificou com sucesso a imagem 16×16 de %@!"
+          }
+        }
+      }
     },
     "Perfect! You've successfully encoded %@ in binary!" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Perfekt! Du hast %@ erfolgreich in Binärcode umgewandelt!"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Perfeito! Você codificou %@ em binário com sucesso!"
+          }
+        }
+      }
     },
     "Pixel Art" : {
-
-    },
-    "Pixel Art Canvas" : {
-
-    },
-    "Pixel Canvas" : {
-
-    },
-    "Pixel Image" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pixel-Kunst"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arte em Pixel"
+          }
+        }
+      }
     },
     "Pixel Images" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pixel-Bilder"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Imagens de Pixel"
+          }
+        }
+      }
     },
     "PixelPrism" : {
       "localizations" : {
@@ -1915,23 +2641,85 @@
         }
       }
     },
-    "Pixels are the building blocks of all digital images. Even the most complex pictures are just collections of these tiny colored squares." : {
-
-    },
     "Powers of 2" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Potenzen von 2"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Potências de 2"
+          }
+        }
+      }
     },
-    "Practice converting decimal numbers to binary. Remember to find the largest power of 2 that fits, then work your way down." : {
-
+    "Practice converting decimal numbers to binary. Remember: each position represents a power of 2: 1, 2, 4, 8, 16." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Übe die Umwandlung von Dezimalzahlen in Binärzahlen. Denk daran: Jede Position steht für eine Potenz von 2: 1, 2, 4, 8, 16."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pratique a conversão de números decimais para binários. Lembre-se: cada posição representa uma potência de 2: 1, 2, 4, 8, 16."
+          }
+        }
+      }
     },
-    "Practice creating colors using RGB sliders and observe how the hex code changes accordingly." : {
-
+    "Practice converting decimal numbers to binary. Remember: each position represents a power of 2: 1, 2, 4, 8." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Übe die Umwandlung von Dezimalzahlen in Binärzahlen. Denk daran: Jede Position steht für eine Potenz von 2: 1, 2, 4, 8."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pratique a conversão de números decimais para binários. Lembre-se: cada posição representa uma potência de 2: 1, 2, 4, 8."
+          }
+        }
+      }
     },
     "Programmers prefer working with only two digits" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Programmierer arbeiten lieber mit nur zwei Ziffern"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Programadores preferem trabalhar com apenas dois dígitos"
+          }
+        }
+      }
     },
     "Progress" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fortschritt"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Progresso"
+          }
+        }
+      }
     },
     "Progress Reset" : {
       "localizations" : {
@@ -1950,16 +2738,68 @@
       }
     },
     "Pure Red: (255, 0, 0)\nPure Green: (0, 255, 0)\nYellow: (255, 255, 0)" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reines Rot: (255, 0, 0)\nReines Grün: (0, 255, 0)\nGelb: (255, 255, 0)"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vermelho Puro: (255, 0, 0)\nVerde Puro: (0, 255, 0)\nAmarelo: (255, 255, 0)"
+          }
+        }
+      }
     },
     "Rainbow" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Regenbogen"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arco-íris"
+          }
+        }
+      }
     },
     "Ready to become a pixel-saving wizard? Let's make art that looks awesome AND saves space!" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bereit, ein Pixel-sparender Zauberer zu werden? Lass uns Kunst machen, die fantastisch aussieht UND Speicherplatz spart!"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pronto para se tornar um mago da economia de pixels? Vamos criar arte que parece incrível E economiza espaço!"
+          }
+        }
+      }
     },
     "Ready to bring your ideas to life, one pixel at a time? Let's get creative!" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bereit, deine Ideen zum Leben zu erwecken, ein Pixel nach dem anderen? Lass uns kreativ werden!"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pronto para dar vida às suas ideias, um pixel de cada vez? Vamos ser criativos!"
+          }
+        }
+      }
     },
     "Ready to create your own binary code and make something awesome? Let's go!" : {
       "localizations" : {
@@ -1977,11 +2817,53 @@
         }
       }
     },
+    "Remember: the two first digits represent the red amount, then the green, then the blue. The values go from 00 (weak) to FF (strong)." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Denk daran: Die ersten beiden Stellen stehen für den Rotanteil, dann kommt Grün, dann Blau. Die Werte reichen von 00 (schwach) bis FF (stark)."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lembre-se: os dois primeiros dígitos representam a quantidade de vermelho, depois o verde, depois o azul. Os valores vão de 00 (fraco) a FF (forte)."
+          }
+        }
+      }
+    },
     "Reset" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zurücksetzen"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resetar"
+          }
+        }
+      }
     },
     "Reset Progress" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fortschritt zurücksetzen"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resetar Progresso"
+          }
+        }
+      }
     },
     "Result" : {
       "localizations" : {
@@ -1999,44 +2881,245 @@
         }
       }
     },
-    "Review what you've learned about binary numbers and their role in computing. These concepts apply to all digital technology." : {
-
+    "Review what you've learned about binary numbers and their role in computing. Check the boxes that correspond to what you've learned." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Überprüfe, was du über Binärzahlen und ihre Rolle in der Informatik gelernt hast. Kreuze die Kästchen an, die dem entsprechen, was du gelernt hast."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Revise o que você aprendeu sobre números binários e seu papel na computação. Marque as caixas que correspondem ao que você aprendeu."
+          }
+        }
+      }
     },
-    "Review what you've learned about digital colors, hex codes, and opacity. These concepts are used in all digital media." : {
-
+    "Review what you've learned about digital colors, hex codes, and opacity. Check the boxes that correspond to what you've learned." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Überprüfe, was du über digitale Farben, Hex-Codes und Deckkraft gelernt hast. Kreuze die Kästchen an, die dem entsprechen, was du gelernt hast."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Revise o que você aprendeu sobre cores digitais, códigos hexadecimais e opacidade. Marque as caixas que correspondem ao que você aprendeu."
+          }
+        }
+      }
+    },
+    "Review what you've learned about how images are stored in pixels. Check the boxes that correspond to what you've learned." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Überprüfe, was du darüber gelernt hast, wie Bilder in Pixeln gespeichert werden. Kreuze die Kästchen an, die dem entsprechen, was du gelernt hast."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Revise o que você aprendeu sobre como as imagens são armazenadas em pixels. Marque as caixas que correspondem ao que você aprendeu."
+          }
+        }
+      }
     },
     "RGB Color Model" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "RGB-Farbmodell"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modelo de Cor RGB"
+          }
+        }
+      }
     },
     "RGB stands for Red, Green, and Blue - the primary colors of light. By mixing these colors in different amounts, computers can create millions of colors on your screen." : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "RGB steht für Rot, Grün und Blau - die Grundfarben des Lichts. Durch Mischung dieser Farben in verschiedenen Mengen können Computer Millionen von Farben auf deinem Bildschirm erzeugen."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "RGB significa Vermelho, Verde e Azul - as cores primárias da luz. Misturando essas cores em diferentes quantidades, os computadores podem criar milhões de cores na sua tela."
+          }
+        }
+      }
     },
     "RLE is a way to compress binary images by counting consecutive pixels of the same color." : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "RLE ist eine Methode, um Binärbilder zu komprimieren, indem aufeinanderfolgende Pixel derselben Farbe gezählt werden."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "RLE é uma forma de comprimir imagens binárias contando pixels consecutivos da mesma cor."
+          }
+        }
+      }
+    },
+    "Rotate the opacity volume button to decypher the hidden message and write it on the text field." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Drehe den Deckkraft-Regler, um die versteckte Nachricht zu entschlüsseln und schreibe sie in das Textfeld."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gire o botão de volume de opacidade para decifrar a mensagem oculta e escreva-a no campo de texto."
+          }
+        }
+      }
     },
     "Row 1: 00000000\nRow 2: 00011000\nRow 3: 00111100" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zeile 1: 00000000\nZeile 2: 00011000\nZeile 3: 00111100"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Linha 1: 00000000\nLinha 2: 00011000\nLinha 3: 00111100"
+          }
+        }
+      }
     },
     "Run-Length Encoding" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lauflängenkodierung"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Codificação por Comprimento de Execução"
+          }
+        }
+      }
     },
     "Run-Length Encoding (RLE)" : {
-
-    },
-    "Run-Length Encoding (RLE) compresses images by storing repeating patterns more efficiently." : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lauflängenkodierung (RLE)"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Codificação por Comprimento de Execução (RLE)"
+          }
+        }
+      }
     },
     "Save" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Speichern"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salvar"
+          }
+        }
+      }
+    },
+    "Save Art" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kunst speichern"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salvar Arte"
+          }
+        }
+      }
     },
     "Save Changes" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Änderungen speichern"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salvar Alterações"
+          }
+        }
+      }
     },
     "Saved \"%@\" successfully!" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "\"%@\" erfolgreich gespeichert!"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "\"%@\" salvo com sucesso!"
+          }
+        }
+      }
     },
     "Score: %lld" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Punkte: %lld"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pontuação: %lld"
+          }
+        }
+      }
     },
     "Select a number to see its binary representation" : {
       "localizations" : {
@@ -2071,16 +3154,52 @@
       }
     },
     "Settings" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Einstellungen"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configurações"
+          }
+        }
+      }
     },
     "Shapes and animations" : {
-
-    },
-    "Show Hint" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Formen und Animationen"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Formas e animações"
+          }
+        }
+      }
     },
     "Skip" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Überspringen"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pular"
+          }
+        }
+      }
     },
     "Skip this value" : {
       "localizations" : {
@@ -2099,22 +3218,100 @@
       }
     },
     "So how do we make numbers using only 0s and 1s?" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wie bilden wir also Zahlen nur mit 0en und 1en?"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Então, como formamos números usando apenas 0s e 1s?"
+          }
+        }
+      }
     },
     "Solid Blue: rgba(0,0,255,1.0)\nSemi-transparent: rgba(0,0,255,0.5)\nInvisible: rgba(0,0,255,0.0)" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Volles Blau: rgba(0,0,255,1.0)\nHalbtransparent: rgba(0,0,255,0.5)\nUnsichtbar: rgba(0,0,255,0.0)"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Azul Sólido: rgba(0,0,255,1.0)\nSemi-transparente: rgba(0,0,255,0.5)\nInvisível: rgba(0,0,255,0.0)"
+          }
+        }
+      }
     },
     "Sound Settings" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toneinstellungen"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configurações de Som"
+          }
+        }
+      }
     },
     "Sound waves and frames" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schallwellen und Frames"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ondas sonoras e quadros"
+          }
+        }
+      }
     },
     "Start Playing" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Starte Spiel"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Começar a Jogar"
+          }
+        }
+      }
     },
     "Starting from the right: the first spot is worth 1, then 2, then 4, then 8, and so on." : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Von rechts beginnend: Die erste Stelle ist 1 wert, dann 2, dann 4, dann 8 und so weiter."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Começando pela direita: o primeiro lugar vale 1, depois 2, depois 4, depois 8, e assim por diante."
+          }
+        }
+      }
     },
     "Subtract this value" : {
       "localizations" : {
@@ -2132,8 +3329,37 @@
         }
       }
     },
+    "Switch the digits to represent your birthdate and get your binary armband. Remember: each position represents a power of 2: 1, 2, 4, 8, 16." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wechsle die Ziffern, um dein Geburtsdatum darzustellen und dein binäres Armband zu erhalten. Denk daran: Jede Position steht für eine Potenz von 2: 1, 2, 4, 8, 16."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alterne os dígitos para representar sua data de nascimento e obter seu bracelete binário. Lembre-se: cada posição representa uma potência de 2: 1, 2, 4, 8, 16."
+          }
+        }
+      }
+    },
     "Tap the circles to toggle between 0 and 1. Your goal is to represent %lld in binary." : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tippe auf die Kreise, um zwischen 0 und 1 zu wechseln. Dein Ziel ist es, %lld binär darzustellen."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toque nos círculos para alternar entre 0 e 1. Seu objetivo é representar %lld em binário."
+          }
+        }
+      }
     },
     "Target" : {
 
@@ -2141,13 +3367,13 @@
     "Target Color" : {
 
     },
-    "Test your understanding of binary concepts. Remember that each position in a binary number represents a power of 2, starting from the right." : {
+    "Test your understanding of binary concepts. Select the answer you think is correct, no problem if is not correct." : {
 
     },
-    "Test your understanding of how the RGB color model works and how computers create millions of colors from just three primary ones." : {
+    "Test your understanding of digital pictures. Select the answer you think is correct, no problem if is not correct." : {
 
     },
-    "The 16×16 grid gives you four times as many pixels as the 8×8 grid. Notice how much more detail you can include." : {
+    "Test your understanding of how the RGB color model works. Select the answer you think is correct, no problem if is not correct." : {
 
     },
     "The color's brightness" : {
@@ -2300,9 +3526,6 @@
         }
       }
     },
-    "This final challenge puts all your binary knowledge to work. You're thinking like a computer now!" : {
-
-    },
     "This is called compression - it's like digital magic that saves space!" : {
 
     },
@@ -2346,25 +3569,22 @@
         }
       }
     },
+    "Transform code into art by change the color of the pixels to black where there is a one." : {
+
+    },
     "Try adjusting the opacity to see the letters more clearly!" : {
 
     },
     "Try Again" : {
 
     },
-    "Try creating a simple image using an 8×8 grid. Think of each cell as a pixel that can be either on or off." : {
+    "Try creating a simple image using an 8×8 grid. Think of each cell as a pixel that can be either on or off. Name your creation at the end." : {
 
     },
     "Understanding digital color is essential for design, game development, web development, and digital art." : {
 
     },
-    "Understanding how images are stored as pixels helps you see how computers represent visual information in a way they can process." : {
-
-    },
     "Update your profile information" : {
-
-    },
-    "Use hex codes to precisely specify colors. Web developers and digital designers use these codes extensively." : {
 
     },
     "User Interfaces\nDigital Artwork\nAnimations\nCoding with CSS" : {
@@ -2380,6 +3600,15 @@
 
     },
     "Welcome to %@" : {
+
+    },
+    "Welcome to %@, a mini game about binary numbers. Touch the arrows on the bottom and see what Alex has to say." : {
+
+    },
+    "Welcome to %@, a mini game about digital colors. Touch the arrows on the bottom and see what Iris has to say." : {
+
+    },
+    "Welcome to %@, a mini game about pixel art. Touch the arrows on the bottom and see what Pixie has to say." : {
 
     },
     "Welcome to %@! Choose a mini-game to start learning about computer science concepts in a fun way." : {
@@ -2430,13 +3659,10 @@
     "You can represent dates in binary! Your armband shows your birthdate in binary form." : {
 
     },
-    "You now understand how computers store and compress images - a key concept in digital media technology!" : {
-
-    },
-    "You're becoming quite skilled! Binary is the foundation for all digital information, from text to images to videos." : {
-
-    },
     "You're very close! Just a few more adjustments needed." : {
+
+    },
+    "You've used all available hints. Try to figure out the rest!" : {
 
     },
     "Your Age" : {
@@ -2460,28 +3686,6 @@
           }
         }
       }
-    },
-    "Your binary armband will represent your birthday in a unique code that you'll understand but others might not!" : {
-
-    },
-    "Your Binary Code" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dein Binärcode"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Seu Código Binário"
-          }
-        }
-      }
-    },
-    "Your Canvas" : {
-
     },
     "Your Color" : {
       "localizations" : {

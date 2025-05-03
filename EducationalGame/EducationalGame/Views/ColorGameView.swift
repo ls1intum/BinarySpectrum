@@ -382,7 +382,7 @@ struct ColorAlphaChallengeView: View {
                 .padding(.horizontal, 50)
                 .multilineTextAlignment(.center)
                 .autocapitalization(.allCharacters)
-                .disableAutocorrection(true)
+                .autocorrectionDisabled(true)
         }
         .onAppear {
             viewModel.alphaChallengeState.generateNewGrid()

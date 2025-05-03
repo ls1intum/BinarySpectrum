@@ -441,6 +441,7 @@ struct BinaryAdvancedChallengeView: View {
                             .foregroundColor(.gameBlack)
                             .cornerRadius(12)
                             .multilineTextAlignment(.center)
+                            .autocorrectionDisabled(true)
                     }
                     Spacer()
                     VStack {

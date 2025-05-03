@@ -7,24 +7,37 @@ struct AnimatedCircleButton: View {
     var color: Color = .gamePurple
     var action: () -> Void
     var hapticType: HapticType = .buttonTap
+    @State private var isPressed = false
 
     var body: some View {
         ZStack {
             Circle()
-                .fill(color.opacity(0.7))
+                .fill(color.opacity(isPressed ? 1.0 : 0.7))
                 .frame(width: 90, height: 90)
-                .shadow(radius: 5)
+                .shadow(radius: isPressed ? 2 : 5)
 
             Image(systemName: iconName)
                 .font(.largeTitle)
                 .foregroundColor(.gameWhite)
         }
-        .scaleEffect(1.0)
+        .scaleEffect(isPressed ? 0.95 : 1.0)
         .onTapGesture {
-            withAnimation(.spring(response: 0.3, dampingFraction: 0.5)) {
-                // Play haptic feedback
-                HapticService.shared.play(hapticType)
+            // Set pressed state to true
+            withAnimation(.spring(response: 0.15, dampingFraction: 0.6)) {
+                isPressed = true
+            }
+            
+            // Play haptic feedback
+            HapticService.shared.play(hapticType)
+            
+            // Delay to show the pressed state before executing action
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                 action()
+                
+                // Reset pressed state
+                withAnimation(.spring(response: 0.2, dampingFraction: 0.5)) {
+                    isPressed = false
+                }
             }
         }
     }

@@ -19,6 +19,57 @@ import SwiftUI
     var hexOutput: String = ""
     var selectedArt: String = "None"
     
+    struct AdeptState {
+        var currentArtIndex: Int = 0
+        var correctCells: Set<Int> = []
+        var hintRevealedCells: Set<Int> = []
+        
+        mutating func loadRandomArt() {
+            // Randomly choose a different art
+            let previousIndex = currentArtIndex
+            repeat {
+                currentArtIndex = Int.random(in: 0..<GameConstants.pixelArt16x16.count)
+            } while currentArtIndex == previousIndex && GameConstants.pixelArt16x16.count > 1
+            
+            updateCorrectCells()
+        }
+        
+        mutating func updateCorrectCells() {
+            correctCells = GameConstants.pixelArt16x16[currentArtIndex].grid.blackPixels
+            hintRevealedCells = []
+        }
+        
+        var currentArt: PixelArt {
+            GameConstants.pixelArt16x16[currentArtIndex]
+        }
+        
+        // Generate binary representation of the 16x16 art
+        func getBinaryCode(gridSize: Int) -> String {
+            var binaryString = ""
+            
+            for row in 0..<gridSize {
+                for col in 0..<gridSize {
+                    let index = row * gridSize + col
+                    binaryString += correctCells.contains(index) ? "1" : "0"
+                }
+                binaryString += "\n"
+            }
+            
+            return binaryString.trimmingCharacters(in: .whitespacesAndNewlines)
+        }
+        
+        // Format binary code for display
+        var formattedBinaryCode: String {
+            return getBinaryCode(gridSize: 16)
+                .replacingOccurrences(of: "0", with: " 0")
+                .replacingOccurrences(of: "1", with: " 1")
+                .trimmingCharacters(in: .whitespacesAndNewlines)
+                .replacingOccurrences(of: "\n", with: "\n ")
+        }
+    }
+    
+    var adeptState = AdeptState()
+    
     func generateHexOutput() {
         hexOutput = currentGridToHexString()
     }
@@ -73,13 +124,13 @@ import SwiftUI
         return nil
     }
     
-    // Convert grid state to a hex string (for 16x16 grids)
+    // Convert grid state to a hex string (supports both 8x8 and 16x16 grids)
     func currentGridToHexString() -> String {
         // Create a temporary GridImage from the current black cells
-        var tempGrid = GridImage(size: 16)
+        var tempGrid = GridImage(size: gridState.gridSize)
         for index in gridState.blackCells {
             let position = tempGrid.position(from: index)
-            if position.row < 16 && position.column < 16 {
+            if position.row < gridState.gridSize && position.column < gridState.gridSize {
                 tempGrid.setValue(true, at: position.row, column: position.column)
             }
         }
@@ -90,22 +141,14 @@ import SwiftUI
     func loadGridFromHexString(_ hexString: String) {
         let tempGrid = GridImage(hexString: hexString)
         gridState.blackCells = tempGrid.blackPixels
-        gridState.gridSize = 16
-        // Adjust cell size for 16x16 grid to fit screen
-        gridState.cellSize = 20
+        gridState.gridSize = tempGrid.size
+        // Adjust cell size based on grid size
+        gridState.cellSize = gridState.gridSize == 8 ? 40 : 20
     }
     
     // Save the current art to a string representation
     func saveCurrentArt() -> String {
-        if gridState.gridSize == 16 {
-            return currentGridToHexString()
-        } else {
-            // For 8x8, return the indices of black cells
-            return gridState.blackCells
-                .sorted()
-                .map { String($0) }
-                .joined(separator: ", ")
-        }
+        return currentGridToHexString()
     }
     
     // Handle the save art action
@@ -321,6 +364,7 @@ import SwiftUI
         // Reset adept challenge properties
         hexOutput = ""
         selectedArt = "None"
+        adeptState = AdeptState()
     }
     
     func toggleCell(_ index: Int) {
@@ -332,7 +376,12 @@ import SwiftUI
             gridState.blackCells.insert(index)
         }
         
-        calculateProgress()
+        // Calculate progress based on the current phase/challenge
+        if currentPhase == .adeptChallenge {
+            calculateAdeptProgress()
+        } else {
+            calculateProgress()
+        }
     }
     
     private func calculateProgress() {
@@ -358,16 +407,6 @@ import SwiftUI
     }
     
     // Setup for adept challenge (16x16 hex grid)
-    func setupAdeptChallenge() {
-        gridState.gridSize = 16
-        gridState.cellSize = 20
-        hexOutput = ""
-        selectedArt = "None"
-        
-        // Optionally start with a clean grid
-        gridState.reset()
-    }
-    
     func checkAnswer() {
         let allCorrectBlack = decodingState.correctCells.isSubset(of: gridState.blackCells)
         let noIncorrectBlack = gridState.blackCells.subtracting(decodingState.correctCells).isEmpty
@@ -455,5 +494,81 @@ import SwiftUI
                                              percentage: percentage)
         currentPhase.next(for: gameType)
         gridState.reset()
+    }
+    
+    // MARK: - Adept Challenge Functions
+    
+    func checkAdeptAnswer() {
+        let allCorrectBlack = adeptState.correctCells.isSubset(of: gridState.blackCells)
+        let noIncorrectBlack = gridState.blackCells.subtracting(adeptState.correctCells).isEmpty
+        
+        isCorrect = allCorrectBlack && noIncorrectBlack
+        
+        if isCorrect {
+            hintMessage = "Perfect! You've successfully decoded the 16×16 image of \(adeptState.currentArt.name)!"
+            gridState.progress = 1.0
+            showHint = true
+        } else {
+            if gridState.progress > 0.8 {
+                hintMessage = "You're very close! Just a few more adjustments needed."
+            } else if gridState.progress > 0.5 {
+                hintMessage = "Good progress, but there are still errors in your solution."
+            } else {
+                hintMessage = "Keep trying! The 16×16 grid is more challenging, but you can do it!"
+            }
+            showHint = true
+        }
+    }
+    
+    // Show a hint by revealing a portion of the correct image
+    func showAdeptHint() {
+        if adeptState.hintRevealedCells.count < 40 {
+            // Get some random cells from the correct set that haven't been revealed yet
+            let unrevealed = adeptState.correctCells.subtracting(adeptState.hintRevealedCells)
+            let toReveal = min(10, unrevealed.count)
+            
+            if toReveal > 0 {
+                let randomCells = Array(unrevealed).shuffled().prefix(toReveal)
+                for cell in randomCells {
+                    adeptState.hintRevealedCells.insert(cell)
+                    gridState.blackCells.insert(cell)
+                }
+                
+                calculateAdeptProgress()
+                
+                hintMessage = "Here's a hint! Some pixels have been revealed for you."
+                showHint = true
+            } else {
+                hintMessage = "No more hints available. You're on the right track!"
+                showHint = true
+            }
+        } else {
+            hintMessage = "You've used all available hints. Try to figure out the rest!"
+            showHint = true
+        }
+    }
+    
+    private func calculateAdeptProgress() {
+        let correctBlackCells = gridState.blackCells.intersection(adeptState.correctCells).count
+        let incorrectBlackCells = gridState.blackCells.subtracting(adeptState.correctCells).count
+        
+        // Penalize for incorrect cells
+        let totalCorrectNeeded = Double(adeptState.correctCells.count)
+        let progressValue = (Double(correctBlackCells) - Double(incorrectBlackCells) * 0.5) / totalCorrectNeeded
+        
+        gridState.progress = max(0.0, min(1.0, progressValue))
+    }
+    
+    // Setup for adept challenge with a random 16x16 art
+    func setupAdeptChallenge() {
+        gridState.gridSize = 16
+        gridState.cellSize = 26 // Increase cell size for better visibility and touch targets
+        gridState.reset()
+        
+        // Load a random 16x16 art
+        adeptState.loadRandomArt()
+        
+        // Initialize progress calculation
+        calculateAdeptProgress()
     }
 }

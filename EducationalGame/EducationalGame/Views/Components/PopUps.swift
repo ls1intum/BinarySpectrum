@@ -203,6 +203,7 @@ struct WelcomeFormPopup: View {
                             .frame(width: 300)
                             .background(Color.gameWhite)
                             .cornerRadius(10)
+                            .autocorrectionDisabled(true)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 10)
                                     .stroke(Color.gameLightBlue, lineWidth: 2)

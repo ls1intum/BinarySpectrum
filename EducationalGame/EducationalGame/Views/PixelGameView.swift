@@ -106,9 +106,8 @@ struct PixelChallengeBaseView<Content: View>: View {
     var body: some View {
         ZStack {
             VStack(spacing: 20) {
+                Spacer()
                 InstructionBar(text: instruction)
-                    .padding(.top, 20)
-                
                 Spacer()
                 
                 content
@@ -127,7 +126,6 @@ struct PixelChallengeBaseView<Content: View>: View {
                             action: onCheck
                         )
                         .padding(.trailing, 20)
-                        .padding(.bottom, 20)
                     }
                 }
             }
@@ -154,33 +152,16 @@ struct PixelExplorationView: View {
     var body: some View {
         PixelChallengeBaseView(
             viewModel: viewModel,
-            instruction: "Create your own pixel art by tapping the grid squares. When you're done, tap the check button to continue.",
+            instruction: "Create your own pixel art by tapping the grid squares", //TODO: when the user is finished they get the binary coding of their design in a pop up
             showCheckButton: true,
             onCheck: { viewModel.nextPhase() }
         ) {
-            VStack(spacing: 20) {
-                Text("Pixel Art Canvas")
-                    .font(GameTheme.titleFont)
-                    .foregroundColor(.gameBlack)
-                
-                PixelGridView(
-                    viewModel: viewModel,
-                    showBinary: true
-                )
-                .shadow(color: .black.opacity(0.2), radius: 10, x: 0, y: 5)
-                .padding(20)
-                
-                HStack(spacing: 20) {
-                    Button(action: { viewModel.gridState.reset() }) {
-                        Label("Clear Grid", systemImage: "trash")
-                            .padding()
-                            .background(Color.gameRed.opacity(0.8))
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                    }
-                }
-            }
-            .padding()
+            PixelGridView(
+                viewModel: viewModel,
+                showBinary: false
+            )
+            .shadow(color: .black.opacity(0.2), radius: 10, x: 0, y: 5)
+            .padding(20)
         }
     }
 }
@@ -196,57 +177,15 @@ struct PixelDecodingView: View {
         ) {
             VStack(spacing: 30) {
                 HStack(alignment: .top, spacing: 40) {
-                    VStack(spacing: 15) {
-                        Text("Binary Code")
-                            .font(GameTheme.subtitleFont)
-                            .foregroundColor(.gray)
-                        
-                        BinaryCodeView(code: viewModel.formattedCode)
-                            .frame(width: 220, height: 280)
-                    }
-                    
-                    VStack(spacing: 15) {
-                        Text("Your Canvas")
-                            .font(GameTheme.subtitleFont)
-                            .foregroundColor(.gray)
-                        
-                        PixelGridView(
-                            viewModel: viewModel,
-                            showBinary: false
-                        )
-                        .shadow(color: .black.opacity(0.2), radius: 10, x: 0, y: 5)
-                    }
-                }
-                
-                VStack(spacing: 15) {
-                    Text("Progress")
-                        .font(GameTheme.captionFont)
-                        .foregroundColor(.gray)
-                    
-                    ProgressView(value: viewModel.gridState.progress, total: 1.0)
-                        .progressViewStyle(LinearProgressViewStyle(tint: .gameBlue))
-                        .scaleEffect(x: 1, y: 2, anchor: .center)
-                        .frame(width: 300)
-                        .background(Color.gray.opacity(0.2))
-                        .cornerRadius(10)
-                        .padding(.bottom, 10)
-                }
-                
-                HStack(spacing: 20) {
-                    Button(action: { viewModel.gridState.reset() }) {
-                        Label("Clear Grid", systemImage: "trash")
-                            .padding()
-                            .background(Color.gameRed.opacity(0.8))
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                    }
-                    
-                    Text("Art: \(viewModel.decodingState.currentArt.name)")
-                        .font(GameTheme.captionFont)
-                        .foregroundColor(.gray)
-                        .padding()
-                        .background(Color.gameGray.opacity(0.1))
-                        .cornerRadius(10)
+                    BinaryCodeView(code: viewModel.formattedCode) // TODO: first character too far right, make the square prettier.
+                    // TODO: the code to decode should be chosen  randomly from one of the 8x8 pixel arts
+                        // TODO: in a pop up give the user informative tip if they get the decoding wrong
+                        .frame(width: 220, height: 280)
+                    PixelGridView(
+                        viewModel: viewModel,
+                        showBinary: false
+                    )
+                    .shadow(color: .black.opacity(0.2), radius: 10, x: 0, y: 5)
                 }
             }
             .padding()
@@ -260,66 +199,23 @@ struct PixelEncodingView: View {
     var body: some View {
         PixelChallengeBaseView(
             viewModel: viewModel,
-            instruction: "Write the binary code for this image. Remember: 1 for black pixels, 0 for white pixels, 8 bits per row.",
+            instruction: "Write the binary code for this image. Remember: 1 for black pixels, 0 for white pixels.",
             onCheck: { viewModel.checkBinaryEncoding() }
         ) {
             VStack(spacing: 30) {
                 HStack(alignment: .top, spacing: 40) {
-                    VStack(spacing: 15) {
-                        Text("Pixel Image")
-                            .font(GameTheme.subtitleFont)
-                            .foregroundColor(.gray)
+                    PixelGridView(
+                        viewModel: viewModel,
+                        showBinary: false,
+                        fixedCells: viewModel.encodingState.encodingChallengeGrid
+                    )
+                    .shadow(color: .black.opacity(0.2), radius: 10, x: 0, y: 5)
                         
-                        PixelGridView(
-                            viewModel: viewModel,
-                            showBinary: false,
-                            fixedCells: viewModel.encodingState.encodingChallengeGrid
-                        )
-                        .shadow(color: .black.opacity(0.2), radius: 10, x: 0, y: 5)
-                        
-                        Text("Art: \(GameConstants.pixelArt8x8[viewModel.encodingState.currentArtIndex].name)")
-                            .font(GameTheme.captionFont)
-                            .foregroundColor(.gray)
-                            .padding(5)
-                            .background(Color.gameGray.opacity(0.1))
-                            .cornerRadius(5)
-                    }
-                    
-                    VStack(spacing: 15) {
-                        Text("Your Binary Code")
-                            .font(GameTheme.subtitleFont)
-                            .foregroundColor(.gray)
-                        
-                        BinaryInputView(text: $viewModel.encodingState.playerBinaryCode)
-                            .frame(width: 250, height: 300)
-                    }
-                }
-                
-                HStack(spacing: 20) {
-                    Button(action: { viewModel.encodingState.playerBinaryCode = "" }) {
-                        Label("Clear Code", systemImage: "trash")
-                            .padding()
-                            .background(Color.gameRed.opacity(0.8))
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                    }
-                    
-                    Button(action: {
-                        // Provide a hint by showing one row
-                        let rows = viewModel.correctBinaryEncoding.split(separator: "\n")
-                        if let firstRow = rows.first {
-                            viewModel.encodingState.playerBinaryCode = String(firstRow)
-                            if rows.count > 1 {
-                                viewModel.encodingState.playerBinaryCode += "\n"
-                            }
-                        }
-                    }) {
-                        Label("Show Hint", systemImage: "lightbulb")
-                            .padding()
-                            .background(Color.gameYellow.opacity(0.8))
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                    }
+                    BinaryInputView(text: $viewModel.encodingState.playerBinaryCode)
+                        .frame(width: 250, height: 300) //TODO: implement automatic formatting of the input, breaking the line after 8 characters.
+                    //TODO: the image to encode should be chosen  randomly from one of the 8x8 pixel arts, and should not be the same as in the novice phase
+                    //TODO: make the input view prettier
+                    //TODO: in a pop up give the user informative tip if they encode incorrectly
                 }
             }
             .padding()
@@ -333,105 +229,23 @@ struct PixelAdeptChallengeView: View {
     var body: some View {
         PixelChallengeBaseView(
             viewModel: viewModel,
-            instruction: "Create or load pixel art on this 16×16 grid. Your art will be encoded as a 64-character hex string.",
-            onCheck: { viewModel.nextPhase() }
+            instruction: "Decode this 16x16 image from binary code. 1 = black, 0 = white. This is more challenging with a larger grid!",
+            onCheck: { viewModel.checkAdeptAnswer() }
         ) {
-            VStack(spacing: 20) {
-                Text("16×16 Pixel Canvas")
-                    .font(GameTheme.titleFont)
-                    .foregroundColor(.gameBlack)
-                
+            HStack(alignment: .top, spacing: 40) {
+                BinaryCodeView(code: viewModel.adeptState.formattedBinaryCode)
+                    .frame(width: 250, height: 320) // TODO: a whole row should fit in the  square, so make it wider
+                // TODO: in a pop up give the user informative tip if they decode incorrectly
+
                 PixelGridView(
                     viewModel: viewModel,
                     showBinary: false
                 )
                 .shadow(color: .black.opacity(0.2), radius: 10, x: 0, y: 5)
-                .padding(15)
-                
-                HStack(alignment: .top, spacing: 20) {
-                    VStack(spacing: 10) {
-                        Button(action: { viewModel.gridState.reset() }) {
-                            Label("Clear Grid", systemImage: "trash")
-                                .padding()
-                                .background(Color.gameRed.opacity(0.8))
-                                .foregroundColor(.white)
-                                .cornerRadius(10)
-                        }
-                        
-                        Button(action: {
-                            viewModel.generateHexOutput()
-                        }) {
-                            Label("Generate Hex", systemImage: "number")
-                                .padding()
-                                .background(Color.gameBlue.opacity(0.8))
-                                .foregroundColor(.white)
-                                .cornerRadius(10)
-                        }
-                    }
-                    
-                    VStack(spacing: 10) {
-                        Text("Example Art")
-                            .font(GameTheme.captionFont)
-                            .foregroundColor(.gameBlack)
-                        
-                        Menu {
-                            ForEach(GameConstants.pixelArt16x16) { art in
-                                Button(art.name) {
-                                    viewModel.selectArt(art: art)
-                                }
-                            }
-                            
-                            Button("None") {
-                                viewModel.clearSelectedArt()
-                            }
-                        } label: {
-                            HStack {
-                                Text(viewModel.selectedArt)
-                                Image(systemName: "chevron.down")
-                            }
-                            .padding()
-                            .background(Color.gameGreen.opacity(0.8))
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                        }
-                    }
-                }
-                
-                // Hex output display
-                VStack(spacing: 5) {
-                    Text("Hex String Representation")
-                        .font(GameTheme.captionFont)
-                        .foregroundColor(.gameBlack)
-                    
-                    ScrollView {
-                        Text(viewModel.hexOutput.isEmpty ? "Create some art and tap 'Generate Hex'" : viewModel.hexOutput)
-                            .font(.system(.body, design: .monospaced))
-                            .padding()
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .background(Color.gamePurple.opacity(0.1))
-                            .cornerRadius(10)
-                    }
-                    .frame(height: 80)
-                    
-                    if !viewModel.hexOutput.isEmpty {
-                        Button(action: {
-                            UIPasteboard.general.string = viewModel.hexOutput
-                        }) {
-                            Label("Copy to Clipboard", systemImage: "doc.on.doc")
-                                .padding(.horizontal, 12)
-                                .padding(.vertical, 6)
-                                .background(Color.gameYellow.opacity(0.8))
-                                .foregroundColor(.white)
-                                .cornerRadius(8)
-                        }
-                    }
-                }
-                .padding(.horizontal)
             }
-            .padding()
         }
         .onAppear {
-            // Initialize 16x16 grid on view appear
+            // Initialize 16x16 grid with a random art challenge
             viewModel.setupAdeptChallenge()
         }
     }
@@ -466,14 +280,11 @@ struct PixelFinalChallengeView: View {
                     TextField("Name your art", text: $viewModel.artName)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .frame(width: 150)
+                        .autocorrectionDisabled(true)
                 }
                 
                 HStack(alignment: .top, spacing: 20) {
                     VStack(spacing: 15) {
-                        Text("Pixel Canvas")
-                            .font(GameTheme.subtitleFont)
-                            .foregroundColor(.gray)
-                        
                         PixelGridView(
                             viewModel: viewModel,
                             showBinary: false
@@ -646,7 +457,7 @@ struct PixelCell: View {
             
             if showBinary {
                 Text(isBlack ? "1" : "0")
-                    .font(.system(size: size * 0.4, weight: .medium))
+                    .font(.system(size: size * 0.5, weight: .medium))
                     .foregroundColor(isBlack ? .gameWhite : .gray)
             }
         }

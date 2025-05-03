@@ -9,19 +9,22 @@ enum GameConstants {
         MiniGame(id: 1, name: "PixelPrism", icon: "square.grid.3x3.middle.filled", color: .gameRed, personaImage: "Figma1", achievementName: "Grid Genius", view: AnyView(PixelGameView()), highScore: 0),
         MiniGame(id: 2, name: "ColorBloom", icon: "paintpalette", color: .gameBlue, personaImage: "Figma3", achievementName: "Chromatic Artist", view: AnyView(ColorGameView()), highScore: 0)
     ]
-
+    
     static let pixelArt8x8: [PixelArt] = [
-        PixelArt(name: "Winking Face", grid: GridImage(size: 8, blackPixels: [13, 14, 17, 18, 21, 22, 41, 46, 50, 51, 52, 53])),
-        PixelArt(name: "White Smiley", grid: GridImage(size: 8, blackPixels: [2, 3, 4, 5, 9, 14, 16, 18, 21, 23, 24, 31, 32, 34, 37, 39, 40, 43, 44, 47, 49, 54, 58, 59, 60, 61])),
-        PixelArt(name: "Black Smiley", grid: GridImage(size: 8, blackPixels: [2, 3, 4, 5, 9, 10, 11, 12, 13, 14, 16, 17, 19, 20, 22, 23, 24, 25, 27, 28, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 43, 44, 46, 47, 49, 50, 53, 54, 58, 59, 60, 61])),
-        PixelArt(name: "Heart", grid: GridImage(size: 8, blackPixels: [10, 11, 13, 14, 17, 18, 19, 20, 21, 22, 23, 25, 26, 27, 28, 29, 30, 31, 34, 35, 36, 37, 38, 42, 43, 44, 45, 51, 52, 53, 60])),
-        PixelArt(name: "Ghost", grid: GridImage(size: 8, blackPixels: [2, 3, 4, 5, 9, 10, 11, 12, 13, 14, 17, 19, 20, 22, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39,40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 59, 60, 63])),
+        PixelArt(name: "Winking Face", grid: GridImage(hexString: "0006660000423c00")),
+        PixelArt(name: "White Smiley", grid: GridImage(hexString: "3c42a581a599423c")),
+        PixelArt(name: "Black Smiley", grid: GridImage(hexString: "3c7edbdbffdb663c")),
+        PixelArt(name: "Heart", grid: GridImage(hexString: "00367f7f3e3c1c08")),
+        PixelArt(name: "Ghost", grid: GridImage(hexString: "3c7e5affffffff99"))
     ]
     
     // Each hex digit represents 4 pixels, so a 16x16 grid needs 64 hex digits
     static let pixelArt16x16: [PixelArt] = [
-        PixelArt(name: "Cactus", grid: GridImage(hexString: "01800240024802540254025412542A542A642A04267820401E4002401FF81008")),
-        PixelArt(name: "16x16 Smiley", grid: GridImage(hexString: "00003c7ce7e7e7e7e7e7e3c3c3c3c3c300000000000000000000ffff838383838383838383ffffff000000000000"))
+        PixelArt(name: "Cactus", grid: GridImage(hexString: "01800240024802540254025412542A542A642A04267820401E4002401FF81008")) /* ,
+         PixelArt(name: "Pig", grid: GridImage(hexString: "")),
+         PixelArt(name: "Carrot", grid: GridImage(hexString: "")),
+         PixelArt(name: "Pumpkin", grid: GridImage(hexString: "")),
+         PixelArt(name: "Dolphin", grid: GridImage(hexString: "")) */
     ]
     
     // MARK: - Binary Game Content

@@ -19,7 +19,7 @@ struct DialogueView: View {
                 RoundedRectangle(cornerRadius: 20)
                     .fill(Color.gameGray)
                     .shadow(radius: 5)
-                    .frame(width: 600, height: 300)
+                    .frame(width: 600, height: 250)
                 
                 // Text Inside Box
                 Text(dialogues[currentDialogueIndex])
@@ -31,11 +31,7 @@ struct DialogueView: View {
                         withAnimation(.easeIn(duration: 1.0)) {
                             opacity = 1.0
                         }
-                        // withAnimation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0.5)) {
-                        //    scale = 1.0
-                        // }
                     }
-                
                 // Character
                 Image(personaImage)
                     .resizable()
@@ -45,25 +41,23 @@ struct DialogueView: View {
                     .offset(x: -400)
                     .zIndex(1)
             }
-            
             Spacer()
             
-            // Navigation buttons
             HStack {
                 // Back Button
-                    AnimatedCircleButton(
-                        iconName: "arrow.left.circle.fill",
-                        color: .gameGray,
-                        action: {
-                            if currentDialogueIndex > 0 {
-                                currentDialogueIndex -= 1
-                            }
+                AnimatedCircleButton(
+                    iconName: "arrow.left.circle.fill",
+                    color: .gameGray,
+                    action: {
+                        if currentDialogueIndex > 0 {
+                            currentDialogueIndex -= 1
                         }
-                    )
+                    }
+                )
                 .padding(.leading, 20)
                 .disabled(currentDialogueIndex == 0)
                 
-                    Spacer()
+                Spacer()
                 
                 // Page indicator
                 Text("\(currentDialogueIndex + 1) / \(dialogues.count)")
@@ -93,13 +87,13 @@ struct DialogueView: View {
 }
 
 #Preview {
-    @Previewable @State var previewPhase = GamePhase.apprenticeChallenge // Sample mutable state
+    @Previewable @State var previewPhase = GamePhase.apprenticeChallenge
     
     DialogueView(
         personaImage: "Persona1",
         color: .gameGreen,
         dialogues: ["Welcome to our educational game! Here you'll learn important computational thinking concepts.", "Each mini-game teaches different skills like binary representation, pixel art, and color theory.", "Navigate through the dialogue using the buttons at the bottom."],
         gameType: "Binary Game",
-        currentPhase: $previewPhase // Pass as a Binding
+        currentPhase: $previewPhase
     )
 }

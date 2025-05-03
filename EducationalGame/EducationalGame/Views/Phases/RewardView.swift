@@ -19,7 +19,7 @@ struct RewardView: View {
                     RoundedRectangle(cornerRadius: 20)
                         .fill(Color.gameGray)
                         .shadow(radius: 5)
-                        .frame(width: 660, height: 250)
+                        .frame(width: 600, height: 250)
                     
                     Text(message)
                         .font(GameTheme.bodyFont)
@@ -44,30 +44,118 @@ struct RewardView: View {
                 
                 // Badge
                 VStack(spacing: 15) {
-                    Image(systemName: "medal.fill")
-                        .font(.system(size: 60))
-                        .foregroundColor(.yellow)
-                        .shadow(color: .gameYellow.opacity(0.5), radius: 10)
+                    ZStack {
+                        // Glowing background effect
+                        Circle()
+                            .fill(
+                                RadialGradient(
+                                    gradient: Gradient(colors: [.yellow, .orange.opacity(0.7), .clear]),
+                                    center: .center,
+                                    startRadius: 20,
+                                    endRadius: 100
+                                )
+                            )
+                            .frame(width: 120, height: 120)
+                            .scaleEffect(scale * 1.2)
+                            .opacity(0.7)
+                        
+                        // Outer ring with shimmer effect
+                        Circle()
+                            .strokeBorder(
+                                LinearGradient(
+                                    gradient: Gradient(colors: [.yellow, .white, .yellow, .orange]),
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                ),
+                                lineWidth: 5
+                            )
+                            .frame(width: 100, height: 100)
+                            .shadow(color: .yellow.opacity(0.6), radius: 10, x: 0, y: 0)
+                        
+                        // Medal image with reflection
+                        ZStack {
+                            Image(systemName: "medal.fill")
+                                .font(.system(size: 60))
+                                .foregroundStyle(
+                                    LinearGradient(
+                                        colors: [.yellow, .orange, .yellow.opacity(0.8)],
+                                        startPoint: .top,
+                                        endPoint: .bottom
+                                    )
+                                )
+                            
+                            // Reflection highlight
+                            Image(systemName: "medal.fill")
+                                .font(.system(size: 60))
+                                .foregroundStyle(
+                                    LinearGradient(
+                                        colors: [.white.opacity(0.8), .clear],
+                                        startPoint: .topLeading,
+                                        endPoint: .center
+                                    )
+                                )
+                                .mask(
+                                    Rectangle()
+                                        .frame(width: 60, height: 30)
+                                        .offset(x: -5, y: -15)
+                                )
+                        }
+                        .shadow(color: .orange.opacity(0.5), radius: 5)
+                        .scaleEffect(scale)
+                    }
                     
+                    // Achievement name with stylized text
                     Text(GameConstants.miniGames[miniGameIndex].achievementName)
-                        .font(.system(size: 36, weight: .bold))
-                        .foregroundColor(.yellow)
-                        .shadow(color: .gameYellow.opacity(0.5), radius: 5)
+                        .font(GameTheme.headingFont)
+                        .foregroundStyle(
+                            LinearGradient(
+                                colors: [.yellow, .white, .yellow],
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            )
+                        )
+                        .shadow(color: .orange.opacity(0.7), radius: 5)
+                        .padding(.horizontal)
                 }
                 .padding(30)
                 .background(
                     RoundedRectangle(cornerRadius: 20)
-                        .fill(Color.gameGray.opacity(0.3))
-                        .shadow(color: .gameYellow.opacity(0.3), radius: 10)
+                        .fill(
+                            GameConstants.miniGames[miniGameIndex].color
+                        )
+                        .shadow(radius: 8)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 20)
+                                .strokeBorder(
+                                    LinearGradient(
+                                        colors: [
+                                            .gameYellow,
+                                            GameConstants.miniGames[miniGameIndex].color,
+                                            .gameYellow
+                                        ],
+                                        startPoint: .topLeading,
+                                        endPoint: .bottomTrailing
+                                    ),
+                                    lineWidth: 5
+                                )
+                        )
                 )
-                .scaleEffect(scale)
                 .offset(y: badgeOffset)
                 .opacity(badgeOpacity)
                 .onAppear {
+                    // Initial animation for the badge entrance
                     withAnimation(.spring(response: 0.6, dampingFraction: 0.7)) {
-                        scale = 1.0
                         badgeOffset = 0
                         badgeOpacity = 1.0
+                        scale = 1.0
+                    }
+                    
+                    // Animate only the medal icon, not the entire badge
+                    withAnimation(
+                        .easeInOut(duration: 2.0)
+                            .repeatForever(autoreverses: true)
+                    ) {
+                        scale = 1.05
                     }
                 }
                  
@@ -88,6 +176,14 @@ struct RewardView: View {
 }
 
 #Preview {
-    RewardView(miniGameIndex: 1, message: "Great job")
-        .environmentObject(NavigationState())
+    ZStack(alignment: .top) {
+        VStack {
+            Spacer().frame(height: 90)
+            RewardView(miniGameIndex: 2, message: "Great job")
+                .environmentObject(NavigationState())
+            Spacer()
+        }
+        TopBar(title: "test", leftIcon: "gear")
+    }
+    .edgesIgnoringSafeArea(.top)
 }
