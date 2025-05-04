@@ -52,9 +52,9 @@ import SwiftUI
                         break
                     }
                 }
-            } while (GameConstants.pixelArt16x16[currentArtIndex].name == smallArtName || 
-                    currentArtIndex == previousIndex) && 
-                    GameConstants.pixelArt16x16.count > 1
+            } while (GameConstants.pixelArt16x16[currentArtIndex].name == smallArtName ||
+                currentArtIndex == previousIndex) &&
+                GameConstants.pixelArt16x16.count > 1
             
             updateCorrectCells()
         }

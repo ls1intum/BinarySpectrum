@@ -362,23 +362,28 @@ struct ColorAlphaChallengeView: View {
                 viewModel.showHint = true
             }
         ) {
-            HStack(alignment: .top, spacing: 30) {
-                OpacityControlView(
-                    opacity: $viewModel.alphaChallengeState.opacityValue,
-                    rotationAngle: $rotationAngle
-                )
-                
+            HStack(spacing: 50) {
                 AlphaGridView(
                     grid: viewModel.alphaChallengeState.grid,
                     opacity: viewModel.alphaChallengeState.opacityValue
                 )
+                OpacityControlView(
+                    opacity: $viewModel.alphaChallengeState.opacityValue,
+                    rotationAngle: $rotationAngle
+                )
             }
-            .padding()
+            .padding(40)
+            .background(Color.gameBlack.opacity(0.1))
+            .cornerRadius(20)
             
             TextField("Enter your answer", text: $viewModel.alphaChallengeState.userAnswer)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
                 .frame(width: 500)
                 .font(GameTheme.headingFont)
+                .background(Color.gameBlue.opacity(0.1))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 8)
+                        .stroke(Color.gameBlue.opacity(0.8), lineWidth: 2)
+                )
                 .padding(.horizontal, 50)
                 .multilineTextAlignment(.center)
                 .autocapitalization(.allCharacters)
@@ -508,6 +513,8 @@ struct CheckerboardBackground: View {
 struct OpacityControlView: View {
     @Binding var opacity: Double
     @Binding var rotationAngle: Double
+    @State private var previousAngle: Double = 0
+    @State private var continuousAngle: Double = 0
     
     var body: some View {
         VStack {
@@ -520,15 +527,45 @@ struct OpacityControlView: View {
                     .fill(Color.red.opacity(0.8))
                     .frame(width: 50, height: 50)
                     .offset(x: 35, y: -35)
-                    .rotationEffect(.degrees(rotationAngle))
+                    .rotationEffect(.degrees(continuousAngle))
+                    .animation(.smooth(duration: 0.3), value: continuousAngle)
             }
             .gesture(
                 DragGesture(minimumDistance: 0)
                     .onChanged { value in
-                        let height = 200.0
-                        let touchY = value.location.y
-                        opacity = max(0, min(1, touchY / height))
-                        rotationAngle = opacity * 180
+                        // Calculate the angle from the center of the circle
+                        let center = CGPoint(x: 100, y: 100)
+                        let point = value.location
+                        
+                        // Calculate angle in radians and convert to degrees
+                        let angle = atan2(point.y - center.y, point.x - center.x) * 180 / .pi
+                        
+                        // Account for angle difference to create continuous rotation
+                        let angleDifference = angle - previousAngle
+                        
+                        // Adjust for cases where we cross the 180/-180 boundary
+                        var adjustedDifference = angleDifference
+                        if angleDifference > 180 {
+                            adjustedDifference -= 360
+                        } else if angleDifference < -180 {
+                            adjustedDifference += 360
+                        }
+                        
+                        // Update continuous angle
+                        continuousAngle += adjustedDifference
+                        
+                        // Update rotation and opacity
+                        rotationAngle = angle
+                        previousAngle = angle
+                        
+                        // Set opacity based on distance from center (optional)
+                        let distance = sqrt(pow(point.x - center.x, 2) + pow(point.y - center.y, 2))
+                        let normalizedDistance = min(max(distance / 100, 0), 1)
+                        opacity = normalizedDistance
+                    }
+                    .onEnded { _ in
+                        // Optional: you could add ending animation or reset behavior here
+                        previousAngle = rotationAngle
                     }
             )
         }
@@ -546,23 +583,25 @@ struct AlphaGridView: View {
                     HStack(spacing: 2) {
                         ForEach(0..<min(grid[row].count, 4), id: \.self) { col in
                             let square = grid[row][col]
-                            let squareOpacity = square.baseAlpha * (square.increasesOpacity ? opacity : (1 - opacity))
+                            // Opacity changes more gradual with exponential formula
+                            let adjustedOpacity = pow(opacity, 1.5)
+                            let squareOpacity = square.baseAlpha * (square.increasesOpacity ? adjustedOpacity : (1 - adjustedOpacity))
                             ZStack {
                                 Rectangle()
-                                    .fill(Color.blue.opacity(squareOpacity))
+                                    .fill(Color.gameBlue.opacity(squareOpacity))
                                     .frame(width: 60, height: 60)
                                 
                                 if !square.letter.isEmpty {
                                     Text(square.letter)
                                         .font(GameTheme.bodyFont)
-                                        .foregroundColor(.blue.opacity(0.8))
+                                        .foregroundColor(.gameBlue.opacity(square.letterOpacity))
                                 }
                             }
                         }
                     }
                 }
             }
-            .background(Color.gray.opacity(0.2))
+            .background(Color.gameBlue.opacity(0.1))
             .cornerRadius(8)
         }
     }

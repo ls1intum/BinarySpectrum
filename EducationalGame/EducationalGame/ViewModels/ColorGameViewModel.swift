@@ -36,8 +36,6 @@ import SwiftUI
         var targetColor: Color = .clear
         var targetAlpha: Double = 1.0
         var tolerance: Double = 0.15
-        var timeRemaining: Int = 60
-        private var timer: Timer?
         
         var targetHexString: String {
             var targetRed: CGFloat = 0
@@ -61,67 +59,96 @@ import SwiftUI
             return (Double(red), Double(green), Double(blue))
         }
         
-        mutating func startTimer() { // TODO: remove?
-            stopTimer()
-        }
-        
-        mutating func stopTimer() {
-            timer?.invalidate()
-            timer = nil
-        }
-        
         mutating func reset() {
             targetColor = .clear
             targetAlpha = 1.0
-            timeRemaining = 60
-            stopTimer()
         }
     }
     
     struct AlphaChallengeState {
         var opacityValue: Double = 0.5
         var userAnswer: String = ""
-        var showSuccess: Bool = false
         var grid: [[AlphaSquare]] = []
-        private let hiddenWords = ["SWIFT", "COLOR", "ALPHA", "PIXEL", "GAME"]
+        private let hiddenWords = [
+            "COLOR MASTER",
+            "PIXEL PERFECT",
+            "RGB WIZARD",
+            "ALPHA BLENDING",
+            "HEX CODE MASTER",
+            "OPACITY MASTER",
+            "VISUAL MAGIC",
+            "DIGITAL ARTIST",
+            "CHROMATIC PRO"
+        ]
         private var currentWord: String = ""
         
         struct AlphaSquare {
             let baseAlpha: Double
             let letter: String
             let increasesOpacity: Bool
+            let letterOpacity: Double
         }
         
         mutating func generateNewGrid() {
-            currentWord = hiddenWords.randomElement() ?? "SWIFT"
+            currentWord = hiddenWords.randomElement() ?? "COLOR MASTER"
             grid = []
             
             let wordArray = Array(currentWord)
+            let gridSize = 4
+            let totalCells = gridSize * gridSize
             
-            for row in 0..<4 {
+            // Calculate positions for the letters
+            var letterPositions: [Int] = []
+            if wordArray.count <= totalCells {
+                // Create a sequence of positions that will fit the word nicely
+                let startPos = (totalCells - wordArray.count) / 2
+                letterPositions = Array(startPos..<(startPos + wordArray.count))
+                
+                // Sometimes randomize the positions for more challenge
+                if Bool.random() {
+                    letterPositions = (0..<totalCells).shuffled().prefix(wordArray.count).sorted()
+                }
+            }
+            
+            var letterIndex = 0
+            
+            for row in 0..<gridSize {
                 var rowSquares: [AlphaSquare] = []
-                for col in 0..<4 {
-                    let index = row * 4 + col
-                    let letter = index < wordArray.count ? String(wordArray[index]) : ""
-                    let baseAlpha = letter.isEmpty ? Double.random(in: 0.1...0.4) : Double.random(in: 0.3...0.7)
-                    let increasesOpacity = Bool.random()
+                for col in 0..<gridSize {
+                    let position = row * gridSize + col
+                    let letter: String
                     
-                    rowSquares.append(AlphaSquare(baseAlpha: baseAlpha, letter: letter, increasesOpacity: increasesOpacity))
+                    if letterIndex < wordArray.count && letterPositions.contains(position) {
+                        letter = String(wordArray[letterIndex])
+                        letterIndex += 1
+                    } else {
+                        letter = ""
+                    }
+                    
+                    let baseAlpha = Double.random(in: 0.5...1.0)
+                    let increasesOpacity = Bool.random()
+                    let letterOpacity = Double.random(in: 0.2...0.7)
+                    
+                    rowSquares.append(AlphaSquare(
+                        baseAlpha: baseAlpha,
+                        letter: letter,
+                        increasesOpacity: increasesOpacity,
+                        letterOpacity: letterOpacity
+                    ))
                 }
                 grid.append(rowSquares)
             }
             
             opacityValue = 0.5
             userAnswer = ""
-            showSuccess = false
         }
         
         func checkAnswer() -> (isCorrect: Bool, message: LocalizedStringResource) {
             let normalizedAnswer = userAnswer.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
             if normalizedAnswer == currentWord {
-                return (true, "Correct! Well done! 🎉")
+                return (true, "Correct! You've mastered color opacity! 🎉")
             } else {
-                return (false, "Try adjusting the opacity to see the letters more clearly!")
+                return (false, "Not quite right. Try adjusting the opacity more carefully to reveal all the letters.")
             }
         }
     }
