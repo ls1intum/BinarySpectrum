@@ -3,7 +3,7 @@ import SwiftUI
 // MARK: - Views
 
 struct SettingsView: View {
-    @StateObject private var userViewModel = UserViewModel()
+    @StateObject private var userViewModel = sharedUserViewModel
     @State private var showResetConfirmation = false
     @State private var showResetSuccess = false
     @State private var showProfileEdit = false
@@ -106,7 +106,9 @@ struct SettingsView: View {
                     primaryButtonTitle: "Reset",
                     secondaryButtonTitle: "Cancel",
                     onPrimaryButtonTap: {
+                        print("Before reset - Achievements: \(userViewModel.achievements)")
                         userViewModel.resetProgress()
+                        print("After reset - Achievements: \(userViewModel.achievements)")
                         showResetConfirmation = false
                         showResetSuccess = true
                         // Add haptic feedback for reset action

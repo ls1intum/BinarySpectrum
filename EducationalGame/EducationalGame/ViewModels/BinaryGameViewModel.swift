@@ -212,7 +212,15 @@ import SwiftUI
     
     @objc func resetGameState() {
         currentPhase = .introDialogue
-        // TODO: totally reset
+        selectedNumber = 0
+        binaryDigits = Array(repeating: "0", count: digitCount)
+        challengeBinaryDigits = Array(repeating: "0", count: challengeDigitCount)
         userDecimalAnswer = ""
+        showAlert = false
+        alertMessage = ""
+        highlightCorrectBits = false
+        stepIndex = 0
+        dayBinaryDigits = Array(repeating: "0", count: 5) // 5 bits for days (1-31)
+        monthBinaryDigits = Array(repeating: "0", count: 4) // 4 bits for months (1-12)
     }
 }

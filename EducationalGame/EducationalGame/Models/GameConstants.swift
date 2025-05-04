@@ -5,9 +5,9 @@ enum GameConstants {
     static let gameDescription: LocalizedStringResource = "Discover how computers turn zeros and ones into amazing worlds of color, images, and creativity. This game offers 3 fun mini-games that will challenge your mind while you learn about computational thinking."
     
     static let miniGames: [MiniGame] = [
-        MiniGame(id: 0, name: "BitPearls", icon: "lightswitch.on", color: .gameGreen, personaImage: "Figma2", achievementName: "Binary Jewel", view: AnyView(BinaryGameView()), highScore: 0),
-        MiniGame(id: 1, name: "PixelPrism", icon: "square.grid.3x3.middle.filled", color: .gameRed, personaImage: "Figma1", achievementName: "Grid Genius", view: AnyView(PixelGameView()), highScore: 0),
-        MiniGame(id: 2, name: "ColorBloom", icon: "paintpalette", color: .gameBlue, personaImage: "Figma3", achievementName: "Chromatic Artist", view: AnyView(ColorGameView()), highScore: 0)
+        MiniGame(id: 0, name: "BitPearls", icon: "lightswitch.on", color: .gameGreen, personaName: "Alex", personaImage: "Figma2", achievementName: "Binary Jewel", view: AnyView(BinaryGameView()), highScore: 0),
+        MiniGame(id: 1, name: "PixelPrism", icon: "square.grid.3x3.middle.filled", color: .gameRed, personaName: "Pixie", personaImage: "Figma1", achievementName: "Grid Genius", view: AnyView(PixelGameView()), highScore: 0),
+        MiniGame(id: 2, name: "ColorBloom", icon: "paintpalette", color: .gameBlue, personaName: "Iris", personaImage: "Figma3", achievementName: "Chromatic Artist", view: AnyView(ColorGameView()), highScore: 0)
     ]
     
     static let pixelArt8x8: [PixelArt] = [
@@ -20,11 +20,11 @@ enum GameConstants {
     
     // Each hex digit represents 4 pixels, so a 16x16 grid needs 64 hex digits
     static let pixelArt16x16: [PixelArt] = [
-        PixelArt(name: "Cactus", grid: GridImage(hexString: "01800240024802540254025412542A542A642A04267820401E4002401FF81008")) /* ,
-         PixelArt(name: "Pig", grid: GridImage(hexString: "")),
-         PixelArt(name: "Carrot", grid: GridImage(hexString: "")),
-         PixelArt(name: "Pumpkin", grid: GridImage(hexString: "")),
-         PixelArt(name: "Dolphin", grid: GridImage(hexString: "")) */
+        PixelArt(name: "Cactus", grid: GridImage(hexString: "01800240024802540254025412542A542A642A04267820401E4002401FF81008")),
+        PixelArt(name: "Pig", grid: GridImage(hexString: "700e8ff198196006480a981987e188118a51881147e240022004481247e23c3c")),
+        PixelArt(name: "Carrot", grid: GridImage(hexString: "00000000000800100192026c0430081010082008201042204940858086007800")),
+        PixelArt(name: "Pumpkin", grid: GridImage(hexString: "0000078003801ff8300c60064422ce7384218181c0034a5265a6300c1c3807e0")),
+        PixelArt(name: "Dolphin", grid: GridImage(hexString: "00000300028006700808100420162001427e46d04b2028002c00110014000800"))
     ]
     
     // MARK: - Binary Game Content

@@ -12,6 +12,7 @@ struct MiniGame: Identifiable {
     let name: LocalizedStringResource
     let icon: String
     let color: Color
+    let personaName: String
     let personaImage: String
     let achievementName: LocalizedStringResource
     let view: AnyView

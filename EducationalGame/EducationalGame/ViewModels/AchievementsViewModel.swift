@@ -7,9 +7,8 @@ class AchievementsViewModel: ObservableObject {
     @Published var pixelAchievement: Bool = false
     @Published var colorAchievement: Bool = false
     
-    // UserDefaults keys
-    private let completedMiniGamesKey = "completedMiniGames"
-    private let achievementsKey = "achievements"
+    // Reference to shared UserViewModel
+    private let userViewModel = sharedUserViewModel
     
     // Achievement titles and descriptions
     let achievements: [(id: Int, title: String, description: String)] = [
@@ -28,6 +27,14 @@ class AchievementsViewModel: ObservableObject {
             name: NSNotification.Name("UserDataUpdated"),
             object: nil
         )
+        
+        // Listen for game progress reset
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(updateAchievementsFromUserViewModel),
+            name: NSNotification.Name("ResetGameProgress"),
+            object: nil
+        )
     }
     
     deinit {
@@ -35,18 +42,19 @@ class AchievementsViewModel: ObservableObject {
     }
     
     @objc func updateAchievementsFromUserViewModel() {
-        // Get the user data from UserDefaults
-        let completedGames = getCompletedGames()
-        let userAchievements = getAchievements()
+        print("Updating achievements from UserViewModel")
+        print("Current UserViewModel achievements: \(userViewModel.achievements)")
+        print("Current UserViewModel completed games: \(userViewModel.completedMiniGames)")
         
-        // Print debug information
-        print("Completed games: \(completedGames)")
-        print("User achievements: \(userAchievements)")
+        // Reset all achievement states first
+        binaryAchievement = false
+        pixelAchievement = false
+        colorAchievement = false
         
-        // Check for achievements
-        binaryAchievement = checkCompletionForGame(name: "Binary Game", completedGames: completedGames, achievements: userAchievements)
-        pixelAchievement = checkCompletionForGame(name: "Pixel Game", completedGames: completedGames, achievements: userAchievements)
-        colorAchievement = checkCompletionForGame(name: "Color Game", completedGames: completedGames, achievements: userAchievements)
+        // Check for achievements based on userViewModel data
+        binaryAchievement = checkCompletionForGame(name: "Binary Game")
+        pixelAchievement = checkCompletionForGame(name: "Pixel Game")
+        colorAchievement = checkCompletionForGame(name: "Color Game")
         
         // Print achievement states
         print("Binary achievement: \(binaryAchievement)")
@@ -54,31 +62,14 @@ class AchievementsViewModel: ObservableObject {
         print("Color achievement: \(colorAchievement)")
     }
     
-    private func getCompletedGames() -> [String: Bool] {
-        if let data = UserDefaults.standard.data(forKey: completedMiniGamesKey),
-           let decodedGames = try? JSONDecoder().decode([String: Bool].self, from: data) {
-            return decodedGames
-        }
-        return [:]
-    }
-    
-    private func getAchievements() -> [String] {
-        if let data = UserDefaults.standard.data(forKey: achievementsKey),
-           let decodedAchievements = try? JSONDecoder().decode([String].self, from: data) {
-            return decodedAchievements
-        }
-        return []
-    }
-    
-    private func checkCompletionForGame(name: String, completedGames: [String: Bool], achievements: [String]) -> Bool {
+    private func checkCompletionForGame(name: String) -> Bool {
         // Check if any game phase with this base name has been completed
-        // Either the base game or specific phases like "Binary Game - reward"
-        let matchingAchievements = achievements.filter { 
+        let matchingAchievements = userViewModel.achievements.filter { 
             $0.contains(name)
         }
         
         // Check completions directly from completedMiniGames
-        let completedGameEntries = completedGames.filter { 
+        let completedGameEntries = userViewModel.completedMiniGames.filter { 
             $0.key.contains(name) && $0.value == true
         }
         
@@ -101,10 +92,23 @@ class AchievementsViewModel: ObservableObject {
     
     // Unlock an achievement
     func unlockAchievement(forGameId id: Int) {
+        // First verify that the achievement is actually unlocked in UserViewModel
+        updateAchievementsFromUserViewModel()
+        
+        // Only set the achievement if it's already unlocked through game completion
         switch id {
-        case 0: binaryAchievement = true
-        case 1: pixelAchievement = true
-        case 2: colorAchievement = true
+        case 0: 
+            if checkCompletionForGame(name: "Binary Game") {
+                binaryAchievement = true
+            }
+        case 1: 
+            if checkCompletionForGame(name: "Pixel Game") {
+                pixelAchievement = true
+            }
+        case 2: 
+            if checkCompletionForGame(name: "Color Game") {
+                colorAchievement = true
+            }
         default: break
         }
     }

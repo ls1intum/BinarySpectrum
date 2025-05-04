@@ -106,7 +106,7 @@ let sharedUserViewModel = UserViewModel()
         miniGamePercentages = [:]
         achievements = []
         
-        // Save changes to UserDefaults
+        // Save changes to UserDefaults immediately to ensure achievements are reset
         saveData()
         
         // Clear any other game state data that might be stored in UserDefaults
@@ -140,7 +140,11 @@ let sharedUserViewModel = UserViewModel()
             defaults.set(encoded, forKey: StorageKey.miniGamePercentages)
         }
         
-        if let encoded = try? JSONEncoder().encode(achievements) {
+        // Handle achievements
+        if achievements.isEmpty {
+            // If achievements are empty, explicitly remove from UserDefaults
+            defaults.removeObject(forKey: StorageKey.achievements)
+        } else if let encoded = try? JSONEncoder().encode(achievements) {
             defaults.set(encoded, forKey: StorageKey.achievements)
         }
         
