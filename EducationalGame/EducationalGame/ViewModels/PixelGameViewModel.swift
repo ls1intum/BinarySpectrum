@@ -25,11 +25,36 @@ import SwiftUI
         var hintRevealedCells: Set<Int> = []
         
         mutating func loadRandomArt() {
-            // Randomly choose a different art
             let previousIndex = currentArtIndex
+            // Randomly choose a different art
             repeat {
                 currentArtIndex = Int.random(in: 0..<GameConstants.pixelArt16x16.count)
             } while currentArtIndex == previousIndex && GameConstants.pixelArt16x16.count > 1
+            
+            updateCorrectCells()
+        }
+        
+        // Load a random art ensuring it's different from the specified 8x8 art name
+        mutating func loadRandomArt(differentFrom smallArtName: String) {
+            let previousIndex = currentArtIndex
+            
+            // Try to find an art with a different name than the 8x8 art
+            var attempts = 0
+            let maxAttempts = 10 // Prevent infinite loop in case names are similar
+            
+            repeat {
+                currentArtIndex = Int.random(in: 0..<GameConstants.pixelArt16x16.count)
+                attempts += 1
+                
+                // If we've tried too many times, just accept any different index
+                if attempts >= maxAttempts {
+                    if currentArtIndex != previousIndex || GameConstants.pixelArt16x16.count <= 1 {
+                        break
+                    }
+                }
+            } while (GameConstants.pixelArt16x16[currentArtIndex].name == smallArtName || 
+                    currentArtIndex == previousIndex) && 
+                    GameConstants.pixelArt16x16.count > 1
             
             updateCorrectCells()
         }
@@ -43,88 +68,32 @@ import SwiftUI
             GameConstants.pixelArt16x16[currentArtIndex]
         }
         
-        // Generate binary representation of the 16x16 art
-        func getBinaryCode(gridSize: Int) -> String {
-            var binaryString = ""
-            
-            for row in 0..<gridSize {
-                for col in 0..<gridSize {
-                    let index = row * gridSize + col
-                    binaryString += correctCells.contains(index) ? "1" : "0"
-                }
-                binaryString += "\n"
-            }
-            
-            return binaryString.trimmingCharacters(in: .whitespacesAndNewlines)
-        }
-        
         // Format binary code for display
         var formattedBinaryCode: String {
-            return getBinaryCode(gridSize: 16)
-                .replacingOccurrences(of: "0", with: " 0")
-                .replacingOccurrences(of: "1", with: " 1")
-                .trimmingCharacters(in: .whitespacesAndNewlines)
-                .replacingOccurrences(of: "\n", with: "\n ")
+            var binaryString = ""
+            
+            for row in 0..<16 {
+                for col in 0..<16 {
+                    let index = row * 16 + col
+                    binaryString += correctCells.contains(index) ? "1" : "0"
+                    
+                    // Add space after each digit for better readability
+                    if col < 16 - 1 {
+                        binaryString += " "
+                    }
+                }
+                if row < 16 - 1 {
+                    binaryString += "\n"
+                }
+            }
+            
+            return binaryString
         }
     }
     
     var adeptState = AdeptState()
     
-    func generateHexOutput() {
-        hexOutput = currentGridToHexString()
-    }
-    
-    func clearSelectedArt() {
-        selectedArt = "None"
-        gridState.reset()
-        hexOutput = ""
-    }
-    
-    func selectArt(art: PixelArt) {
-        selectedArt = art.name
-        gridState.blackCells = art.grid.blackPixels
-        gridState.gridSize = 16
-        gridState.cellSize = 20
-        hexOutput = currentGridToHexString()
-    }
-    
-    func getArtByName(name: String, size: Int = 8) -> Set<Int> {
-        if size == 8 {
-            if let art = GameConstants.pixelArt8x8.first(where: { $0.name == name }) {
-                return art.grid.blackPixels
-            }
-        }
-        if size == 16 {
-            if let art = GameConstants.pixelArt16x16.first(where: { $0.name == name }) {
-                return art.grid.blackPixels
-            }
-        }
-        return Set<Int>()
-    }
-    
-    // Get the full PixelArt object by name and size
-    func getFullArtByName(name: String, size: Int = 8) -> PixelArt? {
-        if size == 8 {
-            return GameConstants.pixelArt8x8.first(where: { $0.name == name })
-        } else if size == 16 {
-            return GameConstants.pixelArt16x16.first(where: { $0.name == name })
-        }
-        return nil
-    }
-    
-    // Get a random art from the specified size collection
-    func getRandomArt(size: Int = 8) -> PixelArt? {
-        if size == 8 && !GameConstants.pixelArt8x8.isEmpty {
-            let randomIndex = Int.random(in: 0..<GameConstants.pixelArt8x8.count)
-            return GameConstants.pixelArt8x8[randomIndex]
-        } else if size == 16 && !GameConstants.pixelArt16x16.isEmpty {
-            let randomIndex = Int.random(in: 0..<GameConstants.pixelArt16x16.count)
-            return GameConstants.pixelArt16x16[randomIndex]
-        }
-        return nil
-    }
-    
-    // Convert grid state to a hex string (supports both 8x8 and 16x16 grids)
+    // Convert grid state to a hex string
     func currentGridToHexString() -> String {
         // Create a temporary GridImage from the current black cells
         var tempGrid = GridImage(size: gridState.gridSize)
@@ -137,23 +106,9 @@ import SwiftUI
         return tempGrid.toHexString()
     }
     
-    // Load a grid from a hex string
-    func loadGridFromHexString(_ hexString: String) {
-        let tempGrid = GridImage(hexString: hexString)
-        gridState.blackCells = tempGrid.blackPixels
-        gridState.gridSize = tempGrid.size
-        // Adjust cell size based on grid size
-        gridState.cellSize = gridState.gridSize == 8 ? 40 : 20
-    }
-    
-    // Save the current art to a string representation
-    func saveCurrentArt() -> String {
-        return currentGridToHexString()
-    }
-    
-    // Handle the save art action
+    // Save the current art
     func saveArt() {
-        savedArtString = saveCurrentArt()
+        savedArtString = currentGridToHexString()
         showSaveSuccess = true
         
         // Hide success message after 3 seconds
@@ -244,7 +199,13 @@ import SwiftUI
     func updateGridSize(_ newSize: Int) {
         gridState.reset()
         gridState.gridSize = newSize
-        gridState.cellSize = newSize == 8 ? 40 : 20
+        
+        // Match cell sizes with corresponding challenges
+        if newSize == 8 {
+            gridState.cellSize = 40 // Match novice challenge cell size
+        } else {
+            gridState.cellSize = 26 // Match adept challenge cell size
+        }
         
         // Reset compression data when grid size changes
         compressionText = ""
@@ -270,8 +231,13 @@ import SwiftUI
         var currentArtIndex: Int = 0
         var correctCells: Set<Int> = []
         
-        mutating func loadNextArt() {
-            currentArtIndex = (currentArtIndex + 1) % GameConstants.pixelArt8x8.count
+        mutating func loadRandomArt() {
+            let previousIndex = currentArtIndex
+            // Make sure we don't get the same art again
+            repeat {
+                currentArtIndex = Int.random(in: 0..<GameConstants.pixelArt8x8.count)
+            } while currentArtIndex == previousIndex && GameConstants.pixelArt8x8.count > 1
+            
             updateCorrectCells()
         }
         
@@ -292,8 +258,14 @@ import SwiftUI
             GameConstants.pixelArt8x8[currentArtIndex].grid.blackPixels
         }
         
-        mutating func loadNextArt() {
-            currentArtIndex = (currentArtIndex + 1) % GameConstants.pixelArt8x8.count
+        mutating func loadRandomArt(differentFrom otherIndex: Int) {
+            let previousIndex = currentArtIndex
+            
+            // Make sure we don't get the same art as the decoding challenge or the previous one
+            repeat {
+                currentArtIndex = Int.random(in: 0..<GameConstants.pixelArt8x8.count)
+            } while (currentArtIndex == otherIndex || currentArtIndex == previousIndex) && GameConstants.pixelArt8x8.count > 2
+            
             playerBinaryCode = ""
         }
         
@@ -326,7 +298,13 @@ import SwiftUI
     // MARK: - Game Logic
     
     init() {
-        decodingState.updateCorrectCells()
+        // Initialize with random art selections
+        decodingState.loadRandomArt()
+        setupEncodingChallenge() // Initialize encoding challenge
+        
+        // Initialize adept state with different art than novice challenge
+        let noviceArtName = decodingState.currentArt.name
+        adeptState.loadRandomArt(differentFrom: noviceArtName)
         
         NotificationCenter.default.addObserver(
             self,
@@ -347,8 +325,16 @@ import SwiftUI
     func resetGame() {
         currentPhase = .introDialogue
         gridState.reset()
-        encodingState.reset()
-        decodingState.updateCorrectCells()
+        
+        // Reset with proper art separation
+        decodingState.loadRandomArt()
+        setupEncodingChallenge()
+        
+        // Reset adept challenge with different art than novice
+        adeptState = AdeptState()
+        let noviceArtName = decodingState.currentArt.name
+        adeptState.loadRandomArt(differentFrom: noviceArtName)
+        
         showHint = false
         isCorrect = false
         hintMessage = ""
@@ -364,49 +350,57 @@ import SwiftUI
         // Reset adept challenge properties
         hexOutput = ""
         selectedArt = "None"
-        adeptState = AdeptState()
     }
     
     func toggleCell(_ index: Int) {
         if showHint { return }
         
-        if gridState.blackCells.contains(index) {
-            gridState.blackCells.remove(index)
-        } else {
-            gridState.blackCells.insert(index)
-        }
-        
-        // Calculate progress based on the current phase/challenge
-        if currentPhase == .adeptChallenge {
-            calculateAdeptProgress()
-        } else {
-            calculateProgress()
+        // Use a very slight delay to make the animation feel more natural
+        // and to prevent animation conflicts if tapping rapidly
+        DispatchQueue.main.async {
+            if self.gridState.blackCells.contains(index) {
+                self.gridState.blackCells.remove(index)
+            } else {
+                self.gridState.blackCells.insert(index)
+            }
+            
+            // Calculate progress based on the current phase/challenge
+            if self.currentPhase == .adeptChallenge {
+                self.calculateAdeptProgress()
+            } else {
+                self.calculateProgress()
+            }
         }
     }
     
     private func calculateProgress() {
         let correctBlackCells = gridState.blackCells.intersection(decodingState.correctCells).count
         let incorrectBlackCells = gridState.blackCells.subtracting(decodingState.correctCells).count
+        let missingBlackCells = decodingState.correctCells.count - correctBlackCells
         
         // Penalize for incorrect cells
         let totalCorrectNeeded = Double(decodingState.correctCells.count)
         let progressValue = (Double(correctBlackCells) - Double(incorrectBlackCells) * 0.5) / totalCorrectNeeded
         
         gridState.progress = max(0.0, min(1.0, progressValue))
-    }
-    
-    // Setup for 16x16 art challenges
-    func setup16x16Challenge() {
-        gridState.gridSize = 16
-        gridState.cellSize = 20 // Smaller cells for the larger grid
-        gridState.reset()
         
-        if let randomArt = getRandomArt(size: 16) {
-            gridState.blackCells = randomArt.grid.blackPixels
+        // Provide progressive hints based on progress
+        if incorrectBlackCells > 5 {
+            hintMessage = "You have several incorrect pixels. White spaces should remain white."
+        } else if missingBlackCells > 5 {
+            hintMessage = "You're missing several black pixels. Check the binary code carefully."
+        } else if incorrectBlackCells > 0 {
+            hintMessage = "Almost there! Check for a few incorrect pixels."
+        } else if missingBlackCells > 0 {
+            hintMessage = "Getting close! Just a few black pixels missing."
+        } else if correctBlackCells == decodingState.correctCells.count {
+            hintMessage = "Looking great! Check your work before submitting."
+        } else {
+            hintMessage = ""
         }
     }
     
-    // Setup for adept challenge (16x16 hex grid)
+    // Check the answer for the novice challenge
     func checkAnswer() {
         let allCorrectBlack = decodingState.correctCells.isSubset(of: gridState.blackCells)
         let noIncorrectBlack = gridState.blackCells.subtracting(decodingState.correctCells).isEmpty
@@ -416,16 +410,23 @@ import SwiftUI
         if isCorrect {
             hintMessage = "Perfect! You've successfully decoded \(decodingState.currentArt.name)!"
             gridState.progress = 1.0
-            showHint = true
         } else {
-            if gridState.progress > 0.8 {
-                hintMessage = "You're very close! Just a few more adjustments needed."
-            } else if gridState.progress > 0.5 {
-                hintMessage = "Good progress, but there are still errors in your solution."
+            // Calculate progress-based feedback
+            let correctBlackCells = gridState.blackCells.intersection(decodingState.correctCells).count
+            let incorrectBlackCells = gridState.blackCells.subtracting(decodingState.correctCells).count
+            let missingBlackCells = decodingState.correctCells.count - correctBlackCells
+            
+            if incorrectBlackCells > 5 {
+                hintMessage = "You have several incorrect pixels. White spaces should remain white."
+            } else if missingBlackCells > 5 {
+                hintMessage = "You're missing several black pixels. Check the binary code carefully."
+            } else if incorrectBlackCells > 0 {
+                hintMessage = "Almost there! Check for a few incorrect pixels."
+            } else if missingBlackCells > 0 {
+                hintMessage = "Getting close! Just a few black pixels missing."
             } else {
                 hintMessage = "Keep trying! Remember: 1 = black pixel, 0 = white pixel."
             }
-            showHint = true
         }
     }
     
@@ -438,32 +439,75 @@ import SwiftUI
             for col in 0..<gridState.gridSize {
                 let index = row * gridState.gridSize + col
                 binaryString += blackPixels.contains(index) ? "1" : "0"
+                
+                // Add space after each digit for better readability
+                if col < gridState.gridSize - 1 {
+                    binaryString += " "
+                }
             }
-            binaryString += "\n"
+            if row < gridState.gridSize - 1 {
+                binaryString += "\n"
+            }
         }
         
-        return binaryString.trimmingCharacters(in: .whitespacesAndNewlines)
+        return binaryString
     }
     
+    // Check the binary encoding
     func checkBinaryEncoding() {
         let correctBinary = correctBinaryEncoding
-        let normalizedPlayerCode = encodingState.playerBinaryCode.replacingOccurrences(of: " ", with: "").replacingOccurrences(of: "\n", with: "")
-        let normalizedCorrectCode = correctBinary.replacingOccurrences(of: " ", with: "").replacingOccurrences(of: "\n", with: "")
+        
+        // Normalize both strings to compare only the 0s and 1s
+        let normalizedPlayerCode = encodingState.playerBinaryCode.filter { $0 == "0" || $0 == "1" }
+        let normalizedCorrectCode = correctBinary.filter { $0 == "0" || $0 == "1" }
         
         isCorrect = normalizedPlayerCode == normalizedCorrectCode
         
         if isCorrect {
             hintMessage = "Perfect! You've successfully encoded \(GameConstants.pixelArt8x8[encodingState.currentArtIndex].name) in binary!"
             gridState.progress = 1.0
-            showHint = true
         } else {
-            if normalizedPlayerCode.count == normalizedCorrectCode.count {
-                hintMessage = "Almost there! Check your 1's and 0's carefully."
+            // Find differences for more specific feedback
+            let playerRows = encodingState.playerBinaryCode.split(separator: "\n")
+            let correctRows = correctBinary.split(separator: "\n")
+            var errorDescription = ""
+            
+            let expectedDigitsPerRow = gridState.gridSize
+            let playerDigitCount = normalizedPlayerCode.count
+            let expectedTotalDigits = gridState.gridSize * gridState.gridSize
+            
+            if playerDigitCount != expectedTotalDigits {
+                errorDescription = "Your code should have exactly \(expectedTotalDigits) digits total (\(expectedDigitsPerRow) per row)."
+            } else if playerRows.count != gridState.gridSize {
+                errorDescription = "Your code should have exactly \(gridState.gridSize) rows."
             } else {
-                hintMessage = "The length of your code doesn't match. Remember: 8 bits per row!"
+                // Check each row for errors by comparing only the digits (0s and 1s)
+                for (index, (playerRow, correctRow)) in zip(playerRows, correctRows).enumerated() {
+                    let playerDigits = playerRow.filter { $0 == "0" || $0 == "1" }
+                    let correctDigits = correctRow.filter { $0 == "0" || $0 == "1" }
+                    
+                    if playerDigits != correctDigits {
+                        errorDescription = "Check row \(index + 1) - it doesn't match the image."
+                        break
+                    }
+                }
+                
+                // If no specific row error was found but there's still an error
+                if errorDescription.isEmpty {
+                    errorDescription = "There's an error in your binary code. Double-check each row."
+                }
             }
-            showHint = true
+            
+            hintMessage = "Almost there! \(errorDescription)\n\nStart from the top left and work row by row. Each row should have \(expectedDigitsPerRow) digits."
         }
+    }
+    
+    // Show a popup with binary representation of the current art
+    func showBinaryCompletion() {
+        let binary = currentGridToBinary()
+        isCorrect = true // This ensures we use the "Continue" button
+        hintMessage = "This is how computers represent your image in binary:\n\n\(binary)\n\nEach 1 represents a black pixel, and each 0 represents a white pixel."
+        showHint = true
     }
     
     func hideHint() {
@@ -474,18 +518,27 @@ import SwiftUI
         }
     }
     
-    func nextPhase() {
-        currentPhase.next(for: gameType)
-        gridState.reset()
-    }
-    
     // Format the code to display in rows
     var formattedCode: String {
-        return correctBinaryEncoding
-            .replacingOccurrences(of: "0", with: " 0")
-            .replacingOccurrences(of: "1", with: " 1")
-            .trimmingCharacters(in: .whitespacesAndNewlines)
-            .replacingOccurrences(of: "\n", with: "\n ")
+        var formattedString = ""
+        let blackPixels = GameConstants.pixelArt8x8[encodingState.currentArtIndex].grid.blackPixels
+        
+        for row in 0..<gridState.gridSize {
+            for col in 0..<gridState.gridSize {
+                let index = row * gridState.gridSize + col
+                formattedString += blackPixels.contains(index) ? "1" : "0"
+                
+                // Add space after each digit for better readability
+                if col < gridState.gridSize - 1 {
+                    formattedString += " "
+                }
+            }
+            if row < gridState.gridSize - 1 {
+                formattedString += "\n"
+            }
+        }
+        
+        return formattedString
     }
     
     func completeGame(score: Int, percentage: Double) {
@@ -507,44 +560,39 @@ import SwiftUI
         if isCorrect {
             hintMessage = "Perfect! You've successfully decoded the 16×16 image of \(adeptState.currentArt.name)!"
             gridState.progress = 1.0
-            showHint = true
         } else {
+            // Create progress-based hint
+            let correctBlackCells = gridState.blackCells.intersection(adeptState.correctCells).count
+            let incorrectBlackCells = gridState.blackCells.subtracting(adeptState.correctCells).count
+            
+            // Calculate progress
+            let totalCorrectNeeded = Double(adeptState.correctCells.count)
+            let progressValue = (Double(correctBlackCells) - Double(incorrectBlackCells) * 0.5) / totalCorrectNeeded
+            gridState.progress = max(0.0, min(1.0, progressValue))
+            
+            // Generate appropriate hint
             if gridState.progress > 0.8 {
                 hintMessage = "You're very close! Just a few more adjustments needed."
             } else if gridState.progress > 0.5 {
                 hintMessage = "Good progress, but there are still errors in your solution."
             } else {
-                hintMessage = "Keep trying! The 16×16 grid is more challenging, but you can do it!"
+                hintMessage = "Keep trying! The 16×16 grid is more challenging, but you can do it!\n\nNeed help? Try tapping a few more black cells based on the binary code."
             }
-            showHint = true
-        }
-    }
-    
-    // Show a hint by revealing a portion of the correct image
-    func showAdeptHint() {
-        if adeptState.hintRevealedCells.count < 40 {
-            // Get some random cells from the correct set that haven't been revealed yet
-            let unrevealed = adeptState.correctCells.subtracting(adeptState.hintRevealedCells)
-            let toReveal = min(10, unrevealed.count)
             
-            if toReveal > 0 {
-                let randomCells = Array(unrevealed).shuffled().prefix(toReveal)
-                for cell in randomCells {
-                    adeptState.hintRevealedCells.insert(cell)
-                    gridState.blackCells.insert(cell)
+            // Give hint about getting automatic help
+            if adeptState.hintRevealedCells.count < 40 {
+                // Automatically reveal a few pixels to help
+                let unrevealed = adeptState.correctCells.subtracting(adeptState.hintRevealedCells).subtracting(gridState.blackCells)
+                let toReveal = min(5, unrevealed.count)
+                
+                if toReveal > 0 {
+                    let randomCells = Array(unrevealed).shuffled().prefix(toReveal)
+                    for cell in randomCells {
+                        adeptState.hintRevealedCells.insert(cell)
+                        gridState.blackCells.insert(cell)
+                    }
                 }
-                
-                calculateAdeptProgress()
-                
-                hintMessage = "Here's a hint! Some pixels have been revealed for you."
-                showHint = true
-            } else {
-                hintMessage = "No more hints available. You're on the right track!"
-                showHint = true
             }
-        } else {
-            hintMessage = "You've used all available hints. Try to figure out the rest!"
-            showHint = true
         }
     }
     
@@ -559,16 +607,67 @@ import SwiftUI
         gridState.progress = max(0.0, min(1.0, progressValue))
     }
     
+    // Setup for novice challenge with a random 8x8 art
+    func setupDecodingChallenge() {
+        // Make sure we're using the correct grid size
+        gridState.gridSize = 8
+        gridState.cellSize = 40
+        gridState.reset()
+        
+        // Load a random art
+        decodingState.loadRandomArt()
+        
+        // Set an appropriate hint message explaining what to do
+        hintMessage = "Decode the binary pattern on the left by tapping the grid squares to make them black (1) or white (0)."
+        isCorrect = false
+    }
+    
+    // Setup for apprentice challenge with a random 8x8 art
+    func setupEncodingChallenge() {
+        // Make sure we're using the correct grid size
+        gridState.gridSize = 8
+        gridState.cellSize = 40
+        gridState.reset()
+        
+        // Load a random art different from the decoding challenge
+        encodingState.loadRandomArt(differentFrom: decodingState.currentArtIndex)
+        
+        // Set an appropriate hint message explaining what to do
+        isCorrect = false
+    }
+    
     // Setup for adept challenge with a random 16x16 art
     func setupAdeptChallenge() {
         gridState.gridSize = 16
-        gridState.cellSize = 26 // Increase cell size for better visibility and touch targets
+        gridState.cellSize = 30 // Reduced cell size to make grid cells appear closer together
         gridState.reset()
+  
+        // Make sure we use a different art than the novice challenge
+        let noviceArtName = decodingState.currentArt.name
+        adeptState.loadRandomArt(differentFrom: noviceArtName)
         
-        // Load a random 16x16 art
-        adeptState.loadRandomArt()
-        
-        // Initialize progress calculation
         calculateAdeptProgress()
+    }
+    
+    // Convert current grid to binary representation - used for display
+    func currentGridToBinary() -> String {
+        var binaryString = ""
+        
+        for row in 0..<gridState.gridSize {
+            for col in 0..<gridState.gridSize {
+                let index = row * gridState.gridSize + col
+                binaryString += gridState.blackCells.contains(index) ? "1" : "0"
+                
+                // Add space after each digit for better readability
+                if col < gridState.gridSize - 1 {
+                    binaryString += " "
+                }
+            }
+            if row < gridState.gridSize - 1 {
+                binaryString += "\n"
+            }
+        }
+        
+        return binaryString
     }
 }

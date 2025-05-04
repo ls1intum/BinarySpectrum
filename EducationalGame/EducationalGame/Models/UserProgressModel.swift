@@ -53,13 +53,4 @@ class UserProgressModel: ObservableObject {
     func setPhase(_ phase: GamePhase, for gameType: String) {
         currentGamePhase[gameType] = phase
     }
-    
-    func advancePhase(for gameType: String) {
-        guard var currentPhase = currentGamePhase[gameType] else {
-            currentGamePhase[gameType] = .introDialogue
-            return
-        }
-        currentPhase.next()
-        currentGamePhase[gameType] = currentPhase
-    }
 }

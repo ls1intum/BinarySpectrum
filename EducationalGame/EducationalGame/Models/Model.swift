@@ -53,12 +53,6 @@ enum GamePhase: String, CaseIterable, Codable {
     case review = "Review"
     case reward = "Reward"
 
-    mutating func next() {
-        let allCases = GamePhase.allCases
-        let currentIndex = allCases.firstIndex(of: self)!
-        self = allCases[(currentIndex + 1) % allCases.count]
-    }
-
     // Helper function to get the next phase based on game type
     mutating func next(for gameType: String) {
         switch gameType {

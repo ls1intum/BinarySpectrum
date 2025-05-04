@@ -90,7 +90,8 @@ struct MainMenu: View {
                             }) {
                                 HStack {
                                     Image(systemName: "hammer")
-                                    Text("More Features")
+                                    Text("Gallery")
+                                    Image(systemName: "hammer")
                                 }
                                 .font(GameTheme.headingFont)
                                 .padding()
