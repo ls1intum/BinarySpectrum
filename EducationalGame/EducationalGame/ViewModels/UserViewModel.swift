@@ -21,6 +21,11 @@ let sharedUserViewModel = UserViewModel()
     var miniGamePercentages: [String: Double] = [:]
     var achievements: [String] = []
     
+    // Experience level properties
+    var gameExperienceLevels: [String: ExperienceLevel] = [:]
+    var autoAdjustExperienceLevel: Bool = true
+    var gamePerformancePercentages: [String: Double] = [:]
+    
     // MARK: - Private Constants
     
     // Storage keys for UserDefaults
@@ -33,6 +38,11 @@ let sharedUserViewModel = UserViewModel()
         static let miniGamePercentages = "miniGamePercentages"
         static let achievements = "achievements"
         static let hasLaunchedBefore = "hasLaunchedBefore"
+        
+        // Experience level storage keys
+        static let gameExperienceLevels = "gameExperienceLevels"
+        static let autoAdjustExperienceLevel = "autoAdjustExperienceLevel"
+        static let gamePerformancePercentages = "gamePerformancePercentages"
         
         // Keys that might be used by other parts of the app
         static let gamePhases = [
@@ -80,6 +90,9 @@ let sharedUserViewModel = UserViewModel()
             achievements.append("Completed \(gameName)")
         }
         
+        // Update experience level based on performance if auto-adjust is enabled
+        updateGamePerformance(for: gameName, percentage: percentage)
+        
         saveData()
     }
     
@@ -98,6 +111,40 @@ let sharedUserViewModel = UserViewModel()
         miniGamePercentages[gameName] ?? 0.0
     }
     
+    // Get the experience level for a specific game
+    func getExperienceLevel(for gameName: String) -> ExperienceLevel {
+        return gameExperienceLevels[gameName] ?? .rookie
+    }
+    
+    // Set the experience level for a specific game
+    func setExperienceLevel(_ level: ExperienceLevel, for gameName: String) {
+        gameExperienceLevels[gameName] = level
+        saveData()
+    }
+    
+    // Set auto-adjust experience level setting
+    func setAutoAdjustExperienceLevel(_ enabled: Bool) {
+        autoAdjustExperienceLevel = enabled
+        saveData()
+    }
+    
+    // Update game performance and adjust experience level if needed
+    func updateGamePerformance(for gameName: String, percentage: Double) {
+        gamePerformancePercentages[gameName] = percentage
+        
+        // Only auto-adjust if enabled
+        if autoAdjustExperienceLevel {
+            // If player gets 75% or more correct, set to pro level
+            if percentage >= 0.75 {
+                gameExperienceLevels[gameName] = .pro
+            } else {
+                gameExperienceLevels[gameName] = .rookie
+            }
+        }
+        
+        saveData()
+    }
+    
     // Reset all progress data
     func resetProgress() {
         // Clear all game progress data
@@ -105,6 +152,12 @@ let sharedUserViewModel = UserViewModel()
         miniGameScores = [:]
         miniGamePercentages = [:]
         achievements = []
+        
+        // Reset experience levels to rookie
+        for key in gameExperienceLevels.keys {
+            gameExperienceLevels[key] = .rookie
+        }
+        gamePerformancePercentages = [:]
         
         // Save changes to UserDefaults immediately to ensure achievements are reset
         saveData()
@@ -148,6 +201,17 @@ let sharedUserViewModel = UserViewModel()
             defaults.set(encoded, forKey: StorageKey.achievements)
         }
         
+        // Save experience level settings
+        if let encoded = try? JSONEncoder().encode(gameExperienceLevels) {
+            defaults.set(encoded, forKey: StorageKey.gameExperienceLevels)
+        }
+        
+        defaults.set(autoAdjustExperienceLevel, forKey: StorageKey.autoAdjustExperienceLevel)
+        
+        if let encoded = try? JSONEncoder().encode(gamePerformancePercentages) {
+            defaults.set(encoded, forKey: StorageKey.gamePerformancePercentages)
+        }
+        
         // Notify listeners that user data has been updated
         NotificationCenter.default.post(name: .userDataUpdated, object: nil)
     }
@@ -184,6 +248,28 @@ let sharedUserViewModel = UserViewModel()
            let decoded = try? JSONDecoder().decode([String].self, from: savedData)
         {
             achievements = decoded
+        }
+        
+        // Load experience level settings
+        if let savedData = defaults.data(forKey: StorageKey.gameExperienceLevels),
+           let decoded = try? JSONDecoder().decode([String: ExperienceLevel].self, from: savedData)
+        {
+            gameExperienceLevels = decoded
+        } else {
+            // Initialize default experience levels if not found
+            gameExperienceLevels = [
+                "Binary Game": .rookie,
+                "Pixel Art Game": .rookie,
+                "Color Game": .rookie
+            ]
+        }
+        
+        autoAdjustExperienceLevel = defaults.bool(forKey: StorageKey.autoAdjustExperienceLevel)
+        
+        if let savedData = defaults.data(forKey: StorageKey.gamePerformancePercentages),
+           let decoded = try? JSONDecoder().decode([String: Double].self, from: savedData)
+        {
+            gamePerformancePercentages = decoded
         }
     }
     

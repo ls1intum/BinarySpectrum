@@ -169,13 +169,20 @@ struct QuestionsView: View {
                         
                         if viewModel.nextQuestion() {
                             let percentage = viewModel.getProgress()
-                            
                             // Save progress
                             sharedUserViewModel.completeMiniGame(
                                 gameType + " Questions",
                                 score: Int(percentage * 100),
                                 percentage: percentage
                             )
+                            // Adjust experience level if autoAdjust is on
+                            if sharedUserViewModel.autoAdjustExperienceLevel {
+                                if percentage >= 0.75 {
+                                    sharedUserViewModel.setExperienceLevel(.pro, for: gameType)
+                                } else {
+                                    sharedUserViewModel.setExperienceLevel(.rookie, for: gameType)
+                                }
+                            }
                             currentPhase.next(for: gameType)
                         }
                     },

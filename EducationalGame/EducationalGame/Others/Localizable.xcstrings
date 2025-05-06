@@ -246,6 +246,22 @@
         }
       }
     },
+    "Adjust the experience level for each mini-game or let the game choose." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passe die Erfahrungsstufe für jedes Minispiel an oder lass das Spiel wählen."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajuste o nível de experiência para cada mini-game ou deixe o jogo escolher."
+          }
+        }
+      }
+    },
     "Adjust the opacity to reveal the hidden message!" : {
       "localizations" : {
         "de" : {
@@ -520,6 +536,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Com 100% de opacidade, uma cor é completamente sólida."
+          }
+        }
+      }
+    },
+    "Auto-adjust Experience Level" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatische Anpassung"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajuste automático"
           }
         }
       }
@@ -1544,6 +1576,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nível de Dificuldade"
+          }
+        }
+      }
+    },
+    "Difficulty Settings" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schwierigkeitsgrad"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configuraçōes de Dificuldade"
           }
         }
       }
@@ -2760,6 +2808,22 @@
         }
       }
     },
+    "Manual Settings" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Manuelle Einstellungen"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configuração Manual"
+          }
+        }
+      }
+    },
     "Match both the color and opacity of the target" : {
       "localizations" : {
         "de" : {
@@ -3512,6 +3576,22 @@
         }
       }
     },
+    "Pro" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pro"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pro"
+          }
+        }
+      }
+    },
     "Programmers prefer working with only two digits" : {
       "localizations" : {
         "de" : {
@@ -3784,6 +3864,22 @@
         }
       }
     },
+    "Rookie" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neueinsteiger"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Novato"
+          }
+        }
+      }
+    },
     "Rotate the opacity volume button to decypher the hidden message and write it on the text field." : {
       "localizations" : {
         "de" : {
@@ -3828,6 +3924,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Codificação por Comprimento de Execução"
+          }
+        }
+      }
+    },
+    "Save" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Speichern"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salvar"
           }
         }
       }

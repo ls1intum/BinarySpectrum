@@ -6,6 +6,7 @@ struct SettingsView: View {
     @State private var showResetSuccess = false
     @State private var showProfileEdit = false
     @State private var showSoundSettings = false
+    @State private var showDifficultySettings = false
     @State private var hapticEnabled = HapticService.shared.isHapticEnabled
     @EnvironmentObject var navigationState: NavigationState
     
@@ -20,7 +21,7 @@ struct SettingsView: View {
                     SettingsButton(
                         title: "Edit Profile",
                         icon: "person",
-                        color: .gameOrange,
+                        color: .gamePink,
                         action: {
                             showProfileEdit = true
                         }
@@ -51,8 +52,8 @@ struct SettingsView: View {
                     .padding()
                     .background(
                         RoundedRectangle(cornerRadius: 12)
-                            .fill(HapticService.supportsHaptics ? Color.gamePurple : Color.gamePurple.opacity(0.5))
-                            .shadow(color: HapticService.supportsHaptics ? Color.gamePurple.opacity(0.5) : Color.gamePurple.opacity(0.2), radius: 5, x: 2, y: 2)
+                            .fill(HapticService.supportsHaptics ? Color.gameOrange : Color.gameOrange.opacity(0.5))
+                            .shadow(color: HapticService.supportsHaptics ? Color.gameOrange.opacity(0.5) : Color.gameOrange.opacity(0.2), radius: 5, x: 2, y: 2)
                     )
                     .frame(maxWidth: 350)
                     .onChange(of: hapticEnabled) { _, newValue in
@@ -66,7 +67,7 @@ struct SettingsView: View {
                         icon: "puzzlepiece",
                         color: .gameGreen,
                         action: {
-                            // TODO: pop up
+                            showDifficultySettings = true
                         }
                     )
                     SettingsButton(
@@ -125,6 +126,12 @@ struct SettingsView: View {
             if showSoundSettings {
                 SoundSettingsPopup(
                     isShowing: $showSoundSettings
+                )
+            }
+            
+            if showDifficultySettings {
+                DifficultySettingsPopup(
+                    isShowing: $showDifficultySettings
                 )
             }
         }

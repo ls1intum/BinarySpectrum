@@ -112,7 +112,7 @@ struct TwoButtonInfoPopup: View {
                             .foregroundColor(.gameWhite)
                             .padding()
                             .frame(width: 180)
-                            .background(Color.gamePink)
+                            .background(Color.gameRed)
                             .cornerRadius(12)
                     }
                 }
@@ -121,7 +121,7 @@ struct TwoButtonInfoPopup: View {
             .padding(30)
             .background(
                 RoundedRectangle(cornerRadius: 20)
-                    .fill(Color.gameWhite.opacity(0.8))
+                    .fill(Color.gameWhite.opacity(0.9))
                     .overlay(
                         RoundedRectangle(cornerRadius: 20)
                             .stroke(Color.gamePurple, lineWidth: 5)
@@ -387,7 +387,7 @@ struct ProfileEditPopup: View {
             VStack(spacing: 16) {
                 Text("Edit Your Profile")
                     .font(GameTheme.subtitleFont)
-                    .foregroundColor(.gamePurple)
+                    .foregroundColor(.gamePink)
 
                 Text("Update your profile information")
                     .font(GameTheme.bodyFont)
@@ -416,7 +416,6 @@ struct ProfileEditPopup: View {
                             .onSubmit {
                                 nameFieldFocused = false
                                 ageFieldFocused = true
-                                // Play selection feedback when moving to next field
                                 HapticService.shared.play(.selection)
                             }
                             .autocorrectionDisabled(true)
@@ -512,11 +511,11 @@ struct ProfileEditPopup: View {
                     .fill(Color.gameWhite.opacity(0.95))
                     .overlay(
                         RoundedRectangle(cornerRadius: 20)
-                            .stroke(Color.gamePurple, lineWidth: 5)
+                            .stroke(Color.gamePink, lineWidth: 5)
                     )
             )
             .shadow(radius: 10)
-            .padding(.horizontal, 150) // Make popup even narrower
+            .padding(.horizontal, 150)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .contentShape(Rectangle())
             .onTapGesture {
@@ -566,7 +565,7 @@ struct SoundSettingsPopup: View {
             VStack(spacing: 16) {
                 Text("Sound Settings")
                     .font(GameTheme.subtitleFont)
-                    .foregroundColor(.gamePurple)
+                    .foregroundColor(.gameBlue)
 
                 Text("Adjust your sound and music preferences")
                     .font(GameTheme.bodyFont)
@@ -689,7 +688,7 @@ struct SoundSettingsPopup: View {
                     .fill(Color.gameWhite.opacity(0.95))
                     .overlay(
                         RoundedRectangle(cornerRadius: 20)
-                            .stroke(Color.gamePurple, lineWidth: 5)
+                            .stroke(Color.gameBlue, lineWidth: 5)
                     )
             )
             .shadow(radius: 10)
@@ -698,6 +697,167 @@ struct SoundSettingsPopup: View {
         }
         .transition(.scale.combined(with: .opacity))
         .animation(.easeInOut, value: isShowing)
+    }
+}
+
+// MARK: - DifficultySettingsPopup
+
+struct DifficultySettingsPopup: View {
+    @Binding var isShowing: Bool
+    @StateObject private var userViewModel = sharedUserViewModel
+    @State private var autoAdjust: Bool
+    @State private var binaryGameLevel: ExperienceLevel
+    @State private var pixelArtGameLevel: ExperienceLevel
+    @State private var colorGameLevel: ExperienceLevel
+
+    init(isShowing: Binding<Bool>) {
+        self._isShowing = isShowing
+        // Default to true if not set, otherwise use the saved value
+        let savedAutoAdjust = sharedUserViewModel.autoAdjustExperienceLevel
+        self._autoAdjust = State(initialValue: savedAutoAdjust)
+        self._binaryGameLevel = State(initialValue: sharedUserViewModel.getExperienceLevel(for: "Binary Game"))
+        self._pixelArtGameLevel = State(initialValue: sharedUserViewModel.getExperienceLevel(for: "Pixel Art Game"))
+        self._colorGameLevel = State(initialValue: sharedUserViewModel.getExperienceLevel(for: "Color Game"))
+    }
+
+    var body: some View {
+        ZStack {
+            Color.gameBlack.opacity(0.4)
+                .ignoresSafeArea()
+                .contentShape(Rectangle())
+                .onTapGesture {
+                    // Prevent dismissal on background tap
+                }
+
+            VStack(spacing: 16) {
+                Text("Difficulty Settings")
+                    .font(GameTheme.subtitleFont)
+                    .foregroundColor(.gameGreen)
+
+                Text("Adjust the experience level for each mini-game or let the game choose.")
+                    .font(GameTheme.bodyFont)
+                    .multilineTextAlignment(.center)
+                    .foregroundColor(.gameDarkBlue)
+                    .padding(.horizontal)
+
+                Divider()
+                    .background(Color.gameLightBlue.opacity(0.5))
+                    .padding(.horizontal)
+
+                // Auto-adjust toggle
+                HStack {
+                    Text("Auto-adjust Experience Level")
+                        .font(GameTheme.headingFont)
+                        .foregroundColor(.gameDarkBlue)
+                    Spacer()
+                    Toggle("", isOn: $autoAdjust)
+                        .toggleStyle(SwitchToggleStyle(tint: .gameGreen))
+                        .labelsHidden()
+                        .onChange(of: autoAdjust) { _, _ in
+                            HapticService.shared.play(.selection)
+                        }
+                }
+                .padding(.horizontal)
+
+                VStack(spacing: 15) {
+                    Text("Manual Settings")
+                        .font(GameTheme.subheadingFont)
+                        .foregroundColor(.gameDarkBlue)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .opacity(autoAdjust ? 0.5 : 1)
+
+                    GameDifficultySelectorRow(
+                        gameName: "Binary Game",
+                        selectedLevel: $binaryGameLevel,
+                        disabled: autoAdjust
+                    )
+                    GameDifficultySelectorRow(
+                        gameName: "Pixel Art Game",
+                        selectedLevel: $pixelArtGameLevel,
+                        disabled: autoAdjust
+                    )
+                    GameDifficultySelectorRow(
+                        gameName: "Color Game",
+                        selectedLevel: $colorGameLevel,
+                        disabled: autoAdjust
+                    )
+                }
+                .disabled(autoAdjust)
+                .padding(.horizontal)
+
+                HStack(spacing: 20) {
+                    Button(action: {
+                        isShowing = false
+                        HapticService.shared.play(.light)
+                    }) {
+                        Text("Cancel")
+                            .font(GameTheme.buttonFont)
+                            .foregroundColor(.gameDarkBlue)
+                            .padding()
+                            .frame(width: 120)
+                            .background(Color.gameGray)
+                            .cornerRadius(12)
+                    }
+                    Button(action: {
+                        userViewModel.setAutoAdjustExperienceLevel(autoAdjust)
+                        if !autoAdjust {
+                            userViewModel.setExperienceLevel(binaryGameLevel, for: "Binary Game")
+                            userViewModel.setExperienceLevel(pixelArtGameLevel, for: "Pixel Art Game")
+                            userViewModel.setExperienceLevel(colorGameLevel, for: "Color Game")
+                        }
+                        isShowing = false
+                        HapticService.shared.play(.success)
+                    }) {
+                        Text("Save")
+                            .font(GameTheme.buttonFont)
+                            .foregroundColor(.gameWhite)
+                            .padding()
+                            .frame(width: 160)
+                            .background(Color.gameGreen)
+                            .cornerRadius(12)
+                    }
+                }
+                .padding(.top, 10)
+            }
+            .padding(25)
+            .background(
+                RoundedRectangle(cornerRadius: 20)
+                    .fill(Color.gameWhite.opacity(0.95))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 20)
+                            .stroke(Color.gameGreen, lineWidth: 5)
+                    )
+            )
+            .shadow(radius: 10)
+            .padding(.horizontal, 150)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .contentShape(Rectangle())
+        }
+        .transition(.scale.combined(with: .opacity))
+        .animation(.easeInOut, value: isShowing)
+    }
+}
+
+private struct GameDifficultySelectorRow: View {
+    let gameName: String
+    @Binding var selectedLevel: ExperienceLevel
+    let disabled: Bool
+    var body: some View {
+        HStack {
+            Text(gameName)
+                .font(GameTheme.bodyFont)
+                .foregroundColor(.gameDarkBlue)
+                .opacity(disabled ? 0.5 : 1)
+            Spacer()
+            Picker("", selection: $selectedLevel) {
+                Text("Rookie").tag(ExperienceLevel.rookie)
+                Text("Pro").tag(ExperienceLevel.pro)
+            }
+            .pickerStyle(SegmentedPickerStyle())
+            .frame(width: 150)
+            .disabled(disabled)
+            .opacity(disabled ? 0.5 : 1)
+        }
     }
 }
 
@@ -738,6 +898,12 @@ struct SoundSettingsPopup: View {
 
 #Preview("SoundSettingsPopup") {
     SoundSettingsPopup(
+        isShowing: .constant(true)
+    )
+}
+
+#Preview("DifficultySettingsPopup") {
+    DifficultySettingsPopup(
         isShowing: .constant(true)
     )
 }
