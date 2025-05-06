@@ -40,7 +40,6 @@ struct ReviewView: View {
                         iconName: "arrow.right.circle.fill",
                         color: color,
                         action: {
-                            // Play game success haptic when completing the review
                             HapticService.shared.play(.gameSuccess)
                             onCompletion()
                         },
@@ -75,7 +74,6 @@ struct ChecklistReviewCard: View {
             withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
                 isChecked.toggle()
                 
-                // Play haptic feedback based on checked state
                 if isChecked {
                     HapticService.shared.play(.selection)
                     scale = 1.1
@@ -89,7 +87,6 @@ struct ChecklistReviewCard: View {
                         }
                     }
                 } else {
-                    // Light haptic when unchecking
                     HapticService.shared.play(.light)
                 }
             }

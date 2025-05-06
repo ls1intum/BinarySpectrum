@@ -12,15 +12,13 @@ struct MainMenu: View {
     var body: some View {
         NavigationStack(path: $navigationState.path) {
             ZStack(alignment: .top) {
-                // Background and content
                 VStack {
-                    // Top spacing to accommodate the TopBarView
                     Spacer().frame(height: 60)
                     
                     VStack(spacing: 40) {
                         Spacer()
                         
-                        // Welcome message positioned above the mini game buttons
+                        // Welcome message
                         if !userViewModel.userName.isEmpty {
                             (
                                 Text("Welcome, ")
@@ -61,7 +59,6 @@ struct MainMenu: View {
                         // Bottom Buttons
                         HStack(spacing: 20) {
                             Button(action: {
-                                // Play selection haptic when navigating to achievements
                                 HapticService.shared.play(.selection)
                                 withAnimation(.easeInOut(duration: 0.3)) {
                                     navigationState.navigateTo("achievements")
@@ -84,7 +81,6 @@ struct MainMenu: View {
                             .opacity(startAnimation ? 1 : 0)
                             
                             Button(action: {
-                                // Play light haptic for disabled button
                                 HapticService.shared.play(.light)
                                 print("Another Feature tapped!")
                             }) {
@@ -112,13 +108,12 @@ struct MainMenu: View {
                     .padding()
                 }
                 
-                // TopBarView overlay at the top
                 TopBar(title: LocalizedStringResource(stringLiteral: GameConstants.gameTitle), leftIcon: "gear")
                     .offset(y: startAnimation ? 0 : -50)
                     .opacity(startAnimation ? 1 : 0)
             }
             .overlay {
-                // Welcome popup - moved to overlay to prevent interaction issues
+                // Welcome popup
                 if showWelcomePopup {
                     WelcomeFormPopup(
                         isShowing: $showWelcomePopup,
@@ -128,14 +123,11 @@ struct MainMenu: View {
                         onSubmit: { name, age, color in
                             userViewModel.saveUserInfo(name: name, age: age, favoriteColor: color)
                             userViewModel.setFirstLaunchCompleted()
-                            // Play success haptic when submitting welcome form
                             HapticService.shared.play(.success)
                         },
                         onSkip: {
-                            // Still save any entered information
                             userViewModel.saveUserInfo(name: userName, age: userAge, favoriteColor: favoriteColor)
                             userViewModel.setFirstLaunchCompleted()
-                            // Play light haptic when skipping welcome form
                             HapticService.shared.play(.light)
                         }
                     )
@@ -143,7 +135,7 @@ struct MainMenu: View {
             }
             .edgesIgnoringSafeArea(.top)
             .navigationDestination(for: Int.self) { gameId in
-                // This will navigate to the selected game view
+                // Navigate to the selected game view
                 if let game = GameConstants.miniGames.first(where: { $0.id == gameId }) {
                     AnyView(game.view)
                         .environmentObject(navigationState)
@@ -172,7 +164,7 @@ struct MainMenu: View {
                 }
             }
             .navigationBarHidden(true)
-            .toolbar(.hidden, for: .navigationBar) // Also hide for the root view
+            .toolbar(.hidden, for: .navigationBar)
         }
         .transition(.opacity)
         .onAppear {
@@ -185,8 +177,6 @@ struct MainMenu: View {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                 withAnimation(.spring(response: 0.6, dampingFraction: 0.7)) {
                     startAnimation = true
-                    
-                    // Subtle haptic to indicate menu is ready
                     HapticService.shared.play(.light)
                 }
             }
@@ -196,8 +186,6 @@ struct MainMenu: View {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                     withAnimation {
                         showWelcomePopup = true
-                        
-                        // Medium haptic when welcome popup appears
                         HapticService.shared.play(.medium)
                     }
                 }
@@ -215,6 +203,13 @@ struct MainMenu: View {
 #Preview("BR") {
     MainMenu()
         .environment(\.locale, Locale(identifier: "pt_BR"))
+        .environmentObject(UserViewModel())
+        .environmentObject(NavigationState())
+}
+
+#Preview("DE") {
+    MainMenu()
+        .environment(\.locale, Locale(identifier: "DE"))
         .environmentObject(UserViewModel())
         .environmentObject(NavigationState())
 }

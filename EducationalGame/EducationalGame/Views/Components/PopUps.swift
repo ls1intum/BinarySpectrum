@@ -1,5 +1,7 @@
 import SwiftUI
 
+// MARK: - InfoPopup
+
 struct InfoPopup: View {
     let title: LocalizedStringResource
     let message: LocalizedStringResource
@@ -8,7 +10,6 @@ struct InfoPopup: View {
 
     var body: some View {
         ZStack {
-            // Semi-transparent background overlay
             Color.gameBlack.opacity(0.1)
                 .ignoresSafeArea()
 
@@ -24,7 +25,6 @@ struct InfoPopup: View {
                     .padding(.horizontal)
 
                 Button(action: {
-                    // Play haptic feedback
                     HapticService.shared.play(.buttonTap)
                     onButtonTap()
                 }) {
@@ -61,6 +61,8 @@ struct InfoPopup: View {
     }
 }
 
+// MARK: - TwoButtonInfoPopup
+
 struct TwoButtonInfoPopup: View {
     let title: LocalizedStringResource
     let message: LocalizedStringResource
@@ -71,7 +73,6 @@ struct TwoButtonInfoPopup: View {
 
     var body: some View {
         ZStack {
-            // Semi-transparent background overlay
             Color.gameBlack.opacity(0.1)
                 .ignoresSafeArea()
 
@@ -89,7 +90,6 @@ struct TwoButtonInfoPopup: View {
                 HStack(spacing: 20) {
                     // Secondary button
                     Button(action: {
-                        // Play light haptic feedback for secondary action
                         HapticService.shared.play(.light)
                         onSecondaryButtonTap()
                     }) {
@@ -104,7 +104,6 @@ struct TwoButtonInfoPopup: View {
 
                     // Primary button
                     Button(action: {
-                        // Play medium haptic feedback for primary action
                         HapticService.shared.play(.medium)
                         onPrimaryButtonTap()
                     }) {
@@ -136,6 +135,8 @@ struct TwoButtonInfoPopup: View {
     }
 }
 
+// MARK: - WelcomeFormPopup
+
 struct WelcomeFormPopup: View {
     @Binding var isShowing: Bool
     @Binding var userName: String
@@ -144,16 +145,15 @@ struct WelcomeFormPopup: View {
     let onSubmit: (String, String, Color) -> Void
     let onSkip: () -> Void
 
-    // Add focus state
+    // Focus state to update as the placement of focus within the scene changes
     @FocusState private var nameFieldFocused: Bool
     @FocusState private var ageFieldFocused: Bool
 
-    // Add local state to ensure values persist
+    // Local state to ensure values persist
     @State private var localUserName: String = ""
     @State private var localUserAge: String = ""
     @State private var localFavoriteColor: Color = .gamePurple
 
-    // Available color options
     private let colorOptions: [(Color, String)] = [
         (.gamePurple, "Purple"),
         (.gameBlue, "Blue"),
@@ -170,12 +170,10 @@ struct WelcomeFormPopup: View {
 
     var body: some View {
         ZStack {
-            // Semi-transparent background overlay - capture all taps
             Color.gameBlack.opacity(0.4)
                 .ignoresSafeArea()
                 .contentShape(Rectangle())
                 .onTapGesture {
-                    // Just unfocus fields when tapping background
                     nameFieldFocused = false
                     ageFieldFocused = false
                 }
@@ -213,7 +211,6 @@ struct WelcomeFormPopup: View {
                             .onSubmit {
                                 nameFieldFocused = false
                                 ageFieldFocused = true
-                                // Play selection feedback when moving to next field
                                 HapticService.shared.play(.selection)
                             }
                             .onChange(of: localUserName) {
@@ -242,7 +239,6 @@ struct WelcomeFormPopup: View {
                             .submitLabel(.done)
                             .onSubmit {
                                 ageFieldFocused = false
-                                // Play selection feedback when completing field
                                 HapticService.shared.play(.selection)
                             }
                             .onChange(of: localUserAge) {
@@ -252,20 +248,17 @@ struct WelcomeFormPopup: View {
                     .padding(.horizontal)
                 }
 
-                // Favorite color selection
                 VStack(alignment: .center, spacing: 8) {
-                    Text("Choose Your Favorite Color")
+                    Text("Your Favorite Color")
                         .font(GameTheme.headingFont)
                         .foregroundColor(.gameDarkBlue)
 
-                    // Center the color circles
                     HStack(spacing: 12) {
                         Spacer()
                         ForEach(colorOptions, id: \.1) { color, name in
                             Button(action: {
                                 localFavoriteColor = color
                                 favoriteColor = color
-                                // Play light haptic feedback when selecting color
                                 HapticService.shared.play(.light)
                             }) {
                                 ZStack {
@@ -288,15 +281,12 @@ struct WelcomeFormPopup: View {
                 }
                 .padding(.horizontal)
 
-                // Buttons
                 HStack(spacing: 20) {
-                    // Skip button
                     Button(action: {
                         // Update parent bindings before dismissing
                         userName = localUserName
                         userAge = localUserAge
                         favoriteColor = localFavoriteColor
-                        // Play light haptic feedback for skip action
                         HapticService.shared.play(.light)
                         onSkip()
                         isShowing = false
@@ -305,12 +295,10 @@ struct WelcomeFormPopup: View {
                             .font(GameTheme.buttonFont)
                             .foregroundColor(.gameDarkBlue)
                             .padding()
-                            .frame(width: 120)
+                            .frame(width: 160)
                             .background(Color.gameGray)
                             .cornerRadius(12)
                     }
-
-                    // Start button
                     Button(action: submitForm) {
                         Text("Start Playing")
                             .font(GameTheme.buttonFont)
@@ -333,7 +321,7 @@ struct WelcomeFormPopup: View {
                     )
             )
             .shadow(radius: 10)
-            .padding(.horizontal, 150) // Make popup even narrower
+            .padding(.horizontal, 150)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .contentShape(Rectangle())
             .onTapGesture {
@@ -350,20 +338,20 @@ struct WelcomeFormPopup: View {
         }
     }
 
-    // Extract the submit action to a method
     private func submitForm() {
         // Make sure the bindings are updated with current values
         userName = localUserName
         userAge = localUserAge
         favoriteColor = localFavoriteColor
 
-        // Play success haptic feedback for form submission
         HapticService.shared.play(.success)
 
         onSubmit(localUserName, localUserAge, localFavoriteColor)
         isShowing = false
     }
 }
+
+// MARK: - ProfileEditPopup
 
 struct ProfileEditPopup: View {
     @Binding var isShowing: Bool
@@ -372,11 +360,10 @@ struct ProfileEditPopup: View {
     @State private var userAge: String = ""
     @State private var favoriteColor: Color = .gamePurple
 
-    // Add focus state
+    // Focus state to update as the placement of focus within the scene changes
     @FocusState private var nameFieldFocused: Bool
     @FocusState private var ageFieldFocused: Bool
 
-    // Available color options - same as WelcomeFormPopup
     private let colorOptions: [(Color, String)] = [
         (.gamePurple, "Purple"),
         (.gameBlue, "Blue"),
@@ -389,12 +376,10 @@ struct ProfileEditPopup: View {
 
     var body: some View {
         ZStack {
-            // Semi-transparent background overlay - capture all taps
             Color.gameBlack.opacity(0.4)
                 .ignoresSafeArea()
                 .contentShape(Rectangle())
                 .onTapGesture {
-                    // Just unfocus fields when tapping background
                     nameFieldFocused = false
                     ageFieldFocused = false
                 }
@@ -458,26 +443,22 @@ struct ProfileEditPopup: View {
                             .submitLabel(.done)
                             .onSubmit {
                                 ageFieldFocused = false
-                                // Play selection feedback when completing field
                                 HapticService.shared.play(.selection)
                             }
                     }
                     .padding(.horizontal)
                 }
 
-                // Favorite color selection
                 VStack(alignment: .center, spacing: 8) {
-                    Text("Choose Your Favorite Color")
+                    Text("Your Favorite Color")
                         .font(GameTheme.headingFont)
                         .foregroundColor(.gameDarkBlue)
 
-                    // Center the color circles
                     HStack(spacing: 12) {
                         Spacer()
                         ForEach(colorOptions, id: \.1) { color, name in
                             Button(action: {
                                 favoriteColor = color
-                                // Play light haptic feedback when selecting color
                                 HapticService.shared.play(.light)
                             }) {
                                 ZStack {
@@ -500,11 +481,8 @@ struct ProfileEditPopup: View {
                 }
                 .padding(.horizontal)
 
-                // Buttons
                 HStack(spacing: 20) {
-                    // Cancel button
                     Button(action: {
-                        // Play light haptic feedback for cancel action
                         HapticService.shared.play(.light)
                         isShowing = false
                     }) {
@@ -516,8 +494,6 @@ struct ProfileEditPopup: View {
                             .background(Color.gameGray)
                             .cornerRadius(12)
                     }
-
-                    // Save button
                     Button(action: saveProfile) {
                         Text("Save Changes")
                             .font(GameTheme.buttonFont)
@@ -551,16 +527,13 @@ struct ProfileEditPopup: View {
         .transition(.scale.combined(with: .opacity))
         .animation(.easeInOut, value: isShowing)
         .onAppear {
-            // Load current user data when form appears
             userName = userViewModel.userName
             userAge = userViewModel.userAge
             favoriteColor = userViewModel.favoriteColor
         }
     }
 
-    // Extract the save action to a method
     private func saveProfile() {
-        // Play success haptic feedback for form submission
         HapticService.shared.play(.success)
 
         userViewModel.saveUserInfo(
@@ -598,6 +571,7 @@ struct ProfileEditPopup: View {
         onSubmit: { _, _, _ in },
         onSkip: {}
     )
+    // .environment(\.locale, Locale(identifier: "DE"))
 }
 
 #Preview("ProfileEditPopup") {

@@ -179,11 +179,11 @@ struct RewardView: View {
     ZStack(alignment: .top) {
         VStack {
             Spacer().frame(height: 90)
-            RewardView(miniGameIndex: 2, message: "Great job")
+            RewardView(miniGameIndex: 2, message: "Congratulations! You've mastered digital colors! You now understand RGB values, hex codes, and opacity. You know how computers create every color on your screen. Keep exploring the colorful world of digital art and design!")
                 .environmentObject(NavigationState())
             Spacer()
         }
-        TopBar(title: "test", leftIcon: "gear")
+        TopBar(title: "ColorBloom", color: .gameBlue, leftIcon: "gear")
     }
     .edgesIgnoringSafeArea(.top)
 }

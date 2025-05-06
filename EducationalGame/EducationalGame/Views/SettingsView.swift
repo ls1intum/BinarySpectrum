@@ -1,7 +1,5 @@
 import SwiftUI
 
-// MARK: - Views
-
 struct SettingsView: View {
     @StateObject private var userViewModel = sharedUserViewModel
     @State private var showResetConfirmation = false
@@ -12,35 +10,28 @@ struct SettingsView: View {
     
     var body: some View {
         ZStack(alignment: .top) {
-            // Background and content
             VStack {
-                // Top spacing to accommodate the TopBarView
                 Spacer().frame(height: 60)
                 
                 Spacer()
                 
                 VStack(spacing: 24) {
-                    // Reset Progress Button
                     SettingsButton(
-                        title: "Reset Progress",
-                        icon: "arrow.counterclockwise",
-                        color: .gameRed,
+                        title: "Edit Profile",
+                        icon: "person",
+                        color: .gameOrange,
                         action: {
-                            showResetConfirmation = true
+                            showProfileEdit = true
                         }
                     )
-                    
-                    // Sound Settings Button (placeholder)
                     SettingsButton(
                         title: "Sound Settings",
                         icon: "speaker.wave.3",
                         color: .gameBlue,
                         action: {
-                            // Placeholder for future functionality
+                            // TODO: volume?
                         }
                     )
-                    
-                    // Haptic Feedback Toggle
                     Toggle(isOn: HapticService.supportsHaptics ? $hapticEnabled : .constant(false)) {
                         HStack {
                             Image(systemName: "iphone.radiowaves.left.and.right")
@@ -65,38 +56,30 @@ struct SettingsView: View {
                     .frame(maxWidth: 350)
                     .onChange(of: hapticEnabled) { _, newValue in
                         HapticService.shared.toggleHaptic()
-                        // Provide feedback when turned on
                         if newValue {
                             HapticService.shared.play(.medium)
                         }
                     }
-                    
-                    // Display Settings Button (placeholder)
                     SettingsButton(
-                        title: "Edit Profile",
-                        icon: "person",
-                        color: .gameOrange,
-                        action: {
-                            showProfileEdit = true
-                        }
-                    )
-                    
-                    // About Button (placeholder)
-                    SettingsButton(
-                        title: "About",
-                        icon: "info.circle",
+                        title: "Difficulty Level",
+                        icon: "puzzlepiece",
                         color: .gameGreen,
                         action: {
-                            // Placeholder for future functionality
+                            // TODO: pop up
+                        }
+                    )
+                    SettingsButton(
+                        title: "Reset Progress",
+                        icon: "arrow.counterclockwise",
+                        color: .gameRed,
+                        action: {
+                            showResetConfirmation = true
                         }
                     )
                 }
                 .padding()
-                
                 Spacer()
             }
-            
-            // TopBarView overlay at the top
             TopBar(title: "Settings", color: .gamePurple, infoButtonDisabled: true)
 
             if showResetConfirmation {
@@ -111,12 +94,10 @@ struct SettingsView: View {
                         print("After reset - Achievements: \(userViewModel.achievements)")
                         showResetConfirmation = false
                         showResetSuccess = true
-                        // Add haptic feedback for reset action
                         HapticService.shared.play(.heavy)
                     },
                     onSecondaryButtonTap: {
                         showResetConfirmation = false
-                        // Add haptic feedback for cancel action
                         HapticService.shared.play(.light)
                     }
                 )
@@ -129,7 +110,6 @@ struct SettingsView: View {
                     buttonTitle: "OK",
                     onButtonTap: {
                         showResetSuccess = false
-                        // Add haptic feedback for OK button
                         HapticService.shared.play(.light)
                     }
                 )
@@ -153,7 +133,6 @@ struct SettingsButton: View {
     
     var body: some View {
         Button(action: {
-            // Add haptic feedback before performing the action
             HapticService.shared.play(.buttonTap)
             action()
         }) {

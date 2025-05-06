@@ -26,7 +26,6 @@ struct QuestionsView: View {
                     .shadow(radius: 5)
                     .frame(width: 660, height: 520)
                 
-                // Display the current question text
                 VStack {
                     Text(viewModel.questions[viewModel.currentQuestionIndex].question)
                         .font(GameTheme.bodyFont)
@@ -35,7 +34,6 @@ struct QuestionsView: View {
                         .frame(width: 600, alignment: .leading)
                     
                     VStack(spacing: 15) {
-                        // Map numeric alternative keys (1-4) to lettered options (A-D)
                         let letters = ["A", "B", "C", "D"]
                         // Use randomized keys instead of sorted keys
                         let randomizedKeys = viewModel.getRandomizedKeys()
@@ -47,17 +45,11 @@ struct QuestionsView: View {
                             let alternativeID = randomizedKeys[index]
                             let letter = letters[index]
                             
-                            // Only show if:
-                            // 1. We're not showing the explanation yet, OR
-                            // 2. This is the selected answer, OR
-                            // 3. This is the correct answer
                             if !viewModel.showExplanation || alternativeID == selectedAnswer || alternativeID == correctAnswer {
-                                // Make the whole row clickable
                                 Button(action: {
                                     if !viewModel.showExplanation {
                                         viewModel.selectAnswer(alternativeID)
                                         
-                                        // Add haptic feedback based on answer correctness
                                         if alternativeID == correctAnswer {
                                             HapticService.shared.play(.success)
                                         } else {
@@ -66,7 +58,6 @@ struct QuestionsView: View {
                                     }
                                 }) {
                                     HStack {
-                                        // Letter Button (A, B, C, D)
                                         Text(letter)
                                             .font(GameTheme.buttonFont)
                                             .frame(width: 50, height: 50)
@@ -78,7 +69,6 @@ struct QuestionsView: View {
                                             .foregroundColor(.white)
                                             .clipShape(Circle())
                                         
-                                        // Alternative Text
                                         Text(viewModel.questions[viewModel.currentQuestionIndex].alternatives[alternativeID] ?? "")
                                             .font(GameTheme.bodyFont)
                                             .foregroundColor(.gameBlack)
@@ -93,9 +83,9 @@ struct QuestionsView: View {
                                             .cornerRadius(10)
                                     }
                                     .frame(width: 500)
-                                    .contentShape(Rectangle()) // Ensure the entire HStack is clickable
+                                    .contentShape(Rectangle())
                                 }
-                                .buttonStyle(PlainButtonStyle()) // Remove default button styling
+                                .buttonStyle(PlainButtonStyle())
                                 .disabled(viewModel.showExplanation)
                                 .padding(.horizontal, 20)
                                 .transition(.opacity)
@@ -103,7 +93,6 @@ struct QuestionsView: View {
                             }
                         }
                         
-                        // Explanation appears in the same box, below the alternatives
                         if viewModel.showExplanation {
                             VStack(alignment: .leading, spacing: 10) {
                                 Text(viewModel.isAnswerCorrect ? "Correct! 🎉" : "Not quite right 😕")
@@ -129,16 +118,14 @@ struct QuestionsView: View {
             }
             Spacer()
             
-            // Navigation buttons (Back, Progress indicator, Next)
+            // Navigation buttons
             HStack {
-                // Back Button (only visible if not on first question)
                 if viewModel.currentQuestionIndex > 0 {
                     AnimatedCircleButton(
                         iconName: "arrow.left.circle.fill",
                         color: .gameGray,
                         action: {
                             viewModel.previousQuestion()
-                            // Light haptic feedback for navigation
                             HapticService.shared.play(.light)
                         },
                         hapticType: .light
@@ -147,7 +134,6 @@ struct QuestionsView: View {
                     .transition(.scale.combined(with: .opacity))
                     .animation(.spring(response: 0.3), value: viewModel.currentQuestionIndex)
                 } else {
-                    // Empty space to maintain layout when back button is not visible
                     Spacer()
                         .frame(width: 70)
                 }
@@ -175,16 +161,13 @@ struct QuestionsView: View {
                     iconName: viewModel.currentQuestionIndex < viewModel.questions.count - 1 ? "arrow.right.circle.fill" : "checkmark.circle.fill",
                     color: viewModel.canNavigateToNextQuestion() ? color : .gray,
                     action: {
-                        // Medium haptic feedback for navigation or completion
                         if viewModel.currentQuestionIndex < viewModel.questions.count - 1 {
                             HapticService.shared.play(.light)
                         } else {
-                            // Stronger haptic for completing all questions
                             HapticService.shared.play(.gameSuccess)
                         }
                         
                         if viewModel.nextQuestion() {
-                            // We've completed all questions, move to next phase
                             let percentage = viewModel.getProgress()
                             
                             // Save progress
@@ -210,11 +193,11 @@ struct QuestionsView: View {
     // Helper function to get the color for progress dots
     private func getProgressDotColor(for index: Int) -> Color {
         if index == viewModel.currentQuestionIndex {
-            return .gameLightBlue // Current question
+            return .gameLightBlue
         } else if viewModel.isQuestionAnswered(index) {
-            return .green // Answered question
+            return .green
         } else {
-            return .gray.opacity(0.3) // Unanswered question
+            return .gray.opacity(0.3)
         }
     }
 }

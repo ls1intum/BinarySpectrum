@@ -9,9 +9,7 @@ struct AchievementsView: View {
     
     var body: some View {
         ZStack(alignment: .top) {
-            // Background and content
             VStack {
-                // Top spacing to accommodate the TopBarView
                 Spacer().frame(height: 60)
                 
                 Spacer()
@@ -25,8 +23,6 @@ struct AchievementsView: View {
                 }
                 Spacer()
             }
-            
-            // TopBarView overlay at the top
             TopBar(title: "Achievements", color: .gamePurple)
         }
         .edgesIgnoringSafeArea(.top)
@@ -40,9 +36,7 @@ struct AchievementTile: View {
     
     var body: some View {
         VStack(spacing: 20) {
-            // Trophy with enhanced visuals
             ZStack {
-                // Glowing background effect (only visible when unlocked)
                 Circle()
                     .fill(
                         RadialGradient(
@@ -75,9 +69,8 @@ struct AchievementTile: View {
                     .shadow(color: isUnlocked ? .yellow.opacity(0.6) : .clear, radius: 5)
                     .scaleEffect(iconScale)
                 
-                // Trophy with gradient - this is the animated element
+                // Trophy with gradient
                 ZStack {
-                    // Trophy with gradient
                     Image(systemName: "trophy.fill")
                         .resizable()
                         .scaledToFit()
@@ -120,7 +113,6 @@ struct AchievementTile: View {
                 .scaleEffect(iconScale)
             }
             
-            // Game name
             Text(game.name)
                 .font(GameTheme.headingFont)
                 .foregroundColor(isUnlocked ? .gameWhite : .gameDarkBlue.opacity(0.8))
@@ -186,5 +178,5 @@ struct AchievementTile: View {
 }
 
 #Preview("AchievementTile locked") {
-    AchievementTile(game: GameConstants.miniGames[0], isUnlocked: false)
+    AchievementTile(game: GameConstants.miniGames[2], isUnlocked: false)
 }

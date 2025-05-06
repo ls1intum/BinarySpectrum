@@ -1,5 +1,7 @@
 import SwiftUI
 
+// MARK: - TopBar
+
 struct TopBar: View {
     let title: LocalizedStringResource
     let color: Color
@@ -45,12 +47,14 @@ struct TopBar: View {
             }
         }
         .padding(.horizontal)
-        .frame(maxWidth: .infinity) // Makes sure it stretches across the screen
-        .zIndex(1) // Ensures it stays above other content
+        .frame(maxWidth: .infinity)
+        .zIndex(1)
         .transition(.move(edge: .top).combined(with: .opacity))
         .animation(.spring(response: 0.4, dampingFraction: 0.7), value: title)
     }
 }
+
+// MARK: - InstructionBar
 
 struct InstructionBar: View {
     let text: LocalizedStringResource
@@ -73,6 +77,8 @@ struct InstructionBar: View {
             .frame(maxWidth: 1000)
     }
 }
+
+// MARK: - Previews
 
 #Preview("TopBar") {
     TopBar(title: "Hello")
