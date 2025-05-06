@@ -5,6 +5,7 @@ struct SettingsView: View {
     @State private var showResetConfirmation = false
     @State private var showResetSuccess = false
     @State private var showProfileEdit = false
+    @State private var showSoundSettings = false
     @State private var hapticEnabled = HapticService.shared.isHapticEnabled
     @EnvironmentObject var navigationState: NavigationState
     
@@ -29,7 +30,7 @@ struct SettingsView: View {
                         icon: "speaker.wave.3",
                         color: .gameBlue,
                         action: {
-                            // TODO: volume?
+                            showSoundSettings = true
                         }
                     )
                     Toggle(isOn: HapticService.supportsHaptics ? $hapticEnabled : .constant(false)) {
@@ -118,6 +119,12 @@ struct SettingsView: View {
             if showProfileEdit {
                 ProfileEditPopup(
                     isShowing: $showProfileEdit
+                )
+            }
+            
+            if showSoundSettings {
+                SoundSettingsPopup(
+                    isShowing: $showSoundSettings
                 )
             }
         }

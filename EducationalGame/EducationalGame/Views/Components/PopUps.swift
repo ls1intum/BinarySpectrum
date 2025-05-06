@@ -545,6 +545,162 @@ struct ProfileEditPopup: View {
     }
 }
 
+// MARK: - SoundSettingsPopup
+
+struct SoundSettingsPopup: View {
+    @Binding var isShowing: Bool
+    @State private var soundEnabled = SoundService.shared.isSoundEnabled
+    @State private var musicEnabled = SoundService.shared.isMusicEnabled
+    @State private var soundVolume = Double(SoundService.shared.soundVolume)
+    @State private var musicVolume = Double(SoundService.shared.musicVolume)
+
+    var body: some View {
+        ZStack {
+            Color.gameBlack.opacity(0.4)
+                .ignoresSafeArea()
+                .contentShape(Rectangle())
+                .onTapGesture {
+                    // Prevent dismissal on background tap
+                }
+
+            VStack(spacing: 16) {
+                Text("Sound Settings")
+                    .font(GameTheme.subtitleFont)
+                    .foregroundColor(.gamePurple)
+
+                Text("Adjust your sound and music preferences")
+                    .font(GameTheme.bodyFont)
+                    .multilineTextAlignment(.center)
+                    .foregroundColor(.gameDarkBlue)
+                    .padding(.horizontal)
+
+                Divider()
+                    .background(Color.gameLightBlue.opacity(0.5))
+                    .padding(.horizontal)
+
+                VStack(spacing: 20) {
+                    // Sound Effects Settings
+                    VStack(spacing: 12) {
+                        HStack {
+                            Text("Sound Effects")
+                                .font(GameTheme.headingFont)
+                                .foregroundColor(.gameDarkBlue)
+
+                            Spacer()
+
+                            Toggle("", isOn: $soundEnabled)
+                                .toggleStyle(SwitchToggleStyle(tint: .gameGreen))
+                                .labelsHidden()
+                                .onChange(of: soundEnabled) { _, newValue in
+                                    SoundService.shared.toggleSound()
+                                    if newValue {
+                                        SoundService.shared.playSound(.toggleSwitch)
+                                    }
+                                }
+                        }
+
+                        HStack(spacing: 15) {
+                            Image(systemName: "speaker.fill")
+                                .foregroundColor(soundEnabled ? .gameDarkBlue : .gameGray)
+
+                            Slider(value: $soundVolume, in: 0...1, step: 0.05)
+                                .tint(.gameBlue)
+                                .disabled(!soundEnabled)
+                                .onChange(of: soundVolume) { _, newValue in
+                                    SoundService.shared.setSoundVolume(newValue)
+                                    if soundEnabled {
+                                        SoundService.shared.playSound(.buttonTap)
+                                    }
+                                }
+
+                            Image(systemName: "speaker.wave.3.fill")
+                                .foregroundColor(soundEnabled ? .gameDarkBlue : .gameGray)
+                        }
+                        .opacity(soundEnabled ? 1.0 : 0.5)
+                    }
+                    .padding(.horizontal)
+
+                    Divider()
+                        .background(Color.gameLightBlue.opacity(0.5))
+                        .padding(.horizontal)
+
+                    // Background Music Settings
+                    VStack(spacing: 12) {
+                        HStack {
+                            Text("Background Music")
+                                .font(GameTheme.headingFont)
+                                .foregroundColor(.gameDarkBlue)
+
+                            Spacer()
+
+                            Toggle("", isOn: $musicEnabled)
+                                .toggleStyle(SwitchToggleStyle(tint: .gameGreen))
+                                .labelsHidden()
+                                .onChange(of: musicEnabled) { _, newValue in
+                                    SoundService.shared.toggleMusic()
+                                    if newValue && soundEnabled {
+                                        SoundService.shared.playSound(.toggleSwitch)
+                                    }
+                                }
+                        }
+
+                        HStack(spacing: 15) {
+                            Image(systemName: "music.note")
+                                .foregroundColor(musicEnabled ? .gameDarkBlue : .gameGray)
+
+                            Slider(value: $musicVolume, in: 0...1, step: 0.05)
+                                .tint(.gameBlue)
+                                .disabled(!musicEnabled)
+                                .onChange(of: musicVolume) { _, newValue in
+                                    SoundService.shared.setMusicVolume(newValue)
+                                    if soundEnabled {
+                                        SoundService.shared.playSound(.buttonTap)
+                                    }
+                                }
+
+                            Image(systemName: "music.note.list")
+                                .foregroundColor(musicEnabled ? .gameDarkBlue : .gameGray)
+                        }
+                        .opacity(musicEnabled ? 1.0 : 0.5)
+                    }
+                    .padding(.horizontal)
+                }
+                .padding(.vertical)
+
+                Button(action: {
+                    if soundEnabled {
+                        SoundService.shared.playSound(.buttonTap)
+                    }
+                    isShowing = false
+                }) {
+                    Text("Done")
+                        .font(GameTheme.buttonFont)
+                        .foregroundColor(.gameWhite)
+                        .padding()
+                        .frame(width: 160)
+                        .background(Color.gameDarkBlue)
+                        .cornerRadius(12)
+                }
+                .padding(.top, 10)
+            }
+            .padding(25)
+            .background(
+                RoundedRectangle(cornerRadius: 20)
+                    .fill(Color.gameWhite.opacity(0.95))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 20)
+                            .stroke(Color.gamePurple, lineWidth: 5)
+                    )
+            )
+            .shadow(radius: 10)
+            .padding(.horizontal, 150)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+        }
+        .transition(.scale.combined(with: .opacity))
+        .animation(.easeInOut, value: isShowing)
+    }
+}
+
 // MARK: - Previews
 
 #Preview("InfoPopup") {
@@ -576,6 +732,12 @@ struct ProfileEditPopup: View {
 
 #Preview("ProfileEditPopup") {
     ProfileEditPopup(
+        isShowing: .constant(true)
+    )
+}
+
+#Preview("SoundSettingsPopup") {
+    SoundSettingsPopup(
         isShowing: .constant(true)
     )
 }

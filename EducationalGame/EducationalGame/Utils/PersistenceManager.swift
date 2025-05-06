@@ -21,8 +21,12 @@ import SwiftUI
         case colorGamePhase
         case currentGamePhases
         case preferences
-        case soundEnabled
         case hapticEnabled
+        // Sound-related keys
+        case soundEnabled
+        case musicEnabled
+        case soundVolume
+        case musicVolume
         
         // The actual key used in UserDefaults
         var key: String { rawValue }

@@ -214,22 +214,6 @@
         }
       }
     },
-    "About" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Über"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sobre"
-          }
-        }
-      }
-    },
     "Achievements" : {
       "localizations" : {
         "de" : {
@@ -306,6 +290,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ajuste os valores RGB com os seletores para corresponder à cor fornecida."
+          }
+        }
+      }
+    },
+    "Adjust your sound and music preferences" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anpassen der Sound- und Musikeinstellungen"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajuste suas preferências de som e música"
           }
         }
       }
@@ -556,6 +556,22 @@
         }
       }
     },
+    "Background Music" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hintergrundmusik"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Música de fundo"
+          }
+        }
+      }
+    },
     "Binary Armband" : {
       "localizations" : {
         "de" : {
@@ -680,6 +696,150 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Joia Binária"
+          }
+        }
+      }
+    },
+    "Binary Numbers" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Binärzahlen"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Números binários"
+          }
+        }
+      }
+    },
+    "Binary numbers and pixels" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Binärzahlen und Pixel"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Números binários e píxels"
+          }
+        }
+      }
+    },
+    "Binary numbers look cooler in movies" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Binäre Zahlen sehen in Filmen cooler aus"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Números binários ficam mais legais em filmes"
+          }
+        }
+      }
+    },
+    "Binary patterns can create:\n• Icons\n• Emojis\n• Simple graphics" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Binäre Muster können ... erstellen:\n- Icons\n- Emojis\n- Einfache Grafiken"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Os padrões binários podem criar:\n- Ícones\n- Emojis\n- Figuras simples"
+          }
+        }
+      }
+    },
+    "Binary Representation" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Binäre Darstellung"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Representação Binária"
+          }
+        }
+      }
+    },
+    "Binary to Decimal" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Binär zu Dezimal"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Binário para Decimal"
+          }
+        }
+      }
+    },
+    "Binary uses less electricity than decimal numbers" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Binäre Zahlen verbrauchen weniger Strom als Dezimalzahlen"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Binário usa menos energia que números decimais."
+          }
+        }
+      }
+    },
+    "BitPearls" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BitPerlen"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BitPérolas"
+          }
+        }
+      }
+    },
+    "Black" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schwarz"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preto"
           }
         }
       }
@@ -1436,6 +1596,22 @@
         }
       }
     },
+    "Done" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fertig"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Concluído"
+          }
+        }
+      }
+    },
     "Each pixel is like a tiny dot of color. When you put thousands together, they make pictures!" : {
       "localizations" : {
         "de" : {
@@ -1464,6 +1640,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cada posição em um número binário representa uma potência de 2, começando pela direita."
+          }
+        }
+      }
+    },
+    "Each RGB component ranges from 0 (none) to 255 (maximum intensity). This gives 256 possible values for each color channel." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jede RGB-Komponente reicht von 0 (keine) bis 255 (maximale Intensität). Dies ergibt 256 mögliche Werte für jeden Farbkanal."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cada componente RGB varia de 0 (nenhum) a 255 (intensidade máxima). Isso dá 256 valores possíveis para cada canal de cor."
           }
         }
       }
@@ -3780,6 +3972,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Azul Sólido: rgba(0,0,255,1.0)\nSemi-transparente: rgba(0,0,255,0.5)\nInvisível: rgba(0,0,255,0.0)"
+          }
+        }
+      }
+    },
+    "Sound Effects" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sound-Effekte"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Efeitos Sonoros"
           }
         }
       }
