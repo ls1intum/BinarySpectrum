@@ -5,31 +5,26 @@ import SwiftUI
 // MARK: - Audio Types
 
 enum SoundEffectType: String {
-    case buttonTap = "button_tap"
-    case toggleSwitch = "toggle_switch"
-    case notification
-    case menuTransition = "menu_transition"
-    case correctAnswer = "correct_answer"
-    case wrongAnswer = "wrong_answer"
-    case achievementUnlocked = "achievement_unlocked"
-    case levelCompleted = "level_completed"
-    case countdownTick = "countdown_tick"
-    case gameStart = "game_start"
-    case gameOver = "game_over"
-    case binaryGameAction = "binary_game_action"
-    case colorGameAction = "color_game_action"
-    case pixelGameAction = "pixel_game_action"
+    case levelUp1 = "level-up-1"
+    case levelUp2 = "level-up-2"
+    case levelUp3 = "level-up-3"
+    case levelUp4 = "level-up-4"
+    case badge = "badge"
+    case discovery = "discovery"
+    case incorrect = "incorrect"
+    case correct = "correct"
+    case button0 = "button_0"
+    case button1 = "button_1"
+    case button2 = "button_2"
+    case button3 = "button_3"
+    case button4 = "button_4"
+    case button5 = "button_5"
     case fallback
 }
 
 enum MusicType: String {
-    case mainMenu = "main_menu"
-    case gamePlay = "game_play"
-    case achievementScreen = "achievement_screen"
-    case binaryGame = "binary_game"
-    case colorGame = "color_game"
-    case pixelGame = "pixel_game"
-    case victoryTune = "victory_tune"
+    case background1 = "background_1"
+    case background2 = "background_2"
 }
 
 // MARK: - Sound Service
@@ -60,7 +55,7 @@ final class SoundService {
     private init() {
         setupAudioSession()
         loadDefaultSettings()
-        preloadSounds([.buttonTap, .correctAnswer, .wrongAnswer, .notification])
+        preloadSounds([.levelUp1, .badge, .incorrect, .correct])
     }
 
     private func setupAudioSession() {
@@ -180,23 +175,25 @@ final class SoundService {
     }
 
     private func createAudioPlayer(for filename: String, fileExtension: String = "mp3") -> AVAudioPlayer? {
-        func loadAudio(named name: String) -> AVAudioPlayer? {
-            guard let url = Bundle.main.url(forResource: name, withExtension: fileExtension) else { return nil }
-            return try? AVAudioPlayer(contentsOf: url)
+        func loadAudio(named name: String, extensions: [String]) -> AVAudioPlayer? {
+            for ext in extensions {
+                if let url = Bundle.main.url(forResource: name, withExtension: ext) {
+                    return try? AVAudioPlayer(contentsOf: url)
+                }
+            }
+            return nil
         }
-
-        if let player = loadAudio(named: filename) {
+        let extensions = ["mp3", "wav"]
+        if let player = loadAudio(named: filename, extensions: extensions) {
             return player
         }
-
         if filename != SoundEffectType.fallback.rawValue,
-           let fallbackPlayer = loadAudio(named: SoundEffectType.fallback.rawValue)
+           let fallbackPlayer = loadAudio(named: SoundEffectType.fallback.rawValue, extensions: extensions)
         {
             print("Using fallback audio for: \(filename)")
             return fallbackPlayer
         }
-
-        print("⚠️ Audio file not found: \(filename).\(fileExtension)")
+        print("⚠️ Audio file not found: \(filename).mp3 or .wav")
         return nil
     }
 
