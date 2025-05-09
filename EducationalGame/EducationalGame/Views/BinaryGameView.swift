@@ -42,11 +42,11 @@ struct BinaryGameView: View {
                         currentPhase: $viewModel.currentPhase
                     )
                 case .noviceChallenge:
-                    BinaryPracticeView(viewModel: viewModel)
+                    BinaryFourDigitsView(viewModel: viewModel)
                 case .apprenticeChallenge:
-                    BinaryChallengeView(viewModel: viewModel)
+                    BinaryFiveDigitsView(viewModel: viewModel)
                 case .adeptChallenge:
-                    BinaryAdvancedChallengeView(viewModel: viewModel)
+                    BinaryReverseChallengeView(viewModel: viewModel)
                 case .lastDialogue:
                     DialogueView(
                         personaImage: GameConstants.miniGames[0].personaImage,
@@ -95,7 +95,7 @@ struct BinaryExplorationView: View {
                 Spacer()
                 
                 HStack(spacing: 10) {
-                    ForEach(0..<8) { number in
+                    ForEach(Array(stride(from: 7, through: 0, by: -1)), id: \.self) { number in
                         Button(action: {
                             viewModel.selectedNumber = number
                         }) {
@@ -135,13 +135,17 @@ struct BinaryExplorationView: View {
                                 
                                 let power = Int(pow(2.0, Double(2 - index)))
                                 let digit = Int(binaryDigits[index]) ?? 0
-                                
-                                Text("\(digit) × \(power) =")
-                                    .font(GameTheme.subheadingFont)
-                                    .foregroundColor(.gameBlack)
-                                Text("\(digit * power)")
-                                    .font(GameTheme.subheadingFont)
-                                    .foregroundColor(.gamePurple)
+                                VStack{
+                                    Spacer()
+                                    HStack{
+                                        Text("\(digit) × \(power) =")
+                                            .font(GameTheme.subheadingFont)
+                                            .foregroundColor(.gameBlack)
+                                        Text("\(digit * power)")
+                                            .font(GameTheme.subheadingFont)
+                                            .foregroundColor(.gamePurple)
+                                    }
+                                }
                             }
                         }
                     }
@@ -201,7 +205,7 @@ struct BinaryExplorationView: View {
     }
 }
 
-struct BinaryPracticeView: View {
+struct BinaryFourDigitsView: View {
     @State var viewModel: BinaryGameViewModel
     @State private var showAlert = false
     @State private var showPopup = false
@@ -216,7 +220,7 @@ struct BinaryPracticeView: View {
                 
                 HStack(spacing: 30) {
                     Spacer()
-                    VStack {
+                    VStack(spacing: 30) {
                         HStack(spacing: 16) {
                             ForEach(0..<viewModel.digitCount, id: \.self) { index in
                                 VStack {
@@ -240,7 +244,7 @@ struct BinaryPracticeView: View {
                                 }
                             }
                         }
-                        
+                        Spacer()
                         Text("\(viewModel.decimalValue)")
                             .font(GameTheme.headingFont)
                             .frame(width: 85, height: 85)
@@ -307,7 +311,7 @@ struct BinaryPracticeView: View {
     }
 }
 
-struct BinaryChallengeView: View {
+struct BinaryFiveDigitsView: View {
     @State var viewModel: BinaryGameViewModel
     @State private var showAlert = false
     @State private var showPopup = false
@@ -322,7 +326,7 @@ struct BinaryChallengeView: View {
                 
                 HStack(spacing: 30) {
                     Spacer()
-                    VStack {
+                    VStack (spacing: 80){
                         HStack(spacing: 16) {
                             ForEach(0..<viewModel.challengeDigitCount, id: \.self) { index in
                                 VStack {
@@ -413,7 +417,7 @@ struct BinaryChallengeView: View {
     }
 }
 
-struct BinaryAdvancedChallengeView: View {
+struct BinaryReverseChallengeView: View {
     @State var viewModel: BinaryGameViewModel
     @State private var showAlert = false
     @State private var showPopup = false
@@ -421,7 +425,7 @@ struct BinaryAdvancedChallengeView: View {
     
     var body: some View {
         ZStack {
-            VStack(spacing: 30) {
+            VStack(spacing: 50) {
                 Spacer()
                 InstructionBar(text: "Now let's convert binary to decimal! What number is represented by these binary digits?")
                 Spacer()
@@ -689,7 +693,7 @@ struct BinaryArmbandView: View {
 
 // MARK: - Previews
 
-#Preview("Intro Phase") {
+#Preview("Intro") {
     let viewModel = BinaryGameViewModel()
     return BinaryGameView(viewModel: viewModel)
         .environment(\.colorScheme, .light)
@@ -702,65 +706,44 @@ struct BinaryArmbandView: View {
         .environment(\.colorScheme, .light)
 }
 
-#Preview("Exploration Phase") {
+#Preview("Exploration") {
     let viewModel = BinaryGameViewModel()
     viewModel.currentPhase = .exploration
     return BinaryGameView(viewModel: viewModel)
         .environment(\.colorScheme, .light)
 }
 
-#Preview("Tutorial Phase") {
-    let viewModel = BinaryGameViewModel()
-    viewModel.currentPhase = .tutorialDialogue
-    return BinaryGameView(viewModel: viewModel)
-        .environment(\.colorScheme, .light)
-}
-
-#Preview("Practice Phase") {
+#Preview("Novice Challenge") {
     let viewModel = BinaryGameViewModel()
     viewModel.currentPhase = .noviceChallenge
     return BinaryGameView(viewModel: viewModel)
         .environment(\.colorScheme, .light)
 }
 
-#Preview("Challenges Phase") {
+#Preview("Apprentice Challenge") {
     let viewModel = BinaryGameViewModel()
     viewModel.currentPhase = .apprenticeChallenge
     return BinaryGameView(viewModel: viewModel)
         .environment(\.colorScheme, .light)
 }
 
-#Preview("Advanced Challenges Phase") {
+#Preview("Adept Challenge") {
     let viewModel = BinaryGameViewModel()
     viewModel.currentPhase = .adeptChallenge
     return BinaryGameView(viewModel: viewModel)
         .environment(\.colorScheme, .light)
 }
 
-#Preview("Last Dialogue Phase") {
-    let viewModel = BinaryGameViewModel()
-    viewModel.currentPhase = .lastDialogue
-    return BinaryGameView(viewModel: viewModel)
-        .environment(\.colorScheme, .light)
-}
-
-#Preview("Final Challenge Phase") {
+#Preview("Expert Challenge") {
     let viewModel = BinaryGameViewModel()
     viewModel.currentPhase = .expertChallenge
     return BinaryGameView(viewModel: viewModel)
         .environment(\.colorScheme, .light)
 }
 
-#Preview("Review Phase") {
+#Preview("Review") {
     let viewModel = BinaryGameViewModel()
     viewModel.currentPhase = .review
-    return BinaryGameView(viewModel: viewModel)
-        .environment(\.colorScheme, .light)
-}
-
-#Preview("Reward Phase") {
-    let viewModel = BinaryGameViewModel()
-    viewModel.currentPhase = .reward
     return BinaryGameView(viewModel: viewModel)
         .environment(\.colorScheme, .light)
 }

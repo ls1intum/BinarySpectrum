@@ -52,8 +52,10 @@ struct QuestionsView: View {
                                         
                                         if alternativeID == correctAnswer {
                                             HapticService.shared.play(.success)
+                                            SoundService.shared.playSound(.correct)
                                         } else {
                                             HapticService.shared.play(.error)
+                                            SoundService.shared.playSound(.incorrect)
                                         }
                                     }
                                 }) {
@@ -63,8 +65,8 @@ struct QuestionsView: View {
                                             .frame(width: 50, height: 50)
                                             .background(
                                                 viewModel.selectedAnswers[viewModel.currentQuestionIndex] == alternativeID ?
-                                                    (viewModel.isAnswerCorrect ? Color.green : Color.red) :
-                                                    (viewModel.showExplanation && alternativeID == correctAnswer ? Color.green : Color.gray)
+                                                    (viewModel.isAnswerCorrect ? Color.gameGreen : Color.gameRed) :
+                                                    (viewModel.showExplanation && alternativeID == correctAnswer ? Color.gameGreen : Color.gray)
                                             )
                                             .foregroundColor(.white)
                                             .clipShape(Circle())
@@ -77,7 +79,7 @@ struct QuestionsView: View {
                                             .padding(.horizontal, 15)
                                             .background(
                                                 (viewModel.showExplanation && alternativeID == correctAnswer) ?
-                                                    Color.green.opacity(0.2) :
+                                                    Color.gameGreen.opacity(0.2) :
                                                     Color.gray.opacity(0.2)
                                             )
                                             .cornerRadius(10)
@@ -97,10 +99,10 @@ struct QuestionsView: View {
                             VStack(alignment: .leading, spacing: 10) {
                                 Text(viewModel.isAnswerCorrect ? "Correct! 🎉" : "Not quite right 😕")
                                     .font(GameTheme.buttonFont)
-                                    .foregroundColor(viewModel.isAnswerCorrect ? .green : .red)
+                                    .foregroundColor(viewModel.isAnswerCorrect ? .gameGreen : .red)
                                 
                                 Text(viewModel.currentExplanation)
-                                    .font(.body)
+                                    .font(GameTheme.bodyFont)
                                     .foregroundColor(.gameDarkBlue)
                                     .fixedSize(horizontal: false, vertical: true)
                             }
@@ -127,6 +129,7 @@ struct QuestionsView: View {
                         action: {
                             viewModel.previousQuestion()
                             HapticService.shared.play(.light)
+                            //SoundService.shared.playSound(.button3)
                         },
                         hapticType: .light
                     )
@@ -163,19 +166,18 @@ struct QuestionsView: View {
                     action: {
                         if viewModel.currentQuestionIndex < viewModel.questions.count - 1 {
                             HapticService.shared.play(.light)
+                            //SoundService.shared.playSound(.button4)
                         } else {
                             HapticService.shared.play(.gameSuccess)
+                            //SoundService.shared.playSound(.levelUp2)
                         }
-                        
                         if viewModel.nextQuestion() {
                             let percentage = viewModel.getProgress()
-                            // Save progress
                             sharedUserViewModel.completeMiniGame(
                                 gameType + " Questions",
                                 score: Int(percentage * 100),
                                 percentage: percentage
                             )
-                            // Adjust experience level if autoAdjust is on
                             if sharedUserViewModel.autoAdjustExperienceLevel {
                                 if percentage >= 0.75 {
                                     sharedUserViewModel.setExperienceLevel(.pro, for: gameType)
@@ -202,7 +204,7 @@ struct QuestionsView: View {
         if index == viewModel.currentQuestionIndex {
             return .gameLightBlue
         } else if viewModel.isQuestionAnswered(index) {
-            return .green
+            return .gameGreen
         } else {
             return .gray.opacity(0.3)
         }

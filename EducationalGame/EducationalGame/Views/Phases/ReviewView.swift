@@ -41,6 +41,7 @@ struct ReviewView: View {
                         color: color,
                         action: {
                             HapticService.shared.play(.gameSuccess)
+                            SoundService.shared.playSound(.button3)
                             onCompletion()
                         },
                         hapticType: .success
@@ -76,6 +77,7 @@ struct ChecklistReviewCard: View {
                 
                 if isChecked {
                     HapticService.shared.play(.selection)
+                    SoundService.shared.playSound(.correct)
                     scale = 1.1
                     rotationDegrees = 5
                     
@@ -88,6 +90,7 @@ struct ChecklistReviewCard: View {
                     }
                 } else {
                     HapticService.shared.play(.light)
+                    SoundService.shared.playSound(.button5)
                 }
             }
         }) {

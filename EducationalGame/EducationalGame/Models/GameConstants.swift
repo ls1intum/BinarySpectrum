@@ -15,7 +15,8 @@ enum GameConstants {
         PixelArt(name: "White Smiley", grid: GridImage(hexString: "3c42a581a599423c")),
         PixelArt(name: "Black Smiley", grid: GridImage(hexString: "3c7edbdbffdb663c")),
         PixelArt(name: "Heart", grid: GridImage(hexString: "00367f7f3e3c1c08")),
-        PixelArt(name: "Ghost", grid: GridImage(hexString: "3c7e5affffffff99"))
+        PixelArt(name: "Ghost", grid: GridImage(hexString: "3c7e5affffffff99")),
+        PixelArt(name: "Key", grid: GridImage(hexString: "1824180808180818"))
     ]
     
     // Each hex digit represents 4 pixels, so a 16x16 grid needs 64 hex digits
@@ -24,7 +25,8 @@ enum GameConstants {
         PixelArt(name: "Pig", grid: GridImage(hexString: "700e8ff198196006480a981987e188118a51881147e240022004481247e23c3c")),
         PixelArt(name: "Carrot", grid: GridImage(hexString: "00000000000800100192026c0430081010082008201042204940858086007800")),
         PixelArt(name: "Pumpkin", grid: GridImage(hexString: "0000078003801ff8300c60064422ce7384218181c0034a5265a6300c1c3807e0")),
-        PixelArt(name: "Dolphin", grid: GridImage(hexString: "00000300028006700808100420162001427e46d04b2028002c00110014000800"))
+        PixelArt(name: "Dolphin", grid: GridImage(hexString: "00000300028006700808100420162001427e46d04b2028002c00110014000800")),
+        PixelArt(name: "Mug", grid: GridImage(hexString: "1F8020404F209B90B6D89D848F12801A801A8012800480188010402020401F80"))
     ]
     
     // MARK: - Binary Game Content
@@ -87,7 +89,7 @@ enum GameConstants {
                 ],
                 correctAnswer: 2,
                 explanation: LocalizedStringResource("In binary, each place value doubles as you move left: 1, 2, 4, 8, 16, and so on.")
-            ),
+            ),/*
             Question(
                 question: LocalizedStringResource("What does a '0' mean in a binary number?"),
                 alternatives: [
@@ -98,7 +100,7 @@ enum GameConstants {
                 ],
                 correctAnswer: 1,
                 explanation: LocalizedStringResource("A '0' means we skip that place value when adding up the total number.")
-            ),
+            ),*/
             Question(
                 question: LocalizedStringResource("If a binary number is 101, what decimal number does it represent?"),
                 alternatives: [

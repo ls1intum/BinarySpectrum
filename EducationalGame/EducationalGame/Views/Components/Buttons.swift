@@ -26,6 +26,7 @@ struct AnimatedCircleButton: View {
                 isPressed = true
             }
             HapticService.shared.play(hapticType)
+            //SoundService.shared.playSound(.button2)
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                 action()
                 withAnimation(.spring(response: 0.2, dampingFraction: 0.5)) {
@@ -98,7 +99,7 @@ struct RewardButton: View {
             withAnimation(.easeInOut(duration: 0.3)) {
                 isPressed = true
                 HapticService.shared.play(.achievement)
-
+                //SoundService.shared.playSound(.badge)
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                     navigateToAchievements = true
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
@@ -141,6 +142,7 @@ struct InfoButton: View {
         ZStack {
             Button(action: {
                 HapticService.shared.play(.buttonTap)
+                SoundService.shared.playSound(.button2)
                 showInfoPopup = true
             }) {
                 ZStack {

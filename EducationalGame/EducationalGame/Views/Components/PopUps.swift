@@ -26,6 +26,7 @@ struct InfoPopup: View {
 
                 Button(action: {
                     HapticService.shared.play(.buttonTap)
+                    SoundService.shared.playSound(.button5)
                     onButtonTap()
                 }) {
                     Text(buttonTitle)
@@ -91,6 +92,7 @@ struct TwoButtonInfoPopup: View {
                     // Secondary button
                     Button(action: {
                         HapticService.shared.play(.light)
+                        SoundService.shared.playSound(.button3)
                         onSecondaryButtonTap()
                     }) {
                         Text(secondaryButtonTitle)
@@ -105,6 +107,7 @@ struct TwoButtonInfoPopup: View {
                     // Primary button
                     Button(action: {
                         HapticService.shared.play(.medium)
+                        SoundService.shared.playSound(.button4)
                         onPrimaryButtonTap()
                     }) {
                         Text(primaryButtonTitle)
@@ -343,9 +346,8 @@ struct WelcomeFormPopup: View {
         userName = localUserName
         userAge = localUserAge
         favoriteColor = localFavoriteColor
-
         HapticService.shared.play(.success)
-
+        SoundService.shared.playSound(.levelUp4)
         onSubmit(localUserName, localUserAge, localFavoriteColor)
         isShowing = false
     }
@@ -534,7 +536,7 @@ struct ProfileEditPopup: View {
 
     private func saveProfile() {
         HapticService.shared.play(.success)
-
+        //SoundService.shared.playSound(.badge)
         userViewModel.saveUserInfo(
             name: userName,
             age: userAge,
@@ -593,7 +595,7 @@ struct SoundSettingsPopup: View {
                                 .onChange(of: soundEnabled) { _, newValue in
                                     SoundService.shared.toggleSound()
                                     if newValue {
-                                        SoundService.shared.playSound(.toggleSwitch)
+                                        SoundService.shared.playSound(.correct)
                                     }
                                 }
                         }
@@ -608,7 +610,7 @@ struct SoundSettingsPopup: View {
                                 .onChange(of: soundVolume) { _, newValue in
                                     SoundService.shared.setSoundVolume(newValue)
                                     if soundEnabled {
-                                        SoundService.shared.playSound(.buttonTap)
+                                        SoundService.shared.playSound(.correct)
                                     }
                                 }
 
@@ -638,7 +640,7 @@ struct SoundSettingsPopup: View {
                                 .onChange(of: musicEnabled) { _, newValue in
                                     SoundService.shared.toggleMusic()
                                     if newValue && soundEnabled {
-                                        SoundService.shared.playSound(.toggleSwitch)
+                                        SoundService.shared.playSound(.correct)
                                     }
                                 }
                         }
@@ -653,7 +655,7 @@ struct SoundSettingsPopup: View {
                                 .onChange(of: musicVolume) { _, newValue in
                                     SoundService.shared.setMusicVolume(newValue)
                                     if soundEnabled {
-                                        SoundService.shared.playSound(.buttonTap)
+                                        SoundService.shared.playSound(.correct)
                                     }
                                 }
 
@@ -668,7 +670,7 @@ struct SoundSettingsPopup: View {
 
                 Button(action: {
                     if soundEnabled {
-                        SoundService.shared.playSound(.buttonTap)
+                        SoundService.shared.playSound(.button5)
                     }
                     isShowing = false
                 }) {

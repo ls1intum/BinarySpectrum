@@ -31,6 +31,7 @@ struct RewardView: View {
                             withAnimation(.easeIn(duration: 1.0)) {
                                 opacity = 1.0
                             }
+                            SoundService.shared.playSound(.levelUp3)
                         }
                     
                     Image(GameConstants.miniGames[miniGameIndex].personaImage)
@@ -157,6 +158,7 @@ struct RewardView: View {
                     ) {
                         scale = 1.05
                     }
+                    SoundService.shared.playSound(.badge)
                 }
                  
                 Spacer()

@@ -64,6 +64,20 @@ import SwiftUI
         sharedUserViewModel.completeMiniGame("\(gameType) - \(currentPhase.rawValue)",
                                              score: score,
                                              percentage: percentage)
+        switch currentPhase {
+        case .noviceChallenge:
+            SoundService.shared.playSound(.levelUp1)
+        case .apprenticeChallenge:
+            SoundService.shared.playSound(.levelUp2)
+        case .adeptChallenge:
+            SoundService.shared.playSound(.levelUp3)
+        case .expertChallenge:
+            SoundService.shared.playSound(.levelUp4)
+        case .review:
+            SoundService.shared.playSound(.badge)
+        default:
+            break
+        }
         
         currentPhase.next(for: gameType)
     }

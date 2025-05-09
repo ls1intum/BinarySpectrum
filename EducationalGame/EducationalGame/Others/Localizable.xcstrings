@@ -183,6 +183,7 @@
       "shouldTranslate" : false
     },
     "A '0' means we skip that place value when adding up the total number." : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -231,6 +232,7 @@
       }
     },
     "Add this value" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -3001,6 +3003,7 @@
       }
     },
     "Multiply by 2" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -4041,6 +4044,7 @@
       }
     },
     "Skip this value" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -4169,6 +4173,7 @@
       }
     },
     "Subtract this value" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -4921,6 +4926,7 @@
       }
     },
     "What does a '0' mean in a binary number?" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {

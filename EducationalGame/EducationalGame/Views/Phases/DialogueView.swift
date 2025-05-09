@@ -31,6 +31,7 @@ struct DialogueView: View {
                         withAnimation(.easeIn(duration: 1.0)) {
                             opacity = 1.0
                         }
+                        SoundService.shared.playSound(.discovery)
                     }
                 // Character
                 Image(personaImage)
@@ -51,6 +52,7 @@ struct DialogueView: View {
                     action: {
                         if currentDialogueIndex > 0 {
                             currentDialogueIndex -= 1
+                            SoundService.shared.playSound(.button1)
                         }
                     }
                 )
@@ -73,8 +75,10 @@ struct DialogueView: View {
                     action: {
                         if currentDialogueIndex < dialogues.count - 1 {
                             currentDialogueIndex += 1
+                            SoundService.shared.playSound(.button2)
                         } else {
                             currentPhase.next(for: gameType)
+                            SoundService.shared.playSound(.levelUp1)
                         }
                     }
                 )
