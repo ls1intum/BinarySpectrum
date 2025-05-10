@@ -63,3 +63,16 @@ fastlane/test_output
 
 # Diagrams documentation
 EducationalGame/EducationalGame/Diagrams/*.md
+
+# macOS system files
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+
+# Xcode - additional
+*.xcscmblueprint
+*.xccheckout
+*.moved-aside
+DerivedData/
