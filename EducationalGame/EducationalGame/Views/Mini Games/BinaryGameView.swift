@@ -10,28 +10,38 @@ struct BinaryGameView: View {
     }
     
     var body: some View {
-        ZStack(alignment: .top) {
-            VStack {
-                Spacer().frame(height: 90)
-                currentPhaseView
+        BaseGameView {
+            ZStack(alignment: .top) {
+                VStack {
+                    Spacer().frame(height: 90)
+                    currentPhaseView
+                }
+                
+                TopBar(title: GameConstants.miniGames[0].name, color: GameConstants.miniGames[0].color)
+                
+                if viewModel.showHint {
+                    InfoPopup(
+                        title: viewModel.isCorrect ? "Correct!" : "Try Again",
+                        message: viewModel.hintMessage,
+                        buttonTitle: viewModel.isCorrect ? "Continue" : "OK",
+                        onButtonTap: {
+                            viewModel.hideHint()
+                        }
+                    )
+                    .edgesIgnoringSafeArea(.all)
+                    .zIndex(10)
+                }
             }
-            
-            TopBar(title: GameConstants.miniGames[0].name, color: GameConstants.miniGames[0].color)
-            
-            if viewModel.showHint {
-                InfoPopup(
-                    title: viewModel.isCorrect ? "Correct!" : "Try Again",
-                    message: viewModel.hintMessage,
-                    buttonTitle: viewModel.isCorrect ? "Continue" : "OK",
-                    onButtonTap: {
-                        viewModel.hideHint()
-                    }
-                )
-                .edgesIgnoringSafeArea(.all)
-                .zIndex(10)
+            .edgesIgnoringSafeArea(.top)
+            .onAppear {
+                // Configure challenge parameters if any
+                if let challengeParams = navigationState.challengeParams {
+                    viewModel.configureWithChallengeParams(challengeParams)
+                }
             }
         }
-        .edgesIgnoringSafeArea(.top)
+        .environmentObject(navigationState)
+        .environmentObject(userViewModel)
     }
 
     @ViewBuilder
@@ -94,73 +104,19 @@ struct BinaryGameView: View {
     }
 }
 
-// MARK: - Base Views
-
-struct BinaryChallengeBaseView<Content: View>: View {
-    @Bindable var viewModel: BinaryGameViewModel
-    let instruction: LocalizedStringResource
-    let content: Content
-    let showCheckButton: Bool
-    let onCheck: () -> Void
-    
-    init(
-        viewModel: BinaryGameViewModel,
-        instruction: LocalizedStringResource,
-        showCheckButton: Bool = true,
-        onCheck: @escaping () -> Void,
-        @ViewBuilder content: () -> Content
-    ) {
-        self.viewModel = viewModel
-        self.instruction = instruction
-        self.showCheckButton = showCheckButton
-        self.onCheck = onCheck
-        self.content = content()
-    }
-    
-    var body: some View {
-        ZStack {
-            VStack(spacing: 20) {
-                Spacer()
-                InstructionBar(text: instruction)
-                Spacer()
-                
-                content
-                
-                Spacer()
-            }
-            if showCheckButton {
-                VStack {
-                    Spacer()
-                    HStack {
-                        Spacer()
-                        AnimatedCircleButton(
-                            iconName: "checkmark.circle.fill",
-                            color: GameConstants.miniGames[0].color,
-                            action: {
-                                // Show info popup with appropriate message based on the check
-                                onCheck()
-                            }
-                        )
-                        .padding(.trailing, 20)
-                    }
-                }
-            }
-        }
-    }
-}
-
 // MARK: - Challenges
 
 struct BinaryExplorationView: View {
     @Bindable var viewModel: BinaryGameViewModel
     
     var body: some View {
-        BinaryChallengeBaseView(
-            viewModel: viewModel,
+        BaseGameView(
             instruction: "Select a number to see its binary representation",
+            showCheckButton: true,
             onCheck: {
                 viewModel.nextPhase()
-            }
+            },
+            gameColor: GameConstants.miniGames[0].color
         ) {
             VStack(spacing: 30) {
                 HStack(spacing: 10) {
@@ -204,9 +160,9 @@ struct BinaryExplorationView: View {
                                 
                                 let power = Int(pow(2.0, Double(2 - index)))
                                 let digit = Int(binaryDigits[index]) ?? 0
-                                VStack{
+                                VStack {
                                     Spacer()
-                                    HStack{
+                                    HStack {
                                         Text("\(digit) × \(power) =")
                                             .font(GameTheme.subheadingFont)
                                             .foregroundColor(.gameBlack)
@@ -231,7 +187,7 @@ struct BinaryExplorationView: View {
                     (
                         Text("\(sumString) = ")
                             .foregroundColor(.gamePurple)
-                        + Text("\(viewModel.explorationState.selectedNumber)")
+                            + Text("\(viewModel.explorationState.selectedNumber)")
                             .foregroundColor(.gamePink)
                     )
                     .font(GameTheme.subheadingFont)
@@ -240,9 +196,9 @@ struct BinaryExplorationView: View {
                     (
                         Text("\(viewModel.explorationState.selectedNumber)")
                             .foregroundColor(.gamePink)
-                        + Text(" in binary is ")
+                            + Text(" in binary is ")
                             .foregroundColor(.gameBlack)
-                        + Text(binaryString)
+                            + Text(binaryString)
                             .foregroundColor(.gameGreen)
                     )
                     .font(GameTheme.subheadingFont)
@@ -260,18 +216,17 @@ struct BinaryNoviceChallengeView: View {
     @Bindable var viewModel: BinaryGameViewModel
     
     var body: some View {
-        BinaryChallengeBaseView(
-            viewModel: viewModel,
+        BaseGameView(
             instruction: "Tap the circles to toggle between 0 and 1. Your goal is to represent \(viewModel.noviceState.targetNumber) in binary.",
+            showCheckButton: true,
             onCheck: {
                 viewModel.checkNoviceAnswer()
-            }
+            },
+            gameColor: GameConstants.miniGames[0].color
         ) {
             HStack(spacing: 30) {
                 Spacer()
                 VStack(spacing: 30) {
- 
-                    
                     HStack(spacing: 16) {
                         ForEach(0..<viewModel.noviceState.digitCount, id: \.self) { index in
                             VStack {
@@ -330,12 +285,13 @@ struct BinaryApprenticeChallengeView: View {
     @Bindable var viewModel: BinaryGameViewModel
     
     var body: some View {
-        BinaryChallengeBaseView(
-            viewModel: viewModel,
+        BaseGameView(
             instruction: "Now lets represent \(viewModel.apprenticeState.targetNumber) in binary. For that we need 5 digits!",
+            showCheckButton: true,
             onCheck: {
                 viewModel.checkApprenticeAnswer()
-            }
+            },
+            gameColor: GameConstants.miniGames[0].color
         ) {
             HStack(spacing: 30) {
                 Spacer()
@@ -398,12 +354,13 @@ struct BinaryAdeptChallengeView: View {
     @Bindable var viewModel: BinaryGameViewModel
     
     var body: some View {
-        BinaryChallengeBaseView(
-            viewModel: viewModel,
+        BaseGameView(
             instruction: "Now let's convert binary to decimal! What number is represented by these binary digits?",
+            showCheckButton: true,
             onCheck: {
                 viewModel.checkAdeptAnswer()
-            }
+            },
+            gameColor: GameConstants.miniGames[0].color
         ) {
             HStack(spacing: 30) {
                 Spacer()
@@ -455,12 +412,13 @@ struct BinaryExpertChallengeView: View {
     @Bindable var viewModel: BinaryGameViewModel
     
     var body: some View {
-        BinaryChallengeBaseView(
-            viewModel: viewModel,
+        BaseGameView(
             instruction: "Create your binary armband based on your birthdate",
+            showCheckButton: true,
             onCheck: {
                 viewModel.checkBirthdateChallenge()
-            }
+            },
+            gameColor: GameConstants.miniGames[0].color
         ) {
             VStack(spacing: 25) {
                 HStack(spacing: 30) {
@@ -597,57 +555,45 @@ struct BinaryArmbandView: View {
 
 // MARK: - Previews
 
-#Preview("Intro") {
-    let viewModel = BinaryGameViewModel()
-    return BinaryGameView(viewModel: viewModel)
-        .environment(\.colorScheme, .light)
+extension BinaryGameView {
+    static func previewWithPhase(_ phase: GamePhase) -> some View {
+        let viewModel = BinaryGameViewModel()
+        viewModel.currentPhase = phase
+        return BinaryGameView(viewModel: viewModel)
+            .environment(\.colorScheme, .light)
+            .environmentObject(NavigationState())
+            .environmentObject(UserViewModel())
+    }
 }
 
-#Preview("Questions Phase") {
-    let viewModel = BinaryGameViewModel()
-    viewModel.currentPhase = .questions
-    return BinaryGameView(viewModel: viewModel)
-        .environment(\.colorScheme, .light)
+#Preview("Intro") {
+    BinaryGameView.previewWithPhase(.introDialogue)
+}
+
+#Preview("Questions") {
+    BinaryGameView.previewWithPhase(.questions)
 }
 
 #Preview("Exploration") {
-    let viewModel = BinaryGameViewModel()
-    viewModel.currentPhase = .exploration
-    return BinaryGameView(viewModel: viewModel)
-        .environment(\.colorScheme, .light)
+    BinaryGameView.previewWithPhase(.exploration)
 }
 
-#Preview("Novice Challenge") {
-    let viewModel = BinaryGameViewModel()
-    viewModel.currentPhase = .noviceChallenge
-    return BinaryGameView(viewModel: viewModel)
-        .environment(\.colorScheme, .light)
+#Preview("Novice") {
+    BinaryGameView.previewWithPhase(.noviceChallenge)
 }
 
-#Preview("Apprentice Challenge") {
-    let viewModel = BinaryGameViewModel()
-    viewModel.currentPhase = .apprenticeChallenge
-    return BinaryGameView(viewModel: viewModel)
-        .environment(\.colorScheme, .light)
+#Preview("Apprentice") {
+    BinaryGameView.previewWithPhase(.apprenticeChallenge)
 }
 
-#Preview("Adept Challenge") {
-    let viewModel = BinaryGameViewModel()
-    viewModel.currentPhase = .adeptChallenge
-    return BinaryGameView(viewModel: viewModel)
-        .environment(\.colorScheme, .light)
+#Preview("Adept") {
+    BinaryGameView.previewWithPhase(.adeptChallenge)
 }
 
-#Preview("Expert Challenge") {
-    let viewModel = BinaryGameViewModel()
-    viewModel.currentPhase = .expertChallenge
-    return BinaryGameView(viewModel: viewModel)
-        .environment(\.colorScheme, .light)
+#Preview("Expert") {
+    BinaryGameView.previewWithPhase(.expertChallenge)
 }
 
 #Preview("Review") {
-    let viewModel = BinaryGameViewModel()
-    viewModel.currentPhase = .review
-    return BinaryGameView(viewModel: viewModel)
-        .environment(\.colorScheme, .light)
+    BinaryGameView.previewWithPhase(.review)
 }

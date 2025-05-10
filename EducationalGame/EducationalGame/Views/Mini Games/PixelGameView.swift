@@ -10,27 +10,37 @@ struct PixelGameView: View {
     }
     
     var body: some View {
-        ZStack(alignment: .top) {
-            VStack {
-                Spacer().frame(height: 90)
-                currentPhaseView
+        BaseGameView {
+            ZStack(alignment: .top) {
+                VStack {
+                    Spacer().frame(height: 90)
+                    currentPhaseView
+                }
+                TopBar(title: GameConstants.miniGames[1].name, color: GameConstants.miniGames[1].color)
+                        
+                if viewModel.showHint {
+                    InfoPopup(
+                        title: viewModel.isCorrect ? "Correct!" : "Try Again",
+                        message: viewModel.hintMessage,
+                        buttonTitle: viewModel.isCorrect ? "Continue" : "OK",
+                        onButtonTap: {
+                            viewModel.hideHint()
+                        }
+                    )
+                    .edgesIgnoringSafeArea(.all)
+                    .zIndex(10)
+                }
             }
-            TopBar(title: GameConstants.miniGames[1].name, color: GameConstants.miniGames[1].color)
-                    
-            if viewModel.showHint {
-                InfoPopup(
-                    title: viewModel.isCorrect ? "Correct!" : "Try Again",
-                    message: viewModel.hintMessage,
-                    buttonTitle: viewModel.isCorrect ? "Continue" : "OK",
-                    onButtonTap: {
-                        viewModel.hideHint()
-                    }
-                )
-                .edgesIgnoringSafeArea(.all)
-                .zIndex(10)
+            .edgesIgnoringSafeArea(.top)
+            .onAppear {
+                // Configure challenge parameters if any
+                if let challengeParams = navigationState.challengeParams {
+                    viewModel.configureWithChallengeParams(challengeParams)
+                }
             }
         }
-        .edgesIgnoringSafeArea(.top)
+        .environmentObject(navigationState)
+        .environmentObject(userViewModel)
     }
     
     @ViewBuilder
@@ -93,75 +103,19 @@ struct PixelGameView: View {
     }
 }
 
-// MARK: - Base Views
-
-struct PixelChallengeBaseView<Content: View>: View {
-    @Bindable var viewModel: PixelGameViewModel
-    let instruction: LocalizedStringResource
-    let content: Content
-    let showCheckButton: Bool
-    let onCheck: () -> Void
-    
-    init(
-        viewModel: PixelGameViewModel,
-        instruction: LocalizedStringResource,
-        showCheckButton: Bool = true,
-        onCheck: @escaping () -> Void,
-        @ViewBuilder content: () -> Content
-    ) {
-        self.viewModel = viewModel
-        self.instruction = instruction
-        self.showCheckButton = showCheckButton
-        self.onCheck = onCheck
-        self.content = content()
-    }
-    
-    var body: some View {
-        ZStack {
-            VStack(spacing: 20) {
-                Spacer()
-                InstructionBar(text: instruction)
-                Spacer()
-                
-                content
-                
-                Spacer()
-            }
-            if showCheckButton {
-                VStack {
-                    Spacer()
-                    HStack {
-                        Spacer()
-                        AnimatedCircleButton(
-                            iconName: "checkmark.circle.fill",
-                            color: GameConstants.miniGames[1].color,
-                            action: {
-                                // Show info popup with appropriate message based on the check
-                                viewModel.showHint = true
-                                onCheck()
-                            }
-                        )
-                        .padding(.trailing, 20)
-                    }
-                }
-            }
-        }
-    }
-}
-
 // MARK: - Challenge Views
 
 struct PixelExplorationView: View {
     @Bindable var viewModel: PixelGameViewModel
     
     var body: some View {
-        PixelChallengeBaseView(
-            viewModel: viewModel,
+        BaseGameView(
             instruction: "Create your own pixel art by tapping the grid squares",
             showCheckButton: true,
             onCheck: {
                 viewModel.showBinaryCompletion()
-            }
+            },
+            gameColor: GameConstants.miniGames[1].color
         ) {
             PixelGridView(
                 viewModel: viewModel,
@@ -177,10 +131,11 @@ struct PixelDecodingView: View {
     @Bindable var viewModel: PixelGameViewModel
     
     var body: some View {
-        PixelChallengeBaseView(
-            viewModel: viewModel,
+        BaseGameView(
             instruction: "Decode the image by tapping the grid squares according to the binary code. 1 = black, 0 = white.",
-            onCheck: { viewModel.checkAnswer() }
+            showCheckButton: true,
+            onCheck: { viewModel.checkAnswer() },
+            gameColor: GameConstants.miniGames[1].color
         ) {
             HStack(alignment: .center, spacing: 100) {
                 // For 8x8 code - size fits exactly the content
@@ -206,10 +161,11 @@ struct PixelEncodingView: View {
     @Bindable var viewModel: PixelGameViewModel
     
     var body: some View {
-        PixelChallengeBaseView(
-            viewModel: viewModel,
+        BaseGameView(
             instruction: "Write the binary code for this image.\n Remember: 1 for black pixels, 0 for white pixels.",
-            onCheck: { viewModel.checkBinaryEncoding() }
+            showCheckButton: true,
+            onCheck: { viewModel.checkBinaryEncoding() },
+            gameColor: GameConstants.miniGames[1].color
         ) {
             HStack(alignment: .center, spacing: 100) {
                 PixelGridView(
@@ -235,10 +191,11 @@ struct PixelAdeptChallengeView: View {
     @Bindable var viewModel: PixelGameViewModel
     
     var body: some View {
-        PixelChallengeBaseView(
-            viewModel: viewModel,
+        BaseGameView(
             instruction: "Decode this 16x16 image from binary code. 1 = black, 0 = white.",
-            onCheck: { viewModel.checkAdeptAnswer() }
+            showCheckButton: true,
+            onCheck: { viewModel.checkAdeptAnswer() },
+            gameColor: GameConstants.miniGames[1].color
         ) {
             HStack(alignment: .center, spacing: 80) {
                 // For 16x16 code - wider to fit a full row, with scrolling
@@ -272,15 +229,16 @@ struct PixelFinalChallengeView: View {
     }
     
     var body: some View {
-        PixelChallengeBaseView(
-            viewModel: viewModel,
+        BaseGameView(
             instruction: "Create your own pixel art, compress it and name it!",
+            showCheckButton: true,
             onCheck: {
                 // Setup success message for completion
                 viewModel.isCorrect = true
                 viewModel.hintMessage = "Congratulations! You've completed the Pixel Art challenges.\n\nYour final art has been saved, and you've learned how computers represent and compress images."
                 viewModel.showHint = true
-            }
+            },
+            gameColor: GameConstants.miniGames[1].color
         ) {
             VStack(spacing: 15) {
                 HStack(spacing: 20) {
@@ -606,57 +564,45 @@ struct BinaryInputView: View {
 
 // MARK: - Previews
 
-#Preview("Intro Phase") {
-    let viewModel = PixelGameViewModel()
-    return PixelGameView(viewModel: viewModel)
-        .environment(\.colorScheme, .light)
+extension PixelGameView {
+    static func previewWithPhase(_ phase: GamePhase) -> some View {
+        let viewModel = PixelGameViewModel()
+        viewModel.currentPhase = phase
+        return PixelGameView(viewModel: viewModel)
+            .environment(\.colorScheme, .light)
+            .environmentObject(NavigationState())
+            .environmentObject(UserViewModel())
+    }
 }
 
-#Preview("Questions Phase") {
-    let viewModel = PixelGameViewModel()
-    viewModel.currentPhase = .questions
-    return PixelGameView(viewModel: viewModel)
-        .environment(\.colorScheme, .light)
+#Preview("Intro") {
+    PixelGameView.previewWithPhase(.introDialogue)
 }
 
-#Preview("Exploration Phase") {
-    let viewModel = PixelGameViewModel()
-    viewModel.currentPhase = .exploration
-    return PixelGameView(viewModel: viewModel)
-        .environment(\.colorScheme, .light)
+#Preview("Questions") {
+    PixelGameView.previewWithPhase(.questions)
 }
 
-#Preview("Novice Challenge Phase") {
-    let viewModel = PixelGameViewModel()
-    viewModel.currentPhase = .noviceChallenge
-    return PixelGameView(viewModel: viewModel)
-        .environment(\.colorScheme, .light)
+#Preview("Exploration") {
+    PixelGameView.previewWithPhase(.exploration)
 }
 
-#Preview("Apprentice Challenge Phase") {
-    let viewModel = PixelGameViewModel()
-    viewModel.currentPhase = .apprenticeChallenge
-    return PixelGameView(viewModel: viewModel)
-        .environment(\.colorScheme, .light)
+#Preview("Novice") {
+    PixelGameView.previewWithPhase(.noviceChallenge)
 }
 
-#Preview("Adept Challenge Phase") {
-    let viewModel = PixelGameViewModel()
-    viewModel.currentPhase = .adeptChallenge
-    return PixelGameView(viewModel: viewModel)
-        .environment(\.colorScheme, .light)
+#Preview("Apprentice") {
+    PixelGameView.previewWithPhase(.apprenticeChallenge)
 }
 
-#Preview("Expert Challenge Phase") {
-    let viewModel = PixelGameViewModel()
-    viewModel.currentPhase = .expertChallenge
-    return PixelGameView(viewModel: viewModel)
-        .environment(\.colorScheme, .light)
+#Preview("Adept") {
+    PixelGameView.previewWithPhase(.adeptChallenge)
 }
 
-#Preview("Review Phase") {
-    let viewModel = PixelGameViewModel()
-    viewModel.currentPhase = .review
-    return PixelGameView(viewModel: viewModel)
-        .environment(\.colorScheme, .light)
+#Preview("Expert") {
+    PixelGameView.previewWithPhase(.expertChallenge)
+}
+
+#Preview("Review") {
+    PixelGameView.previewWithPhase(.review)
 }

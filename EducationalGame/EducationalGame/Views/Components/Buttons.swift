@@ -26,7 +26,7 @@ struct AnimatedCircleButton: View {
                 isPressed = true
             }
             HapticService.shared.play(hapticType)
-            //SoundService.shared.playSound(.button2)
+            // SoundService.shared.playSound(.button2)
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                 action()
                 withAnimation(.spring(response: 0.2, dampingFraction: 0.5)) {
@@ -69,14 +69,14 @@ struct CircleButton: View {
         switch iconName {
         case "gear":
             withAnimation(.easeInOut(duration: 0.3)) {
-                navigationState.navigateTo("settings")
+                navigationState.path.append("settings")
             }
         case "arrow.left":
             withAnimation(.easeInOut(duration: 0.3)) {
-                dismiss()
-                // If dismiss doesn't work, try the navigation state's back function
                 if navigationState.canGoBack {
                     navigationState.goBack()
+                } else {
+                    dismiss()
                 }
             }
         default:
@@ -99,7 +99,7 @@ struct RewardButton: View {
             withAnimation(.easeInOut(duration: 0.3)) {
                 isPressed = true
                 HapticService.shared.play(.achievement)
-                //SoundService.shared.playSound(.badge)
+                // SoundService.shared.playSound(.badge)
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                     navigateToAchievements = true
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {

@@ -52,7 +52,8 @@ class InfoButtonService {
     // Specific tips for views without phases
     private let nonPhaseViewTips: [String: LocalizedStringResource] = [
         "Main Menu": "Welcome to \(GameConstants.gameTitle)! Choose a mini-game to start learning about computer science concepts in a fun way.",
-        "Achievements": "Here you can see your progress and achievements. Complete mini-games and challenges to unlock more achievements!"
+        "Achievements": "Here you can see your progress and achievements. Complete mini-games and challenges to unlock more achievements!",
+        "Challenges": "Here you can select a specific mini-game challenge to play directly."
     ]
     
     // Get title for info popup based on view and phase (or just view for phaseless views)
@@ -64,6 +65,10 @@ class InfoButtonService {
         
         if view == "Achievements" {
             return "Your Achievements"
+        }
+
+        if view == "Challenges" {
+            return "Challenges"
         }
 
         let nameToGame = Dictionary(
@@ -79,14 +84,16 @@ class InfoButtonService {
     
     // Get a tip for current view and phase
     func getTip(for view: String, phase: GamePhase? = nil) -> LocalizedStringResource? {
-        // Handle main menu case
         if view == GameConstants.gameTitle || view == "Main Menu" {
             return nonPhaseViewTips["Main Menu"]
         }
         
-        // Handle achievements case
         if view == "Achievements" {
             return nonPhaseViewTips["Achievements"]
+        }
+
+        if view == "Challenges" {
+            return nonPhaseViewTips["Challenges"]
         }
         
         // Use the same name-to-game mapping as getTitleForInfo

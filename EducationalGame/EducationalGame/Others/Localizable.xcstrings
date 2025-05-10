@@ -140,8 +140,14 @@
     "4" : {
       "shouldTranslate" : false
     },
+    "4 Digits" : {
+
+    },
     "5" : {
       "shouldTranslate" : false
+    },
+    "5 Digits" : {
+
     },
     "6" : {
       "shouldTranslate" : false
@@ -151,6 +157,15 @@
     },
     "8×8" : {
       "shouldTranslate" : false
+    },
+    "8×8 Decryption" : {
+
+    },
+    "8×8 Encryption" : {
+
+    },
+    "8x8 Free Drawing" : {
+
     },
     "10" : {
       "shouldTranslate" : false
@@ -166,6 +181,9 @@
     },
     "16×16" : {
       "shouldTranslate" : false
+    },
+    "16×16 Decryption" : {
+
     },
     "32" : {
       "shouldTranslate" : false
@@ -638,6 +656,9 @@
         }
       }
     },
+    "Binary Conversion" : {
+
+    },
     "Binary Encoding" : {
       "localizations" : {
         "de" : {
@@ -990,6 +1011,9 @@
         }
       }
     },
+    "Challenge not found" : {
+
+    },
     "Challenge yourself to create images that can be efficiently compressed while still looking good." : {
       "localizations" : {
         "de" : {
@@ -1005,6 +1029,9 @@
           }
         }
       }
+    },
+    "Challenges" : {
+
     },
     "Change the red, green and blue intensity to make your favorite color" : {
       "localizations" : {
@@ -1085,6 +1112,9 @@
           }
         }
       }
+    },
+    "Color Lab" : {
+
     },
     "Color Values" : {
       "localizations" : {
@@ -1181,6 +1211,9 @@
           }
         }
       }
+    },
+    "Compression Quest" : {
+
     },
     "Compression reduces file size by finding patterns and using shorter representations." : {
       "localizations" : {
@@ -1870,22 +1903,6 @@
         }
       }
     },
-    "Gallery" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Galerie"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Galeria"
-          }
-        }
-      }
-    },
     "Game not found" : {
       "localizations" : {
         "de" : {
@@ -2105,6 +2122,9 @@
           }
         }
       }
+    },
+    "Here you can select a specific mini-game challenge to play directly." : {
+
     },
     "Hex codes are a shorthand for RGB values, using base-16 numbers. Each pair of characters represents one color component (red, green, or blue)." : {
       "localizations" : {
@@ -3435,6 +3455,9 @@
         }
       }
     },
+    "Opacity Hidden Message" : {
+
+    },
     "Perfect! You've successfully decoded %@!" : {
       "localizations" : {
         "de" : {
@@ -3756,6 +3779,7 @@
       }
     },
     "Result" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -3835,6 +3859,9 @@
         }
       }
     },
+    "RGB Matching" : {
+
+    },
     "RGB stands for Red, Green, and Blue - the primary colors of light. By mixing these colors in different amounts, computers can create millions of colors on your screen." : {
       "localizations" : {
         "de" : {
@@ -3850,6 +3877,12 @@
           }
         }
       }
+    },
+    "RGB-Alpha Decryption" : {
+
+    },
+    "RGB-Alpha Matching" : {
+
     },
     "RLE is a way to compress binary images by counting consecutive pixels of the same color." : {
       "localizations" : {

@@ -4,12 +4,40 @@ enum GameConstants {
     static let gameTitle = "Binary Spectrum"
     static let gameDescription: LocalizedStringResource = "Discover how computers turn zeros and ones into amazing worlds of color, images, and creativity. This game offers 3 fun mini-games that will challenge your mind while you learn about computational thinking."
     
-    static let miniGames: [MiniGame] = [
+    static let miniGames: [MiniGame] = [ // TODO: remove high score?
         MiniGame(id: 0, name: "BitPearls", icon: "lightswitch.on", color: .gameGreen, personaName: "Alex", personaImage: "Figma2", achievementName: "Binary Jewel", view: AnyView(BinaryGameView()), highScore: 0),
         MiniGame(id: 1, name: "PixelPrism", icon: "square.grid.3x3.middle.filled", color: .gameRed, personaName: "Pixie", personaImage: "Figma1", achievementName: "Grid Genius", view: AnyView(PixelGameView()), highScore: 0),
         MiniGame(id: 2, name: "ColorBloom", icon: "paintpalette", color: .gameBlue, personaName: "Iris", personaImage: "Figma3", achievementName: "Chromatic Artist", view: AnyView(ColorGameView()), highScore: 0)
     ]
     
+    // MARK: - Challenges
+
+    static let challenges: [Challenge] = [
+        // Binary Game Challenges
+        Challenge(id: 0, name: "Binary Conversion", icon: "arrow.left.and.right", miniGameId: 0, phase: GamePhase.exploration),
+        Challenge(id: 1, name: "4 Digits", icon: "4.circle.fill", miniGameId: 0, phase: GamePhase.noviceChallenge),
+        Challenge(id: 2, name: "5 Digits", icon: "5.circle.fill", miniGameId: 0, phase: GamePhase.apprenticeChallenge),
+        Challenge(id: 3, name: "Binary to Decimal", icon: "number", miniGameId: 0, phase: GamePhase.adeptChallenge),
+        Challenge(id: 4, name: "Binary Armband", icon: "fossil.shell", miniGameId: 0, phase: GamePhase.expertChallenge),
+
+        // Pixel Game Challenges
+        Challenge(id: 5, name: "8x8 Free Drawing", icon: "pencil.and.outline", miniGameId: 1, phase: GamePhase.exploration),
+        Challenge(id: 6, name: "8×8 Decryption", icon: "lock.open.fill", miniGameId: 1, phase: GamePhase.noviceChallenge),
+        Challenge(id: 7, name: "8×8 Encryption", icon: "lock.fill", miniGameId: 1, phase: GamePhase.apprenticeChallenge),
+        Challenge(id: 8, name: "16×16 Decryption", icon: "square.grid.4x3.fill", miniGameId: 1, phase: GamePhase.adeptChallenge),
+        Challenge(id: 9, name: "Compression Quest", icon: "arrow.down.right.and.arrow.up.left", miniGameId: 1, phase: GamePhase.expertChallenge),
+
+        // Color Game Challenges
+        Challenge(id: 10, name: "Color Lab", icon: "eyedropper", miniGameId: 2, phase: GamePhase.exploration),
+        Challenge(id: 11, name: "RGB Matching", icon: "circle.grid.3x3.fill", miniGameId: 2, phase: GamePhase.noviceChallenge),
+        Challenge(id: 12, name: "RGB-Alpha Matching", icon: "square.on.circle", miniGameId: 2, phase: GamePhase.apprenticeChallenge),
+        Challenge(id: 13, name: "RGB-Alpha Decryption", icon: "diamond.fill", miniGameId: 2, phase: GamePhase.adeptChallenge),
+        Challenge(id: 14, name: "Opacity Hidden Message", icon: "text.magnifyingglass", miniGameId: 2, phase: GamePhase.expertChallenge)
+    ]
+
+    // MARK: - Pixel Art
+    
+    // Each hex digit represents 4 pixels, so a 8x8 grid needs 16 hex digits
     static let pixelArt8x8: [PixelArt] = [
         PixelArt(name: "Winking Face", grid: GridImage(hexString: "0006660000423c00")),
         PixelArt(name: "White Smiley", grid: GridImage(hexString: "3c42a581a599423c")),
@@ -89,18 +117,18 @@ enum GameConstants {
                 ],
                 correctAnswer: 2,
                 explanation: LocalizedStringResource("In binary, each place value doubles as you move left: 1, 2, 4, 8, 16, and so on.")
-            ),/*
-            Question(
-                question: LocalizedStringResource("What does a '0' mean in a binary number?"),
-                alternatives: [
-                    1: LocalizedStringResource("Skip this value"),
-                    2: LocalizedStringResource("Add this value"),
-                    3: LocalizedStringResource("Multiply by 2"),
-                    4: LocalizedStringResource("Subtract this value")
-                ],
-                correctAnswer: 1,
-                explanation: LocalizedStringResource("A '0' means we skip that place value when adding up the total number.")
-            ),*/
+            ), /*
+                Question(
+                    question: LocalizedStringResource("What does a '0' mean in a binary number?"),
+                    alternatives: [
+                        1: LocalizedStringResource("Skip this value"),
+                        2: LocalizedStringResource("Add this value"),
+                        3: LocalizedStringResource("Multiply by 2"),
+                        4: LocalizedStringResource("Subtract this value")
+                    ],
+                    correctAnswer: 1,
+                    explanation: LocalizedStringResource("A '0' means we skip that place value when adding up the total number.")
+                ),*/
             Question(
                 question: LocalizedStringResource("If a binary number is 101, what decimal number does it represent?"),
                 alternatives: [

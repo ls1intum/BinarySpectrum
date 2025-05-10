@@ -1,40 +1,47 @@
 import SwiftUI
 
 struct ColorGameView: View {
-    @State private var viewModel: ColorGameViewModel
+    @Bindable var viewModel: ColorGameViewModel
     @EnvironmentObject var navigationState: NavigationState
     @EnvironmentObject var userViewModel: UserViewModel
     
     init(viewModel: ColorGameViewModel = ColorGameViewModel()) {
-        _viewModel = State(initialValue: viewModel)
+        self.viewModel = viewModel
     }
     
     var body: some View {
-        ZStack(alignment: .top) {
-            VStack {
-                Spacer().frame(height: 90)
-                currentPhaseView
-            }
-            
-            TopBar(title: GameConstants.miniGames[2].name, color: GameConstants.miniGames[2].color)
-            
-            if viewModel.showHint {
-                InfoPopup(
-                    title: viewModel.isCorrect ? "Correct!" : "Try Again",
-                    message: viewModel.hintMessage,
-                    buttonTitle: "OK",
-                    onButtonTap: {
-                        viewModel.showHint = false
-                        if viewModel.isCorrect {
-                            viewModel.completeGame(score: 100, percentage: 1.0)
+        BaseGameView {
+            ZStack(alignment: .top) {
+                VStack {
+                    Spacer().frame(height: 90)
+                    currentPhaseView
+                }
+                
+                TopBar(title: GameConstants.miniGames[2].name, color: GameConstants.miniGames[2].color)
+                
+                if viewModel.showHint {
+                    InfoPopup(
+                        title: viewModel.isCorrect ? "Correct!" : "Try Again",
+                        message: viewModel.hintMessage,
+                        buttonTitle: viewModel.isCorrect ? "Continue" : "OK",
+                        onButtonTap: {
+                            viewModel.hideHint()
                         }
-                    }
-                )
-                .edgesIgnoringSafeArea(.all)
-                .zIndex(10)
+                    )
+                    .edgesIgnoringSafeArea(.all)
+                    .zIndex(10)
+                }
+            }
+            .edgesIgnoringSafeArea(.top)
+            .onAppear {
+                // Configure challenge parameters if any
+                if let challengeParams = navigationState.challengeParams {
+                    viewModel.configureWithChallengeParams(challengeParams)
+                }
             }
         }
-        .edgesIgnoringSafeArea(.top)
+        .environmentObject(navigationState)
+        .environmentObject(userViewModel)
     }
     
     @ViewBuilder
@@ -97,69 +104,17 @@ struct ColorGameView: View {
     }
 }
 
-// MARK: - Base Views
-
-struct ColorChallengeBaseView<Content: View>: View {
-    let viewModel: ColorGameViewModel
-    let instruction: LocalizedStringResource
-    let content: Content
-    let showCheckButton: Bool
-    let onCheck: () -> Void
-    
-    init(
-        viewModel: ColorGameViewModel,
-        instruction: LocalizedStringResource,
-        showCheckButton: Bool = true,
-        onCheck: @escaping () -> Void,
-        @ViewBuilder content: () -> Content
-    ) {
-        self.viewModel = viewModel
-        self.instruction = instruction
-        self.showCheckButton = showCheckButton
-        self.onCheck = onCheck
-        self.content = content()
-    }
-    
-    var body: some View {
-        ZStack {
-            VStack(spacing: 20) {
-                Spacer()
-                InstructionBar(text: instruction)
-                Spacer()
-                
-                content
-                
-                Spacer()
-            }
-            if showCheckButton {
-                VStack {
-                    Spacer()
-                    HStack {
-                        Spacer()
-                        AnimatedCircleButton(
-                            iconName: "checkmark.circle.fill",
-                            color: GameConstants.miniGames[2].color,
-                            action: onCheck
-                        )
-                        .padding(.trailing, 20)
-                    }
-                }
-            }
-        }
-    }
-}
-
 // MARK: - Challenge Views
 
 struct ColorExplorationView: View {
-    @ObservedObject var viewModel: ColorGameViewModel
+    @Bindable var viewModel: ColorGameViewModel
     
     var body: some View {
-        ColorChallengeBaseView(
-            viewModel: viewModel,
+        BaseGameView(
             instruction: "Change the red, green and blue intensity to make your favorite color",
             showCheckButton: true,
-            onCheck: { viewModel.nextPhase() }
+            onCheck: { viewModel.nextPhase() },
+            gameColor: GameConstants.miniGames[2].color
         ) {
             VStack(spacing: 30) {
                 ColorPreviewView(
@@ -179,18 +134,19 @@ struct ColorExplorationView: View {
 }
 
 struct ColorHexChallengeView: View {
-    @ObservedObject var viewModel: ColorGameViewModel
+    @Bindable var viewModel: ColorGameViewModel
     
     var body: some View {
-        ColorChallengeBaseView(
-            viewModel: viewModel,
+        BaseGameView(
             instruction: "Match the target color using the RGB sliders!",
+            showCheckButton: true,
             onCheck: {
                 let result = viewModel.checkColorMatch()
                 viewModel.isCorrect = result.isCorrect
                 viewModel.hintMessage = result.message
                 viewModel.showHint = true
-            }
+            },
+            gameColor: GameConstants.miniGames[2].color
         ) {
             HStack(spacing: 60) {
                 ColorPreviewView(
@@ -219,18 +175,19 @@ struct ColorHexChallengeView: View {
 }
 
 struct OpacityChallengeView: View {
-    @ObservedObject var viewModel: ColorGameViewModel
+    @Bindable var viewModel: ColorGameViewModel
     
     var body: some View {
-        ColorChallengeBaseView(
-            viewModel: viewModel,
+        BaseGameView(
             instruction: "Match both the color and opacity of the target",
+            showCheckButton: true,
             onCheck: {
                 let result = viewModel.checkColorMatch()
                 viewModel.isCorrect = result.isCorrect
                 viewModel.hintMessage = result.message
                 viewModel.showHint = true
-            }
+            },
+            gameColor: GameConstants.miniGames[2].color
         ) {
             HStack(spacing: 60) {
                 ColorPreviewView(
@@ -265,11 +222,10 @@ struct OpacityChallengeView: View {
 }
 
 struct ReversedChallengeView: View {
-    @ObservedObject var viewModel: ColorGameViewModel
+    @Bindable var viewModel: ColorGameViewModel
     
     var body: some View {
-        ColorChallengeBaseView(
-            viewModel: viewModel,
+        BaseGameView(
             instruction: "Select the color that matches the given RGB-alpha value!",
             showCheckButton: true,
             onCheck: {
@@ -279,7 +235,8 @@ struct ReversedChallengeView: View {
                     viewModel.hintMessage = result.message
                     viewModel.showHint = true
                 }
-            }
+            },
+            gameColor: GameConstants.miniGames[2].color
         ) {
             VStack(spacing: 40) {
                 // Target color display
@@ -347,12 +304,11 @@ struct ColorOptionView: View {
 }
 
 struct ColorAlphaChallengeView: View {
-    @ObservedObject var viewModel: ColorGameViewModel
+    @Bindable var viewModel: ColorGameViewModel
     @State private var rotationAngle: Double = 0
     
     var body: some View {
-        ColorChallengeBaseView(
-            viewModel: viewModel,
+        BaseGameView(
             instruction: "Adjust the opacity to reveal the hidden message!",
             showCheckButton: true,
             onCheck: {
@@ -360,7 +316,8 @@ struct ColorAlphaChallengeView: View {
                 viewModel.isCorrect = result.isCorrect
                 viewModel.hintMessage = result.message
                 viewModel.showHint = true
-            }
+            },
+            gameColor: GameConstants.miniGames[2].color
         ) {
             HStack(spacing: 50) {
                 AlphaGridView(
@@ -609,57 +566,45 @@ struct AlphaGridView: View {
 
 // MARK: - Previews
 
-#Preview("Intro Phase") {
-    let viewModel = ColorGameViewModel()
-    return ColorGameView(viewModel: viewModel)
-        .environment(\.colorScheme, .light)
+extension ColorGameView {
+    static func previewWithPhase(_ phase: GamePhase) -> some View {
+        let viewModel = ColorGameViewModel()
+        viewModel.currentPhase = phase
+        return ColorGameView(viewModel: viewModel)
+            .environment(\.colorScheme, .light)
+            .environmentObject(NavigationState())
+            .environmentObject(UserViewModel())
+    }
 }
 
-#Preview("Exploration Phase") {
-    let viewModel = ColorGameViewModel()
-    viewModel.currentPhase = .exploration
-    return ColorGameView(viewModel: viewModel)
-        .environment(\.colorScheme, .light)
+#Preview("Intro") {
+    ColorGameView.previewWithPhase(.introDialogue)
 }
 
-#Preview("Color match") {
-    let viewModel = ColorGameViewModel()
-    viewModel.currentPhase = .noviceChallenge
-    return ColorGameView(viewModel: viewModel)
-        .environment(\.colorScheme, .light)
+#Preview("Questions") {
+    ColorGameView.previewWithPhase(.questions)
 }
 
-#Preview("Opacity match") {
-    let viewModel = ColorGameViewModel()
-    viewModel.currentPhase = .apprenticeChallenge
-    return ColorGameView(viewModel: viewModel)
-        .environment(\.colorScheme, .light)
+#Preview("Exploration") {
+    ColorGameView.previewWithPhase(.exploration)
 }
 
-#Preview("Advanced Challenges Phase") {
-    let viewModel = ColorGameViewModel()
-    viewModel.currentPhase = .adeptChallenge
-    return ColorGameView(viewModel: viewModel)
-        .environment(\.colorScheme, .light)
+#Preview("Novice") {
+    ColorGameView.previewWithPhase(.noviceChallenge)
 }
 
-#Preview("Final Challenge Phase") {
-    let viewModel = ColorGameViewModel()
-    viewModel.currentPhase = .expertChallenge
-    return ColorGameView(viewModel: viewModel)
-        .environment(\.colorScheme, .light)
+#Preview("Apprentice") {
+    ColorGameView.previewWithPhase(.apprenticeChallenge)
 }
 
-#Preview("Review Phase") {
-    let viewModel = ColorGameViewModel()
-    viewModel.currentPhase = .review
-    return ColorGameView(viewModel: viewModel)
-        .environment(\.colorScheme, .light)
+#Preview("Adept") {
+    ColorGameView.previewWithPhase(.adeptChallenge)
 }
 
-#Preview("Reward Phase") {
-    let viewModel = ColorGameViewModel()
-    viewModel.currentPhase = .reward
-    return ColorGameView(viewModel: viewModel)
-        .environment(\.colorScheme, .light)
+#Preview("Expert") {
+    ColorGameView.previewWithPhase(.expertChallenge)
+}
+
+#Preview("Review") {
+    ColorGameView.previewWithPhase(.review)
 }

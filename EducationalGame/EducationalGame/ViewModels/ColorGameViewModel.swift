@@ -1,10 +1,7 @@
 import Foundation
 import SwiftUI
 
-@Observable class ColorGameViewModel: ObservableObject {
-    let gameType = "Color Game"
-    var currentPhase = GamePhase.introDialogue
-    
+@Observable class ColorGameViewModel: BaseGameViewModel {
     // MARK: - Game State
     
     struct ColorState {
@@ -213,12 +210,6 @@ import SwiftUI
     var alphaChallengeState = AlphaChallengeState()
     var reversedChallengeState = ReversedChallengeState()
     
-    // MARK: - UI State
-    
-    var showHint = false
-    var isCorrect = false
-    var hintMessage: LocalizedStringResource = ""
-    
     // MARK: - Game Content
     
     var introDialogue: [LocalizedStringResource] { GameConstants.ColorGameContent.introDialogue }
@@ -229,6 +220,27 @@ import SwiftUI
     var rewardMessage: LocalizedStringResource { GameConstants.ColorGameContent.rewardMessage }
     
     // MARK: - Game Logic
+    
+    init() {
+        super.init(gameType: "Color Game")
+        alphaChallengeState.generateNewGrid()
+        reversedChallengeState.generateNewChallenge()
+    }
+    
+    override func setupForChallenge() {
+        switch currentPhase {
+        case .noviceChallenge:
+            generateNewTargetColor(includeAlpha: false)
+        case .apprenticeChallenge:
+            generateNewTargetColor(includeAlpha: true)
+        case .adeptChallenge:
+            reversedChallengeState.generateNewChallenge()
+        case .expertChallenge:
+            alphaChallengeState.generateNewGrid()
+        default:
+            break
+        }
+    }
     
     func generateNewTargetColor(includeAlpha: Bool = false) {
         challengeState.targetColor = Color(
@@ -301,47 +313,11 @@ import SwiftUI
         return (redDiff + greenDiff + blueDiff) / 3.0
     }
     
-    func completeGame(score: Int, percentage: Double) {
-        sharedUserViewModel.completeMiniGame("\(gameType) - \(currentPhase.rawValue)",
-                                             score: score,
-                                             percentage: percentage)
-        currentPhase.next(for: gameType)
-        currentColor.reset()
-    }
-    
-    func nextPhase() {
-        currentPhase.next(for: gameType)
-        currentColor.reset()
-    }
-    
-    func resetGame() {
-        currentPhase = .introDialogue
+    override func resetGame() {
+        super.resetGame()
         currentColor.reset()
         challengeState.reset()
         alphaChallengeState.generateNewGrid()
         reversedChallengeState.generateNewChallenge()
-        showHint = false
-        isCorrect = false
-        hintMessage = ""
-    }
-    
-    init() {
-        alphaChallengeState.generateNewGrid()
-        reversedChallengeState.generateNewChallenge()
-        
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(resetGameState),
-            name: NSNotification.Name("ResetGameProgress"),
-            object: nil
-        )
-    }
-    
-    deinit {
-        NotificationCenter.default.removeObserver(self)
-    }
-    
-    @objc func resetGameState() {
-        resetGame()
     }
 }

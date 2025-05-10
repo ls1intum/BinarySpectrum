@@ -19,6 +19,14 @@ struct MiniGame: Identifiable {
     var highScore: Int
 }
 
+struct Challenge: Identifiable {
+    let id: Int
+    let name: LocalizedStringResource
+    let icon: String
+    let miniGameId: Int
+    let phase: GamePhase
+}
+
 struct Question: Identifiable {
     let id = UUID()
     let question: LocalizedStringResource
@@ -55,7 +63,7 @@ enum GamePhase: String, CaseIterable, Codable {
     case reward = "Reward"
 
     // Helper function to get the next phase based on game type
-    mutating func next(for gameType: String) {
+    mutating func next(for gameType: String) { // TODO: put sound effects here?
         switch gameType {
         case "Binary Game":
             switch self {

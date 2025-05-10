@@ -3,7 +3,7 @@ import SwiftUI
 struct SlideTransition: ViewModifier {
     let direction: Edge
     let animation: Animation
-    
+
     func body(content: Content) -> some View {
         content
             .transition(
@@ -18,7 +18,7 @@ struct SlideTransition: ViewModifier {
 
 struct ScaleTransition: ViewModifier {
     let animation: Animation
-    
+
     func body(content: Content) -> some View {
         content
             .transition(.scale(scale: 0.9).combined(with: .opacity))
@@ -43,8 +43,8 @@ extension View {
     func slideTransition(edge: Edge = .trailing, animation: Animation = .easeInOut(duration: 0.3)) -> some View {
         modifier(SlideTransition(direction: edge, animation: animation))
     }
-    
+
     func scaleTransition(animation: Animation = .spring(response: 0.4, dampingFraction: 0.7)) -> some View {
         modifier(ScaleTransition(animation: animation))
     }
-} 
+}

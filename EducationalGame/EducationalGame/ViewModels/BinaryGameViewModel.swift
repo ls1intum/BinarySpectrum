@@ -1,9 +1,9 @@
 import Foundation
 import SwiftUI
 
-@Observable class BinaryGameViewModel: ObservableObject {
-    let gameType = "Binary Game"
-    var currentPhase: GamePhase = .introDialogue
+@Observable class BinaryGameViewModel: BaseGameViewModel {
+    // User info
+    let favoriteColor: Color = .gamePink // TODO: get from userviewmodel
     
     // MARK: - State Structs
     
@@ -135,13 +135,6 @@ import SwiftUI
     var adeptState = AdeptChallengeState()
     var expertState = ExpertChallengeState()
     
-    // MARK: - UI State
-    
-    var showHint = false
-    var isCorrect = false
-    var hintMessage: LocalizedStringResource = ""
-    var alertMessage: LocalizedStringResource = ""
-    
     // MARK: - Game Content
     
     var introDialogue: [LocalizedStringResource] { GameConstants.BinaryGameContent.introDialogue }
@@ -151,15 +144,28 @@ import SwiftUI
     var reviewCards: [ReviewCard] { GameConstants.BinaryGameContent.reviewCards }
     var rewardMessage: LocalizedStringResource { GameConstants.BinaryGameContent.rewardMessage }
     
-    // User info
-    let favoriteColor: Color = .gamePink // TODO: get from userviewmodel
-    
     // MARK: - Game Logic
     
-    func hideHint() {
-        showHint = false
-        if isCorrect {
-            completeGame(score: 100, percentage: 1.0)
+    init() {
+        super.init(gameType: "Binary Game")
+    }
+    
+    override func setupForChallenge() {
+        switch currentPhase {
+        case .noviceChallenge:
+            // Setup for novice challenge
+            noviceState.reset()
+        case .apprenticeChallenge:
+            // Setup for apprentice challenge
+            apprenticeState.reset()
+        case .adeptChallenge:
+            // Setup for adept challenge
+            adeptState.reset()
+        case .expertChallenge:
+            // Setup for expert challenge
+            expertState.reset()
+        default:
+            break
         }
     }
     
@@ -228,63 +234,12 @@ import SwiftUI
         showHint = true
     }
     
-    func completeGame(score: Int, percentage: Double) {
-        // Record completion using the shared userViewModel
-        sharedUserViewModel.completeMiniGame("\(gameType) - \(currentPhase.rawValue)",
-                                             score: score,
-                                             percentage: percentage)
-        switch currentPhase {
-        case .noviceChallenge:
-            SoundService.shared.playSound(.levelUp1)
-        case .apprenticeChallenge:
-            SoundService.shared.playSound(.levelUp2)
-        case .adeptChallenge:
-            SoundService.shared.playSound(.levelUp3)
-        case .expertChallenge:
-            SoundService.shared.playSound(.levelUp4)
-        case .review:
-            SoundService.shared.playSound(.badge)
-        default:
-            break
-        }
-        
-        currentPhase.next(for: gameType)
-    }
-    
-    func nextPhase() {
-        currentPhase.next(for: gameType)
-    }
-    
-    func resetGame() {
-        currentPhase = .introDialogue
+    override func resetGame() {
+        super.resetGame()
         explorationState = ExplorationState()
         noviceState.reset()
         apprenticeState.reset()
         adeptState.reset()
         expertState.reset()
-        showHint = false
-        isCorrect = false
-        hintMessage = ""
-        alertMessage = ""
-    }
-    
-    init() {
-        // Initialize game state
-        
-        // Listen for reset notifications
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(resetGameState),
-            name: NSNotification.Name("ResetGameProgress"),
-            object: nil
-        )
-    }
-    
-    deinit {
-        NotificationCenter.default.removeObserver(self)
-    }
-    
-    @objc func resetGameState() {
-        resetGame()
     }
 }

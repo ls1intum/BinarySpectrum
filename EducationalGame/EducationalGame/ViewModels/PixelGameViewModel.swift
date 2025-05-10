@@ -1,10 +1,7 @@
 import Foundation
 import SwiftUI
 
-@Observable class PixelGameViewModel: ObservableObject {
-    let gameType = "Pixel Game"
-    var currentPhase: GamePhase = .introDialogue
-
+@Observable class PixelGameViewModel: BaseGameViewModel {
     // MARK: - Expert Challenge State
     
     var artName: String = ""
@@ -280,12 +277,6 @@ import SwiftUI
     var decodingState = DecodingState()
     var encodingState = EncodingState()
     
-    // MARK: - UI State
-    
-    var showHint = false
-    var isCorrect = false
-    var hintMessage: LocalizedStringResource = ""
-    
     // MARK: - Game Content
     
     var introDialogue: [LocalizedStringResource] { GameConstants.PixelGameContent.introDialogue }
@@ -298,6 +289,8 @@ import SwiftUI
     // MARK: - Game Logic
     
     init() {
+        super.init(gameType: "Pixel Game")
+        
         // Initialize with random art selections
         decodingState.loadRandomArt()
         setupEncodingChallenge() // Initialize encoding challenge
@@ -305,25 +298,28 @@ import SwiftUI
         // Initialize adept state with different art than novice challenge
         let noviceArtName = decodingState.currentArt.name
         adeptState.loadRandomArt(differentFrom: noviceArtName)
-        
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(resetGameState),
-            name: NSNotification.Name("ResetGameProgress"),
-            object: nil
-        )
     }
     
-    deinit {
-        NotificationCenter.default.removeObserver(self)
+    override func setupForChallenge() {
+        switch currentPhase {
+        case .noviceChallenge:
+            setupDecodingChallenge()
+        case .apprenticeChallenge:
+            setupEncodingChallenge()
+        case .adeptChallenge:
+            setupAdeptChallenge()
+        case .expertChallenge:
+            // Setup for expert challenge (final challenge)
+            gridState.gridSize = 8
+            gridState.cellSize = 40
+            gridState.reset()
+        default:
+            break
+        }
     }
     
-    @objc func resetGameState() {
-        resetGame()
-    }
-    
-    func resetGame() {
-        currentPhase = .introDialogue
+    override func resetGame() {
+        super.resetGame()
         gridState.reset()
         
         // Reset with proper art separation
@@ -334,10 +330,6 @@ import SwiftUI
         adeptState = AdeptState()
         let noviceArtName = decodingState.currentArt.name
         adeptState.loadRandomArt(differentFrom: noviceArtName)
-        
-        showHint = false
-        isCorrect = false
-        hintMessage = ""
         
         // Reset expert challenge properties
         artName = ""
@@ -428,6 +420,8 @@ import SwiftUI
                 hintMessage = "Keep trying! Remember: 1 = black pixel, 0 = white pixel."
             }
         }
+        
+        showHint = true
     }
     
     // Generate binary representation of the current art
@@ -500,6 +494,8 @@ import SwiftUI
             
             hintMessage = "Almost there! \(errorDescription)\n\nStart from the top left and work row by row. Each row should have \(expectedDigitsPerRow) digits."
         }
+        
+        showHint = true
     }
     
     // Show a popup with binary representation of the current art
@@ -508,14 +504,6 @@ import SwiftUI
         isCorrect = true // This ensures we use the "Continue" button
         hintMessage = "This is how computers represent your image in binary:\n\n\(binary)\n\nEach 1 represents a black pixel, and each 0 represents a white pixel."
         showHint = true
-    }
-    
-    func hideHint() {
-        showHint = false
-        if isCorrect {
-            currentPhase.next(for: gameType)
-            gridState.reset()
-        }
     }
     
     // Format the code to display in rows
@@ -539,14 +527,6 @@ import SwiftUI
         }
         
         return formattedString
-    }
-    
-    func completeGame(score: Int, percentage: Double) {
-        sharedUserViewModel.completeMiniGame("\(gameType) - \(currentPhase.rawValue)",
-                                             score: score,
-                                             percentage: percentage)
-        currentPhase.next(for: gameType)
-        gridState.reset()
     }
     
     // MARK: - Adept Challenge Functions
@@ -594,6 +574,8 @@ import SwiftUI
                 }
             }
         }
+        
+        showHint = true
     }
     
     private func calculateAdeptProgress() {

@@ -1,5 +1,22 @@
 import SwiftUI
 
+// Custom view modifier to hide navigation bar
+struct HideNavigationBar: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .navigationBarBackButtonHidden(true)
+            .navigationBarHidden(true)
+            .toolbar(.hidden, for: .navigationBar)
+    }
+}
+
+// Extension to make it easier to use
+extension View {
+    func hideNavigationBar() -> some View {
+        modifier(HideNavigationBar())
+    }
+}
+
 struct MainMenu: View {
     @EnvironmentObject var userViewModel: UserViewModel
     @EnvironmentObject var navigationState: NavigationState
@@ -61,7 +78,7 @@ struct MainMenu: View {
                             Button(action: {
                                 HapticService.shared.play(.selection)
                                 withAnimation(.easeInOut(duration: 0.3)) {
-                                    navigationState.navigateTo("achievements")
+                                    navigationState.path.append("achievements")
                                 }
                             }) {
                                 HStack {
@@ -82,12 +99,13 @@ struct MainMenu: View {
                             
                             Button(action: {
                                 HapticService.shared.play(.light)
-                                print("Another Feature tapped!")
+                                withAnimation(.easeInOut(duration: 0.3)) {
+                                    navigationState.path.append("challenges")
+                                }
                             }) {
                                 HStack {
-                                    Image(systemName: "hammer")
-                                    Text("Gallery")
-                                    Image(systemName: "hammer")
+                                    Image(systemName: "gamecontroller")
+                                    Text("Challenges")
                                 }
                                 .font(GameTheme.headingFont)
                                 .padding()
@@ -96,8 +114,8 @@ struct MainMenu: View {
                                 .foregroundColor(.gameWhite)
                                 .clipShape(RoundedRectangle(cornerRadius: 30))
                             }
-                            .disabled(true)
                             .shadow(radius: 5)
+                            .scaleTransition()
                             .offset(y: startAnimation ? 0 : 50)
                             .opacity(startAnimation ? 1 : 0)
                         }
@@ -134,41 +152,60 @@ struct MainMenu: View {
                 }
             }
             .edgesIgnoringSafeArea(.top)
+            .hideNavigationBar()
             .navigationDestination(for: Int.self) { gameId in
-                // Navigate to the selected game view
                 if let game = GameConstants.miniGames.first(where: { $0.id == gameId }) {
                     AnyView(game.view)
                         .environmentObject(navigationState)
+                        .hideNavigationBar()
                         .slideTransition(edge: .trailing)
-                        .toolbar(.hidden, for: .navigationBar)
                 } else {
                     Text("Game not found")
-                        .toolbar(.hidden, for: .navigationBar)
+                        .hideNavigationBar()
                 }
             }
             .navigationDestination(for: String.self) { destination in
-                if destination == "achievements" {
+                switch destination {
+                case "achievements":
                     AchievementsView()
                         .environmentObject(navigationState)
                         .environmentObject(userViewModel)
+                        .hideNavigationBar()
                         .slideTransition(edge: .bottom)
-                        .toolbar(.hidden, for: .navigationBar)
-                } else if destination == "settings" {
+                case "settings":
                     SettingsView()
                         .environmentObject(navigationState)
+                        .hideNavigationBar()
                         .slideTransition(edge: .leading)
-                        .toolbar(.hidden, for: .navigationBar)
-                } else {
+                case "challenges":
+                    ChallengesView()
+                        .environmentObject(navigationState)
+                        .hideNavigationBar()
+                        .slideTransition(edge: .bottom)
+                default:
                     Text("View not found")
-                        .toolbar(.hidden, for: .navigationBar)
+                        .hideNavigationBar()
                 }
             }
-            .navigationBarHidden(true)
-            .toolbar(.hidden, for: .navigationBar)
+            .navigationDestination(for: ChallengeParams.self) { params in
+                if let game = GameConstants.miniGames.first(where: { $0.id == params.miniGameId }) {
+                    AnyView(game.view)
+                        .environmentObject(navigationState)
+                        .environment(\.challengeParams) { _ in
+                            // Set the navigation state's challenge params directly
+                            navigationState.challengeParams = params
+                        }
+                        .hideNavigationBar()
+                        .slideTransition(edge: .trailing)
+                } else {
+                    Text("Challenge not found")
+                        .hideNavigationBar()
+                }
+            }
         }
         .transition(.opacity)
         .onAppear {
-            // Populate fields with any existing data (in case popup reopens)
+            // Populaste fields with any existing data (in case popup reopens)
             userName = userViewModel.userName
             userAge = userViewModel.userAge
             favoriteColor = userViewModel.favoriteColor
@@ -191,6 +228,23 @@ struct MainMenu: View {
                 }
             }
         }
+    }
+}
+
+// Make ChallengeParams conform to Hashable
+extension ChallengeParams: Hashable {
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(miniGameId)
+        hasher.combine(challengeId)
+        hasher.combine(phase)
+        hasher.combine(returnToChallenges)
+    }
+    
+    static func == (lhs: ChallengeParams, rhs: ChallengeParams) -> Bool {
+        return lhs.miniGameId == rhs.miniGameId &&
+            lhs.challengeId == rhs.challengeId &&
+            lhs.phase == rhs.phase &&
+            lhs.returnToChallenges == rhs.returnToChallenges
     }
 }
 
