@@ -26,7 +26,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: binary-spectrum-app
-          path: .
+          path: ./EducationalGame
 
       - name: Upload iOS App to TestFlight
         run: | 
