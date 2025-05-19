@@ -243,12 +243,20 @@ struct ReversedChallengeView: View {
                 VStack(spacing: 10) {
                     Text("Misterious Color")
                         .font(GameTheme.subheadingFont)
-                    
-                    Text(viewModel.reversedChallengeState.targetHexString)
-                        .font(GameTheme.headingFont)
-                        .padding(8)
-                        .background(Color.gameGray)
-                        .cornerRadius(8)
+                    (
+                        Text("#")
+                            +
+                            Text(String(viewModel.reversedChallengeState.targetHexString.prefix(2)))
+                            .foregroundColor(.red)
+                            + Text(String(viewModel.reversedChallengeState.targetHexString.dropFirst(2).prefix(2)))
+                            .foregroundColor(.green)
+                            + Text(String(viewModel.reversedChallengeState.targetHexString.dropFirst(4).prefix(2)))
+                            .foregroundColor(.blue)
+                    )
+                    .font(.system(.title, design: .monospaced))
+                    .padding(8)
+                    .background(Color.gameGray)
+                    .cornerRadius(8)
                     
                     Text(String(format: "Opacity: %.0f%%", viewModel.reversedChallengeState.targetAlpha * 100))
                         .font(GameTheme.bodyFont)
@@ -319,6 +327,19 @@ struct ColorAlphaChallengeView: View {
             },
             gameColor: GameConstants.miniGames[2].color
         ) {
+            TextField("Enter your answer", text: $viewModel.alphaChallengeState.userAnswer)
+                .frame(width: 500)
+                .font(GameTheme.headingFont)
+                .background(Color.gameBlue.opacity(0.1))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 8)
+                        .stroke(Color.gameBlue.opacity(0.8), lineWidth: 2)
+                )
+                .padding(.horizontal, 50)
+                .multilineTextAlignment(.center)
+                .autocapitalization(.allCharacters)
+                .autocorrectionDisabled(true)
+            
             HStack(spacing: 50) {
                 AlphaGridView(
                     grid: viewModel.alphaChallengeState.grid,
@@ -332,19 +353,6 @@ struct ColorAlphaChallengeView: View {
             .padding(40)
             .background(Color.gameBlack.opacity(0.1))
             .cornerRadius(20)
-            
-            TextField("Enter your answer", text: $viewModel.alphaChallengeState.userAnswer)
-                .frame(width: 500)
-                .font(GameTheme.headingFont)
-                .background(Color.gameBlue.opacity(0.1))
-                .overlay(
-                    RoundedRectangle(cornerRadius: 8)
-                        .stroke(Color.gameBlue.opacity(0.8), lineWidth: 2)
-                )
-                .padding(.horizontal, 50)
-                .multilineTextAlignment(.center)
-                .autocapitalization(.allCharacters)
-                .autocorrectionDisabled(true)
         }
         .onAppear {
             viewModel.alphaChallengeState.generateNewGrid()
@@ -389,12 +397,20 @@ struct ColorPreviewView: View {
             }
             .clipShape(Circle())
             .shadow(radius: 5)
-            
-            Text(hexString)
-                .font(GameTheme.bodyFont)
-                .padding(8)
-                .background(Color.gameGray)
-                .cornerRadius(8)
+            (
+                Text("#")
+                    +
+                    Text(String(hexString.prefix(2)))
+                    .foregroundColor(.red)
+                    + Text(String(hexString.dropFirst(2).prefix(2)))
+                    .foregroundColor(.green)
+                    + Text(String(hexString.dropFirst(4).prefix(2)))
+                    .foregroundColor(.blue)
+            )
+            .font(.system(.title2, design: .monospaced))
+            .padding(8)
+            .background(Color.gameGray.opacity(0.5))
+            .cornerRadius(8)
         }
     }
 }

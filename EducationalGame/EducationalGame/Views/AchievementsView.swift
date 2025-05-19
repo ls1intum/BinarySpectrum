@@ -26,6 +26,9 @@ struct AchievementsView: View {
             TopBar(title: "Achievements", color: .gamePurple)
         }
         .edgesIgnoringSafeArea(.top)
+        .onAppear {
+            SoundService.shared.playSound(.badge)
+        }
     }
 }
 

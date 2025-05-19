@@ -158,10 +158,10 @@ struct BinaryExplorationView: View {
                                         .cornerRadius(12)
                                 }
                                 
+                                
                                 let power = Int(pow(2.0, Double(2 - index)))
                                 let digit = Int(binaryDigits[index]) ?? 0
                                 VStack {
-                                    Spacer()
                                     HStack {
                                         Text("\(digit) × \(power) =")
                                             .font(GameTheme.subheadingFont)
@@ -250,7 +250,6 @@ struct BinaryNoviceChallengeView: View {
                             }
                         }
                     }
-                    Spacer()
                     Text("\(viewModel.noviceState.decimalValue)")
                         .font(GameTheme.headingFont)
                         .frame(width: 85, height: 85)

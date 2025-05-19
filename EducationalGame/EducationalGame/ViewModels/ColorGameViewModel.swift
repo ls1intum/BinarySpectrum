@@ -15,7 +15,7 @@ import SwiftUI
         }
         
         var hexString: String {
-            String(format: "#%02X%02X%02X",
+            String(format: "%02X%02X%02X",
                    Int(red * 255),
                    Int(green * 255),
                    Int(blue * 255))
@@ -41,7 +41,7 @@ import SwiftUI
             
             UIColor(targetColor).getRed(&targetRed, green: &targetGreen, blue: &targetBlue, alpha: nil)
             
-            return String(format: "#%02X%02X%02X",
+            return String(format: "%02X%02X%02X",
                           Int(targetRed * 255),
                           Int(targetGreen * 255),
                           Int(targetBlue * 255))
@@ -164,7 +164,7 @@ import SwiftUI
             
             UIColor(targetColor).getRed(&targetRed, green: &targetGreen, blue: &targetBlue, alpha: nil)
             
-            return String(format: "#%02X%02X%02X",
+            return String(format: "%02X%02X%02X",
                           Int(targetRed * 255),
                           Int(targetGreen * 255),
                           Int(targetBlue * 255))

@@ -299,7 +299,7 @@ struct PixelFinalChallengeView: View {
                                     .frame(maxWidth: .infinity, alignment: .leading)
                             }
                         }
-                        .frame(height: 150) // Fixed height
+                        .frame(height: 150)
                         .background(Color.gameGreen.opacity(0.1))
                         .overlay(
                             RoundedRectangle(cornerRadius: 8)

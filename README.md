@@ -1,29 +1,54 @@
-# Educational Game
+# Binary Spectrum
 
-A fun and interactive educational game app designed to teach computer science fundamentals through engaging mini-games.
+**Binary Spectrum** is an interactive iPad game designed to teach core computer science concepts to middle school students through storytelling, mini-games, and playful experimentation. The app uses a gender-sensitive, inclusive design to appeal to a broad range of learners and promote computational thinking beyond just coding.
 
-## Overview
+## 🧠 Overview
 
-This iOS app uses a collection of mini-games to introduce core computing concepts in an accessible and entertaining way. The game features adaptive difficulty levels, achievements, and a personalized experience.
+Binary Spectrum introduces foundational computing ideas through three themed mini-games inspired by popular unplugged activities. The app blends artistic expression with logic-based challenges, making abstract CS concepts tangible and fun. It’s ideal for informal learning environments like coding clubs, workshops, or classrooms.
 
-## Features
+### 🎯 Educational Focus
+- Computational Thinking  
+- Binary Representation  
+- Digital Image Encoding  
+- RGB Color Systems & Transparency
 
-- **Multiple Mini-Games**:
-  - Binary Game - learn binary number concepts
-  - Pixel Art Game - understand digital image representation
-  - Color Game - explore digital color systems
+## 🎮 Mini-Games
 
-- **Adaptive Difficulty**: The game automatically adjusts to match player performance
+- **BitPearls**  
+  Learn how numbers are represented in binary and create a personal armband encoded with your birthday.
 
-- **Progress Tracking**: Persistent tracking of achievements and game completion
+- **PixelPrism**  
+  Discover how images are stored as pixels, explore resolution and data size, and paint your own black-and-white artwork.
 
-- **Engaging Audio-Visual Experience**: Sounds, haptic feedback, and visual themes enhance gameplay
+- **ColorBloom**  
+  Experiment with RGB color mixing, hex codes, and opacity to create vivid designs.
 
-- **Accessibility**: Designed with accessibility considerations
+## 🌟 Key Features
 
-## Architecture
+- **Three Mini-Games**  
+  Each game targets a different core CS concept.
 
-The app follows the MVVM (Model-View-ViewModel) architecture pattern:
+- **Two Difficulty Modes**  
+  "Rookie" and "Pro" adapt to learners’ skill levels.
+
+- **Inclusive Characters & Storytelling**  
+  Designed to appeal across genders and learning styles.
+
+- **Achievements System**  
+  Earn badges and milestones for progress.
+
+- **Info Button**  
+  On-demand explanations and tips within each challenge.
+
+- **Multilingual**  
+  Supports English, German, and Brazilian Portuguese.
+
+- **Playful Interface**  
+  Animations, haptic feedback, and sound effects for an immersive experience.
+
+## 🏗 Architecture
+
+The app follows the **MVVM (Model-View-ViewModel)** architecture for clarity and maintainability:
 
 - **Models**: Data structures and business logic
 - **Views**: UI components and screens
@@ -32,15 +57,14 @@ The app follows the MVVM (Model-View-ViewModel) architecture pattern:
 - **Utils**: Helper functions and utilities
 - **Extensions**: Swift language extensions
 
-## Requirements
+## 📱 Requirements
 
-- iOS 17.0+
-- Xcode 15.0+
-- Swift 5.9+
+- iOS 17.0 or later  
+- Xcode 15.0 or later  
+- Swift 5.9
 
-## Setup
+## 🚀 Setup Instructions
 
 1. Clone the repository
 2. Open `EducationalGame.xcodeproj` in Xcode
 3. Build and run the project on your preferred iOS simulator or device
-

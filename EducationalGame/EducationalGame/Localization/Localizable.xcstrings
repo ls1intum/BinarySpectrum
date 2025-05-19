@@ -26,6 +26,9 @@
     "?" : {
       "shouldTranslate" : false
     },
+    "#" : {
+      "shouldTranslate" : false
+    },
     "#FF0000 = Red\n#00FF00 = Green\n#0000FF = Blue\n#FFFFFF = White" : {
       "shouldTranslate" : false
     },
@@ -140,14 +143,40 @@
     "4" : {
       "shouldTranslate" : false
     },
-    "4 Digits" : {
-
+    "4 Digits Binary" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "4 Ziffern Binär"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "4 dígitos binários"
+          }
+        }
+      }
     },
     "5" : {
       "shouldTranslate" : false
     },
-    "5 Digits" : {
-
+    "5 Digits Binary" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5 Ziffern Binär"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5 dígitos binários"
+          }
+        }
+      }
     },
     "6" : {
       "shouldTranslate" : false
@@ -159,13 +188,52 @@
       "shouldTranslate" : false
     },
     "8×8 Decryption" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "8×8 Entschlüsselung"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "8x8 Decodificação"
+          }
+        }
+      }
     },
     "8×8 Encryption" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "8×8-Verschlüsselung"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "8x8 Encodificação"
+          }
+        }
+      }
     },
     "8x8 Free Drawing" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "8x8 Freie Zeichnung"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "8x8 Desenho Livre"
+          }
+        }
+      }
     },
     "10" : {
       "shouldTranslate" : false
@@ -183,7 +251,20 @@
       "shouldTranslate" : false
     },
     "16×16 Decryption" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "16×16 Entschlüsselung"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "16x16 Decodificação"
+          }
+        }
+      }
     },
     "32" : {
       "shouldTranslate" : false
@@ -657,7 +738,20 @@
       }
     },
     "Binary Conversion" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Binäre Umwandlung"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conversão binária"
+          }
+        }
+      }
     },
     "Binary Encoding" : {
       "localizations" : {
@@ -1012,7 +1106,20 @@
       }
     },
     "Challenge not found" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Challenge nicht gefunden"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desafio não encontrado"
+          }
+        }
+      }
     },
     "Challenge yourself to create images that can be efficiently compressed while still looking good." : {
       "localizations" : {
@@ -1031,7 +1138,20 @@
       }
     },
     "Challenges" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Challenges"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desafios"
+          }
+        }
+      }
     },
     "Change the red, green and blue intensity to make your favorite color" : {
       "localizations" : {
@@ -1114,7 +1234,20 @@
       }
     },
     "Color Lab" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Color Lab"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laboratório da Cor"
+          }
+        }
+      }
     },
     "Color Values" : {
       "localizations" : {
@@ -1213,7 +1346,20 @@
       }
     },
     "Compression Quest" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Komprimierung Quest"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compressão"
+          }
+        }
+      }
     },
     "Compression reduces file size by finding patterns and using shorter representations." : {
       "localizations" : {
@@ -2107,6 +2253,38 @@
         }
       }
     },
+    "Have fun!" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Viel Spaß!"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Divirta-se!"
+          }
+        }
+      }
+    },
+    "Hello, %@" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hallo, %@"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Olá, %@"
+          }
+        }
+      }
+    },
     "Here you can see your progress and achievements. Complete mini-games and challenges to unlock more achievements!" : {
       "localizations" : {
         "de" : {
@@ -2124,7 +2302,20 @@
       }
     },
     "Here you can select a specific mini-game challenge to play directly." : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hier kannst du eine bestimmte Minispiel-Challenge auswählen und direkt spielen."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aqui você pode selecionar um desafio de mini game específico para jogar diretamente."
+          }
+        }
+      }
     },
     "Hex codes are a shorthand for RGB values, using base-16 numbers. Each pair of characters represents one color component (red, green, or blue)." : {
       "localizations" : {
@@ -3456,7 +3647,20 @@
       }
     },
     "Opacity Hidden Message" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opazität Versteckte Nachricht"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mensagem oculta de opacidade"
+          }
+        }
+      }
     },
     "Perfect! You've successfully decoded %@!" : {
       "localizations" : {
@@ -3860,7 +4064,20 @@
       }
     },
     "RGB Matching" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "RGB Matching"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Correspondência RGB"
+          }
+        }
+      }
     },
     "RGB stands for Red, Green, and Blue - the primary colors of light. By mixing these colors in different amounts, computers can create millions of colors on your screen." : {
       "localizations" : {
@@ -3879,10 +4096,36 @@
       }
     },
     "RGB-Alpha Decryption" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "RGB-Alpha Entschlüsselung"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "RBG-alfa Decodificação"
+          }
+        }
+      }
     },
     "RGB-Alpha Matching" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "RGB-Alpha Matching"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "RBG-alfa correspondência"
+          }
+        }
+      }
     },
     "RLE is a way to compress binary images by counting consecutive pixels of the same color." : {
       "localizations" : {
@@ -4911,6 +5154,7 @@
       }
     },
     "Welcome, " : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -4927,6 +5171,7 @@
       }
     },
     "Welcome!" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
