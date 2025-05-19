@@ -15,7 +15,7 @@ import SwiftUI
         }
         
         var hexString: String {
-            String(format: "#%02X%02X%02X",
+            String(format: "%02X%02X%02X",
                    Int(red * 255),
                    Int(green * 255),
                    Int(blue * 255))
@@ -41,7 +41,7 @@ import SwiftUI
             
             UIColor(targetColor).getRed(&targetRed, green: &targetGreen, blue: &targetBlue, alpha: nil)
             
-            return String(format: "#%02X%02X%02X",
+            return String(format: "%02X%02X%02X",
                           Int(targetRed * 255),
                           Int(targetGreen * 255),
                           Int(targetBlue * 255))
@@ -141,8 +141,15 @@ import SwiftUI
         }
         
         func checkAnswer() -> (isCorrect: Bool, message: LocalizedStringResource) {
-            let normalizedAnswer = userAnswer.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
-            if normalizedAnswer == currentWord {
+            let normalizedAnswer = userAnswer
+                .uppercased()
+                .filter { !$0.isWhitespace }
+            
+            let normalizedCurrentWord = currentWord
+                .uppercased()
+                .filter { !$0.isWhitespace }
+            
+            if normalizedAnswer == normalizedCurrentWord {
                 return (true, "Correct! You've mastered color opacity! 🎉")
             } else {
                 return (false, "Not quite right. Try adjusting the opacity more carefully to reveal all the letters.")
@@ -164,7 +171,7 @@ import SwiftUI
             
             UIColor(targetColor).getRed(&targetRed, green: &targetGreen, blue: &targetBlue, alpha: nil)
             
-            return String(format: "#%02X%02X%02X",
+            return String(format: "%02X%02X%02X",
                           Int(targetRed * 255),
                           Int(targetGreen * 255),
                           Int(targetBlue * 255))

@@ -299,7 +299,7 @@ struct PixelFinalChallengeView: View {
                                     .frame(maxWidth: .infinity, alignment: .leading)
                             }
                         }
-                        .frame(height: 150) // Fixed height
+                        .frame(height: 150)
                         .background(Color.gameGreen.opacity(0.1))
                         .overlay(
                             RoundedRectangle(cornerRadius: 8)
@@ -438,13 +438,10 @@ struct BinaryCodeView: View {
                     .padding(10)
                     .fixedSize(horizontal: true, vertical: true)
             } else {
-                ScrollView([.vertical]) {
-                    Text(code)
-                        .font(.system(.title3, design: .monospaced))
-                        .padding(10)
-                        .fixedSize(horizontal: true, vertical: true)
-                }
-                .scrollIndicators(.visible)
+                Text(code)
+                    .font(.system(.title3, design: .monospaced))
+                    .padding(10)
+                    .fixedSize(horizontal: true, vertical: true)
             }
         }
         .background(RoundedRectangle(cornerRadius: 10)
@@ -529,6 +526,7 @@ struct BinaryInputView: View {
             }
         ))
         .font(.system(.title2, design: .monospaced))
+        .keyboardType(.numberPad)
         .padding()
         .overlay(
             RoundedRectangle(cornerRadius: 10)

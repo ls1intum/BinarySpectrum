@@ -33,8 +33,8 @@ struct BaseGameView<Content: View>: View {
                 // Challenge view layout
                 ZStack {
                     VStack(spacing: 20) {
-                        Spacer()
                         InstructionBar(text: instruction!)
+                            .padding(.top, 32)
                         Spacer()
                         
                         content

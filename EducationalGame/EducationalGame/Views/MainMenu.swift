@@ -37,19 +37,15 @@ struct MainMenu: View {
                         
                         // Welcome message
                         if !userViewModel.userName.isEmpty {
-                            (
-                                Text("Welcome, ")
-                                    .foregroundColor(.gameDarkBlue)
-                                    + Text(userViewModel.userName)
-                                    .foregroundColor(.gameDarkBlue) // or userViewModel.favoriteColor
-                            )
-                            .font(GameTheme.headingFont)
-                            .foregroundColor(userViewModel.favoriteColor)
-                            .scaleTransition()
-                            .offset(y: startAnimation ? 0 : 50)
-                            .opacity(startAnimation ? 1 : 0)
+                            Text("Hello, \(userViewModel.userName)")
+                                .foregroundColor(.gameDarkBlue)
+                                .font(GameTheme.headingFont)
+                                .foregroundColor(userViewModel.favoriteColor)
+                                .scaleTransition()
+                                .offset(y: startAnimation ? 0 : 50)
+                                .opacity(startAnimation ? 1 : 0)
                         } else {
-                            Text("Welcome!")
+                            Text("Have fun!")
                                 .font(GameTheme.headingFont)
                                 .foregroundColor(.gameDarkBlue)
                                 .scaleTransition()

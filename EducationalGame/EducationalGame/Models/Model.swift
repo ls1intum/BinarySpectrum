@@ -3,7 +3,6 @@ import SwiftUI
 struct Game: Identifiable {
     let id = UUID()
     var name: String
-    var highScore: Int
     var miniGames: [MiniGame]
 }
 
@@ -16,7 +15,6 @@ struct MiniGame: Identifiable {
     let personaImage: String
     let achievementName: LocalizedStringResource
     let view: AnyView
-    var highScore: Int
 }
 
 struct Challenge: Identifiable {
@@ -63,7 +61,7 @@ enum GamePhase: String, CaseIterable, Codable {
     case reward = "Reward"
 
     // Helper function to get the next phase based on game type
-    mutating func next(for gameType: String) { // TODO: put sound effects here?
+    mutating func next(for gameType: String) {
         switch gameType {
         case "Binary Game":
             switch self {

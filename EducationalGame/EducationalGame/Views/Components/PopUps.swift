@@ -43,7 +43,7 @@ struct InfoPopup: View {
             .padding(30)
             .background(
                 RoundedRectangle(cornerRadius: 20)
-                    .fill(Color.gameWhite.opacity(0.8))
+                    .fill(Color.gameWhite.opacity(0.9))
                     .overlay(
                         RoundedRectangle(cornerRadius: 20)
                             .stroke(Color.gamePurple, lineWidth: 5)
@@ -491,7 +491,7 @@ struct ProfileEditPopup: View {
                             .font(GameTheme.buttonFont)
                             .foregroundColor(.gameDarkBlue)
                             .padding()
-                            .frame(width: 120)
+                            .frame(width: 160)
                             .background(Color.gameGray)
                             .cornerRadius(12)
                     }

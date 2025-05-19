@@ -57,5 +57,4 @@ enum Screen: Hashable {
     case challenges
     case settings
     case achievements
-    case about
 }

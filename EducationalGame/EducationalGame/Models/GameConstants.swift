@@ -4,10 +4,10 @@ enum GameConstants {
     static let gameTitle = "Binary Spectrum"
     static let gameDescription: LocalizedStringResource = "Discover how computers turn zeros and ones into amazing worlds of color, images, and creativity. This game offers 3 fun mini-games that will challenge your mind while you learn about computational thinking."
     
-    static let miniGames: [MiniGame] = [ // TODO: remove high score?
-        MiniGame(id: 0, name: "BitPearls", icon: "lightswitch.on", color: .gameGreen, personaName: "Alex", personaImage: "Figma2", achievementName: "Binary Jewel", view: AnyView(BinaryGameView()), highScore: 0),
-        MiniGame(id: 1, name: "PixelPrism", icon: "square.grid.3x3.middle.filled", color: .gameRed, personaName: "Pixie", personaImage: "Figma1", achievementName: "Grid Genius", view: AnyView(PixelGameView()), highScore: 0),
-        MiniGame(id: 2, name: "ColorBloom", icon: "paintpalette", color: .gameBlue, personaName: "Iris", personaImage: "Figma3", achievementName: "Chromatic Artist", view: AnyView(ColorGameView()), highScore: 0)
+    static let miniGames: [MiniGame] = [
+        MiniGame(id: 0, name: "BitPearls", icon: "lightswitch.on", color: .gameGreen, personaName: "Alex", personaImage: "Figma2", achievementName: "Binary Jewel", view: AnyView(BinaryGameView())),
+        MiniGame(id: 1, name: "PixelPrism", icon: "square.grid.3x3.middle.filled", color: .gameRed, personaName: "Pixie", personaImage: "Figma1", achievementName: "Grid Genius", view: AnyView(PixelGameView())),
+        MiniGame(id: 2, name: "ColorBloom", icon: "paintpalette", color: .gameBlue, personaName: "Iris", personaImage: "Figma3", achievementName: "Chromatic Artist", view: AnyView(ColorGameView()))
     ]
     
     // MARK: - Challenges
@@ -15,8 +15,8 @@ enum GameConstants {
     static let challenges: [Challenge] = [
         // Binary Game Challenges
         Challenge(id: 0, name: "Binary Conversion", icon: "arrow.left.and.right", miniGameId: 0, phase: GamePhase.exploration),
-        Challenge(id: 1, name: "4 Digits", icon: "4.circle.fill", miniGameId: 0, phase: GamePhase.noviceChallenge),
-        Challenge(id: 2, name: "5 Digits", icon: "5.circle.fill", miniGameId: 0, phase: GamePhase.apprenticeChallenge),
+        Challenge(id: 1, name: "4 Digits Binary", icon: "4.circle.fill", miniGameId: 0, phase: GamePhase.noviceChallenge),
+        Challenge(id: 2, name: "5 Digits Binary", icon: "5.circle.fill", miniGameId: 0, phase: GamePhase.apprenticeChallenge),
         Challenge(id: 3, name: "Binary to Decimal", icon: "number", miniGameId: 0, phase: GamePhase.adeptChallenge),
         Challenge(id: 4, name: "Binary Armband", icon: "fossil.shell", miniGameId: 0, phase: GamePhase.expertChallenge),
 
@@ -44,7 +44,18 @@ enum GameConstants {
         PixelArt(name: "Black Smiley", grid: GridImage(hexString: "3c7edbdbffdb663c")),
         PixelArt(name: "Heart", grid: GridImage(hexString: "00367f7f3e3c1c08")),
         PixelArt(name: "Ghost", grid: GridImage(hexString: "3c7e5affffffff99")),
-        PixelArt(name: "Key", grid: GridImage(hexString: "1824180808180818"))
+        PixelArt(name: "Key", grid: GridImage(hexString: "1824180808180818")),
+        PixelArt(name: "Dice", grid: GridImage(hexString: "FF81A181818581FF")),
+        PixelArt(name: "Person", grid: GridImage(hexString: "383838107C383828")),
+        PixelArt(name: "Staff", grid: GridImage(hexString: "E0B0E05008040201")),
+        PixelArt(name: "Sword", grid: GridImage(hexString: "C0E070381D0D020D")),
+        PixelArt(name: "Sand Clock", grid: GridImage(hexString: "FF422C18182C7EFF")),
+        PixelArt(name: "Trophy", grid: GridImage(hexString: "7E7EBDBD7E3C183C")),
+        PixelArt(name: "Musical Note", grid: GridImage(hexString: "3F212121E1C10706")),
+        PixelArt(name: "Moon", grid: GridImage(hexString: "3C7EC70303C77E3C")),
+        PixelArt(name: "House", grid: GridImage(hexString: "FFE7C3818DADA1FF")),
+        PixelArt(name: "Camera", grid: GridImage(hexString: "000006FFA5D1A1FF")),
+        PixelArt(name: "Boat", grid: GridImage(hexString: "302824223E20E37E"))
     ]
     
     // Each hex digit represents 4 pixels, so a 16x16 grid needs 64 hex digits
@@ -54,7 +65,16 @@ enum GameConstants {
         PixelArt(name: "Carrot", grid: GridImage(hexString: "00000000000800100192026c0430081010082008201042204940858086007800")),
         PixelArt(name: "Pumpkin", grid: GridImage(hexString: "0000078003801ff8300c60064422ce7384218181c0034a5265a6300c1c3807e0")),
         PixelArt(name: "Dolphin", grid: GridImage(hexString: "00000300028006700808100420162001427e46d04b2028002c00110014000800")),
-        PixelArt(name: "Mug", grid: GridImage(hexString: "1F8020404F209B90B6D89D848F12801A801A8012800480188010402020401F80"))
+        PixelArt(name: "Mug", grid: GridImage(hexString: "1F8020404F209B90B6D89D848F12801A801A8012800480188010402020401F80")),
+        PixelArt(name: "Pyramid", grid: GridImage(hexString: "00000800220014004100142022500898011C020E040F080F100F20074007FFFF")),
+        PixelArt(name: "Spider", grid: GridImage(hexString: "0F101FA85FA0BFCC8FD433E24FED93D295EAB4EA24A924082808480408001000")),
+        PixelArt(name: "Toast", grid: GridImage(hexString: "0660099010081008081008101FF82004E004A004E004200440027FFE1E781E78")),
+        PixelArt(name: "Umbrella", grid: GridImage(hexString: "03C00FF03FFC7FFEFFFFFFFF599A01800180018001800180018019801F800F00")),
+        PixelArt(name: "Panda", grid: GridImage(hexString: "7BDEFC3FE007E007EC37542A5DBA581A20041FF81C382C34100818180FF00C30")),
+        PixelArt(name: "Frog", grid: GridImage(hexString: "781E87E1B42D8421781E8001BFFD80017FFE6006A0058A514A528BD1F24F1C38")),
+        PixelArt(name: "Cup", grid: GridImage(hexString: "1F8020404F209B90B6D89D848F12801A801A8012800480188010402020401F80")),
+        PixelArt(name: "Bunny", grid: GridImage(hexString: "00000000000005000A800A800A8010802074240A240420041C6409880EF00000")),
+        PixelArt(name: "Bike", grid: GridImage(hexString: "0000000000000000000000300E08040807F8381C443292519FC982414422381C"))
     ]
     
     // MARK: - Binary Game Content

@@ -408,6 +408,30 @@ import SwiftUI
             let incorrectBlackCells = gridState.blackCells.subtracting(decodingState.correctCells).count
             let missingBlackCells = decodingState.correctCells.count - correctBlackCells
             
+            /*
+            let incorrectCells = gridState.blackCells.subtracting(decodingState.correctCells)
+            let missingCells = decodingState.correctCells.subtracting(gridState.blackCells)
+            var detailedMessage = ""
+            
+            if incorrectBlackCells > 0 {
+                let incorrectPositions = incorrectCells.map { index -> String in
+                    let row = index / gridState.gridSize + 1
+                    let col = index % gridState.gridSize + 1
+                    return "(\(row),\(col))"
+                }.joined(separator: ", ")
+                detailedMessage += "Incorrect black pixels at positions: \(incorrectPositions)\n\n"
+            }
+            
+            if missingBlackCells > 0 {
+                let missingPositions = missingCells.map { index -> String in
+                    let row = index / gridState.gridSize + 1
+                    let col = index % gridState.gridSize + 1
+                    return "(\(row),\(col))"
+                }.joined(separator: ", ")
+                detailedMessage += "Missing black pixels at positions: \(missingPositions)\n\n"
+            }
+            */
+
             if incorrectBlackCells > 5 {
                 hintMessage = "You have several incorrect pixels. White spaces should remain white."
             } else if missingBlackCells > 5 {
@@ -509,7 +533,7 @@ import SwiftUI
     // Format the code to display in rows
     var formattedCode: String {
         var formattedString = ""
-        let blackPixels = GameConstants.pixelArt8x8[encodingState.currentArtIndex].grid.blackPixels
+        let blackPixels = GameConstants.pixelArt8x8[decodingState.currentArtIndex].grid.blackPixels
         
         for row in 0..<gridState.gridSize {
             for col in 0..<gridState.gridSize {
