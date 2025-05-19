@@ -56,5 +56,5 @@ jobs:
       - name: Upload Build Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ios-app
-          path: /opt/actions-runner/_work/artemis-ios/artemis-ios/build/App.ipa
+          name: binary-spectrum-app
+          path: /opt/actions-runner/_work/BinarySpectrum/BinarySpectrum/EducationalGame/build/App.ipa
