@@ -1,0 +1,118 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+default_platform(:ios)
+
+project_name = "EducationalGame"
+
+platform :ios do
+
+  desc "[CI] Check static code quality"
+  lane :swift_lint do
+   swiftlint(
+     config_file: ".swiftlint.yml",
+     strict: false,
+     raise_if_swiftlint_error: true
+   )
+  end
+
+  desc "[CI] Run Unit and UI Tests"
+  lane :test do
+    # Run Unit Tests
+    scan(
+      clean: true,
+      scheme: "Artemis",
+      xcargs: "-skipMacroValidation -skipPackagePluginValidation",
+    )
+  end
+
+  desc "[CI] Build Artemis Scheme"
+  lane :build do
+    info_plist_path = "#{project_name}/Info.plist"
+    app_identifier = CredentialsManager::AppfileConfig.try_fetch_value(:app_identifier)
+    team_id = CredentialsManager::AppfileConfig.try_fetch_value(:team_id)
+
+    set_info_plist_value(
+      path: info_plist_path,
+      key: "ITSAppUsesNonExemptEncryption",
+      value: "NO"
+    )
+
+    set_info_plist_value(
+      path: info_plist_path,
+      key: "CFBundleVersion",
+      value: ENV["BUILD_NUMBER"]
+    )
+
+
+    setup_ci()
+
+    match(
+      username: 'fastlane_match',
+      app_identifier: app_identifier,
+      type: 'adhoc',
+      api_key: api_key,
+      git_branch: 'main',
+      git_full_name: 'Artemis IOS',
+      git_url: ENV['MATCH_GIT_URL'],
+      git_basic_authorization: ENV['MATCH_GITLAB_AUTH'],
+      git_user_email: 'ls1.itg@in.tum.de',
+      readonly: false
+    )
+
+    update_code_signing_settings(
+      path: "./#{project_name}.xcodeproj",
+      use_automatic_signing: false,
+      code_sign_identity: "iPhone Distribution",
+      sdk: "iphoneos*",
+      profile_name: "match AdHoc " + app_identifier,
+      bundle_identifier: app_identifier,
+      team_id: team_id
+    )
+
+    build_app(
+      clean: true,
+      scheme: "#{project_name}",
+      output_name: "App.ipa",
+      configuration: "Release",
+      cloned_source_packages_path: ".SwiftPackages",
+      derived_data_path: ".DerivedData",
+      output_directory: "./build",
+      xcodebuild_formatter: '',
+      export_options: {
+        provisioningProfiles: {
+          app_identifier => "match AdHoc " + app_identifier
+        }
+      }
+    )
+  end
+
+  desc "[CI] Upload the newest build to TestFlight"
+  lane :release do
+    upload_to_testflight(
+      ipa: "App.ipa",
+      api_key: api_key,
+      skip_waiting_for_build_processing: true
+    )
+  end
+
+  lane :api_key do
+    app_store_connect_api_key(
+      duration: 300,
+      key_id: ENV['API_KEY_ID'],
+      issuer_id: ENV['API_KEY_ISSUER_ID'],
+      key_content: ENV['API_KEY_PASSWORD'],
+      is_key_content_base64: true
+    )
+  end
+
+end
