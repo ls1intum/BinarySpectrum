@@ -141,8 +141,15 @@ import SwiftUI
         }
         
         func checkAnswer() -> (isCorrect: Bool, message: LocalizedStringResource) {
-            let normalizedAnswer = userAnswer.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
-            if normalizedAnswer == currentWord {
+            let normalizedAnswer = userAnswer
+                .uppercased()
+                .filter { !$0.isWhitespace }
+            
+            let normalizedCurrentWord = currentWord
+                .uppercased()
+                .filter { !$0.isWhitespace }
+            
+            if normalizedAnswer == normalizedCurrentWord {
                 return (true, "Correct! You've mastered color opacity! 🎉")
             } else {
                 return (false, "Not quite right. Try adjusting the opacity more carefully to reveal all the letters.")

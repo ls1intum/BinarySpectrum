@@ -438,13 +438,10 @@ struct BinaryCodeView: View {
                     .padding(10)
                     .fixedSize(horizontal: true, vertical: true)
             } else {
-                ScrollView([.vertical]) {
-                    Text(code)
-                        .font(.system(.title3, design: .monospaced))
-                        .padding(10)
-                        .fixedSize(horizontal: true, vertical: true)
-                }
-                .scrollIndicators(.visible)
+                Text(code)
+                    .font(.system(.title3, design: .monospaced))
+                    .padding(10)
+                    .fixedSize(horizontal: true, vertical: true)
             }
         }
         .background(RoundedRectangle(cornerRadius: 10)
@@ -529,6 +526,7 @@ struct BinaryInputView: View {
             }
         ))
         .font(.system(.title2, design: .monospaced))
+        .keyboardType(.numberPad)
         .padding()
         .overlay(
             RoundedRectangle(cornerRadius: 10)

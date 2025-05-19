@@ -12,13 +12,13 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "im Binärformat ist"
+            "value" : " im Binärformat ist "
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "em binário é"
+            "value" : " em binário é "
           }
         }
       }
